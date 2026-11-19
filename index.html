@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WealthAI Global — Personal AI Finance & Income Mentor</title>
+    <title>WealthAI Global</title>
     <meta name="theme-color" content="#0b1120">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -15,19 +15,18 @@
         .title { font-size: 16px; font-weight: 800; }
         .title span { color: #10b981; }
         .subtitle { font-size: 11px; color: #94a3b8; }
-        .controls { display: flex; align-items: center; gap: 8px; }
-        .icon-btn { width: 42px; height: 42px; border-radius: 12px; background: #1e293b; border: 1px solid #334155; color: #fff; font-size: 19px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .icon-btn { width: 44px; height: 44px; border-radius: 12px; background: #1e293b; border: 1px solid #334155; color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .container { max-width: 480px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
         .card { background: linear-gradient(145deg, #131c31, #0f172a); border: 1px solid #1e293b; border-radius: 20px; padding: 18px; }
         .balance-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .label-sm { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
-        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ef4444); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 7px 13px; border-radius: 20px; cursor: pointer; }
+        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ef4444); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 8px 14px; border-radius: 20px; cursor: pointer; }
         .balance-val { font-size: 34px; font-weight: 900; color: #fff; margin-bottom: 14px; }
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 12px; border-top: 1px solid #1e293b; }
         .inc-val { font-size: 15px; font-weight: 700; color: #10b981; margin-top: 2px; }
         .exp-val { font-size: 15px; font-weight: 700; color: #f43f5e; margin-top: 2px; }
         .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; background: #131c31; padding: 5px; border-radius: 14px; border: 1px solid #1e293b; }
-        .tab { padding: 10px 6px; border-radius: 10px; border: none; background: transparent; color: #94a3b8; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .tab { padding: 11px 6px; border-radius: 10px; border: none; background: transparent; color: #94a3b8; font-size: 12px; font-weight: 700; cursor: pointer; }
         .tab.active { background: #10b981; color: #fff; }
         .input-wrap { position: relative; margin: 10px 0; }
         textarea, input { width: 100%; background: #090e1a; border: 1px solid #334155; border-radius: 14px; padding: 12px; color: #fff; font-size: 14px; outline: none; resize: none; }
@@ -37,7 +36,7 @@
         .ai-box { background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; border-radius: 12px; padding: 14px; font-size: 13.5px; line-height: 1.55; color: #e2e8f0; white-space: pre-line; margin-top: 12px; }
         .tx-item { background: #131c31; border: 1px solid #1e293b; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
         .hidden { display: none !important; }
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; }
         .modal-card { background: #131c31; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 12px; }
         .btn-row { display: flex; gap: 8px; }
         .sec-btn { padding: 12px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 600; cursor: pointer; }
@@ -53,16 +52,14 @@
                 <div class="subtitle">AI Finance & Income Mentor</div>
             </div>
         </div>
-        <div class="controls">
-            <button type="button" class="icon-btn" id="gearBtn">⚙️</button>
-        </div>
+        <button type="button" class="icon-btn" onclick="openSettings()">⚙️</button>
     </header>
 
     <main class="container">
         <div class="card">
             <div class="balance-top">
                 <span class="label-sm">Smart Balance</span>
-                <button type="button" class="pro-btn" id="openProBtn">👑 UPGRADE PRO</button>
+                <button type="button" class="pro-btn" onclick="openPro()">👑 UPGRADE PRO</button>
             </div>
             <div class="balance-val" id="totalBalance">$0.00</div>
             <div class="stats-grid">
@@ -78,18 +75,18 @@
         </div>
 
         <div class="tabs">
-            <button type="button" class="tab active" id="tab-tracker">💰 Tracker</button>
-            <button type="button" class="tab" id="tab-mentor">🚀 Earn Money</button>
-            <button type="button" class="tab" id="tab-future">📈 Future AI</button>
+            <button type="button" class="tab active" id="tab-tracker" onclick="switchTab('tracker')">💰 Tracker</button>
+            <button type="button" class="tab" id="tab-mentor" onclick="switchTab('mentor')">🚀 Earn Money</button>
+            <button type="button" class="tab" id="tab-future" onclick="switchTab('future')">📈 Future AI</button>
         </div>
 
         <section id="sec-tracker" class="card">
             <div class="label-sm" style="margin-bottom:6px;">Speak or write in ANY language (O'zbek, العربية, Deutsch, EN, RU...)</div>
             <div class="input-wrap">
                 <textarea id="aiInput" rows="2" placeholder="e.g. Earned $150 freelance, spent $12 lunch..."></textarea>
-                <button type="button" class="mic-btn" id="micBtn">🎙️</button>
+                <button type="button" class="mic-btn" id="micBtn" onclick="startVoice()">🎙️</button>
             </div>
-            <button type="button" class="primary-btn" id="analyzeBtn">✨ AI Smart Record & Advise</button>
+            <button type="button" class="primary-btn" id="analyzeBtn" onclick="runTracker()">✨ AI Smart Record & Advise</button>
             <div id="aiFinanceReply" class="ai-box hidden"></div>
 
             <div style="margin-top:18px;">
@@ -104,14 +101,14 @@
             <div class="label-sm" style="color:#f59e0b; margin-bottom:6px;">💡 AI INCOME & BUSINESS MENTOR</div>
             <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Tell AI your role & budget (Broker, Trader, Accountant, Housewife, Realtor, Student, Investor, $0 budget) in any language:</p>
             <textarea id="mentorInput" rows="3" placeholder="I am a trader / broker / accountant / housewife with $0 budget. Give me a step-by-step plan to earn $3,000/month..."></textarea>
-            <button type="button" class="primary-btn" id="mentorBtn" style="margin-top:10px;">Generate My 30-Day Money Plan</button>
+            <button type="button" class="primary-btn" id="mentorBtn" style="margin-top:10px;" onclick="runMentor()">Generate My 30-Day Money Plan</button>
             <div id="mentorReply" class="ai-box hidden"></div>
         </section>
 
         <section id="sec-future" class="card hidden">
             <div class="label-sm" style="color:#10b981; margin-bottom:6px;">⏳ AI WEALTH TIME MACHINE</div>
             <p style="font-size:12px; color:#94a3b8; margin-bottom:12px;">See your exact net worth in 1, 3, and 5 years based on your financial habits.</p>
-            <button type="button" class="primary-btn" id="futureBtn">Predict My 5-Year Wealth</button>
+            <button type="button" class="primary-btn" id="futureBtn" onclick="runFuture()">Predict My 5-Year Wealth</button>
             <div id="futureReply" class="ai-box hidden"></div>
         </section>
     </main>
@@ -122,8 +119,8 @@
             <p style="font-size:12px; color:#94a3b8;">Paste your Google AI Studio API Key to activate 100+ language AI:</p>
             <input type="text" id="apiKeyInput" placeholder="Paste your API key here...">
             <div class="btn-row">
-                <button type="button" class="primary-btn" id="saveKeyBtn">Save Key</button>
-                <button type="button" class="sec-btn" id="closeSettingsBtn">Close</button>
+                <button type="button" class="primary-btn" onclick="saveKey()">Save Key</button>
+                <button type="button" class="sec-btn" onclick="closeSettings()">Close</button>
             </div>
         </div>
     </div>
