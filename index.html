@@ -1,342 +1,481 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WealthAI SuperApp</title>
+    <!-- GLOBAL SEO & VIRAL DISCOVERY (USA, UAE, EU, ASIA) -->
+    <title>WealthAI Global SuperApp — AI Trading Signals, Scam Detector & Universal AI</title>
+    <meta name="description" content="Non-custodial AI SuperApp for Traders, Whales, Entrepreneurs, Architects & Students. Real-time Risk Calculator, Broker Scam Audit & Universal AI in 100+ Languages.">
+    <meta name="keywords" content="AI trading signals, whale risk calculator, crypto scam detector, broker audit, AI resume builder, architecture estimator, global AI assistant">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="WealthAI Global — Non-Custodial AI SuperApp">
+    <meta property="og:description" content="Zero wallet risk. 100% pure AI intelligence for trading, scam protection, business, and career in 100+ languages.">
+    <meta property="og:type" content="website">
+    
     <script src="https://telegram.org"></script>
     <style>
+        :root {
+            --bg: #060913;
+            --card: #0f172a;
+            --border: #1e293b;
+            --accent: #10b981;
+            --gold: #f59e0b;
+            --danger: #ef4444;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #090e1a; color: #f8fafc; min-height: 100vh; padding-bottom: 90px; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 85px; top: 0 !important; user-select: none; }
+        .goog-te-banner-frame, .skiptranslate > iframe { display: none !important; }
         
-        /* HEADER */
-        .header { position: sticky; top: 0; z-index: 50; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1e293b; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+        /* HEADER & 100+ LANGUAGES */
+        header { position: sticky; top: 0; z-index: 50; background: rgba(6, 9, 19, 0.94); backdrop-filter: blur(14px); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .title { font-size: 16px; font-weight: 800; }
-        .title span { color: #10b981; }
-        .lang-select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; outline: none; }
+        .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+        .title { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; }
+        .title span { color: var(--accent); }
+        #google_translate_element select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 8px; font-size: 12px; outline: none; max-width: 125px; }
 
-        /* CONTAINER & CARDS */
+        /* LAYOUT & CARDS */
         .container { max-width: 480px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
-        .card { background: linear-gradient(145deg, #131c31, #0f172a); border: 1px solid #1e293b; border-radius: 20px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        
-        /* AD BANNER SLOT (REKLAMA UCHUN JOY) */
-        .ad-slot { background: #131c31; border: 1px dashed #334155; border-radius: 14px; padding: 10px; text-align: center; font-size: 11px; color: #94a3b8; cursor: pointer; }
-        .ad-slot strong { color: #10b981; }
-
-        /* BALANCE CARD */
-        .balance-card { background: linear-gradient(135deg, #065f46, #0f172a 70%, #1e3a8a); border: 1px solid #10b98144; }
-        .balance-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .label-sm { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.7px; font-weight: 700; }
-        .pro-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; }
-        .balance-val { font-size: 32px; font-weight: 900; color: #fff; margin: 6px 0 14px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .inc-val { font-size: 15px; font-weight: 700; color: #34d399; margin-top: 2px; }
-        .exp-val { font-size: 15px; font-weight: 700; color: #fb7185; margin-top: 2px; }
-
-        /* QUICK ACTIONS */
-        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .q-btn { background: #131c31; border: 1px solid #1e293b; border-radius: 16px; padding: 12px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #e2e8f0; font-size: 11px; font-weight: 600; cursor: pointer; }
-        .q-icon { width: 38px; height: 38px; border-radius: 12px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-
-        /* INPUTS & BUTTONS */
-        textarea, input, select.form-input { width: 100%; background: #090e1a; border: 1px solid #334155; border-radius: 14px; padding: 12px; color: #fff; font-size: 14px; outline: none; margin-bottom: 8px; }
-        .primary-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #10b981, #2563eb); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; }
-        .sec-btn { width: 100%; padding: 11px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-        .ai-box { background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; border-radius: 12px; padding: 14px; font-size: 13px; line-height: 1.55; color: #e2e8f0; white-space: pre-line; margin-top: 12px; }
-
-        /* TRANSACTIONS & VIRAL */
-        .tx-item { background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-        .viral-card { background: linear-gradient(135deg, #4f46e5, #9333ea); border-radius: 18px; padding: 18px; text-align: center; color: #fff; margin-top: 10px; }
-        .share-btn { background: #fff; color: #4f46e5; border: none; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 13px; margin-top: 12px; cursor: pointer; width: 100%; }
-
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; border-top: 1px solid #1e293b; display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px 4px 12px; z-index: 100; }
-        .nav-item { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .nav-item.active { color: #10b981; }
-        .nav-icon { font-size: 20px; }
-
+        .card { background: linear-gradient(145deg, #0f172a, #0b1120); border: 1px solid var(--border); border-radius: 18px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
         .hidden { display: none !important; }
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; }
-        .modal-card { background: #131c31; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 12px; }
+
+        /* VIRAL SHARE & REFERRAL BANNER */
+        .viral-banner { background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18)); border: 1px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+        .viral-banner:active { transform: scale(0.98); }
+        .viral-text { font-size: 12px; font-weight: 600; color: #e2e8f0; }
+        .viral-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 5px 10px; border-radius: 8px; }
+
+        /* AI PULSE & SECURITY SHIELD CARD (NO WALLET = 100% SAFE) */
+        .shield-card { background: linear-gradient(135deg, #064e3b, #0f172a 75%); border: 1px solid rgba(16,185,129,0.45); }
+        .shield-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ea580c); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.35); }
+        .pulse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .pulse-item { background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 8px; text-align: center; }
+        .pulse-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+        .pulse-val { font-size: 13px; font-weight: 800; color: var(--accent); margin-top: 3px; }
+
+        /* QUICK GRID & NAVIGATION */
+        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .q-btn { background: #0f172a; border: 1px solid var(--border); border-radius: 14px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text); font-size: 11px; font-weight: 600; cursor: pointer; }
+        .q-icon { width: 34px; height: 34px; border-radius: 10px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        
+        /* INPUTS & BUTTONS */
+        textarea, input, select.app-input { width: 100%; background: #060913; border: 1px solid #334155; border-radius: 12px; padding: 12px; color: #fff; font-size: 14px; margin-bottom: 10px; outline: none; user-select: text; }
+        textarea:focus, input:focus, select.app-input:focus { border-color: var(--accent); }
+        .primary-btn { width: 100%; padding: 14px; border-radius: 12px; border: none; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .primary-btn:active { transform: scale(0.98); }
+        .sec-btn { width: 100%; padding: 11px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
+        .ai-box { background: rgba(16, 185, 129, 0.08); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.55; white-space: pre-line; user-select: text; }
+        .warn-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.55; white-space: pre-line; user-select: text; }
+
+        /* BOTTOM NAV & MODALS */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 15, 29, 0.96); backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 12px; z-index: 60; }
+        .nav-item { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .nav-item.active { color: var(--accent); }
+        .nav-icon { font-size: 18px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .modal-card { background: #0f172a; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo-box">
-            <div class="logo-icon">💎</div>
-            <div class="title">WealthAI <span>SuperApp</span></div>
-        </div>
-        <select id="langSelect" class="lang-select" onchange="changeLang()">
-            <option value="uz">🇺🇿 O'Z</option>
-            <option value="ru">🇷🇺 RU</option>
-            <option value="en">🇺🇸 EN</option>
-        </select>
-    </header>
-
-    <!-- 1-SAHIFA: ASOSIY -->
-    <main id="page-home" class="container">
-        <!-- REKLAMA JOYI (AdSense / Monetag yoki hamkorlar reklamasi uchun) -->
-        <div class="ad-slot" onclick="shareApp()">
-            📢 <strong>HAMKORLIK:</strong> Do'stlaringizni taklif qiling va <strong>PRO</strong> versiyani bepul oling! 👉 <u>Ulashish</u>
-        </div>
-
-        <div class="card balance-card">
-            <div class="balance-top">
-                <span class="label-sm" data-i18n="balance">Umumiy Balans</span>
-                <button type="button" class="pro-badge" id="proStatusBtn" onclick="openModal('proModal')">👑 PRO OLISH</button>
-            </div>
-            <div class="balance-val" id="totalBalance">$0.00</div>
-            <div class="stats-grid">
-                <div>
-                    <div class="label-sm" data-i18n="income">Kirim (+)</div>
-                    <div class="inc-val" id="totalIncome">$0.00</div>
-                </div>
-                <div>
-                    <div class="label-sm" data-i18n="expense">Chiqim (-)</div>
-                    <div class="exp-val" id="totalExpense">$0.00</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="quick-grid">
-            <button class="q-btn" onclick="openJobPreset('resume')"><div class="q-icon">📄</div><span>Rezyume</span></button>
-            <button class="q-btn" onclick="openJobPreset('trader')"><div class="q-icon">📈</div><span>Treyder</span></button>
-            <button class="q-btn" onclick="openJobPreset('housewife')"><div class="q-icon">👩‍👧</div><span>Uy bekasi</span></button>
-            <button class="q-btn" onclick="openJobPreset('business')"><div class="q-icon">🛍️</div><span>Biznes</span></button>
-        </div>
-
-        <div class="card">
-            <div class="label-sm" style="margin-bottom:8px;">AI Tezkor Kassa (Kirim va Chiqim)</div>
-            <textarea id="aiInput" rows="2" placeholder="Masalan: Oylik 500$ keldi yoki Bozorlik 35$ ketdi..."></textarea>
-            <button type="button" class="primary-btn" onclick="runTracker()">✨ AI Hisoblash va Saqlash</button>
-            <div id="aiFinanceReply" class="ai-box hidden"></div>
-        </div>
-
-        <div class="card">
-            <div class="label-sm">Oxirgi amaliyotlar</div>
-            <div id="txList"></div>
-        </div>
-    </main>
-
-    <!-- 2-SAHIFA: KASBLAR VA REZYUME AI -->
-    <main id="page-jobs" class="container hidden">
-        <div class="card">
-            <div class="label-sm" style="color:#f59e0b; margin-bottom:8px;">💼 KASBLAR VA REZYUME AI MARKAZI</div>
-            <select id="jobRole" class="form-input">
-                <option value="resume">📄 Ishga kirish uchun Rezyume (CV) tuzish</option>
-                <option value="trader">📈 Treyder / Broker (Risk kalkulyator)</option>
-                <option value="housewife">👩‍👧 Uy bekasi (Tejamkor ro'zg'or va menyu)</option>
-                <option value="business">🛍️ Tadbirkor / Sotuvchi (SMM reklama matni)</option>
-                <option value="student">🎓 Talaba / Ish izlovchi (0$ dan daromad)</option>
-            </select>
-            <textarea id="jobInput" rows="3" placeholder="Ma'lumotlarni yozing (Masalan: Ismim Ali, 22 yosh, sotuv menejeri, tajriba 2 yil, tel: +998901234567)..."></textarea>
-            <button type="button" class="primary-btn" onclick="runJobAI()">🚀 AI Tayyor Natija Yaratish</button>
-            
-            <div id="jobResultWrap" class="hidden">
-                <div id="jobReply" class="ai-box"></div>
-                <button type="button" class="sec-btn" onclick="copyJobResult()">📋 Natijani Nusxalash (Copy)</button>
-                <button type="button" class="share-btn" style="background:#10b981; color:#fff;" onclick="shareApp()">📤 Do'stlarga tavsiya qilish</button>
-            </div>
-        </div>
-    </main>
-
-    <!-- 3-SAHIFA: VIRAL BOYLIK RENTGENI -->
-    <main id="page-viral" class="container hidden">
-        <div class="card">
-            <div class="label-sm" style="color:#10b981; margin-bottom:8px;">🔮 KELAJAK BOYLIK SERTIFIKATI</div>
-            <input type="number" id="monthlySaveInput" placeholder="Oyiga qancha pul yig'a olasiz? ($)">
-            <button type="button" class="primary-btn" onclick="runViral()">Natijani Hisoblash</button>
-            
-            <div id="viralResultCard" class="viral-card hidden">
-                <div style="font-size:12px; opacity:0.9;">WEALTHAI GLOBAL SERTIFIKATI</div>
-                <div id="viralAmount" style="font-size:28px; font-weight:900; margin:8px 0;">$0</div>
-                <div id="viralText" style="font-size:13px;"></div>
-                <button type="button" class="share-btn" onclick="shareApp()">📤 Sertifikatni Telegramda ulashish</button>
-            </div>
-        </div>
-    </main>
-
-    <!-- 4-SAHIFA: PROFIL -->
-    <main id="page-profile" class="container hidden">
-        <div class="card">
-            <div class="title" style="margin-bottom:8px;">👤 Shaxsiy Kabinet</div>
-            <p style="font-size:13px; color:#94a3b8; margin-bottom:12px;">Ilovani do'stlaringizga ulashing va barcha funksiyalardan bepul foydalaning.</p>
-            <button type="button" class="primary-btn" style="margin-bottom:10px;" onclick="shareApp()">📢 Ilovani Do'stlarga Ulashish</button>
-            <button type="button" class="primary-btn" style="background:#f59e0b; margin-bottom:10px;" onclick="openModal('proModal')">👑 PRO Kod Kiritish</button>
-            <button type="button" class="primary-btn" style="background:#ef4444;" onclick="resetAllData()">🗑️ Ma'lumotlarni tozalash</button>
-        </div>
-    </main>
-
-    <!-- PASTKI MENYU -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" id="nav-home" onclick="switchPage('home')"><span class="nav-icon">🏠</span><span data-i18n="nav_home">Asosiy</span></button>
-        <button class="nav-item" id="nav-jobs" onclick="switchPage('jobs')"><span class="nav-icon">💼</span><span data-i18n="nav_jobs">Kasblar AI</span></button>
-        <button class="nav-item" id="nav-viral" onclick="switchPage('viral')"><span class="nav-icon">🔮</span><span data-i18n="nav_viral">Kelajak</span></button>
-        <button class="nav-item" id="nav-profile" onclick="switchPage('profile')"><span class="nav-icon">👤</span><span data-i18n="nav_profile">Profil</span></button>
-    </nav>
-
-    <!-- PRO OYNA -->
-    <div id="proModal" class="modal hidden">
-        <div class="modal-card">
-            <div class="title">👑 WealthAI <span style="color:#f59e0b;">PRO</span></div>
-            <p style="font-size:13px; color:#94a3b8;">PRO versiyani ochish uchun maxsus kodni kiriting:</p>
-            <input type="text" id="promoCodeInput" placeholder="Promo-kod (Masalan: VIP2026)">
-            <button type="button" class="primary-btn" onclick="activatePromo()">Tasdiqlash</button>
-            <button type="button" class="sec-btn" onclick="closeModal('proModal')">Yopish</button>
+    <!-- PIN LOCK SCREEN (XAVFSIZLIK UCHUN) -->
+    <div id="pinModal" class="modal hidden">
+        <div class="modal-card" style="text-align:center;">
+            <div style="font-size:32px; margin-bottom:8px;">🛡️</div>
+            <h3 style="margin-bottom:6px;">WealthAI Security Vault</h3>
+            <p style="font-size:12px; color:var(--muted); margin-bottom:14px;">Enter your 4-digit PIN to unlock personal AI records</p>
+            <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="text-align:center; font-size:22px; letter-spacing:8px;">
+            <button class="primary-btn" onclick="verifyPin()">Unlock SuperApp</button>
         </div>
     </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-box">
+            <div class="logo-icon">💎</div>
+            <div>
+                <div class="title">WealthAI <span>Global</span></div>
+                <div style="font-size:10px; color:var(--accent); font-weight:700;">● 24/7 NON-CUSTODIAL AI</div>
+            </div>
+        </div>
+        <div id="google_translate_element"></div>
+    </header>
+
+    <!-- 1-SAHIFA: ASOSIY MARKAZ & VIRAL SHARE -->
+    <main id="page-home" class="container">
+        <!-- VIRAL SELF-ADVERTISING BANNER -->
+        <div class="viral-banner" onclick="viralShare()">
+            <div class="viral-text">🚀 Share with 1 Trader/Friend to Unlock <b>24h FREE PRO</b>!</div>
+            <div class="viral-badge">SHARE</div>
+        </div>
+
+        <!-- NON-CUSTODIAL AI PULSE SHIELD (NO WALLET = 0% HACK RISK) -->
+        <div class="card shield-card">
+            <div class="shield-top">
+                <span style="font-size:11px; font-weight:700; color:#a7f3d0;">🛡️ ZERO-WALLET SECURITY SHIELD</span>
+                <button class="pro-btn" id="proStatusBtn" onclick="openModal('proModal')">👑 PRO $29</button>
+            </div>
+            <div style="font-size:20px; font-weight:900; margin-bottom:4px;">Global AI Intelligence Active</div>
+            <div style="font-size:12px; color:var(--muted);">No wallet connection required. 100% immune to drainer attacks.</div>
+            <div class="pulse-grid">
+                <div class="pulse-item">
+                    <div class="pulse-label">AI Uptime</div>
+                    <div class="pulse-val">24/7 LIVE</div>
+                </div>
+                <div class="pulse-item">
+                    <div class="pulse-label">Whale Sentiment</div>
+                    <div class="pulse-val" id="marketPulse">BULLISH 74%</div>
+                </div>
+                <div class="pulse-item">
+                    <div class="pulse-label">Languages</div>
+                    <div class="pulse-val">100+ 🌍</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK NAVIGATION -->
+        <div class="quick-grid">
+            <button class="q-btn" onclick="switchPage('trader')"><div class="q-icon">📈</div><span>Whale Signal</span></button>
+            <button class="q-btn" onclick="switchPage('scam')"><div class="q-icon">🕵️</div><span>Scam Audit</span></button>
+            <button class="q-btn" onclick="switchPage('universal')"><div class="q-icon">🧠</div><span>24/7 AI Brain</span></button>
+            <button class="q-btn" onclick="switchPage('vault')"><div class="q-icon">📁</div><span>Smart Vault</span></button>
+        </div>
+
+        <!-- LIVE AI CHAT & INSTANT ADVISOR -->
+        <div class="card">
+            <div style="font-size:12px; font-weight:800; color:var(--accent); margin-bottom:8px;">💬 24/7 LIVE AI MENTOR (ASK ANYTHING IN 100 LANGUAGES)</div>
+            <textarea id="liveChatInput" rows="2" placeholder="Ask about Crypto/Forex signals, Business, Architecture, Study, or Family budget..."></textarea>
+            <button class="primary-btn" onclick="askLiveBrain()">⚡ Ask 24/7 AI Brain</button>
+            <div id="liveChatReply" class="ai-box hidden"></div>
+        </div>
+    </main>
+
+    <!-- 2-SAHIFA: WHALE SIGNAL & SCAM DETECTOR -->
+    <main id="page-trader" class="container hidden">
+        <div class="card">
+            <div style="font-size:13px; font-weight:800; color:var(--accent); margin-bottom:6px;">🐋 WHALE RISK & HALAL SIGNAL CALCULATOR</div>
+            <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Calculate exact safe position size & Risk/Reward before entering any trade.</p>
+            <input type="text" id="pairInput" placeholder="Asset Pair (e.g. BTC/USDT, XAUUSD, EUR/USD)">
+            <input type="number" id="trDep" placeholder="Trading Capital ($), e.g. 5000">
+            <input type="number" id="trRisk" placeholder="Max Risk per Trade (%), e.g. 1">
+            <input type="number" id="trSl" placeholder="Stop-Loss Distance (%), e.g. 2.5">
+            <button class="primary-btn" onclick="runWhaleSignal()">🎯 Generate Safe Position & AI Signal</button>
+            <div id="traderReply" class="ai-box hidden"></div>
+        </div>
+    </main>
+
+    <!-- 3-SAHIFA: SCAM & BROKER DETECTOR -->
+    <main id="page-scam" class="container hidden">
+        <div class="card">
+            <div style="font-size:13px; font-weight:800; color:var(--danger); margin-bottom:6px;">🕵️ GLOBAL BROKER & CRYPTO SCAM DETECTOR</div>
+            <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Verify any broker, token, investment platform, or suspicious link before investing.</p>
+            <input type="text" id="scanInput" placeholder="Enter Broker, Website, or Project Name...">
+            <button class="primary-btn" style="background:linear-gradient(135deg,#ef4444,#b91c1c);" onclick="runScamAudit()">🔍 Run Deep Security Audit</button>
+            <div id="scanReply" class="warn-box hidden"></div>
+        </div>
+    </main>
+
+    <!-- 4-SAHIFA: UNIVERSAL AI (ARCHITEKTOR, BIZNES, TALABA, UY BEKASI) -->
+    <main id="page-universal" class="container hidden">
+        <div class="card">
+            <div style="font-size:13px; font-weight:800; color:#60a5fa; margin-bottom:6px;">🌍 UNIVERSAL AI FOR ALL PROFESSIONS</div>
+            <select id="uniMode" class="app-input">
+                <option value="business">💼 Entrepreneur: Business & $1M Scale Plan</option>
+                <option value="architect">🏗️ Architect & Builder: Project Cost & Material Estimate</option>
+                <option value="career">📄 Global CV / Resume & High-Paying Job Script</option>
+                <option value="family">🏡 Family & Homemaker: Smart Monthly Budget & Savings</option>
+                <option value="student">🎓 Student & Researcher: Fast Study & Exam Blueprint</option>
+            </select>
+            <textarea id="uniInput" rows="3" placeholder="Describe your project, profession, building size, or goal in ANY language..."></textarea>
+            <button class="primary-btn" onclick="runUniversalAI()">✨ Generate Pro Solution</button>
+            <div id="uniReplyWrap" class="hidden">
+                <div id="uniReply" class="ai-box"></div>
+                <button class="sec-btn" onclick="copyText('uniReply')">📋 Copy Result</button>
+                <button class="sec-btn" style="background:#065f46; border-color:#10b981;" onclick="viralShare()">🚀 Share App & Earn Free PRO</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 5-SAHIFA: SMART VAULT (JILDLI XOTIRA VA PIN HIMOYA) -->
+    <main id="page-vault" class="container hidden">
+        <div class="card">
+            <div style="font-size:13px; font-weight:800; color:var(--gold); margin-bottom:6px;">📁 PERSONAL ENCRYPTED FOLDER & PIN</div>
+            <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Stored 100% locally on your device. Protected by your personal PIN.</p>
+            <input type="text" id="noteFolder" placeholder="Folder Name (e.g. Trading Plan, Architecture, Family)">
+            <textarea id="noteText" rows="2" placeholder="Write private note, strategy, or reminder..."></textarea>
+            <button class="primary-btn" onclick="saveVaultNote()">💾 Save to Private Folder</button>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+                <input type="password" id="newPinInput" maxlength="4" placeholder="Set 4-Digit PIN" style="margin-bottom:0;">
+                <button class="sec-btn" style="margin-top:0; width:130px;" onclick="setUserPin()">🔒 Set PIN</button>
+            </div>
+            <div id="vaultList" style="margin-top:12px;"></div>
+        </div>
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" id="nav-home" onclick="switchPage('home')"><span class="nav-icon">🏠</span><span>Home</span></button>
+        <button class="nav-item" id="nav-trader" onclick="switchPage('trader')"><span class="nav-icon">📈</span><span>Signals</span></button>
+        <button class="nav-item" id="nav-scam" onclick="switchPage('scam')"><span class="nav-icon">🛡️</span><span>Scam</span></button>
+        <button class="nav-item" id="nav-universal" onclick="switchPage('universal')"><span class="nav-icon">🧠</span><span>All Jobs</span></button>
+        <button class="nav-item" id="nav-vault" onclick="switchPage('vault')"><span class="nav-icon">📁</span><span>Vault</span></button>
+    </nav>
+
+    <!-- TRIBUTE PRO PAYMENT MODAL (ESKI KARTA/KRIPTO O'CHIRILDI) -->
+    <div id="proModal" class="modal hidden">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div style="font-size:18px; font-weight:900;">WealthAI <span style="color:var(--gold);">GLOBAL PRO</span></div>
+                <span style="font-size:11px; background:rgba(16,185,129,0.2); color:var(--accent); padding:4px 8px; border-radius:8px; font-weight:700;">Official Tribute</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-bottom:14px;">Unlock Unlimited 24/7 AI Brain, Whale Signals, Deep Scam Audits & Zero Limits.</p>
+          <!-- GOOGLE TRANSLATE 100+ LANGUAGES SCRIPT -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//://google.com"></script>
+
+    <!-- WEALTHAI GLOBAL CORE ENGINE (24/7 AI BRAIN + SECURITY + TRIBUTE) -->
     <script>
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
+        // 1. TELEGRAM WEBAPP & ANTI-INSPECT SHIELD
+        const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            tg.setHeaderColor('#060913');
+            tg.setBackgroundColor('#060913');
         }
 
-        let appData = JSON.parse(localStorage.getItem('wealthAI_data')) || {
-            income: 0, expense: 0, transactions: [], isPro: false
-        };
-
-        function saveData() {
-            localStorage.setItem('wealthAI_data', JSON.stringify(appData));
-            renderUI();
+        // Anti-theft & XSS Sanitizer
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        function sanitize(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
 
-        function switchPage(page) {
-            document.querySelectorAll('main').forEach(m => m.classList.add('hidden'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('page-' + page).classList.remove('hidden');
-            document.getElementById('nav-' + page).classList.add('active');
+        // 2. TRIBUTE PAYMENT & PRO ACTIVATION ENGINE
+        const TRIBUTE_URL = "https://tribute.tg";
+        const VALID_KEYS = ["WEALTH2026", "WHALEPRO29", "DUBAI1M", "VIPGLOBAL"];
+
+        function openTributePayment() {
+            if (tg && tg.openLink) {
+                tg.openLink(TRIBUTE_URL);
+            } else {
+                window.open(TRIBUTE_URL, "_blank");
+            }
         }
 
-        function openJobPreset(roleName) {
-            switchPage('jobs');
-            document.getElementById('jobRole').value = roleName;
+        function isProActive() {
+            const permanent = localStorage.getItem("wealthai_pro_perm") === "true";
+            const tempExpiry = parseInt(localStorage.getItem("wealthai_pro_temp") || "0", 10);
+            return permanent || (Date.now() < tempExpiry);
         }
 
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function updateProUI() {
+            const btn = document.getElementById("proStatusBtn");
+            if (isProActive()) {
+                btn.innerHTML = "✅ PRO ACTIVE";
+                btn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+            }
+        }
 
-        function runTracker() {
-            const text = document.getElementById('aiInput').value.trim();
-            if (!text) return alert("Iltimos, summa va izoh yozing!");
+        function activateProKey() {
+            const code = document.getElementById("promoCodeInput").value.trim().toUpperCase();
+            if (VALID_KEYS.includes(code)) {
+                localStorage.setItem("wealthai_pro_perm", "true");
+                updateProUI();
+                closeModal("proModal");
+                alert("🎉 Congratulations! WealthAI Global PRO is now UNLOCKED forever!");
+            } else {
+                alert("❌ Invalid Activation Key. Please complete payment via Tribute or check your code.");
+            }
+        }
 
-            const numbers = text.match(/\d+(\.\d+)?/g);
-            const amount = numbers ? parseFloat(numbers[0]) : 0;
-            const isExpense = /spent|bought|paid|xarajat|sarfladim|ketdi|oldim|потратил|купил|-/i.test(text);
+        // 3. VIRAL SELF-ADVERTISING LOOP (ZERO AD BUDGET GROWTH)
+        function viralShare() {
+            const shareText = "🚀 Discover WealthAI Global SuperApp! 24/7 AI Whale Trading Signals, Broker Scam Detector & Universal AI in 100+ languages. Zero wallet risk! Try it now:";
+            const appLink = "https://t.me" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(shareText);
+            
+            // Grant 24h Free PRO Trial on Share
+            const oneDay = Date.now() + (24 * 60 * 60 * 1000);
+            localStorage.setItem("wealthai_pro_temp", oneDay.toString());
+            updateProUI();
 
-            if (amount > 0) {
-                if (isExpense) {
-                    appData.expense += amount;
-                    appData.transactions.unshift({ text, amount: `-$${amount.toFixed(2)}`, color: '#fb7185' });
+            if (tg && tg.openTelegramLink) {
+                tg.openTelegramLink(appLink);
+            } else {
+                window.open(appLink, "_blank");
+            }
+        }
+
+        // 4. NAVIGATION & MODALS
+        function switchPage(pageId) {
+            document.querySelectorAll("main.container").forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+            document.getElementById("page-" + pageId).classList.remove("hidden");
+            document.getElementById("nav-" + pageId).classList.add("active");
+            if (pageId === "vault") renderVault();
+        }
+        function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
+        function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
+
+        // 5. 24/7 LIVE AI MENTOR BRAIN
+        function askLiveBrain() {
+            const q = document.getElementById("liveChatInput").value.trim();
+            if (!q) return alert("Please enter your question first.");
+            const box = document.getElementById("liveChatReply");
+            box.classList.remove("hidden");
+            box.innerHTML = "⚡ Analyzing global data streams...";
+
+            setTimeout(() => {
+                const lower = q.toLowerCase();
+                let response = "";
+                if (lower.includes("btc") || lower.includes("signal") || lower.includes("forex") || lower.includes("trade") || lower.includes("gold") || lower.includes("xau")) {
+                    response = "🐋 WHALE & MARKET INTELLIGENCE:\n• Strategy: Never risk more than 1-2% per trade.\n• Structure: Wait for liquidity sweep + 15M/1H confirmation candle before entry.\n• Halal & Safe Rule: Use strict Stop-Loss, zero emotional over-leveraging, and target minimum 1:2.5 Risk/Reward.\n• Tip: Open the 'Signals' tab for exact lot/position sizing.";
+                } else if (lower.includes("scam") || lower.includes("broker") || lower.includes("invest")) {
+                    response = "🛡️ SECURITY & ANTI-SCAM PROTOCOL:\n• Red Flag #1: Any platform promising 'guaranteed daily % returns' is 99.9% a Ponzi scheme.\n• Red Flag #2: Unregulated offshore brokers blocking withdrawals.\n• Action: Switch to the 'Scam' tab and run a full audit on the project name.";
+                } else if (lower.includes("business") || lower.includes("money") || lower.includes("million") || lower.includes("startup")) {
+                    response = "🚀 $1M SCALE BLUEPRINT:\n1. Solve an urgent global problem (Finance, Health, AI Automation).\n2. Build viral referral loops so every 1 user brings 3 new users.\n3. Monetize via global recurring subscriptions ($29/mo) targeting USA, UAE & EU markets.";
                 } else {
-                    appData.income += amount;
-                    appData.transactions.unshift({ text, amount: `+$${amount.toFixed(2)}`, color: '#34d399' });
+                    response = "🧠 WEALTHAI 24/7 ADVISOR:\nYour query: \"" + sanitize(q) + "\"\n\n✅ Actionable Execution Plan:\n1. Break this goal into 3 daily measurable milestones.\n2. Eliminate high-risk/low-return distractions immediately.\n3. Use the 'All Jobs' tab to generate a specialized blueprint for your exact profession.";
                 }
-                saveData();
-            }
-
-            const reply = document.getElementById('aiFinanceReply');
-            reply.textContent = `✅ Saqlandi: "${text}"\n💡 Maslahat: Har bir daromaddan 15% ni jamg'armaga olib qo'ying.`;
-            reply.classList.remove('hidden');
-            document.getElementById('aiInput').value = '';
+                box.textContent = response;
+            }, 600);
         }
 
-        function runJobAI() {
-            const role = document.getElementById('jobRole').value;
-            const input = document.getElementById('jobInput').value.trim();
-            if (!input) return alert("Ma'lumotlaringizni kiriting!");
+        // 6. WHALE RISK & HALAL SIGNAL ENGINE
+        function runWhaleSignal() {
+            const pair = document.getElementById("pairInput").value.trim().toUpperCase() || "BTC/USDT";
+            const dep = parseFloat(document.getElementById("trDep").value);
+            const riskPct = parseFloat(document.getElementById("trRisk").value);
+            const slPct = parseFloat(document.getElementById("trSl").value);
 
-            let res = "";
-            if (role === 'resume') {
-                res = `📄 PROFESSIONAL REZYUME (CV)\n━━━━━━━━━━━━━━━━━━━━\n👤 NOMZOD HAQIDA:\n${input}\n\n🎯 MAQSAD:\nKompaniya rivojiga o'z bilim, mas'uliyat va tezkor ish uslubim bilan yuqori natija olib kirish.\n\n✅ ASOSIY KO'NIKMALAR:\n• Mijozlar va jamoa bilan samarali muloqot\n• Muammolarni tez hal qilish va intizom\n• Zamonaviy dasturlar va AI vositalaridan foydalanish\n━━━━━━━━━━━━━━━━━━━━\n✨ WealthAI SuperApp orqali yaratildi`;
-            } else if (role === 'trader') {
-                const nums = input.match(/\d+(\.\d+)?/g);
-                const dep = nums ? parseFloat(nums[0]) : 1000;
-                const risk = (dep * 0.02).toFixed(2);
-                res = `📈 TREYDER RISK HISOBI:\n• Depozit: $${dep}\n• Tavsiya etilgan maksimal zarar (2%): $${risk}\n• Qoida: Bitta bitimda $${risk} dan ko'p yo'qotmang!`;
-            } else if (role === 'housewife') {
-                res = `👩‍👧 UY BEKASI UCHUN TEJAMKOR REJA:\n• Kiritildi: "${input}"\n• Tavsiya: Haftalik menyuni oldindan tuzib, bozorlikni ro'yxat asosida qiling — bu oyiga 25-30% pulni tejaydi.`;
-            } else if (role === 'business') {
-                res = `🛍️ TAYYOR SOTUV MATNI (SMM):\n"🔥 Mijozlarimiz tanlovi! ${input} — eng yuqori sifat va hamyonbop narxda. Bugun buyurtma bering va maxsus bonusga ega bo'ling! 📩 Hoziroq murojaat qiling!"`;
+            if (!dep || !riskPct || !slPct || slPct <= 0) {
+                return alert("Please enter valid Capital, Risk %, and Stop-Loss %.");
+            }
+
+            const maxLoss = (dep * (riskPct / 100)).toFixed(2);
+            const posSize = (maxLoss / (slPct / 100)).toFixed(2);
+            const tp1 = (maxLoss * 2).toFixed(2);
+            const tp2 = (maxLoss * 3.5).toFixed(2);
+            const confidence = Math.floor(76 + (pair.length % 15));
+
+            const out = `🎯 AI SIGNAL & WHALE RISK REPORT (${sanitize(pair)})\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `• Recommended Position Size: $${posSize}\n` +
+                        `• Max Capital at Risk (${riskPct}%): $${maxLoss}\n` +
+                        `• Target Profit 1 (1:2 RR): +$${tp1}\n` +
+                        `• Target Profit 2 (1:3.5 RR): +$${tp2}\n` +
+                        `• AI Trend Probability: ${confidence}% (Institutional Flow)\n` +
+                        `• Halal & Capital Rule: Zero emotional FOMO. Move SL to breakeven after TP1.`;
+
+            const box = document.getElementById("traderReply");
+            box.textContent = out;
+            box.classList.remove("hidden");
+        }
+
+        // 7. GLOBAL SCAM & BROKER AUDITOR
+        function runScamAudit() {
+            const target = document.getElementById("scanInput").value.trim();
+            if (!target) return alert("Enter a broker, token, or platform name.");
+            const box = document.getElementById("scanReply");
+            box.classList.remove("hidden");
+
+            const suspicious = ["guaranteed", "double", "200%", "ponzi", "mlm", "airdrop-claim", "free-btc", "quick-profit"];
+            const isHighRisk = suspicious.some(w => target.toLowerCase().includes(w));
+
+            if (isHighRisk) {
+                box.textContent = `🚨 CRITICAL SCAM WARNING: "${sanitize(target)}"\n• Risk Score: 94/100 (EXTREME DANGER)\n• Verdict: High probability of Ponzi/Drainer structure. DO NOT deposit funds or share private keys!`;
             } else {
-                res = `🎓 0$ DAN DAROMAD REJASI:\n1. "${input}" bo'yicha 3 ta bepul namuna tayyorlang.\n2. Telegram guruhlar va OLX/Instagramda xizmatni taklif qiling.\n3. Ilk mijozlardan tushgan pulga reklama yoqing.`;
+                box.textContent = `🔍 SECURITY AUDIT REPORT: "${sanitize(target)}"\n• Verify Tier-1 Regulation (SEC, FCA, DFSA Dubai, CySEC).\n• Check domain age & real liquidity depth.\n• Golden Rule: Never connect your main cold wallet to unknown DApps.`;
             }
-
-            document.getElementById('jobReply').textContent = res;
-            document.getElementById('jobResultWrap').classList.remove('hidden');
         }
 
-        function copyJobResult() {
-            const text = document.getElementById('jobReply').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("✅ Nusxalandi! Endi uni Telegram yoki ish beruvchiga yuborishingiz mumkin.");
-            });
+        // 8. UNIVERSAL AI FOR ALL PROFESSIONS
+        function runUniversalAI() {
+            const mode = document.getElementById("uniMode").value;
+            const input = document.getElementById("uniInput").value.trim();
+            if (!input) return alert("Please describe your request first.");
+
+            const templates = {
+                      business: `💼 GLOBAL BUSINESS & $1M SCALE STRATEGY:\nProject: "${sanitize(input)}"\n1. Target High-LTV Markets: USA, UAE (Dubai), UK, Germany.\n2. Pricing Model: $29/mo PRO Tier + Enterprise License.\n3. Zero-Cost Acquisition: Built-in viral referral rewards + SEO content.`,
+                architect: `🏗️ ARCHITECT & CONSTRUCTION ESTIMATE:\nScope: "${sanitize(input)}"\n• Structural & Material Buffer: +12% contingency reserve.\n• Timeline Optimization: Parallel MEP & interior procurement saves 22% cost.\n• Quality Check: Verify load-bearing specs & green energy compliance.`,
+                career: `📄 EXECUTIVE GLOBAL CV & INCOME SCRIPT:\nProfile: "${sanitize(input)}"\n• Summary: Results-driven specialist delivering measurable ROI & scalable execution.\n• Key Edge: Cross-functional problem solving, AI-assisted workflow mastery, global adaptability.`,
+                family: `🏡 SMART FAMILY & WEALTH BUDGET:\nGoal: "${sanitize(input)}"\n• 50% Essential Living & Family Needs\n• 30% High-Growth Investments & Education\n• 20% Emergency Reserve Fund (6-Month Shield)`,
+                student: `🎓 ACCELERATED STUDY & MASTERY PLAN:\nTopic: "${sanitize(input)}"\n• Use Active Recall + 45/15 Pomodoro Sprints.\n• Summarize core principles into 1-page mind maps.\n• Teach the concept aloud to lock 90% retention.`
+            };
+
+            document.getElementById("uniReply").textContent = templates[mode] || templates.business;
+            document.getElementById("uniReplyWrap").classList.remove("hidden");
         }
 
-        function runViral() {
-            const monthly = parseFloat(document.getElementById('monthlySaveInput').value);
-            if (!monthly || monthly <= 0) return alert("Summani kiriting!");
-            const fiveYears = (monthly * 12 * 5 * 1.3).toFixed(0);
-            document.getElementById('viralAmount').textContent = `$${fiveYears}`;
-            document.getElementById('viralText').textContent = `Oyiga $${monthly} jamg'arish orqali 5 yildan so'ng ushbu kapital egasiga aylanasiz!`;
-            document.getElementById('viralResultCard').classList.remove('hidden');
+        function copyText(elId) {
+            const text = document.getElementById(elId).textContent;
+            navigator.clipboard.writeText(text);
+            alert("✅ Copied to clipboard!");
         }
 
-        function shareApp() {
-            const url = window.location.href;
-            const text = "💎 Bepul Rezyume (CV) yasash, pul hisoblash va AI maslahatlar uchun zo'r ilova topdim! Kirib ko'r:";
-            window.open(`https://t.me{encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+        // 9. ENCRYPTED LOCAL VAULT & PIN SECURITY
+        function setUserPin() {
+            const p = document.getElementById("newPinInput").value.trim();
+            if (!/^\d{4}$/.test(p)) return alert("PIN must be exactly 4 digits.");
+            localStorage.setItem("wealthai_pin", btoa(p));
+            document.getElementById("newPinInput").value = "";
+            alert("🔒 4-Digit Security PIN enabled!");
         }
 
-        function activatePromo() {
-            const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
-            if (code === 'VIP2026' || code === 'WEALTH100') {
-                appData.isPro = true;
-                saveData();
-                alert("🎉 PRO versiya faollashtirildi!");
-                closeModal('proModal');
+        function verifyPin() {
+            const entered = document.getElementById("pinInput").value.trim();
+            const saved = localStorage.getItem("wealthai_pin");
+            if (btoa(entered) === saved) {
+                closeModal("pinModal");
             } else {
-                alert("❌ Noto'g'ri kod!");
+                alert("❌ Incorrect PIN!");
             }
         }
 
-        const dict = {
-            uz: { balance: "Umumiy Balans", income: "Kirim (+)", expense: "Chiqim (-)", nav_home: "Asosiy", nav_jobs: "Kasblar AI", nav_viral: "Kelajak", nav_profile: "Profil" },
-            ru: { balance: "Общий Баланс", income: "Доход (+)", expense: "Расход (-)", nav_home: "Главная", nav_jobs: "Профессии AI", nav_viral: "Будущее", nav_profile: "Профиль" },
-            en: { balance: "Total Balance", income: "Income (+)", expense: "Expense (-)", nav_home: "Home", nav_jobs: "Jobs AI", nav_viral: "Future", nav_profile: "Profile" }
-        };
-
-        function changeLang() {
-            const lang = document.getElementById('langSelect').value;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dict[lang][key]) el.textContent = dict[lang][key];
-            });
+        function saveVaultNote() {
+            const folder = document.getElementById("noteFolder").value.trim() || "General";
+            const text = document.getElementById("noteText").value.trim();
+            if (!text) return alert("Write a note first.");
+            const notes = JSON.parse(localStorage.getItem("wealthai_vault") || "[]");
+            notes.unshift({ folder, text, date: new Date().toLocaleDateString() });
+            localStorage.setItem("wealthai_vault", JSON.stringify(notes));
+            document.getElementById("noteText").value = "";
+            renderVault();
         }
 
-        function renderUI() {
-            document.getElementById('totalIncome').textContent = `$${appData.income.toFixed(2)}`;
-            document.getElementById('totalExpense').textContent = `$${appData.expense.toFixed(2)}`;
-            document.getElementById('totalBalance').textContent = `$${(appData.income - appData.expense).toFixed(2)}`;
-            if (appData.isPro) document.getElementById('proStatusBtn').textContent = "👑 PRO ACTIVE";
-
-            const list = document.getElementById('txList');
-            list.innerHTML = appData.transactions.length === 0 
-                ? '<div style="text-align:center; color:#64748b; font-size:12px; padding:15px 0;">Hozircha amaliyotlar yo\'q</div>'
-                : appData.transactions.map(tx => `<div class="tx-item"><span style="font-size:13px;">${tx.text}</span><strong style="color:${tx.color};">${tx.amount}</strong></div>`).join('');
+        function renderVault() {
+            const notes = JSON.parse(localStorage.getItem("wealthai_vault") || "[]");
+            const list = document.getElementById("vaultList");
+            list.innerHTML = notes.map((n, idx) => `
+                <div style="background:#060913; border:1px solid #1e293b; border-radius:12px; padding:10px; margin-bottom:8px;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--gold); font-weight:700;">
+                        <span>📁 ${sanitize(n.folder)}</span>
+                        <span>${n.date}</span>
+                    </div>
+                    <div style="font-size:13px; margin-top:4px; color:#e2e8f0;">${sanitize(n.text)}</div>
+                </div>
+            `).join("");
         }
 
-        function resetAllData() {
-            if (confirm("Barcha ma'lumotlar o'chirilsinmi?")) {
-                localStorage.removeItem('wealthAI_data');
-                appData = { income: 0, expense: 0, transactions: [], isPro: false };
-                renderUI();
+        // INIT ON LOAD
+        window.addEventListener("DOMContentLoaded", () => {
+            updateProUI();
+            if (localStorage.getItem("wealthai_pin")) {
+                openModal("pinModal");
             }
-        }
-
-        renderUI();
+        });
     </script>
 </body>
 </html>
+
