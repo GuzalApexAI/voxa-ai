@@ -8,30 +8,28 @@
     <style>
         :root { --bg: #060913; --card: #0f172a; --border: #1e293b; --accent: #10b981; --gold: #f59e0b; --danger: #ef4444; --text: #f8fafc; --muted: #94a3b8; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 85px; top: 0 !important; user-select: none; }
-        .goog-te-banner-frame, .skiptranslate > iframe { display: none !important; }         #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip { display: none !important; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 85px; top: 0 !important; user-select: none; overflow-x: hidden; }
+        .goog-te-banner-frame, .skiptranslate > iframe, #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip { display: none !important; }
         .goog-text-highlight { background: none !important; box-shadow: none !important; }
-.goog-te-menu-frame { max-width: 95vw !important; max-height: 70vh !important; overflow-y: auto !important; }
-
-        header { position: sticky; top: 0; z-index: 50; background: rgba(6, 9, 19, 0.94); backdrop-filter: blur(14px); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .title { font-size: 17px; font-weight: 800; }
+        header { position: sticky; top: 0; z-index: 50; background: rgba(6, 9, 19, 0.94); backdrop-filter: blur(14px); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); gap: 8px; }
+        .logo-box { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .title { font-size: 16px; font-weight: 800; }
         .title span { color: var(--accent); }
-        #google_translate_element select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 8px; font-size: 12px; outline: none; max-width: 125px; }
+        .lang-select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 10px; font-size: 12px; font-weight: 700; outline: none; max-width: 125px; }
         .container { max-width: 480px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
         .card { background: linear-gradient(145deg, #0f172a, #0b1120); border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
         .hidden { display: none !important; }
-        .viral-banner { background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18)); border: 1px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .viral-banner { background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18)); border: 1px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 8px; }
         .viral-text { font-size: 12px; font-weight: 600; color: #e2e8f0; }
-        .viral-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 5px 10px; border-radius: 8px; }
+        .viral-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 5px 10px; border-radius: 8px; flex-shrink: 0; }
         .shield-card { background: linear-gradient(135deg, #064e3b, #0f172a 75%); border: 1px solid rgba(16,185,129,0.45); }
-        .shield-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ea580c); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; }
+        .shield-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 6px; }
+        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ea580c); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; flex-shrink: 0; }
         .pulse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-        .pulse-item { background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 8px; text-align: center; }
+        .pulse-item { background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 6px; text-align: center; }
         .pulse-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
-        .pulse-val { font-size: 13px; font-weight: 800; color: var(--accent); margin-top: 3px; }
+        .pulse-val { font-size: 12px; font-weight: 800; color: var(--accent); margin-top: 3px; }
         .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .q-btn { background: #0f172a; border: 1px solid var(--border); border-radius: 14px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text); font-size: 11px; font-weight: 600; cursor: pointer; }
         .q-icon { width: 34px; height: 34px; border-radius: 10px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -67,7 +65,27 @@
                 <div style="font-size:10px; color:var(--accent); font-weight:700;">● 24/7 NON-CUSTODIAL AI</div>
             </div>
         </div>
-        <div id="google_translate_element"></div>
+        <div id="google_translate_element" style="display:none;"></div>
+        <select id="customLangSelect" class="lang-select" onchange="changeAppLang(this.value)">
+            <option value="en">🌐 English</option>
+            <option value="uz">🇺🇿 O'zbekcha</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="ar">🇦🇪 العربية (Dubai)</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="zh-CN">🇨🇳 中文</option>
+            <option value="hi">🇮🇳 हिन्दी</option>
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="pt">🇧🇷 Português</option>
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="id">🇮🇩 Indonesia</option>
+            <option value="kk">🇰🇿 Қазақша</option>
+            <option value="tg">🇹🇯 Тоҷикӣ</option>
+            <option value="ky">🇰🇬 Кыргызча</option>
+        </select>
     </header>
 
     <main id="page-home" class="container">
@@ -98,7 +116,7 @@
         </div>
 
         <div class="card">
-            <div style="font-size:12px; font-weight:800; color:var(--accent); margin-bottom:8px;">💬 24/7 LIVE AI MENTOR (ASK IN 100+ LANGUAGES)</div>
+            <div style="font-size:12px; font-weight:800; color:var(--accent); margin-bottom:8px;">💬 24/7 LIVE AI MENTOR (ASK IN ANY LANGUAGE)</div>
             <textarea id="liveChatInput" rows="2" placeholder="Ask about Crypto/Forex signals, Business, Architecture, Study, or Family budget..."></textarea>
             <button class="primary-btn" onclick="askLiveBrain()">⚡ Ask 24/7 AI Brain</button>
             <div id="liveChatReply" class="ai-box hidden"></div>
@@ -187,15 +205,16 @@
             </div>
             <button class="sec-btn" style="background:transparent; border:none; color:var(--muted);" onclick="closeModal('proModal')">Close</button>
         </div>
-    </div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() 
-            new google.translate.TranslateElement(
-                pageLanguage: 'en', 
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-
-                autoDisplay: false
-            }, 'google_translate_element');
+    </div>    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
+        }
+        function changeAppLang(lang) {
+            var sel = document.querySelector('.goog-te-combo');
+            if (sel) {
+                sel.value = lang;
+                sel.dispatchEvent(new Event('change'));
+            }
         }
     </script>
     <script>
@@ -268,7 +287,7 @@
             } else {
                 window.open(appLink, "_blank");
             }
-           function switchPage(pageId) {
+        }        function switchPage(pageId) {
             document.querySelectorAll("main.container").forEach(el => el.classList.add("hidden"));
             document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
             document.getElementById("page-" + pageId).classList.remove("hidden");
@@ -404,4 +423,5 @@
     </script>
 </body>
 </html>
-     }
+
+
