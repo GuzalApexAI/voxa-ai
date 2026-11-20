@@ -209,11 +209,13 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
         }
+            
         function changeAppLang(lang) {
-            var sel = document.querySelector('.goog-te-combo');
-            if (sel) {
-                sel.value = lang;
-                sel.dispatchEvent(new Event('change'));
+            document.cookie = "googtrans=/en/" + lang + "; path=/";
+            location.reload();
+        }
+
+            
             
 
     </script>
@@ -415,7 +417,11 @@
         }
 
         window.addEventListener("DOMContentLoaded", () => {
-            updateProUI();
+            updateProUI();            var match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+            if (match && document.getElementById('customLangSelect')) {
+                document.getElementById('customLangSelect').value = match[1];
+            }
+
             if (localStorage.getItem("wealthai_pin")) {
                 openModal("pinModal");
             }
