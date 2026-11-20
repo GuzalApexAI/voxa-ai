@@ -215,7 +215,20 @@
                 sel.value = lang;
                 sel.dispatchEvent(new Event('change'));
             }
-        }
+        }         setInterval(function() {
+            var gSel = document.querySelector('.goog-te-combo');
+            var cSel = document.getElementById('customLangSelect');
+            if (gSel && gSel.options.length > 20 && cSel.options.length < 30) {
+                cSel.innerHTML = '';
+                for (var i = 0; i < gSel.options.length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = gSel.options[i].value;
+                    opt.text = '🌐 ' + gSel.options[i].text;
+                    cSel.appendChild(opt);
+                }
+            }
+        }, 1000);
+
     </script>
     <script>
         var gt = document.createElement('script');
