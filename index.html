@@ -3,84 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- GLOBAL SEO & VIRAL DISCOVERY (USA, UAE, EU, ASIA) -->
     <title>WealthAI Global SuperApp — AI Trading Signals, Scam Detector & Universal AI</title>
-    <meta name="description" content="Non-custodial AI SuperApp for Traders, Whales, Entrepreneurs, Architects & Students. Real-time Risk Calculator, Broker Scam Audit & Universal AI in 100+ Languages.">
-    <meta name="keywords" content="AI trading signals, whale risk calculator, crypto scam detector, broker audit, AI resume builder, architecture estimator, global AI assistant">
+    <meta name="description" content="Non-custodial AI SuperApp for Traders, Whales, Entrepreneurs, Architects & Students in 100+ Languages.">
+    <meta name="keywords" content="AI trading signals, whale risk calculator, crypto scam detector, broker audit, global AI assistant">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="WealthAI Global — Non-Custodial AI SuperApp">
-    <meta property="og:description" content="Zero wallet risk. 100% pure AI intelligence for trading, scam protection, business, and career in 100+ languages.">
-    <meta property="og:type" content="website">
-    
     <script src="https://telegram.org"></script>
     <style>
-        :root {
-            --bg: #060913;
-            --card: #0f172a;
-            --border: #1e293b;
-            --accent: #10b981;
-            --gold: #f59e0b;
-            --danger: #ef4444;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-        }
+        :root { --bg: #060913; --card: #0f172a; --border: #1e293b; --accent: #10b981; --gold: #f59e0b; --danger: #ef4444; --text: #f8fafc; --muted: #94a3b8; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 85px; top: 0 !important; user-select: none; }
         .goog-te-banner-frame, .skiptranslate > iframe { display: none !important; }
-        
-        /* HEADER & 100+ LANGUAGES */
         header { position: sticky; top: 0; z-index: 50; background: rgba(6, 9, 19, 0.94); backdrop-filter: blur(14px); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
-        .title { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; }
+        .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .title { font-size: 17px; font-weight: 800; }
         .title span { color: var(--accent); }
         #google_translate_element select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 8px; font-size: 12px; outline: none; max-width: 125px; }
-
-        /* LAYOUT & CARDS */
         .container { max-width: 480px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
-        .card { background: linear-gradient(145deg, #0f172a, #0b1120); border: 1px solid var(--border); border-radius: 18px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+        .card { background: linear-gradient(145deg, #0f172a, #0b1120); border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
         .hidden { display: none !important; }
-
-        /* VIRAL SHARE & REFERRAL BANNER */
-        .viral-banner { background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18)); border: 1px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
-        .viral-banner:active { transform: scale(0.98); }
+        .viral-banner { background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18)); border: 1px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .viral-text { font-size: 12px; font-weight: 600; color: #e2e8f0; }
         .viral-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 5px 10px; border-radius: 8px; }
-
-        /* AI PULSE & SECURITY SHIELD CARD (NO WALLET = 100% SAFE) */
         .shield-card { background: linear-gradient(135deg, #064e3b, #0f172a 75%); border: 1px solid rgba(16,185,129,0.45); }
         .shield-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ea580c); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.35); }
+        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ea580c); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; }
         .pulse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
         .pulse-item { background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 8px; text-align: center; }
         .pulse-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
         .pulse-val { font-size: 13px; font-weight: 800; color: var(--accent); margin-top: 3px; }
-
-        /* QUICK GRID & NAVIGATION */
         .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .q-btn { background: #0f172a; border: 1px solid var(--border); border-radius: 14px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text); font-size: 11px; font-weight: 600; cursor: pointer; }
         .q-icon { width: 34px; height: 34px; border-radius: 10px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        
-        /* INPUTS & BUTTONS */
         textarea, input, select.app-input { width: 100%; background: #060913; border: 1px solid #334155; border-radius: 12px; padding: 12px; color: #fff; font-size: 14px; margin-bottom: 10px; outline: none; user-select: text; }
-        textarea:focus, input:focus, select.app-input:focus { border-color: var(--accent); }
-        .primary-btn { width: 100%; padding: 14px; border-radius: 12px; border: none; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.2s; }
-        .primary-btn:active { transform: scale(0.98); }
+        .primary-btn { width: 100%; padding: 14px; border-radius: 12px; border: none; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; }
         .sec-btn { width: 100%; padding: 11px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
         .ai-box { background: rgba(16, 185, 129, 0.08); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.55; white-space: pre-line; user-select: text; }
         .warn-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.55; white-space: pre-line; user-select: text; }
-
-        /* BOTTOM NAV & MODALS */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 15, 29, 0.96); backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 12px; z-index: 60; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 15, 29, 0.96); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 12px; z-index: 60; }
         .nav-item { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; cursor: pointer; }
         .nav-item.active { color: var(--accent); }
         .nav-icon { font-size: 18px; }
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px; }
-        .modal-card { background: #0f172a; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+        .modal-card { background: #0f172a; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 400px; }
     </style>
 </head>
 <body>
-    <!-- PIN LOCK SCREEN (XAVFSIZLIK UCHUN) -->
+    <!-- PIN LOCK SCREEN -->
     <div id="pinModal" class="modal hidden">
         <div class="modal-card" style="text-align:center;">
             <div style="font-size:32px; margin-bottom:8px;">🛡️</div>
@@ -103,15 +72,13 @@
         <div id="google_translate_element"></div>
     </header>
 
-    <!-- 1-SAHIFA: ASOSIY MARKAZ & VIRAL SHARE -->
+    <!-- 1-SAHIFA: HOME & VIRAL SHARE -->
     <main id="page-home" class="container">
-        <!-- VIRAL SELF-ADVERTISING BANNER -->
         <div class="viral-banner" onclick="viralShare()">
-            <div class="viral-text">🚀 Share with 1 Trader/Friend to Unlock <b>24h FREE PRO</b>!</div>
+            <div class="viral-text">🚀 Share with 1 Friend to Unlock <b>24h FREE PRO</b>!</div>
             <div class="viral-badge">SHARE</div>
         </div>
 
-        <!-- NON-CUSTODIAL AI PULSE SHIELD (NO WALLET = 0% HACK RISK) -->
         <div class="card shield-card">
             <div class="shield-top">
                 <span style="font-size:11px; font-weight:700; color:#a7f3d0;">🛡️ ZERO-WALLET SECURITY SHIELD</span>
@@ -120,22 +87,12 @@
             <div style="font-size:20px; font-weight:900; margin-bottom:4px;">Global AI Intelligence Active</div>
             <div style="font-size:12px; color:var(--muted);">No wallet connection required. 100% immune to drainer attacks.</div>
             <div class="pulse-grid">
-                <div class="pulse-item">
-                    <div class="pulse-label">AI Uptime</div>
-                    <div class="pulse-val">24/7 LIVE</div>
-                </div>
-                <div class="pulse-item">
-                    <div class="pulse-label">Whale Sentiment</div>
-                    <div class="pulse-val" id="marketPulse">BULLISH 74%</div>
-                </div>
-                <div class="pulse-item">
-                    <div class="pulse-label">Languages</div>
-                    <div class="pulse-val">100+ 🌍</div>
-                </div>
+                <div class="pulse-item"><div class="pulse-label">AI Uptime</div><div class="pulse-val">24/7 LIVE</div></div>
+                <div class="pulse-item"><div class="pulse-label">Whale Flow</div><div class="pulse-val">BULLISH 74%</div></div>
+                <div class="pulse-item"><div class="pulse-label">Languages</div><div class="pulse-val">100+ 🌍</div></div>
             </div>
         </div>
 
-        <!-- QUICK NAVIGATION -->
         <div class="quick-grid">
             <button class="q-btn" onclick="switchPage('trader')"><div class="q-icon">📈</div><span>Whale Signal</span></button>
             <button class="q-btn" onclick="switchPage('scam')"><div class="q-icon">🕵️</div><span>Scam Audit</span></button>
@@ -143,20 +100,18 @@
             <button class="q-btn" onclick="switchPage('vault')"><div class="q-icon">📁</div><span>Smart Vault</span></button>
         </div>
 
-        <!-- LIVE AI CHAT & INSTANT ADVISOR -->
         <div class="card">
-            <div style="font-size:12px; font-weight:800; color:var(--accent); margin-bottom:8px;">💬 24/7 LIVE AI MENTOR (ASK ANYTHING IN 100 LANGUAGES)</div>
+            <div style="font-size:12px; font-weight:800; color:var(--accent); margin-bottom:8px;">💬 24/7 LIVE AI MENTOR (ASK IN 100+ LANGUAGES)</div>
             <textarea id="liveChatInput" rows="2" placeholder="Ask about Crypto/Forex signals, Business, Architecture, Study, or Family budget..."></textarea>
             <button class="primary-btn" onclick="askLiveBrain()">⚡ Ask 24/7 AI Brain</button>
             <div id="liveChatReply" class="ai-box hidden"></div>
         </div>
     </main>
 
-    <!-- 2-SAHIFA: WHALE SIGNAL & SCAM DETECTOR -->
+    <!-- 2-SAHIFA: WHALE SIGNALS -->
     <main id="page-trader" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:var(--accent); margin-bottom:6px;">🐋 WHALE RISK & HALAL SIGNAL CALCULATOR</div>
-            <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Calculate exact safe position size & Risk/Reward before entering any trade.</p>
             <input type="text" id="pairInput" placeholder="Asset Pair (e.g. BTC/USDT, XAUUSD, EUR/USD)">
             <input type="number" id="trDep" placeholder="Trading Capital ($), e.g. 5000">
             <input type="number" id="trRisk" placeholder="Max Risk per Trade (%), e.g. 1">
@@ -166,29 +121,28 @@
         </div>
     </main>
 
-    <!-- 3-SAHIFA: SCAM & BROKER DETECTOR -->
+    <!-- 3-SAHIFA: SCAM DETECTOR -->
     <main id="page-scam" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:var(--danger); margin-bottom:6px;">🕵️ GLOBAL BROKER & CRYPTO SCAM DETECTOR</div>
-            <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Verify any broker, token, investment platform, or suspicious link before investing.</p>
             <input type="text" id="scanInput" placeholder="Enter Broker, Website, or Project Name...">
             <button class="primary-btn" style="background:linear-gradient(135deg,#ef4444,#b91c1c);" onclick="runScamAudit()">🔍 Run Deep Security Audit</button>
             <div id="scanReply" class="warn-box hidden"></div>
         </div>
     </main>
 
-    <!-- 4-SAHIFA: UNIVERSAL AI (ARCHITEKTOR, BIZNES, TALABA, UY BEKASI) -->
+    <!-- 4-SAHIFA: UNIVERSAL AI -->
     <main id="page-universal" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:#60a5fa; margin-bottom:6px;">🌍 UNIVERSAL AI FOR ALL PROFESSIONS</div>
             <select id="uniMode" class="app-input">
                 <option value="business">💼 Entrepreneur: Business & $1M Scale Plan</option>
-                <option value="architect">🏗️ Architect & Builder: Project Cost & Material Estimate</option>
+                <option value="architect">🏗️ Architect & Builder: Project Cost & Estimate</option>
                 <option value="career">📄 Global CV / Resume & High-Paying Job Script</option>
-                <option value="family">🏡 Family & Homemaker: Smart Monthly Budget & Savings</option>
-                <option value="student">🎓 Student & Researcher: Fast Study & Exam Blueprint</option>
+                <option value="family">🏡 Family & Homemaker: Smart Monthly Budget</option>
+                <option value="student">🎓 Student & Researcher: Fast Study Blueprint</option>
             </select>
-            <textarea id="uniInput" rows="3" placeholder="Describe your project, profession, building size, or goal in ANY language..."></textarea>
+            <textarea id="uniInput" rows="3" placeholder="Describe your project, profession, or goal in ANY language..."></textarea>
             <button class="primary-btn" onclick="runUniversalAI()">✨ Generate Pro Solution</button>
             <div id="uniReplyWrap" class="hidden">
                 <div id="uniReply" class="ai-box"></div>
@@ -198,13 +152,12 @@
         </div>
     </main>
 
-    <!-- 5-SAHIFA: SMART VAULT (JILDLI XOTIRA VA PIN HIMOYA) -->
+    <!-- 5-SAHIFA: SMART VAULT -->
     <main id="page-vault" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:var(--gold); margin-bottom:6px;">📁 PERSONAL ENCRYPTED FOLDER & PIN</div>
-            <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Stored 100% locally on your device. Protected by your personal PIN.</p>
-            <input type="text" id="noteFolder" placeholder="Folder Name (e.g. Trading Plan, Architecture, Family)">
-            <textarea id="noteText" rows="2" placeholder="Write private note, strategy, or reminder..."></textarea>
+            <input type="text" id="noteFolder" placeholder="Folder Name (e.g. Trading Plan, Architecture)">
+            <textarea id="noteText" rows="2" placeholder="Write private note or strategy..."></textarea>
             <button class="primary-btn" onclick="saveVaultNote()">💾 Save to Private Folder</button>
             <div style="display:flex; gap:8px; margin-top:8px;">
                 <input type="password" id="newPinInput" maxlength="4" placeholder="Set 4-Digit PIN" style="margin-bottom:0;">
@@ -214,7 +167,7 @@
         </div>
     </main>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
         <button class="nav-item active" id="nav-home" onclick="switchPage('home')"><span class="nav-icon">🏠</span><span>Home</span></button>
         <button class="nav-item" id="nav-trader" onclick="switchPage('trader')"><span class="nav-icon">📈</span><span>Signals</span></button>
@@ -223,7 +176,7 @@
         <button class="nav-item" id="nav-vault" onclick="switchPage('vault')"><span class="nav-icon">📁</span><span>Vault</span></button>
     </nav>
 
-    <!-- TRIBUTE PRO PAYMENT MODAL (ESKI KARTA/KRIPTO O'CHIRILDI) -->
+    <!-- TRIBUTE PRO PAYMENT MODAL -->
     <div id="proModal" class="modal hidden">
         <div class="modal-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -231,7 +184,21 @@
                 <span style="font-size:11px; background:rgba(16,185,129,0.2); color:var(--accent); padding:4px 8px; border-radius:8px; font-weight:700;">Official Tribute</span>
             </div>
             <p style="font-size:12px; color:var(--muted); margin-bottom:14px;">Unlock Unlimited 24/7 AI Brain, Whale Signals, Deep Scam Audits & Zero Limits.</p>
-          <!-- GOOGLE TRANSLATE 100+ LANGUAGES SCRIPT -->
+            <div style="background:#060913; border:1px solid #334155; border-radius:14px; padding:14px; margin-bottom:14px;">
+                <div style="font-size:14px; font-weight:800; color:#fff;">💎 Instant Global Access Key</div>
+                <div style="font-size:22px; font-weight:900; color:var(--accent); margin:4px 0;">$29.00 <span style="font-size:12px; color:var(--muted); font-weight:500;">or 2,231 Telegram Stars</span></div>
+                <div style="font-size:11px; color:var(--muted);">Pay securely via Visa, Mastercard, Apple Pay, Google Pay, or Stars.</div>
+            </div>
+            <button class="primary-btn" style="background:linear-gradient(135deg,#f59e0b,#ea580c); margin-bottom:12px;" onclick="openTributePayment()">💳 Pay Now via Tribute ($29 / Stars)</button>
+            <div style="border-top:1px solid #1e293b; padding-top:12px;">
+                     <input type="text" id="promoCodeInput" placeholder="Enter Activation Key (e.g. WEALTH2026)">
+                <button class="sec-btn" onclick="activateProKey()">🔓 Activate PRO Instantly</button>
+            </div>
+            <button class="sec-btn" style="background:transparent; border:none; color:var(--muted);" onclick="closeModal('proModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- GOOGLE TRANSLATE 100+ LANGUAGES SCRIPT -->
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
@@ -241,11 +208,10 @@
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//://google.com"></script>
+    <script type="text/javascript" src="https://google.com"></script>
 
-    <!-- WEALTHAI GLOBAL CORE ENGINE (24/7 AI BRAIN + SECURITY + TRIBUTE) -->
+    <!-- WEALTHAI GLOBAL CORE ENGINE -->
     <script>
-        // 1. TELEGRAM WEBAPP & ANTI-INSPECT SHIELD
         const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
         if (tg) {
             tg.ready();
@@ -254,7 +220,6 @@
             tg.setBackgroundColor('#060913');
         }
 
-        // Anti-theft & XSS Sanitizer
         document.addEventListener('contextmenu', e => e.preventDefault());
         function sanitize(str) {
             const div = document.createElement('div');
@@ -262,7 +227,6 @@
             return div.innerHTML;
         }
 
-        // 2. TRIBUTE PAYMENT & PRO ACTIVATION ENGINE
         const TRIBUTE_URL = "https://tribute.tg";
         const VALID_KEYS = ["WEALTH2026", "WHALEPRO29", "DUBAI1M", "VIPGLOBAL"];
 
@@ -300,25 +264,19 @@
             }
         }
 
-        // 3. VIRAL SELF-ADVERTISING LOOP (ZERO AD BUDGET GROWTH)
         function viralShare() {
             const shareText = "🚀 Discover WealthAI Global SuperApp! 24/7 AI Whale Trading Signals, Broker Scam Detector & Universal AI in 100+ languages. Zero wallet risk! Try it now:";
             const appLink = "https://t.me" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(shareText);
-            
-            // Grant 24h Free PRO Trial on Share
             const oneDay = Date.now() + (24 * 60 * 60 * 1000);
             localStorage.setItem("wealthai_pro_temp", oneDay.toString());
             updateProUI();
-
             if (tg && tg.openTelegramLink) {
                 tg.openTelegramLink(appLink);
             } else {
                 window.open(appLink, "_blank");
             }
         }
-
-        // 4. NAVIGATION & MODALS
-        function switchPage(pageId) {
+                   function switchPage(pageId) {
             document.querySelectorAll("main.container").forEach(el => el.classList.add("hidden"));
             document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
             document.getElementById("page-" + pageId).classList.remove("hidden");
@@ -328,14 +286,12 @@
         function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
         function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
 
-        // 5. 24/7 LIVE AI MENTOR BRAIN
         function askLiveBrain() {
             const q = document.getElementById("liveChatInput").value.trim();
             if (!q) return alert("Please enter your question first.");
             const box = document.getElementById("liveChatReply");
             box.classList.remove("hidden");
             box.innerHTML = "⚡ Analyzing global data streams...";
-
             setTimeout(() => {
                 const lower = q.toLowerCase();
                 let response = "";
@@ -352,47 +308,30 @@
             }, 600);
         }
 
-        // 6. WHALE RISK & HALAL SIGNAL ENGINE
         function runWhaleSignal() {
             const pair = document.getElementById("pairInput").value.trim().toUpperCase() || "BTC/USDT";
             const dep = parseFloat(document.getElementById("trDep").value);
             const riskPct = parseFloat(document.getElementById("trRisk").value);
             const slPct = parseFloat(document.getElementById("trSl").value);
-
-            if (!dep || !riskPct || !slPct || slPct <= 0) {
-                return alert("Please enter valid Capital, Risk %, and Stop-Loss %.");
-            }
-
+            if (!dep || !riskPct || !slPct || slPct <= 0) return alert("Please enter valid Capital, Risk %, and Stop-Loss %.");
             const maxLoss = (dep * (riskPct / 100)).toFixed(2);
             const posSize = (maxLoss / (slPct / 100)).toFixed(2);
             const tp1 = (maxLoss * 2).toFixed(2);
             const tp2 = (maxLoss * 3.5).toFixed(2);
             const confidence = Math.floor(76 + (pair.length % 15));
-
-            const out = `🎯 AI SIGNAL & WHALE RISK REPORT (${sanitize(pair)})\n` +
-                        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-                        `• Recommended Position Size: $${posSize}\n` +
-                        `• Max Capital at Risk (${riskPct}%): $${maxLoss}\n` +
-                        `• Target Profit 1 (1:2 RR): +$${tp1}\n` +
-                        `• Target Profit 2 (1:3.5 RR): +$${tp2}\n` +
-                        `• AI Trend Probability: ${confidence}% (Institutional Flow)\n` +
-                        `• Halal & Capital Rule: Zero emotional FOMO. Move SL to breakeven after TP1.`;
-
+            const out = `🎯 AI SIGNAL & WHALE RISK REPORT (${sanitize(pair)})\n━━━━━━━━━━━━━━━━━━━━━━\n• Recommended Position Size: $${posSize}\n• Max Capital at Risk (${riskPct}%): $${maxLoss}\n• Target Profit 1 (1:2 RR): +$${tp1}\n• Target Profit 2 (1:3.5 RR): +$${tp2}\n• AI Trend Probability: ${confidence}% (Institutional Flow)\n• Halal & Capital Rule: Zero emotional FOMO. Move SL to breakeven after TP1.`;
             const box = document.getElementById("traderReply");
             box.textContent = out;
             box.classList.remove("hidden");
         }
 
-        // 7. GLOBAL SCAM & BROKER AUDITOR
         function runScamAudit() {
             const target = document.getElementById("scanInput").value.trim();
             if (!target) return alert("Enter a broker, token, or platform name.");
             const box = document.getElementById("scanReply");
             box.classList.remove("hidden");
-
             const suspicious = ["guaranteed", "double", "200%", "ponzi", "mlm", "airdrop-claim", "free-btc", "quick-profit"];
             const isHighRisk = suspicious.some(w => target.toLowerCase().includes(w));
-
             if (isHighRisk) {
                 box.textContent = `🚨 CRITICAL SCAM WARNING: "${sanitize(target)}"\n• Risk Score: 94/100 (EXTREME DANGER)\n• Verdict: High probability of Ponzi/Drainer structure. DO NOT deposit funds or share private keys!`;
             } else {
@@ -400,20 +339,17 @@
             }
         }
 
-        // 8. UNIVERSAL AI FOR ALL PROFESSIONS
         function runUniversalAI() {
             const mode = document.getElementById("uniMode").value;
             const input = document.getElementById("uniInput").value.trim();
             if (!input) return alert("Please describe your request first.");
-
             const templates = {
-                      business: `💼 GLOBAL BUSINESS & $1M SCALE STRATEGY:\nProject: "${sanitize(input)}"\n1. Target High-LTV Markets: USA, UAE (Dubai), UK, Germany.\n2. Pricing Model: $29/mo PRO Tier + Enterprise License.\n3. Zero-Cost Acquisition: Built-in viral referral rewards + SEO content.`,
+                business: `💼 GLOBAL BUSINESS & $1M SCALE STRATEGY:\nProject: "${sanitize(input)}"\n1. Target High-LTV Markets: USA, UAE (Dubai), UK, Germany.\n2. Pricing Model: $29/mo PRO Tier + Enterprise License.\n3. Zero-Cost Acquisition: Built-in viral referral rewards + SEO content.`,
                 architect: `🏗️ ARCHITECT & CONSTRUCTION ESTIMATE:\nScope: "${sanitize(input)}"\n• Structural & Material Buffer: +12% contingency reserve.\n• Timeline Optimization: Parallel MEP & interior procurement saves 22% cost.\n• Quality Check: Verify load-bearing specs & green energy compliance.`,
                 career: `📄 EXECUTIVE GLOBAL CV & INCOME SCRIPT:\nProfile: "${sanitize(input)}"\n• Summary: Results-driven specialist delivering measurable ROI & scalable execution.\n• Key Edge: Cross-functional problem solving, AI-assisted workflow mastery, global adaptability.`,
                 family: `🏡 SMART FAMILY & WEALTH BUDGET:\nGoal: "${sanitize(input)}"\n• 50% Essential Living & Family Needs\n• 30% High-Growth Investments & Education\n• 20% Emergency Reserve Fund (6-Month Shield)`,
                 student: `🎓 ACCELERATED STUDY & MASTERY PLAN:\nTopic: "${sanitize(input)}"\n• Use Active Recall + 45/15 Pomodoro Sprints.\n• Summarize core principles into 1-page mind maps.\n• Teach the concept aloud to lock 90% retention.`
             };
-
             document.getElementById("uniReply").textContent = templates[mode] || templates.business;
             document.getElementById("uniReplyWrap").classList.remove("hidden");
         }
@@ -424,7 +360,6 @@
             alert("✅ Copied to clipboard!");
         }
 
-        // 9. ENCRYPTED LOCAL VAULT & PIN SECURITY
         function setUserPin() {
             const p = document.getElementById("newPinInput").value.trim();
             if (!/^\d{4}$/.test(p)) return alert("PIN must be exactly 4 digits.");
@@ -468,7 +403,6 @@
             `).join("");
         }
 
-        // INIT ON LOAD
         window.addEventListener("DOMContentLoaded", () => {
             updateProUI();
             if (localStorage.getItem("wealthai_pin")) {
