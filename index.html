@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WealthAI Global</title>
     <meta name="theme-color" content="#0b1120">
-    <link rel="manifest" href="manifest.json">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background: #0b1120; color: #f8fafc; min-height: 100vh; padding-bottom: 40px; }
@@ -39,7 +38,7 @@
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; }
         .modal-card { background: #131c31; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 12px; }
         .btn-row { display: flex; gap: 8px; }
-        .sec-btn { padding: 12px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 600; cursor: pointer; }
+        .sec-btn { padding: 12px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 600; cursor: pointer; flex: 1; }
     </style>
 </head>
 <body>
@@ -52,14 +51,14 @@
                 <div class="subtitle">AI Finance & Income Mentor</div>
             </div>
         </div>
-        <button type="button" class="icon-btn" onclick="openSettings()">⚙️</button>
+        <button type="button" class="icon-btn" onclick="openModal('settingsModal')">⚙️</button>
     </header>
 
     <main class="container">
         <div class="card">
             <div class="balance-top">
                 <span class="label-sm">Smart Balance</span>
-                <button type="button" class="pro-btn" onclick="openPro()">👑 UPGRADE PRO</button>
+                <button type="button" class="pro-btn" onclick="openModal('proModal')">👑 UPGRADE PRO</button>
             </div>
             <div class="balance-val" id="totalBalance">$0.00</div>
             <div class="stats-grid">
@@ -80,6 +79,7 @@
             <button type="button" class="tab" id="tab-future" onclick="switchTab('future')">📈 Future AI</button>
         </div>
 
+        <!-- TRACKER SECTION -->
         <section id="sec-tracker" class="card">
             <div class="label-sm" style="margin-bottom:6px;">Speak or write in ANY language (O'zbek, العربية, Deutsch, EN, RU...)</div>
             <div class="input-wrap">
@@ -97,41 +97,144 @@
             </div>
         </section>
 
+        <!-- MENTOR SECTION -->
         <section id="sec-mentor" class="card hidden">
             <div class="label-sm" style="color:#f59e0b; margin-bottom:6px;">💡 AI INCOME & BUSINESS MENTOR</div>
-            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Tell AI your role & budget (Broker, Trader, Accountant, Housewife, Realtor, Student, Investor, $0 budget) in any language:</p>
-            <textarea id="mentorInput" rows="3" placeholder="I am a trader / broker / accountant / housewife with $0 budget. Give me a step-by-step plan to earn $3,000/month..."></textarea>
-            <button type="button" class="primary-btn" id="mentorBtn" style="margin-top:10px;" onclick="runMentor()">Generate My 30-Day Money Plan</button>
+            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Tell AI your role & budget in any language:</p>
+            <textarea id="mentorInput" rows="3" placeholder="I am a student with $0 budget. Give me a step-by-step plan to earn $1,000/month..."></textarea>
+            <button type="button" class="primary-btn" style="margin-top:10px;" onclick="runMentor()">Generate My 30-Day Money Plan</button>
             <div id="mentorReply" class="ai-box hidden"></div>
         </section>
 
+        <!-- FUTURE AI SECTION -->
         <section id="sec-future" class="card hidden">
             <div class="label-sm" style="color:#10b981; margin-bottom:6px;">⏳ AI WEALTH TIME MACHINE</div>
-            <p style="font-size:12px; color:#94a3b8; margin-bottom:12px;">See your exact net worth in 1, 3, and 5 years based on your financial habits.</p>
-            <button type="button" class="primary-btn" id="futureBtn" onclick="runFuture()">Predict My 5-Year Wealth</button>
+            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Enter monthly savings ($) to see your 5-year wealth projection:</p>
+            <input type="number" id="monthlySaveInput" placeholder="e.g. 200" style="margin-bottom:10px;">
+            <button type="button" class="primary-btn" onclick="runFuture()">Predict My Future Wealth</button>
             <div id="futureReply" class="ai-box hidden"></div>
         </section>
     </main>
 
+    <!-- SETTINGS MODAL -->
     <div id="settingsModal" class="modal hidden">
         <div class="modal-card">
-            <h3 style="font-size:16px;">⚙️ AI Brain Settings (API Key)</h3>
-            <p style="font-size:12px; color:#94a3b8;">Paste your Google AI Studio API Key to activate 100+ language AI:</p>
-            <input type="text" id="apiKeyInput" placeholder="Paste your API key here...">
+            <div class="title">⚙️ Settings</div>
+            <p style="font-size:13px; color:#94a3b8;">Reset all your saved balance and transactions:</p>
             <div class="btn-row">
-                <button type="button" class="primary-btn" onclick="saveKey()">Save Key</button>
-                <button type="button" class="sec-btn" onclick="closeSettings()">Close</button>
+                <button type="button" class="sec-btn" style="background:#ef4444; border:none;" onclick="resetData()">Reset Data</button>
+                <button type="button" class="sec-btn" onclick="closeModal('settingsModal')">Close</button>
             </div>
         </div>
     </div>
 
+    <!-- PRO MODAL -->
     <div id="proModal" class="modal hidden">
-        <div class="modal-card" style="border-color:#f59e0b;">
-            <div style="text-align:center;">
-                <span class="pro-btn">WEALTHAI PRO</span>
-                <h3 style="font-size:20px; margin-top:10px;">Unlock Unlimited AI Wealth</h3>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">Unlimited AI Money Mentorship, Voice Ledger & 5-Year Forecasting</p>
+        <div class="modal-card">
+            <div class="title">👑 WealthAI <span style="color:#f59e0b;">PRO</span></div>
+            <p style="font-size:13px; color:#94a3b8;">Unlock unlimited AI financial advice, voice recognition, and export to Excel.</p>
+            <div class="btn-row">
+                <button type="button" class="primary-btn" onclick="alert('PRO demo activated!'); closeModal('proModal')">Activate Free Trial</button>
+                <button type="button" class="sec-btn" onclick="closeModal('proModal')">Close</button>
             </div>
-            <div style="background:#090e1a; padding:14px; border-radius:14px; border:1px solid #10b981; display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <div style="font-weight:700; font-size:14px;">Global Monthly Pass</div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT (TUGMALARNI ISHLATUVCHI QISM) -->
+    <script>
+        let income = 0;
+        let expense = 0;
+        let transactions = [];
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            document.getElementById('sec-' + tabName).classList.remove('hidden');
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function runTracker() {
+            const text = document.getElementById('aiInput').value.trim();
+            if (!text) return alert("Iltimos, matn kiriting! Masalan: Earned 100$ yoki Spent 20$");
+
+            const numbers = text.match(/\d+(\.\d+)?/g);
+            const amount = numbers ? parseFloat(numbers) : 0;
+            const isExpense = /spent|bought|paid|xarajat|sarfladim|oldim|потратил|купил|-/i.test(text);
+
+            if (amount > 0) {
+                if (isExpense) {
+                    expense += amount;
+                    transactions.unshift({ text, amount: `-$${amount.toFixed(2)}`, color: '#f43f5e' });
+                } else {
+                    income += amount;
+                    transactions.unshift({ text, amount: `+$${amount.toFixed(2)}`, color: '#10b981' });
+                }
+                updateUI();
+            }
+
+            const replyBox = document.getElementById('aiFinanceReply');
+            replyBox.textContent = `✅ Yozib olindi: "${text}"\n💡 AI Maslahati: Daromadingizning kamida 20% qismini jamg'arishga harakat qiling.`;
+            replyBox.classList.remove('hidden');
+            document.getElementById('aiInput').value = '';
+        }
+
+        function updateUI() {
+            document.getElementById('totalIncome').textContent = `$${income.toFixed(2)}`;
+            document.getElementById('totalExpense').textContent = `$${expense.toFixed(2)}`;
+            document.getElementById('totalBalance').textContent = `$${(income - expense).toFixed(2)}`;
+
+            const list = document.getElementById('txList');
+            list.innerHTML = transactions.map(tx => `
+                <div class="tx-item">
+                    <span style="font-size:13px;">${tx.text}</span>
+                    <strong style="color:${tx.color};">${tx.amount}</strong>
+                </div>
+            `).join('');
+        }
+
+        function runMentor() {
+            const text = document.getElementById('mentorInput').value.trim();
+            if (!text) return alert("O'zingiz haqingizda yozing!");
+            const reply = document.getElementById('mentorReply');
+            reply.textContent = `🚀 30 Kunlik Reja ("${text}"):\n1-hafta: Bozorni o'rganing va bepul mijozlar toping.\n2-hafta: Portfolio yarating.\n3-4-hafta: Xizmatlaringizni pullik asosda taklif qiling.`;
+            reply.classList.remove('hidden');
+        }
+
+        function runFuture() {
+            const monthly = parseFloat(document.getElementById('monthlySaveInput').value);
+            if (!monthly || monthly <= 0) return alert("Oylik summani kiriting!");
+            const fiveYears = monthly * 12 * 5 * 1.25;
+            const reply = document.getElementById('futureReply');
+            reply.textContent = `📈 Agar oyiga $${monthly} dan yig'sangiz, 5 yildan so'ng (investitsiya foydasi bilan) taxminan $${fiveYears.toFixed(2)} mablag'ingiz bo'ladi!`;
+            reply.classList.remove('hidden');
+        }
+
+        function startVoice() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return alert("Brauzeringiz ovozli kiritishni qo'llab-quvvatlamaydi.");
+            
+            const recognition = new SpeechRecognition();
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.add('recording');
+            
+            recognition.onresult = (event) => {
+                document.getElementById('aiInput').value = event.results.transcript;
+                micBtn.classList.remove('recording');
+            };
+            recognition.onerror = () => micBtn.classList.remove('recording');
+            recognition.start();
+        }
+
+        function resetData() {
+            income = 0; expense = 0; transactions = [];
+            updateUI();
+            document.getElementById('txList').innerHTML = '<div style="text-align:center; color:#64748b; font-size:12px; padding:20px 0;">No transactions yet.</div>';
+            closeModal('settingsModal');
+        }
+    </script>
+</body>
+</html>
