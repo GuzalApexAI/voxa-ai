@@ -1,157 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WealthAI Global</title>
-    <meta name="theme-color" content="#0b1120">
+    <title>WealthAI SuperApp</title>
+    <script src="https://telegram.org"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #0b1120; color: #f8fafc; min-height: 100vh; padding-bottom: 40px; }
-        .header { position: sticky; top: 0; z-index: 50; background: #0f172a; border-bottom: 1px solid #1e293b; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: #090e1a; color: #f8fafc; min-height: 100vh; padding-bottom: 90px; }
+        
+        /* HEADER */
+        .header { position: sticky; top: 0; z-index: 50; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1e293b; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
         .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #10b981, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 18px; }
         .title { font-size: 16px; font-weight: 800; }
         .title span { color: #10b981; }
-        .subtitle { font-size: 11px; color: #94a3b8; }
-        .icon-btn { width: 44px; height: 44px; border-radius: 12px; background: #1e293b; border: 1px solid #334155; color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .container { max-width: 480px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
-        .card { background: linear-gradient(145deg, #131c31, #0f172a); border: 1px solid #1e293b; border-radius: 20px; padding: 18px; }
-        .balance-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .label-sm { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
-        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ef4444); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 8px 14px; border-radius: 20px; cursor: pointer; }
-        .balance-val { font-size: 34px; font-weight: 900; color: #fff; margin-bottom: 14px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 12px; border-top: 1px solid #1e293b; }
-        .inc-val { font-size: 15px; font-weight: 700; color: #10b981; margin-top: 2px; }
-        .exp-val { font-size: 15px; font-weight: 700; color: #f43f5e; margin-top: 2px; }
-        .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; background: #131c31; padding: 5px; border-radius: 14px; border: 1px solid #1e293b; }
-        .tab { padding: 11px 6px; border-radius: 10px; border: none; background: transparent; color: #94a3b8; font-size: 12px; font-weight: 700; cursor: pointer; }
-        .tab.active { background: #10b981; color: #fff; }
-        .input-wrap { position: relative; margin: 10px 0; }
-        textarea, input { width: 100%; background: #090e1a; border: 1px solid #334155; border-radius: 14px; padding: 12px; color: #fff; font-size: 14px; outline: none; resize: none; }
-        .mic-btn { position: absolute; right: 10px; bottom: 10px; width: 38px; height: 38px; border-radius: 10px; background: #1e293b; border: none; color: #10b981; font-size: 17px; cursor: pointer; }
-        .mic-btn.recording { background: #ef4444; color: #fff; }
+        .lang-select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; outline: none; }
+
+        /* CONTAINER & CARDS */
+        .container { max-width: 480px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+        .card { background: linear-gradient(145deg, #131c31, #0f172a); border: 1px solid #1e293b; border-radius: 20px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        
+        /* AD BANNER SLOT (REKLAMA UCHUN JOY) */
+        .ad-slot { background: #131c31; border: 1px dashed #334155; border-radius: 14px; padding: 10px; text-align: center; font-size: 11px; color: #94a3b8; cursor: pointer; }
+        .ad-slot strong { color: #10b981; }
+
+        /* BALANCE CARD */
+        .balance-card { background: linear-gradient(135deg, #065f46, #0f172a 70%, #1e3a8a); border: 1px solid #10b98144; }
+        .balance-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .label-sm { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.7px; font-weight: 700; }
+        .pro-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; }
+        .balance-val { font-size: 32px; font-weight: 900; color: #fff; margin: 6px 0 14px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .inc-val { font-size: 15px; font-weight: 700; color: #34d399; margin-top: 2px; }
+        .exp-val { font-size: 15px; font-weight: 700; color: #fb7185; margin-top: 2px; }
+
+        /* QUICK ACTIONS */
+        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .q-btn { background: #131c31; border: 1px solid #1e293b; border-radius: 16px; padding: 12px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #e2e8f0; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .q-icon { width: 38px; height: 38px; border-radius: 12px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+        /* INPUTS & BUTTONS */
+        textarea, input, select.form-input { width: 100%; background: #090e1a; border: 1px solid #334155; border-radius: 14px; padding: 12px; color: #fff; font-size: 14px; outline: none; margin-bottom: 8px; }
         .primary-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #10b981, #2563eb); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; }
-        .ai-box { background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; border-radius: 12px; padding: 14px; font-size: 13.5px; line-height: 1.55; color: #e2e8f0; white-space: pre-line; margin-top: 12px; }
-        .tx-item { background: #131c31; border: 1px solid #1e293b; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+        .sec-btn { width: 100%; padding: 11px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+        .ai-box { background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; border-radius: 12px; padding: 14px; font-size: 13px; line-height: 1.55; color: #e2e8f0; white-space: pre-line; margin-top: 12px; }
+
+        /* TRANSACTIONS & VIRAL */
+        .tx-item { background: #0f172a; border: 1px solid #1e293b; border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+        .viral-card { background: linear-gradient(135deg, #4f46e5, #9333ea); border-radius: 18px; padding: 18px; text-align: center; color: #fff; margin-top: 10px; }
+        .share-btn { background: #fff; color: #4f46e5; border: none; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 13px; margin-top: 12px; cursor: pointer; width: 100%; }
+
+        /* BOTTOM NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; border-top: 1px solid #1e293b; display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px 4px 12px; z-index: 100; }
+        .nav-item { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .nav-item.active { color: #10b981; }
+        .nav-icon { font-size: 20px; }
+
         .hidden { display: none !important; }
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; }
         .modal-card { background: #131c31; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 12px; }
-        .btn-row { display: flex; gap: 8px; }
-        .sec-btn { padding: 12px 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 600; cursor: pointer; flex: 1; }
     </style>
 </head>
 <body>
 
     <header class="header">
         <div class="logo-box">
-            <div class="logo-icon">🧠</div>
-            <div>
-                <div class="title">WealthAI <span>Global</span></div>
-                <div class="subtitle">AI Finance & Income Mentor</div>
-            </div>
+            <div class="logo-icon">💎</div>
+            <div class="title">WealthAI <span>SuperApp</span></div>
         </div>
-        <button type="button" class="icon-btn" onclick="openModal('settingsModal')">⚙️</button>
+        <select id="langSelect" class="lang-select" onchange="changeLang()">
+            <option value="uz">🇺🇿 O'Z</option>
+            <option value="ru">🇷🇺 RU</option>
+            <option value="en">🇺🇸 EN</option>
+        </select>
     </header>
 
-    <main class="container">
-        <div class="card">
+    <!-- 1-SAHIFA: ASOSIY -->
+    <main id="page-home" class="container">
+        <!-- REKLAMA JOYI (AdSense / Monetag yoki hamkorlar reklamasi uchun) -->
+        <div class="ad-slot" onclick="shareApp()">
+            📢 <strong>HAMKORLIK:</strong> Do'stlaringizni taklif qiling va <strong>PRO</strong> versiyani bepul oling! 👉 <u>Ulashish</u>
+        </div>
+
+        <div class="card balance-card">
             <div class="balance-top">
-                <span class="label-sm">Smart Balance</span>
-                <button type="button" class="pro-btn" onclick="openModal('proModal')">👑 UPGRADE PRO</button>
+                <span class="label-sm" data-i18n="balance">Umumiy Balans</span>
+                <button type="button" class="pro-badge" id="proStatusBtn" onclick="openModal('proModal')">👑 PRO OLISH</button>
             </div>
             <div class="balance-val" id="totalBalance">$0.00</div>
             <div class="stats-grid">
                 <div>
-                    <div class="label-sm">Income (+)</div>
+                    <div class="label-sm" data-i18n="income">Kirim (+)</div>
                     <div class="inc-val" id="totalIncome">$0.00</div>
                 </div>
                 <div>
-                    <div class="label-sm">Expense (-)</div>
+                    <div class="label-sm" data-i18n="expense">Chiqim (-)</div>
                     <div class="exp-val" id="totalExpense">$0.00</div>
                 </div>
             </div>
         </div>
 
-        <div class="tabs">
-            <button type="button" class="tab active" id="tab-tracker" onclick="switchTab('tracker')">💰 Tracker</button>
-            <button type="button" class="tab" id="tab-mentor" onclick="switchTab('mentor')">🚀 Earn Money</button>
-            <button type="button" class="tab" id="tab-future" onclick="switchTab('future')">📈 Future AI</button>
+        <div class="quick-grid">
+            <button class="q-btn" onclick="openJobPreset('resume')"><div class="q-icon">📄</div><span>Rezyume</span></button>
+            <button class="q-btn" onclick="openJobPreset('trader')"><div class="q-icon">📈</div><span>Treyder</span></button>
+            <button class="q-btn" onclick="openJobPreset('housewife')"><div class="q-icon">👩‍👧</div><span>Uy bekasi</span></button>
+            <button class="q-btn" onclick="openJobPreset('business')"><div class="q-icon">🛍️</div><span>Biznes</span></button>
         </div>
 
-        <!-- TRACKER SECTION -->
-        <section id="sec-tracker" class="card">
-            <div class="label-sm" style="margin-bottom:6px;">Speak or write in ANY language (O'zbek, العربية, Deutsch, EN, RU...)</div>
-            <div class="input-wrap">
-                <textarea id="aiInput" rows="2" placeholder="e.g. Earned $150 freelance, spent $12 lunch..."></textarea>
-                <button type="button" class="mic-btn" id="micBtn" onclick="startVoice()">🎙️</button>
-            </div>
-            <button type="button" class="primary-btn" id="analyzeBtn" onclick="runTracker()">✨ AI Smart Record & Advise</button>
+        <div class="card">
+            <div class="label-sm" style="margin-bottom:8px;">AI Tezkor Kassa (Kirim va Chiqim)</div>
+            <textarea id="aiInput" rows="2" placeholder="Masalan: Oylik 500$ keldi yoki Bozorlik 35$ ketdi..."></textarea>
+            <button type="button" class="primary-btn" onclick="runTracker()">✨ AI Hisoblash va Saqlash</button>
             <div id="aiFinanceReply" class="ai-box hidden"></div>
+        </div>
 
-            <div style="margin-top:18px;">
-                <div class="label-sm">Recent AI Transactions</div>
-                <div id="txList">
-                    <div style="text-align:center; color:#64748b; font-size:12px; padding:20px 0;">No transactions yet. Tell AI your income or expense above!</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- MENTOR SECTION -->
-        <section id="sec-mentor" class="card hidden">
-            <div class="label-sm" style="color:#f59e0b; margin-bottom:6px;">💡 AI INCOME & BUSINESS MENTOR</div>
-            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Tell AI your role & budget in any language:</p>
-            <textarea id="mentorInput" rows="3" placeholder="I am a student with $0 budget. Give me a step-by-step plan to earn $1,000/month..."></textarea>
-            <button type="button" class="primary-btn" style="margin-top:10px;" onclick="runMentor()">Generate My 30-Day Money Plan</button>
-            <div id="mentorReply" class="ai-box hidden"></div>
-        </section>
-
-        <!-- FUTURE AI SECTION -->
-        <section id="sec-future" class="card hidden">
-            <div class="label-sm" style="color:#10b981; margin-bottom:6px;">⏳ AI WEALTH TIME MACHINE</div>
-            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Enter monthly savings ($) to see your 5-year wealth projection:</p>
-            <input type="number" id="monthlySaveInput" placeholder="e.g. 200" style="margin-bottom:10px;">
-            <button type="button" class="primary-btn" onclick="runFuture()">Predict My Future Wealth</button>
-            <div id="futureReply" class="ai-box hidden"></div>
-        </section>
+        <div class="card">
+            <div class="label-sm">Oxirgi amaliyotlar</div>
+            <div id="txList"></div>
+        </div>
     </main>
 
-    <!-- SETTINGS MODAL -->
-    <div id="settingsModal" class="modal hidden">
-        <div class="modal-card">
-            <div class="title">⚙️ Settings</div>
-            <p style="font-size:13px; color:#94a3b8;">Reset all your saved balance and transactions:</p>
-            <div class="btn-row">
-                <button type="button" class="sec-btn" style="background:#ef4444; border:none;" onclick="resetData()">Reset Data</button>
-                <button type="button" class="sec-btn" onclick="closeModal('settingsModal')">Close</button>
+    <!-- 2-SAHIFA: KASBLAR VA REZYUME AI -->
+    <main id="page-jobs" class="container hidden">
+        <div class="card">
+            <div class="label-sm" style="color:#f59e0b; margin-bottom:8px;">💼 KASBLAR VA REZYUME AI MARKAZI</div>
+            <select id="jobRole" class="form-input">
+                <option value="resume">📄 Ishga kirish uchun Rezyume (CV) tuzish</option>
+                <option value="trader">📈 Treyder / Broker (Risk kalkulyator)</option>
+                <option value="housewife">👩‍👧 Uy bekasi (Tejamkor ro'zg'or va menyu)</option>
+                <option value="business">🛍️ Tadbirkor / Sotuvchi (SMM reklama matni)</option>
+                <option value="student">🎓 Talaba / Ish izlovchi (0$ dan daromad)</option>
+            </select>
+            <textarea id="jobInput" rows="3" placeholder="Ma'lumotlarni yozing (Masalan: Ismim Ali, 22 yosh, sotuv menejeri, tajriba 2 yil, tel: +998901234567)..."></textarea>
+            <button type="button" class="primary-btn" onclick="runJobAI()">🚀 AI Tayyor Natija Yaratish</button>
+            
+            <div id="jobResultWrap" class="hidden">
+                <div id="jobReply" class="ai-box"></div>
+                <button type="button" class="sec-btn" onclick="copyJobResult()">📋 Natijani Nusxalash (Copy)</button>
+                <button type="button" class="share-btn" style="background:#10b981; color:#fff;" onclick="shareApp()">📤 Do'stlarga tavsiya qilish</button>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- PRO MODAL -->
+    <!-- 3-SAHIFA: VIRAL BOYLIK RENTGENI -->
+    <main id="page-viral" class="container hidden">
+        <div class="card">
+            <div class="label-sm" style="color:#10b981; margin-bottom:8px;">🔮 KELAJAK BOYLIK SERTIFIKATI</div>
+            <input type="number" id="monthlySaveInput" placeholder="Oyiga qancha pul yig'a olasiz? ($)">
+            <button type="button" class="primary-btn" onclick="runViral()">Natijani Hisoblash</button>
+            
+            <div id="viralResultCard" class="viral-card hidden">
+                <div style="font-size:12px; opacity:0.9;">WEALTHAI GLOBAL SERTIFIKATI</div>
+                <div id="viralAmount" style="font-size:28px; font-weight:900; margin:8px 0;">$0</div>
+                <div id="viralText" style="font-size:13px;"></div>
+                <button type="button" class="share-btn" onclick="shareApp()">📤 Sertifikatni Telegramda ulashish</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 4-SAHIFA: PROFIL -->
+    <main id="page-profile" class="container hidden">
+        <div class="card">
+            <div class="title" style="margin-bottom:8px;">👤 Shaxsiy Kabinet</div>
+            <p style="font-size:13px; color:#94a3b8; margin-bottom:12px;">Ilovani do'stlaringizga ulashing va barcha funksiyalardan bepul foydalaning.</p>
+            <button type="button" class="primary-btn" style="margin-bottom:10px;" onclick="shareApp()">📢 Ilovani Do'stlarga Ulashish</button>
+            <button type="button" class="primary-btn" style="background:#f59e0b; margin-bottom:10px;" onclick="openModal('proModal')">👑 PRO Kod Kiritish</button>
+            <button type="button" class="primary-btn" style="background:#ef4444;" onclick="resetAllData()">🗑️ Ma'lumotlarni tozalash</button>
+        </div>
+    </main>
+
+    <!-- PASTKI MENYU -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" id="nav-home" onclick="switchPage('home')"><span class="nav-icon">🏠</span><span data-i18n="nav_home">Asosiy</span></button>
+        <button class="nav-item" id="nav-jobs" onclick="switchPage('jobs')"><span class="nav-icon">💼</span><span data-i18n="nav_jobs">Kasblar AI</span></button>
+        <button class="nav-item" id="nav-viral" onclick="switchPage('viral')"><span class="nav-icon">🔮</span><span data-i18n="nav_viral">Kelajak</span></button>
+        <button class="nav-item" id="nav-profile" onclick="switchPage('profile')"><span class="nav-icon">👤</span><span data-i18n="nav_profile">Profil</span></button>
+    </nav>
+
+    <!-- PRO OYNA -->
     <div id="proModal" class="modal hidden">
         <div class="modal-card">
             <div class="title">👑 WealthAI <span style="color:#f59e0b;">PRO</span></div>
-            <p style="font-size:13px; color:#94a3b8;">Unlock unlimited AI financial advice, voice recognition, and export to Excel.</p>
-            <div class="btn-row">
-                <button type="button" class="primary-btn" onclick="alert('PRO demo activated!'); closeModal('proModal')">Activate Free Trial</button>
-                <button type="button" class="sec-btn" onclick="closeModal('proModal')">Close</button>
-            </div>
+            <p style="font-size:13px; color:#94a3b8;">PRO versiyani ochish uchun maxsus kodni kiriting:</p>
+            <input type="text" id="promoCodeInput" placeholder="Promo-kod (Masalan: VIP2026)">
+            <button type="button" class="primary-btn" onclick="activatePromo()">Tasdiqlash</button>
+            <button type="button" class="sec-btn" onclick="closeModal('proModal')">Yopish</button>
         </div>
     </div>
-
-    <!-- JAVASCRIPT (TUGMALARNI ISHLATUVCHI QISM) -->
     <script>
-        let income = 0;
-        let expense = 0;
-        let transactions = [];
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+        let appData = JSON.parse(localStorage.getItem('wealthAI_data')) || {
+            income: 0, expense: 0, transactions: [], isPro: false
+        };
 
-            document.getElementById('tab-' + tabName).classList.add('active');
-            document.getElementById('sec-' + tabName).classList.remove('hidden');
+        function saveData() {
+            localStorage.setItem('wealthAI_data', JSON.stringify(appData));
+            renderUI();
+        }
+
+        function switchPage(page) {
+            document.querySelectorAll('main').forEach(m => m.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + page).classList.remove('hidden');
+            document.getElementById('nav-' + page).classList.add('active');
+        }
+
+        function openJobPreset(roleName) {
+            switchPage('jobs');
+            document.getElementById('jobRole').value = roleName;
         }
 
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -159,82 +220,123 @@
 
         function runTracker() {
             const text = document.getElementById('aiInput').value.trim();
-            if (!text) return alert("Iltimos, matn kiriting! Masalan: Earned 100$ yoki Spent 20$");
+            if (!text) return alert("Iltimos, summa va izoh yozing!");
 
             const numbers = text.match(/\d+(\.\d+)?/g);
-            const amount = numbers ? parseFloat(numbers) : 0;
-            const isExpense = /spent|bought|paid|xarajat|sarfladim|oldim|потратил|купил|-/i.test(text);
+            const amount = numbers ? parseFloat(numbers[0]) : 0;
+            const isExpense = /spent|bought|paid|xarajat|sarfladim|ketdi|oldim|потратил|купил|-/i.test(text);
 
             if (amount > 0) {
                 if (isExpense) {
-                    expense += amount;
-                    transactions.unshift({ text, amount: `-$${amount.toFixed(2)}`, color: '#f43f5e' });
+                    appData.expense += amount;
+                    appData.transactions.unshift({ text, amount: `-$${amount.toFixed(2)}`, color: '#fb7185' });
                 } else {
-                    income += amount;
-                    transactions.unshift({ text, amount: `+$${amount.toFixed(2)}`, color: '#10b981' });
+                    appData.income += amount;
+                    appData.transactions.unshift({ text, amount: `+$${amount.toFixed(2)}`, color: '#34d399' });
                 }
-                updateUI();
+                saveData();
             }
 
-            const replyBox = document.getElementById('aiFinanceReply');
-            replyBox.textContent = `✅ Yozib olindi: "${text}"\n💡 AI Maslahati: Daromadingizning kamida 20% qismini jamg'arishga harakat qiling.`;
-            replyBox.classList.remove('hidden');
+            const reply = document.getElementById('aiFinanceReply');
+            reply.textContent = `✅ Saqlandi: "${text}"\n💡 Maslahat: Har bir daromaddan 15% ni jamg'armaga olib qo'ying.`;
+            reply.classList.remove('hidden');
             document.getElementById('aiInput').value = '';
         }
 
-        function updateUI() {
-            document.getElementById('totalIncome').textContent = `$${income.toFixed(2)}`;
-            document.getElementById('totalExpense').textContent = `$${expense.toFixed(2)}`;
-            document.getElementById('totalBalance').textContent = `$${(income - expense).toFixed(2)}`;
+        function runJobAI() {
+            const role = document.getElementById('jobRole').value;
+            const input = document.getElementById('jobInput').value.trim();
+            if (!input) return alert("Ma'lumotlaringizni kiriting!");
+
+            let res = "";
+            if (role === 'resume') {
+                res = `📄 PROFESSIONAL REZYUME (CV)\n━━━━━━━━━━━━━━━━━━━━\n👤 NOMZOD HAQIDA:\n${input}\n\n🎯 MAQSAD:\nKompaniya rivojiga o'z bilim, mas'uliyat va tezkor ish uslubim bilan yuqori natija olib kirish.\n\n✅ ASOSIY KO'NIKMALAR:\n• Mijozlar va jamoa bilan samarali muloqot\n• Muammolarni tez hal qilish va intizom\n• Zamonaviy dasturlar va AI vositalaridan foydalanish\n━━━━━━━━━━━━━━━━━━━━\n✨ WealthAI SuperApp orqali yaratildi`;
+            } else if (role === 'trader') {
+                const nums = input.match(/\d+(\.\d+)?/g);
+                const dep = nums ? parseFloat(nums[0]) : 1000;
+                const risk = (dep * 0.02).toFixed(2);
+                res = `📈 TREYDER RISK HISOBI:\n• Depozit: $${dep}\n• Tavsiya etilgan maksimal zarar (2%): $${risk}\n• Qoida: Bitta bitimda $${risk} dan ko'p yo'qotmang!`;
+            } else if (role === 'housewife') {
+                res = `👩‍👧 UY BEKASI UCHUN TEJAMKOR REJA:\n• Kiritildi: "${input}"\n• Tavsiya: Haftalik menyuni oldindan tuzib, bozorlikni ro'yxat asosida qiling — bu oyiga 25-30% pulni tejaydi.`;
+            } else if (role === 'business') {
+                res = `🛍️ TAYYOR SOTUV MATNI (SMM):\n"🔥 Mijozlarimiz tanlovi! ${input} — eng yuqori sifat va hamyonbop narxda. Bugun buyurtma bering va maxsus bonusga ega bo'ling! 📩 Hoziroq murojaat qiling!"`;
+            } else {
+                res = `🎓 0$ DAN DAROMAD REJASI:\n1. "${input}" bo'yicha 3 ta bepul namuna tayyorlang.\n2. Telegram guruhlar va OLX/Instagramda xizmatni taklif qiling.\n3. Ilk mijozlardan tushgan pulga reklama yoqing.`;
+            }
+
+            document.getElementById('jobReply').textContent = res;
+            document.getElementById('jobResultWrap').classList.remove('hidden');
+        }
+
+        function copyJobResult() {
+            const text = document.getElementById('jobReply').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Nusxalandi! Endi uni Telegram yoki ish beruvchiga yuborishingiz mumkin.");
+            });
+        }
+
+        function runViral() {
+            const monthly = parseFloat(document.getElementById('monthlySaveInput').value);
+            if (!monthly || monthly <= 0) return alert("Summani kiriting!");
+            const fiveYears = (monthly * 12 * 5 * 1.3).toFixed(0);
+            document.getElementById('viralAmount').textContent = `$${fiveYears}`;
+            document.getElementById('viralText').textContent = `Oyiga $${monthly} jamg'arish orqali 5 yildan so'ng ushbu kapital egasiga aylanasiz!`;
+            document.getElementById('viralResultCard').classList.remove('hidden');
+        }
+
+        function shareApp() {
+            const url = window.location.href;
+            const text = "💎 Bepul Rezyume (CV) yasash, pul hisoblash va AI maslahatlar uchun zo'r ilova topdim! Kirib ko'r:";
+            window.open(`https://t.me{encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function activatePromo() {
+            const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+            if (code === 'VIP2026' || code === 'WEALTH100') {
+                appData.isPro = true;
+                saveData();
+                alert("🎉 PRO versiya faollashtirildi!");
+                closeModal('proModal');
+            } else {
+                alert("❌ Noto'g'ri kod!");
+            }
+        }
+
+        const dict = {
+            uz: { balance: "Umumiy Balans", income: "Kirim (+)", expense: "Chiqim (-)", nav_home: "Asosiy", nav_jobs: "Kasblar AI", nav_viral: "Kelajak", nav_profile: "Profil" },
+            ru: { balance: "Общий Баланс", income: "Доход (+)", expense: "Расход (-)", nav_home: "Главная", nav_jobs: "Профессии AI", nav_viral: "Будущее", nav_profile: "Профиль" },
+            en: { balance: "Total Balance", income: "Income (+)", expense: "Expense (-)", nav_home: "Home", nav_jobs: "Jobs AI", nav_viral: "Future", nav_profile: "Profile" }
+        };
+
+        function changeLang() {
+            const lang = document.getElementById('langSelect').value;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[lang][key]) el.textContent = dict[lang][key];
+            });
+        }
+
+        function renderUI() {
+            document.getElementById('totalIncome').textContent = `$${appData.income.toFixed(2)}`;
+            document.getElementById('totalExpense').textContent = `$${appData.expense.toFixed(2)}`;
+            document.getElementById('totalBalance').textContent = `$${(appData.income - appData.expense).toFixed(2)}`;
+            if (appData.isPro) document.getElementById('proStatusBtn').textContent = "👑 PRO ACTIVE";
 
             const list = document.getElementById('txList');
-            list.innerHTML = transactions.map(tx => `
-                <div class="tx-item">
-                    <span style="font-size:13px;">${tx.text}</span>
-                    <strong style="color:${tx.color};">${tx.amount}</strong>
-                </div>
-            `).join('');
+            list.innerHTML = appData.transactions.length === 0 
+                ? '<div style="text-align:center; color:#64748b; font-size:12px; padding:15px 0;">Hozircha amaliyotlar yo\'q</div>'
+                : appData.transactions.map(tx => `<div class="tx-item"><span style="font-size:13px;">${tx.text}</span><strong style="color:${tx.color};">${tx.amount}</strong></div>`).join('');
         }
 
-        function runMentor() {
-            const text = document.getElementById('mentorInput').value.trim();
-            if (!text) return alert("O'zingiz haqingizda yozing!");
-            const reply = document.getElementById('mentorReply');
-            reply.textContent = `🚀 30 Kunlik Reja ("${text}"):\n1-hafta: Bozorni o'rganing va bepul mijozlar toping.\n2-hafta: Portfolio yarating.\n3-4-hafta: Xizmatlaringizni pullik asosda taklif qiling.`;
-            reply.classList.remove('hidden');
+        function resetAllData() {
+            if (confirm("Barcha ma'lumotlar o'chirilsinmi?")) {
+                localStorage.removeItem('wealthAI_data');
+                appData = { income: 0, expense: 0, transactions: [], isPro: false };
+                renderUI();
+            }
         }
 
-        function runFuture() {
-            const monthly = parseFloat(document.getElementById('monthlySaveInput').value);
-            if (!monthly || monthly <= 0) return alert("Oylik summani kiriting!");
-            const fiveYears = monthly * 12 * 5 * 1.25;
-            const reply = document.getElementById('futureReply');
-            reply.textContent = `📈 Agar oyiga $${monthly} dan yig'sangiz, 5 yildan so'ng (investitsiya foydasi bilan) taxminan $${fiveYears.toFixed(2)} mablag'ingiz bo'ladi!`;
-            reply.classList.remove('hidden');
-        }
-
-        function startVoice() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) return alert("Brauzeringiz ovozli kiritishni qo'llab-quvvatlamaydi.");
-            
-            const recognition = new SpeechRecognition();
-            const micBtn = document.getElementById('micBtn');
-            micBtn.classList.add('recording');
-            
-            recognition.onresult = (event) => {
-                document.getElementById('aiInput').value = event.results.transcript;
-                micBtn.classList.remove('recording');
-            };
-            recognition.onerror = () => micBtn.classList.remove('recording');
-            recognition.start();
-        }
-
-        function resetData() {
-            income = 0; expense = 0; transactions = [];
-            updateUI();
-            document.getElementById('txList').innerHTML = '<div style="text-align:center; color:#64748b; font-size:12px; padding:20px 0;">No transactions yet.</div>';
-            closeModal('settingsModal');
-        }
+        renderUI();
     </script>
 </body>
 </html>
