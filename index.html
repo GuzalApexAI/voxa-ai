@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WealthAI Global SuperApp — AI Trading Signals, Scam Detector & Universal AI</title>
-    <meta name="description" content="Non-custodial AI SuperApp for Traders, Whales, Entrepreneurs, Architects & Students in 100+ Languages.">
-    <meta name="keywords" content="AI trading signals, whale risk calculator, crypto scam detector, broker audit, global AI assistant">
-    <meta name="robots" content="index, follow">
+    <title>WealthAI Global SuperApp</title>
     <script src="https://telegram.org"></script>
     <style>
         :root { --bg: #060913; --card: #0f172a; --border: #1e293b; --accent: #10b981; --gold: #f59e0b; --danger: #ef4444; --text: #f8fafc; --muted: #94a3b8; }
@@ -49,18 +46,16 @@
     </style>
 </head>
 <body>
-    <!-- PIN LOCK SCREEN -->
     <div id="pinModal" class="modal hidden">
         <div class="modal-card" style="text-align:center;">
             <div style="font-size:32px; margin-bottom:8px;">🛡️</div>
             <h3 style="margin-bottom:6px;">WealthAI Security Vault</h3>
-            <p style="font-size:12px; color:var(--muted); margin-bottom:14px;">Enter your 4-digit PIN to unlock personal AI records</p>
+            <p style="font-size:12px; color:var(--muted); margin-bottom:14px;">Enter your 4-digit PIN to unlock</p>
             <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="text-align:center; font-size:22px; letter-spacing:8px;">
             <button class="primary-btn" onclick="verifyPin()">Unlock SuperApp</button>
         </div>
     </div>
 
-    <!-- HEADER -->
     <header>
         <div class="logo-box">
             <div class="logo-icon">💎</div>
@@ -72,7 +67,6 @@
         <div id="google_translate_element"></div>
     </header>
 
-    <!-- 1-SAHIFA: HOME & VIRAL SHARE -->
     <main id="page-home" class="container">
         <div class="viral-banner" onclick="viralShare()">
             <div class="viral-text">🚀 Share with 1 Friend to Unlock <b>24h FREE PRO</b>!</div>
@@ -108,7 +102,6 @@
         </div>
     </main>
 
-    <!-- 2-SAHIFA: WHALE SIGNALS -->
     <main id="page-trader" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:var(--accent); margin-bottom:6px;">🐋 WHALE RISK & HALAL SIGNAL CALCULATOR</div>
@@ -121,7 +114,6 @@
         </div>
     </main>
 
-    <!-- 3-SAHIFA: SCAM DETECTOR -->
     <main id="page-scam" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:var(--danger); margin-bottom:6px;">🕵️ GLOBAL BROKER & CRYPTO SCAM DETECTOR</div>
@@ -130,8 +122,6 @@
             <div id="scanReply" class="warn-box hidden"></div>
         </div>
     </main>
-
-    <!-- 4-SAHIFA: UNIVERSAL AI -->
     <main id="page-universal" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:#60a5fa; margin-bottom:6px;">🌍 UNIVERSAL AI FOR ALL PROFESSIONS</div>
@@ -152,7 +142,6 @@
         </div>
     </main>
 
-    <!-- 5-SAHIFA: SMART VAULT -->
     <main id="page-vault" class="container hidden">
         <div class="card">
             <div style="font-size:13px; font-weight:800; color:var(--gold); margin-bottom:6px;">📁 PERSONAL ENCRYPTED FOLDER & PIN</div>
@@ -167,7 +156,6 @@
         </div>
     </main>
 
-    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
         <button class="nav-item active" id="nav-home" onclick="switchPage('home')"><span class="nav-icon">🏠</span><span>Home</span></button>
         <button class="nav-item" id="nav-trader" onclick="switchPage('trader')"><span class="nav-icon">📈</span><span>Signals</span></button>
@@ -176,7 +164,6 @@
         <button class="nav-item" id="nav-vault" onclick="switchPage('vault')"><span class="nav-icon">📁</span><span>Vault</span></button>
     </nav>
 
-    <!-- TRIBUTE PRO PAYMENT MODAL -->
     <div id="proModal" class="modal hidden">
         <div class="modal-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -191,14 +178,13 @@
             </div>
             <button class="primary-btn" style="background:linear-gradient(135deg,#f59e0b,#ea580c); margin-bottom:12px;" onclick="openTributePayment()">💳 Pay Now via Tribute ($29 / Stars)</button>
             <div style="border-top:1px solid #1e293b; padding-top:12px;">
-                     <input type="text" id="promoCodeInput" placeholder="Enter Activation Key (e.g. WEALTH2026)">
+                <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">Already paid? Enter your Activation Key below:</div>
+                <input type="text" id="promoCodeInput" placeholder="Enter Activation Key (e.g. WEALTH2026)">
                 <button class="sec-btn" onclick="activateProKey()">🔓 Activate PRO Instantly</button>
             </div>
             <button class="sec-btn" style="background:transparent; border:none; color:var(--muted);" onclick="closeModal('proModal')">Close</button>
         </div>
     </div>
-
-    <!-- GOOGLE TRANSLATE 100+ LANGUAGES SCRIPT -->
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
@@ -208,9 +194,12 @@
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="https://google.com"></script>
+    <script>
+        var gt = document.createElement('script');
+        gt.src = 'https://translate.google.' + 'com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.head.appendChild(gt);
+    </script>
 
-    <!-- WEALTHAI GLOBAL CORE ENGINE -->
     <script>
         const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
         if (tg) {
@@ -227,7 +216,7 @@
             return div.innerHTML;
         }
 
-        const TRIBUTE_URL = "https://tribute.tg";
+        const TRIBUTE_URL = "https://web.tribute." + "tg/p/L52";
         const VALID_KEYS = ["WEALTH2026", "WHALEPRO29", "DUBAI1M", "VIPGLOBAL"];
 
         function openTributePayment() {
@@ -266,7 +255,7 @@
 
         function viralShare() {
             const shareText = "🚀 Discover WealthAI Global SuperApp! 24/7 AI Whale Trading Signals, Broker Scam Detector & Universal AI in 100+ languages. Zero wallet risk! Try it now:";
-            const appLink = "https://t.me" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(shareText);
+            const appLink = "https://t." + "me/share/url?url=" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(shareText);
             const oneDay = Date.now() + (24 * 60 * 60 * 1000);
             localStorage.setItem("wealthai_pro_temp", oneDay.toString());
             updateProUI();
@@ -275,8 +264,7 @@
             } else {
                 window.open(appLink, "_blank");
             }
-        }
-                   function switchPage(pageId) {
+           function switchPage(pageId) {
             document.querySelectorAll("main.container").forEach(el => el.classList.add("hidden"));
             document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
             document.getElementById("page-" + pageId).classList.remove("hidden");
@@ -412,4 +400,4 @@
     </script>
 </body>
 </html>
-
+     }
