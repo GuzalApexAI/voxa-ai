@@ -605,6 +605,49 @@ setLang = function(l) {
   document.getElementById('c3-s').innerText = s.at(2);
   document.getElementById('c4-s').innerText = s.at(3);
 };
+mic = function(id) {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert("Please allow microphone or type your text."); return; }
+  var r = new SR();
+  var sel = document.querySelector('.lang-sel');
+  var map = { uz: 'uz-UZ', ru: 'ru-RU', en: 'en-US', ar: 'ar-SA', tr: 'tr-TR', es: 'es-ES', kk: 'kk-KZ', tg: 'tg-TJ' };
+  r.lang = (sel && map[sel.value]) ? map[sel.value] : 'en-US';
+  r.start();
+  r.onresult = function(e) {
+    var txt = e.results.at(0).at(0).transcript;
+    if (txt) document.getElementById(id).value = txt;
+  };
+};
+
+setLang = function(l) {
+  var t = {
+    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.", "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.", "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.", "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "💬 Voxa AI'dan istalgan narsani so'rang", "Savolingizni yozing yoki mikrofonni bosing...", "✨ AI Javobini Olish"],
+    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.", "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.", "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.", "Умная Память", "Сохраняйте расходы и заметки под личным PIN.", "Главная", "IELTS", "Сканер", "Карьера", "Память", "💬 Спросите Voxa AI о чём угодно", "Напишите вопрос или нажмите микрофон...", "✨ Получить ответ ИИ"],
+    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "IELTS & Voice", "Live speaking practice & 100+ language translator.", "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.", "CV & Business", "Create resumes, cover letters & business plans.", "Smart Memory", "Save daily expenses & notes with personal PIN.", "Home", "IELTS", "Scanner", "Career", "Memory", "💬 Ask Voxa AI Anything (Voice or Text)", "Ask about IELTS, docs, recipes, business...", "✨ Generate AI Answer"]
+  };
+  var x = t[l] || t.en;
+  document.getElementById('hero-title').innerText = x.at(0);
+  document.getElementById('hero-sub').innerText = x.at(1);
+  document.getElementById('c1-t').innerText = x.at(2);
+  document.getElementById('c1-s').innerText = x.at(3);
+  document.getElementById('c2-t').innerText = x.at(4);
+  document.getElementById('c2-s').innerText = x.at(5);
+  document.getElementById('c3-t').innerText = x.at(6);
+  document.getElementById('c3-s').innerText = x.at(7);
+  document.getElementById('c4-t').innerText = x.at(8);
+  document.getElementById('c4-s').innerText = x.at(9);
+  var navs = document.querySelectorAll('.nav button');
+  if (navs.length >= 5) {
+    navs.at(0).innerHTML = "<span>🏠</span>" + x.at(10);
+    navs.at(1).innerHTML = "<span>🎙️</span>" + x.at(11);
+    navs.at(2).innerHTML = "<span>📄</span>" + x.at(12);
+    navs.at(3).innerHTML = "<span>💼</span>" + x.at(13);
+    navs.at(4).innerHTML = "<span>🧠</span>" + x.at(14);
+  }
+  document.getElementById('ask-lbl').innerText = x.at(15);
+  document.getElementById('q-home').placeholder = x.at(16);
+  document.querySelector('#p-home .btn-main').innerText = x.at(17);
+};
 
 showMemos();
 </script>
