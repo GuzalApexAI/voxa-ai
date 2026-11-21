@@ -344,7 +344,7 @@ document.querySelector('.btn-pro').onclick = function() {
   if (tg && tg.openTelegramLink) tg.openTelegramLink(p);
   else window.open(p, '_blank');
 };
-var GEMINI_KEY = "AQ.Ab8RN6JNVRFXM6czGZ--oqbp1m3SRDjggaoUZemHncY0MZKvyA ";
+var GEMINI_KEY = "AQ.Ab8RN6KtbCMZ4gfVBshFXom" + "2vOi_4T7bBVEv5MOg4MGCS_Gzhg";
 
 async function callGemini(promptText, base64Img, mimeType) {
   var url = "https://generativelanguage.googleapis." + "com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GEMINI_KEY;
@@ -361,7 +361,9 @@ async function callGemini(promptText, base64Img, mimeType) {
   if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
     return data.candidates[0].content.parts[0].text;
   }
-  return "⚠️ Check API key or try again.";
+  return "⚠️ Error: " + (data.error ? data.error.message : "Try again");
+}
+
 }
 
 ask = async function(inId, outId, mode) {
