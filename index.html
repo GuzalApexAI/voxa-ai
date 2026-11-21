@@ -81,9 +81,10 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
 
     <div class="card">
       <div class="top-row">
-        <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
-        <a href="tg://resolve?domain=tribute&startapp=s1dl3" class="btn-pro">👑 PRO $29</a>
-      </div>
+                <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
+
+          <button type="button" class="btn-pro" onclick="openPro()">👑 PRO $29</button>
+
       <h2 id="hero-title">Your All-in-One Voice AI for Every Profession</h2>
       <p class="sub" id="hero-sub">Built for students, doctors, accountants, homemakers, and entrepreneurs. Pure productivity, IELTS learning & smart memory.</p>
     </div>
@@ -193,6 +194,14 @@ function go(id, idx) {
   var btns = document.querySelectorAll('.nav button');
   for (var j = 0; j < btns.length; j++) btns[j].classList.toggle('active', j === idx);
   window.scrollTo(0, 0);
+}
+function openPro() {
+  var link = "https://" + "t.me/tribute/app?startapp=s1dl3";
+  if (tg && tg.openTelegramLink) {
+    tg.openTelegramLink(link);
+  } else {
+    window.open(link, '_blank');
+  }
 }
 
 function shareApp() {
