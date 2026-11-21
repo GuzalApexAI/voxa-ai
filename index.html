@@ -13,7 +13,7 @@ body{background:#070913;color:#f8fafc;min-height:100vh;padding-bottom:85px;backg
 .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#ec4899,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
 .brand h1{font-size:16px;font-weight:800}
 .brand span{font-size:11px;color:#10b981;display:block}
-select.lang-sel{background:#13182a;color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 8px;border-radius:8px;font-size:12px}
+select.lang-sel{background:#13182a;color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 8px;border-radius:8px;font-size:12px;max-width:130px}
 .wrap{padding:14px;max-width:500px;margin:0 auto}
 .page{display:none}
 .page.active{display:block}
@@ -40,23 +40,41 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
 .nav{position:fixed;bottom:0;left:0;right:0;background:#0a0d1a;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-around;padding:9px 0;z-index:99}
 .nav button{background:none;border:none;color:#94a3b8;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;width:20%}
 .nav button.active{color:#38bdf8;font-weight:700}
+.goog-te-banner-frame{display:none!important}
+body{top:0!important}
 </style>
 </head>
 <body>
+<div id="google_translate_element" style="display:none;"></div>
 <div class="header">
   <div class="brand">
     <div class="logo">V</div>
     <div><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div>
   </div>
-  <select  en, uz, ru, ar, tr, es, fr, de, hi, zh, ja, ko, pt, id, kk, tg)="lang-sel" onchange="setLang(this.value)">
+  <select class="lang-sel" onchange="setLang(this.value)">
     <option value="en">🌐 EN</option>
     <option value="uz">🇺🇿 UZ</option>
     <option value="ru">🇷🇺 RU</option>
     <option value="ar">🇸🇦 AR</option>
     <option value="tr">🇹🇷 TR</option>
     <option value="es">🇪🇸 ES</option>
+    <option value="hi">🇮🇳 HI</option>
+    <option value="pt">🇧🇷 PT</option>
+    <option value="id">🇮🇩 ID</option>
+    <option value="de">🇩🇪 DE</option>
+    <option value="fr">🇫🇷 FR</option>
+    <option value="ko">🇰🇷 KO</option>
+    <option value="ja">🇯🇵 JA</option>
+    <option value="zh-CN">🇨🇳 ZH</option>
+    <option value="kk">🇰🇿 KK</option>
+    <option value="tg">🇹🇯 TG</option>
+    <option value="az">🇦🇿 AZ</option>
+    <option value="fa">🇮🇷 FA</option>
+    <option value="vi">🇻🇳 VI</option>
+    <option value="uk">🇺🇦 UK</option>
   </select>
 </div>
+
 <div class="wrap">
   <div id="p-home" class="page active">
     <div class="viral">
@@ -90,7 +108,6 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
       <div id="o-home" class="out"></div>
     </div>
   </div>
-
   <div id="p-ielts" class="page">
     <div class="card">
       <h2>🎙️ AI IELTS & Language Coach</h2>
@@ -158,22 +175,20 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
 
   <div class="disc">Voxa AI is an educational & productivity tool. No crypto wallets connected. Not financial or medical advice.</div>
 </div>
+
 <div class="nav">
   <button type="button" class="active" onclick="go('p-home',0)"><span>🏠</span>Home</button>
   <button type="button" onclick="go('p-ielts',1)"><span>🎙️</span>IELTS</button>
-  <button type="button" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
+  <button type="button" class="active" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
   <button type="button" onclick="go('p-work',3)"><span>💼</span>Career</button>
   <button type="button" onclick="go('p-memo',4)"><span>🧠</span>Memory</button>
 </div>
-
 <script>
 var tg = window.Telegram && window.Telegram.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
 
-var PRO_URL = "https://t.me";
-var BOT_URL = "https://t.me";
-
-
+var PRO_URL = "https://t.me" + "tribute/app?startapp=s1dl3";
+var BOT_URL = "https://t.me" + "VoxaCopilot_bot";
 
 function go(id, idx) {
   var pages = document.querySelectorAll('.page');
@@ -186,28 +201,48 @@ function go(id, idx) {
 
 function openPro() {
   if (tg && tg.openTelegramLink) tg.openTelegramLink(PRO_URL);
-  else window.open(PRO_URL, '_blank');
+  else window.location.href = PRO_URL;
+}
 
 function shareApp() {
-  var base = "https://" + "t.me/share/url?url=";
-  var u = base + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI!");
+  var base = "https://t.me" + "share/url?url=";
+  var u = base + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
   if (tg && tg.openTelegramLink) tg.openTelegramLink(u);
-  else window.open(u, '_blank');
+  else window.location.href = u;
   alert("🎉 24-Hour Voxa PRO Trial Activated!");
 }
 
 function setLang(l) {
   var t = {
-    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter va uy bekalari uchun aqlli yordamchi."],
-    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров и предпринимателей."],
+    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi."],
+    ru: ["Универсальный Голосовой ИИ для любой профессии", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей."],
     en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs."],
     ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال."],
     tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için."],
-    es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores."]
+    es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores."],
+    hi: ["हर पेशे के लिए आपका ऑल-इन-वन वॉयस AI", "छात्रों, डॉक्टरों, एकाउंटेंट्स और उद्यमियों के लिए निर्मित।"],
+    pt: ["Sua IA de Voz Completa para Todas as Profissões", "Feito para estudantes, médicos, contadores e empreendedores."],
+    id: ["AI Suara Lengkap untuk Semua Profesi", "Dibuat untuk pelajar, dokter, akuntan, dan pengusaha."],
+    de: ["Ihre All-in-One Sprach-KI für jeden Beruf", "Entwickelt für Studenten, Ärzte, Buchhalter und Unternehmer."],
+    fr: ["Votre IA Vocale Tout-en-Un pour Chaque Métier", "Conçu pour étudiants, médecins, comptables et entrepreneurs."],
+    ko: ["모든 직업을 위한 올인원 음성 AI", "학생, 의사, 회계사, 주부 및 기업가를 위해 제작되었습니다."],
+    ja: ["あらゆる職業のためのオールインワン音声AI", "学生、医師、会計士、主婦、起業家のために作られました。"],
+    "zh-CN": ["适合所有职业的全能语音 AI", "专为学生、医生、会计师和企业家打造。"],
+    kk: ["Барлық мамандыққа арналған бірыңғай Дауыстық AI", "Студенттер, дәрігерлер, есепшілер мен кәсіпкерлерге арналған."],
+    tg: ["AI-и овозии ягона барои ҳар як касб", "Барои донишҷӯён, табибон, муҳосибон ва соҳибкорон."],
+    az: ["Hər Peşə Üçün Vahid Səsli AI", "Tələbələr, həkimlər, mühasiblər və sahibkarlar üçün."],
+    fa: ["هوش مصنوعی صوتی همه‌کاره برای هر شغل", "ساخته شده برای دانشجویان، پزشکان، حسابداران و کارآفرینان."],
+    vi: ["AI Giọng Nói Toàn Diện Cho Mọi Ngành Nghề", "Dành cho sinh viên, bác sĩ, kế toán và doanh nhân."],
+    uk: ["Універсальний Голосовий ШІ для кожної професії", "Створено для студентів, лікарів, бухгалтерів та підприємців."]
   };
   if (t[l]) {
     document.getElementById('hero-title').innerText = t[l][0];
     document.getElementById('hero-sub').innerText = t[l][1];
+  }
+  var gtCombo = document.querySelector('.goog-te-combo');
+  if (gtCombo) {
+    gtCombo.value = l;
+    gtCombo.dispatchEvent(new Event('change'));
   }
 }
 
@@ -283,6 +318,17 @@ function delMemo(i) {
   showMemos();
 }
 showMemos();
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: false}, 'google_translate_element');
+}
 </script>
+<script>
+var s = document.createElement('script');
+s.src = 'https://translate.google.' + 'com/translate_a/element.js?cb=googleTranslateElementInit';
+document.body.appendChild(s);
+</script>
+
+
 </body>
 </html>
