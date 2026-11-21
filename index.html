@@ -770,6 +770,31 @@ document.querySelector('.lang-sel').onchange = function() {
   mb.at(0).innerText = a.at(27);
   mb.at(1).innerText = a.at(28);
 };
+document.querySelector('.lang-sel').onchange = async function() {
+  var l = this.value;
+  if (l === 'en') { location.reload(); return; }
+  var els = document.querySelectorAll('h2, h3, p, b, span, button, option, .badge, .disc, #t-viral');
+  var list = [];
+  for (var i = 0; i < els.length; i++) {
+    var el = els.at(i);
+    if (el.children.length === 0 && el.innerText.trim().length > 1 && el.innerText.indexOf('Voxa AI') === -1 && el.innerText.indexOf('$29') === -1) {
+      list.push(el);
+    }
+  }
+  var texts = list.map(function(x) { return x.innerText.trim(); });
+  var prompt = "Translate each line into language code '" + l + "'. Keep emojis, return ONLY translated lines separated by ||| in exact same order:\n" + texts.join(" ||| ");
+  try {
+    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(prompt) + "?model=openai";
+    var res = await fetch(url);
+    var out = await res.text();
+    var tr = out.split("|||");
+    if (tr.length >= list.length - 3) {
+      for (var j = 0; j < list.length; j++) {
+        if (tr.at(j)) list.at(j).innerText = tr.at(j).trim();
+      }
+    }
+  } catch (e) {}
+};
 
 showMemos();
 </script>
