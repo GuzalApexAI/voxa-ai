@@ -7,22 +7,22 @@
 <script src="https://telegram.org"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
-body{background:#070913;color:#f8fafc;min-height:100vh;padding-bottom:85px;background-image:radial-gradient(circle at 15% 10%,rgba(139,92,246,.25),transparent 40%),radial-gradient(circle at 85% 30%,rgba(6,182,212,.2),transparent 40%)}
-.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(7,9,19,.92);border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:50}
+body{background:#070913;color:#f8fafc;min-height:100vh;padding-bottom:85px;overflow-x:hidden;background-image:radial-gradient(circle at 15% 10%,rgba(139,92,246,.25),transparent 40%),radial-gradient(circle at 85% 30%,rgba(6,182,212,.2),transparent 40%)}
+.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(7,9,19,.95);border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:50}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#ec4899,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
 .brand h1{font-size:16px;font-weight:800}
 .brand span{font-size:11px;color:#10b981;display:block}
-select.lang-sel{background:#13182a;color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 8px;border-radius:8px;font-size:12px;max-width:130px}
+select.lang-sel{background:#13182a;color:#fff;border:1px solid rgba(255,255,255,.25);padding:7px 10px;border-radius:10px;font-size:12px;font-weight:600}
 .wrap{padding:14px;max-width:500px;margin:0 auto}
 .page{display:none}
 .page.active{display:block}
 .viral{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(236,72,153,.22));border:1px solid rgba(139,92,246,.45);border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;font-size:12px}
-.btn-green{background:#10b981;color:#fff;border:none;padding:8px 14px;border-radius:9px;font-weight:700;cursor:pointer}
+.btn-green{background:#10b981;color:#fff;border:none;padding:8px 14px;border-radius:9px;font-weight:700;cursor:pointer;flex-shrink:0}
 .card{background:rgba(19,24,42,.88);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;margin-bottom:14px}
-.top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.badge{background:rgba(6,182,212,.15);color:#22d3ee;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.btn-pro{background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;border:none;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px;cursor:pointer}
+.top-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.badge{background:rgba(6,182,212,.15);color:#22d3ee;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.btn-pro{background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;text-decoration:none;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px;display:inline-block;flex-shrink:0}
 h2{font-size:20px;font-weight:800;margin-bottom:8px;line-height:1.25}
 p.sub{font-size:13px;color:#94a3b8;line-height:1.45;margin-bottom:12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
@@ -40,19 +40,16 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
 .nav{position:fixed;bottom:0;left:0;right:0;background:#0a0d1a;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-around;padding:9px 0;z-index:99}
 .nav button{background:none;border:none;color:#94a3b8;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;width:20%}
 .nav button.active{color:#38bdf8;font-weight:700}
-goog-te-banner-frame{display:none!important}
-body{top:0!important}
 </style>
 </head>
 <body>
-<div id="google_translate_element" style="display:none;"></div>
 <div class="header">
   <div class="brand">
     <div class="logo">V</div>
     <div><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div>
   </div>
   <select class="lang-sel" onchange="setLang(this.value)">
-    <option value="en">🌐 EN</option>
+    <option value="en">🇺🇸 EN</option>
     <option value="uz">🇺🇿 UZ</option>
     <option value="ru">🇷🇺 RU</option>
     <option value="ar">🇸🇦 AR</option>
@@ -65,7 +62,7 @@ body{top:0!important}
     <option value="fr">🇫🇷 FR</option>
     <option value="ko">🇰🇷 KO</option>
     <option value="ja">🇯🇵 JA</option>
-    <option value="zh-CN">🇨🇳 ZH</option>
+    <option value="zh">🇨🇳 ZH</option>
     <option value="kk">🇰🇿 KK</option>
     <option value="tg">🇹🇯 TG</option>
     <option value="az">🇦🇿 AZ</option>
@@ -78,30 +75,28 @@ body{top:0!important}
 <div class="wrap">
   <div id="p-home" class="page active">
     <div class="viral">
-      <div>🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</div>
+      <div id="t-viral">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</div>
       <button type="button" class="btn-green" onclick="shareApp()">SHARE</button>
     </div>
 
     <div class="card">
       <div class="top-row">
         <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
-      
-             <a href="tg://resolve?domain=tribute&startapp=s1dl3" class="btn-pro" style="text-decoration:none;display:inline-block;">👑 PRO $29</a>
-  <a href="tg://resolve?domain=tribute&startapp=s1dl3" class="btn-pro" style="text-decoration:none;display:inline-block;">👑 PRO $29</a>
-
+        <a href="tg://resolve?domain=tribute&startapp=s1dl3" class="btn-pro">👑 PRO $29</a>
+      </div>
       <h2 id="hero-title">Your All-in-One Voice AI for Every Profession</h2>
       <p class="sub" id="hero-sub">Built for students, doctors, accountants, homemakers, and entrepreneurs. Pure productivity, IELTS learning & smart memory.</p>
     </div>
 
     <div class="grid">
-      <div class="tool" onclick="go('p-ielts',1)"><div class="ico">🎙️</div><h3>IELTS & Voice</h3><p>Live speaking practice & 100+ language translator.</p></div>
-      <div class="tool" onclick="go('p-scan',2)"><div class="ico">📄</div><h3>Smart Scanner</h3><p>Analyze contracts, receipts, recipes & study notes.</p></div>
-      <div class="tool" onclick="go('p-work',3)"><div class="ico">💼</div><h3>CV & Business</h3><p>Create resumes, cover letters & business plans.</p></div>
-      <div class="tool" onclick="go('p-memo',4)"><div class="ico">🧠</div><h3>Smart Memory</h3><p>Save daily expenses & notes with personal PIN.</p></div>
+      <div class="tool" onclick="go('p-ielts',1)"><div class="ico">🎙️</div><h3 id="c1-t">IELTS & Voice</h3><p id="c1-s">Live speaking practice & 100+ language translator.</p></div>
+      <div class="tool" onclick="go('p-scan',2)"><div class="ico">📄</div><h3 id="c2-t">Smart Scanner</h3><p id="c2-s">Analyze contracts, receipts, recipes & study notes.</p></div>
+      <div class="tool" onclick="go('p-work',3)"><div class="ico">💼</div><h3 id="c3-t">CV & Business</h3><p id="c3-s">Create resumes, cover letters & business plans.</p></div>
+      <div class="tool" onclick="go('p-memo',4)"><div class="ico">🧠</div><h3 id="c4-t">Smart Memory</h3><p id="c4-s">Save daily expenses & notes with personal PIN.</p></div>
     </div>
 
     <div class="card">
-      <b>💬 Ask Voxa AI Anything (Voice or Text)</b>
+      <b id="ask-lbl">💬 Ask Voxa AI Anything (Voice or Text)</b>
       <div class="row">
         <input id="q-home" placeholder="Ask about IELTS, docs, recipes, business...">
         <button type="button" class="btn-mic" onclick="mic('q-home')">🎤</button>
@@ -181,7 +176,7 @@ body{top:0!important}
 <div class="nav">
   <button type="button" class="active" onclick="go('p-home',0)"><span>🏠</span>Home</button>
   <button type="button" onclick="go('p-ielts',1)"><span>🎙️</span>IELTS</button>
-  <button type="button" class="active" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
+  <button type="button" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
   <button type="button" onclick="go('p-work',3)"><span>💼</span>Career</button>
   <button type="button" onclick="go('p-memo',4)"><span>🧠</span>Memory</button>
 </div>
@@ -189,7 +184,6 @@ body{top:0!important}
 var tg = window.Telegram && window.Telegram.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
 
-var PRO_URL = "https://t.me" + "tribute/app?startapp=s1dl3";
 var BOT_URL = "https://t.me" + "VoxaCopilot_bot";
 
 function go(id, idx) {
@@ -201,11 +195,6 @@ function go(id, idx) {
   window.scrollTo(0, 0);
 }
 
-function openPro() {
-  if (tg && tg.openTelegramLink) tg.openTelegramLink(PRO_URL);
-  else window.location.href = PRO_URL;
-}
-
 function shareApp() {
   var base = "https://t.me" + "share/url?url=";
   var u = base + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
@@ -215,37 +204,35 @@ function shareApp() {
 }
 
 function setLang(l) {
-  var t = {
-    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi."],
-    ru: ["Универсальный Голосовой ИИ для любой профессии", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей."],
-    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs."],
-    ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال."],
-    tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için."],
-    es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores."],
-    hi: ["हर पेशे के लिए आपका ऑल-इन-वन वॉयस AI", "छात्रों, डॉक्टरों, एकाउंटेंट्स और उद्यमियों के लिए निर्मित।"],
-    pt: ["Sua IA de Voz Completa para Todas as Profissões", "Feito para estudantes, médicos, contadores e empreendedores."],
-    id: ["AI Suara Lengkap untuk Semua Profesi", "Dibuat untuk pelajar, dokter, akuntan, dan pengusaha."],
-    de: ["Ihre All-in-One Sprach-KI für jeden Beruf", "Entwickelt für Studenten, Ärzte, Buchhalter und Unternehmer."],
-    fr: ["Votre IA Vocale Tout-en-Un pour Chaque Métier", "Conçu pour étudiants, médecins, comptables et entrepreneurs."],
-    ko: ["모든 직업을 위한 올인원 음성 AI", "학생, 의사, 회계사, 주부 및 기업가를 위해 제작되었습니다."],
-    ja: ["あらゆる職業のためのオールインワン音声AI", "学生、医師、会計士、主婦、起業家のために作られました。"],
-    "zh-CN": ["适合所有职业的全能语音 AI", "专为学生、医生、会计师和企业家打造。"],
-    kk: ["Барлық мамандыққа арналған бірыңғай Дауыстық AI", "Студенттер, дәрігерлер, есепшілер мен кәсіпкерлерге арналған."],
-    tg: ["AI-и овозии ягона барои ҳар як касб", "Барои донишҷӯён, табибон, муҳосибон ва соҳибкорон."],
-    az: ["Hər Peşə Üçün Vahid Səsli AI", "Tələbələr, həkimlər, mühasiblər və sahibkarlar üçün."],
-    fa: ["هوش مصنوعی صوتی همه‌کاره برای هر شغل", "ساخته شده برای دانشجویان، پزشکان، حسابداران و کارآفرینان."],
-    vi: ["AI Giọng Nói Toàn Diện Cho Mọi Ngành Nghề", "Dành cho sinh viên, bác sĩ, kế toán và doanh nhân."],
-    uk: ["Універсальний Голосовий ШІ для кожної професії", "Створено для студентів, лікарів, бухгалтерів та підприємців."]
+  var d = {
+    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "IELTS & Voice", "Smart Scanner", "CV & Business", "Smart Memory"],
+    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "IELTS va Ovoz", "Aqlli Skaner", "Rezyume va Biznes", "Aqlli Xotira"],
+    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "IELTS и Голос", "Умный Сканер", "Резюме и Бизнес", "Умная Память"],
+    ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال.", "IELTS والصوت", "الماسح الذكي", "السيرة والأعمال", "الذاكرة الذكية"],
+    tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için.", "IELTS ve Ses", "Akıllı Tarayıcı", "CV ve İş", "Akıllı Hafıza"],
+    es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores.", "IELTS y Voz", "Escáner Inteligente", "CV y Negocios", "Memoria Inteligente"],
+    hi: ["हर पेशे के लिए आपका ऑल-इन-वन वॉयस AI", "छात्रों, डॉक्टरों, एकाउंटेंट्स और उद्यमियों के लिए निर्मित।", "IELTS और आवाज़", "स्मार्ट स्कैनर", "CV और व्यापार", "स्मार्ट मेमोरी"],
+    pt: ["Sua IA de Voz Completa para Todas as Profissões", "Feito para estudantes, médicos, contadores e empreendedores.", "IELTS e Voz", "Scanner Inteligente", "CV e Negócios", "Memória Inteligente"],
+    id: ["AI Suara Lengkap untuk Semua Profesi", "Dibuat untuk pelajar, dokter, akuntan, dan pengusaha.", "IELTS & Suara", "Pemindai Pintar", "CV & Bisnis", "Memori Pintar"],
+    de: ["Ihre All-in-One Sprach-KI für jeden Beruf", "Entwickelt für Studenten, Ärzte, Buchhalter und Unternehmer.", "IELTS & Sprache", "Smart Scanner", "Lebenslauf & Business", "Smart Speicher"],
+    fr: ["Votre IA Vocale Tout-en-Un pour Chaque Métier", "Conçu pour étudiants, médecins, comptables et entrepreneurs.", "IELTS & Voix", "Scanner Intelligent", "CV & Business", "Mémoire Intelligente"],
+    ko: ["모든 직업을 위한 올인원 음성 AI", "학생, 의사, 회계사, 주부 및 기업가를 위해 제작되었습니다.", "IELTS 및 음성", "스마트 스캐너", "이력서 및 비즈니스", "스마트 메모리"],
+    ja: ["あらゆる職業のためのオールインワン音声AI", "学生、医師、会計士、主婦、起業家のために作られました。", "IELTS＆音声", "スマートスキャナー", "履歴書＆ビジネス", "スマートメモリ"],
+    zh: ["适合所有职业的全能语音 AI", "专为学生、医生、会计师和企业家打造。", "雅思与语音", "智能扫描仪", "简历与商业", "智能记忆"],
+    kk: ["Барлық мамандыққа арналған бірыңғай Дауыстық AI", "Студенттер, дәрігерлер, есепшілер мен кәсіпкерлерге арналған.", "IELTS және Дауыс", "Ақылды Сканер", "Түйіндеме және Бизнес", "Ақылды Жад"],
+    tg: ["AI-и овозии ягона барои ҳар як касб", "Барои донишҷӯён, табибон, муҳосибон ва соҳибкорон.", "IELTS ва Овоз", "Сканери Ҳушманд", "Резюме ва Тиҷорат", "Хотираи Ҳушманд"],
+    az: ["Hər Peşə Üçün Vahid Səsli AI", "Tələbələr, həkimlər, mühasiblər və sahibkarlar üçün.", "IELTS və Səs", "Ağıllı Skaner", "CV və Biznes", "Ağıllı Yaddaş"],
+    fa: ["هوش مصنوعی صوتی همه‌کاره برای هر شغل", "ساخته شده برای دانشجویان، پزشکان، حسابداران و کارآفرینان.", "آیلتس و صدا", "اسکنر هوشمند", "رزومه و کسب‌وکار", "حافظه هوشمند"],
+    vi: ["AI Giọng Nói Toàn Diện Cho Mọi Ngành Nghề", "Dành cho sinh viên, bác sĩ, kế toán và doanh nhân.", "IELTS & Giọng nói", "Máy quét thông minh", "CV & Kinh doanh", "Bộ nhớ thông minh"],
+    uk: ["Універсальний Голосовий ШІ для кожної професії", "Створено для студентів, лікарів, бухгалтерів та підприємців.", "IELTS та Голос", "Розумний Сканер", "Резюме та Бізнес", "Розумна Пам'ять"]
   };
-  if (t[l]) {
-    document.getElementById('hero-title').innerText = t[l][0];
-    document.getElementById('hero-sub').innerText = t[l][1];
-  }
-  var gtCombo = document.querySelector('.goog-te-combo');
-  if (gtCombo) {
-    gtCombo.value = l;
-    gtCombo.dispatchEvent(new Event('change'));
-  }
+  var x = d[l] || d.en;
+  document.getElementById('hero-title').innerText = x;
+  document.getElementById('hero-sub').innerText = x;
+  document.getElementById('c1-t').innerText = x;
+  document.getElementById('c2-t').innerText = x;
+  document.getElementById('c3-t').innerText = x;
+  document.getElementById('c4-t').innerText = x;
 }
 
 function mic(id) {
@@ -254,7 +241,7 @@ function mic(id) {
   var r = new SR();
   r.lang = 'en-US';
   r.start();
-  r.onresult = function(e) { document.getElementById(id).value = e.results[0][0].transcript; };
+  r.onresult = function(e) { document.getElementById(id).value = e.results.transcript; };
 }
 
 function ask(inId, outId, mode) {
@@ -320,17 +307,6 @@ function delMemo(i) {
   showMemos();
 }
 showMemos();
-
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: false}, 'google_translate_element');
-}
 </script>
-<script>
-var s = document.createElement('script');
-s.src = 'https://translate.google.' + 'com/translate_a/element.js?cb=googleTranslateElementInit';
-document.body.appendChild(s);
-</script>
-
-
 </body>
 </html>
