@@ -612,7 +612,8 @@
     const tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); }
 
-    const TRIBUTE_PRO_LINK = "https://t.me"; 
+        const TRIBUTE_PRO_LINK = "https://t.me";
+
 
     function switchPage(pageId, index) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -630,7 +631,8 @@
       }
     }
     function shareApp() {
-      const shareText = "🚀 Check out Voxa AI — My all-in-one Voice AI for IELTS, Document Scanning, Resume Building & Smart Memory!";
+            const shareUrl = "https://t.me" + encodeURIComponent("https://github.io") + "&text=" + encodeURIComponent(shareText);
+
       const shareUrl = "https://t.me" + encodeURIComponent("https://github.io") + "&text=" + encodeURIComponent(shareText);
       if (tg) {
         tg.openTelegramLink(shareUrl);
