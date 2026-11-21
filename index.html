@@ -323,7 +323,22 @@ function delMemo(i) {
   a.splice(i, 1);
   localStorage.setItem('voxa_m', JSON.stringify(a));
   showMemos();
-}
+}document.querySelector('.top-row').style.cssText = 'display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:12px;';
+document.getElementById('hero-title').style.cssText = 'clear:both;display:block;width:100%;margin-top:8px;';
+var _oldSetLang = setLang;
+setLang = function(l) {
+  _oldSetLang(l);
+  var h = document.getElementById('hero-title').innerText.split(',');
+  if (h.length >= 6) {
+    document.getElementById('hero-title').innerText = h;
+    document.getElementById('hero-sub').innerText = h + ', ' + h + ', ' + h + ', ' + h;
+    document.getElementById('c1-t').innerText = h;
+    document.getElementById('c2-t').innerText = h;
+    document.getElementById('c3-t').innerText = h;
+    document.getElementById('c4-t').innerText = h;
+  }
+};
+
 showMemos();
 </script>
 </body>
