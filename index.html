@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+i<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -478,6 +478,41 @@ scanDoc = async function() {
     }
   };
   reader.readAsDataURL(file);
+};
+callGemini = async function(promptText, base64Img, mimeType) {
+  var base = "https://generativelanguage.googleapis." + "com/v1beta/";
+  var parts = [{ text: promptText }];
+  if (base64Img) {
+    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
+  }
+  try {
+    var listRes = await fetch(base + "models?key=" + GEMINI_KEY);
+    var listData = await listRes.json();
+    var mName = "models/gemini-3.8-flash";
+    if (listData && listData.models) {
+      for (var i = 0; i < listData.models.length; i++) {
+        var m = listData.models.at(i);
+        if (m.supportedGenerationMethods && m.supportedGenerationMethods.indexOf("generateContent") !== -1) {
+          if (m.name.indexOf("flash") !== -1 || m.name.indexOf("gemma") !== -1) {
+            mName = m.name;
+            break;
+          }
+        }
+      }
+    }
+    var res = await fetch(base + mName + ":generateContent?key=" + GEMINI_KEY, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: [{ parts: parts }] })
+    });
+    var data = await res.json();
+    if (data && data.candidates && data.candidates.at(0)) {
+      return data.candidates.at(0).content.parts.at(0).text;
+    }
+    return "⚠️ Error: " + (data.error ? data.error.message : "Try again");
+  } catch (e) {
+    return "⚠️ Connection error.";
+  }
 };
 
 showMemos();
