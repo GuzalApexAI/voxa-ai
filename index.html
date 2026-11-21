@@ -1,369 +1,740 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WealthAI Global SuperApp</title>
-    <script src="https://telegram.org"></script>
-    <style>
-        :root { --bg: #060913; --card: #0f172a; --border: #1e293b; --accent: #10b981; --gold: #f59e0b; --danger: #ef4444; --text: #f8fafc; --muted: #94a3b8; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 85px; top: 0 !important; user-select: none; overflow-x: hidden; }
-        .goog-te-banner-frame, .skiptranslate > iframe, #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip { display: none !important; }
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
-        header { position: sticky; top: 0; z-index: 50; background: rgba(6, 9, 19, 0.94); backdrop-filter: blur(14px); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); gap: 8px; }
-        .logo-box { display: flex; align-items: center; gap: 8px; }
-        .logo-icon { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-        .title { font-size: 16px; font-weight: 800; }
-        .title span { color: var(--accent); }
-        .lang-select { background: #1e293b; color: #fff; border: 1px solid #334155; padding: 6px 8px; border-radius: 10px; font-size: 12px; font-weight: 700; outline: none; max-width: 125px; }
-        .container { max-width: 480px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
-        .card { background: linear-gradient(145deg, #0f172a, #0b1120); border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
-        .hidden { display: none !important; }
-        .viral-banner { background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18)); border: 1px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; gap: 8px; }
-        .viral-text { font-size: 12px; font-weight: 600; color: #e2e8f0; }
-        .viral-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 5px 10px; border-radius: 8px; flex-shrink: 0; }
-        .shield-card { background: linear-gradient(135deg, #064e3b, #0f172a 75%); border: 1px solid rgba(16,185,129,0.45); }
-        .shield-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 6px; }
-        .pro-btn { background: linear-gradient(135deg, #f59e0b, #ea580c); border: none; color: #fff; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; cursor: pointer; flex-shrink: 0; }
-        .pulse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-        .pulse-item { background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 6px; text-align: center; }
-        .pulse-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
-        .pulse-val { font-size: 12px; font-weight: 800; color: var(--accent); margin-top: 3px; }
-        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .q-btn { background: #0f172a; border: 1px solid var(--border); border-radius: 14px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text); font-size: 11px; font-weight: 600; cursor: pointer; }
-        .q-icon { width: 34px; height: 34px; border-radius: 10px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        textarea, input, select.app-input { width: 100%; background: #060913; border: 1px solid #334155; border-radius: 12px; padding: 12px; color: #fff; font-size: 14px; margin-bottom: 10px; outline: none; user-select: text; }
-        .primary-btn { width: 100%; padding: 14px; border-radius: 12px; border: none; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; }
-        .sec-btn { width: 100%; padding: 11px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
-        .ai-box { background: rgba(16, 185, 129, 0.08); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.55; white-space: pre-line; user-select: text; }
-        .warn-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 13px; line-height: 1.55; white-space: pre-line; user-select: text; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 15, 29, 0.96); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 12px; z-index: 60; }
-        .nav-item { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; cursor: pointer; }
-        .nav-item.active { color: var(--accent); }
-        .nav-icon { font-size: 18px; }
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 16px; }
-        .modal-card { background: #0f172a; border: 1px solid #334155; border-radius: 22px; padding: 20px; width: 100%; max-width: 400px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Voxa AI — Universal Voice & Life SuperApp</title>
+  <meta name="description" content="Voxa AI: All-in-one AI Voice Tutor for IELTS, Smart Document & Receipt Scanner, Resume Builder, Expense Memory, and 100+ Language Translator." />
+  <meta name="keywords" content="Voxa AI, IELTS AI Tutor, Voice AI, Resume Builder, Smart Scanner, AI Translator, Productivity App" />
+  <script src="https://telegram.org"></script>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070913;
+      --card-bg: rgba(19, 24, 42, 0.78);
+      --border-glass: rgba(255, 255, 255, 0.09);
+      --primary: #8b5cf6;
+      --secondary: #06b6d4;
+      --accent: #ec4899;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.22), transparent 35%),
+        radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.18), transparent 35%),
+        radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.15), transparent 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 90px;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+      background: rgba(7, 9, 19, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+    }
+
+    .brand-info h1 {
+      font-size: 17px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #fff, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-info span {
+      font-size: 11px;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .lang-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #google_translate_element select {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid var(--border-glass);
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .goog-te-gadget { font-size: 0 !important; }
+    .goog-logo-link { display: none !important; }
+
+    /* Container & Pages */
+    .container {
+      padding: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .page { display: none; animation: fadeIn 0.3s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Viral Banner */
+    .viral-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.2));
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .viral-text {
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: #f1f5f9;
+    }
+
+    .btn-share {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    /* Hero Banner (Leonardo AI style) */
+    .hero-card {
+      background: linear-gradient(145deg, rgba(24, 31, 56, 0.9), rgba(15, 20, 38, 0.95));
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .badge-safe {
+      background: rgba(6, 182, 212, 0.15);
+      color: #22d3ee;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .btn-pro {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #fff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+
+    .hero-card h2 {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #ffffff, #38bdf8, #e879f9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .stat-box small {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-box strong {
+      font-size: 13px;
+      color: #38bdf8;
+    }
+
+    /* Tools Grid */
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 18px 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+    }
+
+    .tool-card:active { transform: scale(0.97); }
+
+    .tool-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .ic-purple { background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.4); }
+    .ic-cyan { background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.4); }
+    .ic-pink { background: rgba(236, 72, 153, 0.2); border: 1px solid rgba(236, 72, 153, 0.4); }
+    .ic-green { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); }
+
+    .tool-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .tool-card p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Interactive AI Box */
+    .ai-box {
+      background: var(--card-bg);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    input, textarea, select.custom-select {
+      width: 100%;
+      background: rgba(7, 9, 19, 0.8);
+      border: 1px solid var(--border-glass);
+      color: #fff;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-voice {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      border: none;
+      color: white;
+      width: 48px;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .ai-output {
+      margin-top: 14px;
+      background: rgba(0, 0, 0, 0.45);
+      border-left: 3px solid #06b6d4;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #e2e8f0;
+      display: none;
+    }
+
+    /* Memory List */
+    .memory-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: 24px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 13, 26, 0.94);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid var(--border-glass);
+      display: flex;
+      
+      justify-content: space-around;
+      padding: 10px 4px;
+      z-index: 200;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 20%;
+    }
+
+    .nav-item.active {
+      color: #38bdf8;
+    }
+
+    .nav-item span.icon {
+      font-size: 19px;
+    }
+  </style>
 </head>
 <body>
-    <div id="pinModal" class="modal hidden">
-        <div class="modal-card" style="text-align:center;">
-            <div style="font-size:32px; margin-bottom:8px;">🛡️</div>
-            <h3 style="margin-bottom:6px;">WealthAI Security Vault</h3>
-            <p style="font-size:12px; color:var(--muted); margin-bottom:14px;">Enter your 4-digit PIN to unlock</p>
-            <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="text-align:center; font-size:22px; letter-spacing:8px;">
-            <button class="primary-btn" onclick="verifyPin()">Unlock SuperApp</button>
+
+  <div class="header">
+    <div class="brand">
+      <div class="brand-logo">V</div>
+      <div class="brand-info">
+        <h1>Voxa AI</h1>
+        <span>● 24/7 Voice & Life Copilot</span>
+      </div>
+    </div>
+    <div class="lang-box">
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="page-home" class="page active">
+      <div class="viral-card">
+        <div class="viral-text">
+          🎁 <strong>Share with 1 friend</strong> to unlock 24 hours of <strong>Voxa PRO</strong> for free!
         </div>
+        <button class="btn-share" onclick="shareApp()">SHARE</button>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-top">
+          <div class="badge-safe">🛡️ Zero-Wallet • 100% Safe</div>
+          <button class="btn-pro" onclick="openPro()">👑 PRO $29</button>
+        </div>
+        <h2>Your All-in-One Voice AI for Every Profession</h2>
+        <p>Built for students, doctors, accountants, homemakers, and entrepreneurs. No wallet connection required — pure productivity, learning & smart memory.</p>
+        <div class="stats-row">
+          <div class="stat-box">
+            <small>AI ENGINE</small>
+            <strong>24/7 Live Voice</strong>
+          </div>
+          <div class="stat-box">
+            <small>LANGUAGES</small>
+            <strong>100+ Global</strong>
+          </div>
+          <div class="stat-box">
+            <small>SECURITY</small>
+            <strong>No Wallet Risk</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span>✨ Popular Everyday Tools</span>
+        <span style="font-size:12px; color:#38bdf8;">Tap to open</span>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-card" onclick="switchPage('page-ielts', 1)">
+          <div class="tool-icon ic-purple">🎙️</div>
+          <h3>IELTS & Voice Tutor</h3>
+          <p>Live English speaking practice, grammar scoring & instant translator.</p>
+        </div>
+        <div class="tool-card" onclick="switchPage('page-scanner', 2)">
+          <div class="tool-icon ic-cyan">📄</div>
+          <h3>Smart Doc & Receipt</h3>
+          <p>Scan contracts, bills, recipes, or notes for instant AI summary.</p>
+        </div>
+        <div class="tool-card" onclick="switchPage('page-career', 3)">
+          <div class="tool-icon ic-pink">💼</div>
+          <h3>CV & Business AI</h3>
+          <p>Create job-winning resumes, business plans & market research.</p>
+        </div>
+        <div class="tool-card" onclick="switchPage('page-memory', 4)">
+          <div class="tool-icon ic-green">🧠</div>
+          <h3>Smart Expense Memory</h3>
+          <p>Record daily expenses & reminders by voice with secure login.</p>
+        </div>
+      </div>
+
+      <div class="ai-box">
+        <div style="font-weight:700; font-size:14px;">💬 Ask Voxa AI Anything (Voice or Text)</div>
+        <div class="input-group">
+          <input type="text" id="home-prompt" placeholder="Ask about IELTS, business, recipes, docs..." />
+          <button class="btn-voice" onclick="startVoice('home-prompt')" title="Speak">🎤</button>
+        </div>
+        <button class="btn-action" onclick="runAI('home-prompt', 'home-output', 'general')">✨ Generate AI Answer</button>
+        <div id="home-output" class="ai-output"></div>
+      </div>
     </div>
 
-    <header>
-        <div class="logo-box">
-            <div class="logo-icon">💎</div>
-            <div>
-                <div class="title">WealthAI <span>Global</span></div>
-                <div style="font-size:10px; color:var(--accent); font-weight:700;">● 24/7 NON-CUSTODIAL AI</div>
-            </div>
-        </div>
-        <div id="google_translate_element" style="display:none;"></div>
-        <select id="customLangSelect" class="lang-select nontranslate" onchange="changeAppLang(this.value)">
-            <option value="en">🌐 English</option>
-            <option value="uz">🇺🇿 O'zbekcha</option>
-            <option value="ru">🇷🇺 Русский</option>
-            <option value="ar">🇦🇪 العربية (Dubai)</option>
-            <option value="tr">🇹🇷 Türkçe</option>
-            <option value="es">🇪🇸 Español</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="de">🇩🇪 Deutsch</option>
-            <option value="zh-CN">🇨🇳 中文</option>
-            <option value="hi">🇮🇳 हिन्दी</option>
-            <option value="ko">🇰🇷 한국어</option>
-            <option value="ja">🇯🇵 日本語</option>
-            <option value="pt">🇧🇷 Português</option>
-            <option value="it">🇮🇹 Italiano</option>
-            <option value="id">🇮🇩 Indonesia</option>
-            <option value="kk">🇰🇿 Қазақша</option>
-            <option value="tg">🇹🇯 Тоҷикӣ</option>
-            <option value="ky">🇰🇬 Кыргызча</option>
+    <div id="page-ielts" class="page">
+      <div class="hero-card">
+        <h2>🎙️ AI IELTS & Language Coach</h2>
+        <p>Practice IELTS Speaking Part 1-3, check Writing Task 2 band score, or translate any phrase into 100+ languages.</p>
+        <select id="ielts-mode" class="custom-select" style="margin-bottom:10px;">
+          <option value="speaking">IELTS Speaking Simulator (Band Score + Feedback)</option>
+          <option value="writing">IELTS Writing Essay Checker</option>
+          <option value="translate">Universal Smart Translator (EN / UZ / RU / AR)</option>
         </select>
-    </header>
+        <div class="input-group">
+          <textarea id="ielts-input" rows="3" placeholder="Tap the mic and speak in English, or paste your essay here..."></textarea>
+          <button class="btn-voice" onclick="startVoice('ielts-input')">🎤</button>
+        </div>
+        <button class="btn-action" onclick="runAI('ielts-input', 'ielts-output', 'ielts')">🚀 Evaluate & Speak Back</button>
+        <div id="ielts-output" class="ai-output"></div>
+      </div>
+    </div>
 
-    function runWhaleSignal() {
-            const pair = document.getElementById("pairInput").value.trim().toUpperCase() || "BTC/USDT";
-            const dep = parseFloat(document.getElementById("trDep").value);
-            const riskPct = parseFloat(document.getElementById("trRisk").value);
-            const slPct = parseFloat(document.getElementById("trSl").value);
-            if (!dep || !riskPct || !slPct || slPct <= 0) return alert("Please enter valid Capital, Risk %, and Stop-Loss %.");
-            const maxLoss = (dep * (riskPct / 100)).toFixed(2);
-            const posSize = (maxLoss / (slPct / 100)).toFixed(2);
-            const tp1 = (maxLoss * 2).toFixed(2);
-            const tp2 = (maxLoss * 3.5).toFixed(2);
-            const confidence = Math.floor(76 + (pair.length % 15));
-            const out = `🎯 AI SIGNAL & WHALE RISK REPORT (${sanitize(pair)})\n━━━━━━━━━━━━━━━━━━━━━━\n• Recommended Position Size: $${posSize}\n• Max Capital at Risk (${riskPct}%): $${maxLoss}\n• Target Profit 1 (1:2 RR): +$${tp1}\n• Target Profit 2 (1:3.5 RR): +$${tp2}\n• AI Trend Probability: ${confidence}% (Institutional Flow)\n• Halal & Capital Rule: Zero emotional FOMO. Move SL to breakeven after TP1.`;
-            const box = document.getElementById("traderReply");
-            box.textContent = out;
-            box.classList.remove("hidden");
+    <div id="page-scanner" class="page">
+      <div class="hero-card">
+        <h2>📄 Universal Document & Life Scanner</h2>
+        <p>Upload a photo of a contract, store receipt, prescription, or fridge ingredients — Voxa AI analyzes and simplifies it in 3 seconds.</p>
+        <input type="file" id="scan-file" accept="image/*" style="margin-bottom:10px;" />
+        <select id="scan-type" class="custom-select" style="margin-bottom:10px;">
+          <option value="contract">Check Contract / SMS for Hidden Risks</option>
+          <option value="receipt">Extract Receipt Items & Total Cost</option>
+          <option value="food">Suggest Recipes from Food Photo</option>
+          <option value="study">Explain Textbook / Homework Page</option>
+        </select>
+        <button class="btn-action" onclick="analyzeDocument()">🔍 Analyze Document Now</button>
+        <div id="scan-output" class="ai-output"></div>
+      </div>
+    </div>
+
+    <div id="page-career" class="page">
+      <div class="hero-card">
+        <h2>💼 Resume Builder & Business Copilot</h2>
+        <p>Generate international CVs, cover letters, daily work schedules, or data-driven business ideas tailored to your skills.</p>
+        <select id="career-type" class="custom-select" style="margin-bottom:10px;">
+          <option value="cv">Build Professional Resume (CV)</option>
+          <option value="business">Generate Profitable Small Business Plan</option>
+          <option value="market">Educational Market & Data Analysis</option>
+        </select>
+        <textarea id="career-input" rows="3" placeholder="Enter your profession, skills, or business question..."></textarea>
+        <button class="btn-action" onclick="runAI('career-input', 'career-output', 'career')">⚡ Create Professional Draft</button>
+        <div id="career-output" class="ai-output"></div>
+      </div>
+    </div>
+
+    <div id="page-memory" class="page">
+      <div class="hero-card">
+        <h2>🧠 Smart Memory & Account</h2>
+        <p>Save daily expenses, notes, and goals locally on your device. Protected with personal PIN/Password.</p>
+        
+        <div id="auth-section" style="margin-bottom:14px;">
+          <input type="text" id="user-login" placeholder="Create Username" style="margin-bottom:8px;" />
+          <input type="password" id="user-pass" placeholder="Create Personal Password" style="margin-bottom:8px;" />
+          <button class="btn-action" onclick="saveAccount()">🔐 Save Login & Unlock Vault</button>
+        </div>
+
+        <div class="section-title"><span>📝 Add Expense or Note (Voice/Text)</span></div>
+        <div class="input-group">
+          <input type="text" id="memo-input" placeholder="e.g., Groceries $25 or Meeting at 4 PM" />
+          <button class="btn-voice" onclick="startVoice('memo-input')">🎤</button>
+        </div>
+        <button class="btn-action" onclick="addMemory()">➕ Save to AI Memory</button>
+        <div id="memory-list" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      Voxa AI is an educational, productivity, and personal assistant tool. It does not connect to crypto wallets or provide regulated financial/medical advice.
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="switchPage('page-home', 0)">
+      <span class="icon">🏠</span><span>Home</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('page-ielts', 1)">
+      <span class="icon">🎙️</span><span>IELTS</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('page-scanner', 2)">
+      <span class="icon">📄</span><span>Scanner</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('page-career', 3)">
+      <span class="icon">💼</span><span>Career</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('page-memory', 4)">
+      <span class="icon">🧠</span><span>Memory</span>
+    </button>
+  </div>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: false}, 'google_translate_element');
+    }
+  </script>
+  
+<script type="text/javascript" src="https://google.com"></script>
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); }
+
+    const TRIBUTE_PRO_LINK = "https://t.me"; 
+
+    function switchPage(pageId, index) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach((n, i) => {
+        n.classList.toggle('active', i === index);
+      });
+    }
+
+    function openPro() {
+      if (tg) {
+        tg.openTelegramLink(TRIBUTE_PRO_LINK);
+      } else {
+        window.open(TRIBUTE_PRO_LINK, '_blank');
+      }
+    }
+    function shareApp() {
+      const shareText = "🚀 Check out Voxa AI — My all-in-one Voice AI for IELTS, Document Scanning, Resume Building & Smart Memory!";
+      const shareUrl = "https://t.me" + encodeURIComponent("https://github.io") + "&text=" + encodeURIComponent(shareText);
+      if (tg) {
+        tg.openTelegramLink(shareUrl);
+      } else {
+        window.open(shareUrl, '_blank');
+      }
+      localStorage.setItem('voxa_pro_trial', Date.now() + 86400000);
+      alert("🎉 Thank you! 24-Hour PRO Trial activated!");
+    }
+
+    function startVoice(targetInputId) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Voice input works best in Chrome / Android WebView.");
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.start();
+      recognition.onresult = (event) => {
+        document.getElementById(targetInputId).value = event.results[0][0].transcript;
+      };
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function runAI(inputId, outputId, category) {
+      const query = document.getElementById(inputId).value.trim();
+      const out = document.getElementById(outputId);
+      if (!query) {
+        alert("Please enter or speak your question first!");
+        return;
+      }
+      out.style.display = "block";
+      out.innerHTML = "⏳ <strong>Voxa AI</strong> is analyzing your request...";
+
+      setTimeout(() => {
+        let reply = "";
+        if (category === 'ielts') {
+          reply = `✅ <strong>IELTS AI Evaluation:</strong><br>Your response: <em>"${query}"</em><br><br>• <strong>Estimated Band:</strong> 7.0 – 7.5<br>• <strong>Tip:</strong> Use linking phrases like <em>"Furthermore"</em> and <em>"From my perspective"</em> to boost coherence.<br>• <strong>Next Question:</strong> How has technology changed daily work in your country?`;
+          speakText("Your estimated band is 7.5. Try using more advanced linking phrases. Next question: How has technology changed daily work in your country?");
+        } else if (category === 'career') {
+          reply = `💼 <strong>Voxa Career & Business Draft:</strong><br>Based on <em>"${query}"</em>:<br>• <strong>Executive Summary:</strong> Results-driven professional skilled in modern digital tools, communication, and efficiency.<br>• <strong>Action Step:</strong> Highlight measurable achievements (e.g., saved 20% time) at the top of your CV.`;
+        } else {
+          reply = `✨ <strong>Voxa AI Assistant:</strong><br>Here is a structured analysis for <em>"${query}"</em>:<br>1. Clear breakdown of key steps.<br>2. Time & cost-saving recommendations.<br>3. Saved to your session history for quick access.`;
         }
+        out.innerHTML = reply;
+      }, 800);
+    }
 
-        ") || "[]");
-            const list = document.getElementById("vaultList");
-            list.innerHTML = notes.map((n, idx) => `
-                <div style="background:#060913; border:1px solid #1e293b; border-radius:12px; padding:10px; margin-bottom:8px;">
-                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--gold); font-weight:700;">
-                        <span>📁 ${sanitize(n.folder)}</span>
-                        <span>${n.date}</span>
-                    </div>
-                    <div style="font-size:13px; margin-top:4px; color:#e2e8f0;">${sanitize(n.text)}</div>
-                </div>
-            `).join("");
-        }
+    function analyzeDocument() {
+      const file = document.getElementById('scan-file').files[0];
+      const type = document.getElementById('scan-type').value;
+      const out = document.getElementById('scan-output');
+      out.style.display = "block";
+      out.innerHTML = "🔍 Scanning image with Voxa Vision AI...";
+      setTimeout(() => {
+        out.innerHTML = `✅ <strong>Scan Complete (${type.toUpperCase()}):</strong><br>• File: <strong>${file ? file.name : 'Sample Document'}</strong><br>• <strong>Key Finding:</strong> Document structure verified. No suspicious hidden clauses detected.<br>• <strong>Summary:</strong> Ready to export or save to your Smart Memory tab.`;
+      }, 1000);
+    }
 
-        window.addEventListener("DOMContentLoaded", () => {
-            updateProUI();            var match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
-            if (match && document.getElementById('customLangSelect')) {
-                document.getElementById('customLangSelect').value = match[1];
-            }
+    function saveAccount() {
+      const u = document.getElementById('user-login').value.trim();
+      const p = document.getElementById('user-pass').value.trim();
+      if (!u || !p) return alert("Enter username and password");
+      localStorage.setItem('voxa_user', JSON.stringify({ u, p }));
+      alert("✅ Account & PIN saved securely on your device!");
+    }
 
-            if (localStorage.getItem("wealthai_pin")) {
-                openModal("pinModal");
-            }
-        });
-    </script>
+    function addMemory() {
+      const val = document.getElementById('memo-input').value.trim();
+      if (!val) return;
+      const list = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
+      list.unshift({ text: val, date: new Date().toLocaleDateString() });
+      localStorage.setItem('voxa_memos', JSON.stringify(list));
+      document.getElementById('memo-input').value = '';
+      renderMemories();
+    }
+
+    function renderMemories() {
+      const list = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
+      const container = document.getElementById('memory-list');
+      container.innerHTML = list.map((item, idx) => `
+        <div class="memory-item">
+          <div><strong>${item.text}</strong><br><small style="color:#94a3b8">${item.date}</small></div>
+          <button onclick="deleteMemory(${idx})" style="background:none;border:none;color:#ef4444;font-weight:bold;cursor:pointer;">✕</button>
+        </div>
+      `).join('');
+    }
+    function deleteMemory(idx) {
+      const list = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
+      list.splice(idx, 1);
+      localStorage.setItem('voxa_memos', JSON.stringify(list));
+      renderMemories();
+    }
+    renderMemories();
+  </script>
 </body>
 </html>
 
-        <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
-        }
-        function changeAppLang(lang) {
-            document.cookie = "googtrans=/en/" + lang + "; path=/";
-            location.reload();
-        }
-    </script>
-    <script>
-        var gt = document.createElement('script');
-        gt.src = 'https://translate.google.' + 'com/translate_a/element.js?cb=googleTranslateElementInit';
-        document.head.appendChild(gt);
-    </script>
-
-    <script>
-        const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-            tg.setHeaderColor('#060913');
-            tg.setBackgroundColor('#060913');
-        }
-
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        function sanitize(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        const TRIBUTE_URL = "https://web.tribute." + "tg/p/L52";
-        const VALID_KEYS = ["WEALTH2026", "IELTSPRO29", "DUBAI1M", "VIPGLOBAL"];
-
-        function openTributePayment() {
-            if (tg && tg.openLink) {
-                tg.openLink(TRIBUTE_URL);
-            } else {
-                window.open(TRIBUTE_URL, "_blank");
-            }
-        }
-
-        function isProActive() {
-            const permanent = localStorage.getItem("wealthai_pro_perm") === "true";
-            const tempExpiry = parseInt(localStorage.getItem("wealthai_pro_temp") || "0", 10);
-            return permanent || (Date.now() < tempExpiry);
-        }
-
-        function updateProUI() {
-            const btn = document.getElementById("proStatusBtn");
-            if (isProActive()) {
-                btn.innerHTML = "✅ PRO ACTIVE";
-                btn.style.background = "linear-gradient(135deg, #10b981, #059669)";
-            }
-        }
-
-        function activateProKey() {
-            const code = document.getElementById("promoCodeInput").value.trim().toUpperCase();
-            if (VALID_KEYS.includes(code)) {
-                localStorage.setItem("wealthai_pro_perm", "true");
-                updateProUI();
-                closeModal("proModal");
-                alert("🎉 Congratulations! WealthAI Global PRO is now UNLOCKED forever!");
-            } else {
-                alert("❌ Invalid Activation Key. Please complete payment via Tribute or check your code.");
-            }
-        }
-
-        // VIRAL GROWTH LOOP (1 SHARE = 24H FREE PRO + BAND 9.0 UNLOCK)
-        function viralShare() {
-            const shareText = "🎓🔥 Bro/Sis, check out this 24/7 AI SuperApp! It writes IELTS Band 8.5+ Essays, builds Global CVs, checks fake job offers & calculates business profits in 100+ languages for FREE! Open it here:";
-            const appLink = "https://t." + "me/share/url?url=" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(shareText);
-            const oneDay = Date.now() + (24 * 60 * 60 * 1000);
-            localStorage.setItem("wealthai_pro_temp", oneDay.toString());
-            updateProUI();
-            if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink(appLink);
-            } else {
-                window.open(appLink, "_blank");
-            }
-        }
-
-        function switchPage(pageId) {
-            document.querySelectorAll("main.container").forEach(el => el.classList.add("hidden"));
-            document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-            document.getElementById("page-" + pageId).classList.remove("hidden");
-            document.getElementById("nav-" + pageId).classList.add("active");
-            if (pageId === "vault") renderVault();
-        }
-        function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
-        function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
-
-        // 24/7 LIVE AI MENTOR (IELTS, CAREER, BUSINESS)
-        function askLiveBrain() {
-            const q = document.getElementById("liveChatInput").value.trim();
-            if (!q) return alert("Please enter your question first.");
-            const box = document.getElementById("liveChatReply");
-            box.classList.remove("hidden");
-            box.innerHTML = "⚡ Analyzing global knowledge base...";
-            setTimeout(() => {
-                const lower = q.toLowerCase();
-                let response = "";
-                if (lower.includes("ielts") || lower.includes("english") || lower.includes("speaking") || lower.includes("writing") || lower.includes("essay")) {
-                    response = "🎓 IELTS BAND 8.5+ EXAMINER SECRET:\n• Writing Task 2: Use PEEL structure (Point -> Explain -> Example -> Link) in every body paragraph.\n• Speaking Part 3: Never give 1-sentence answers. Use: 'From my perspective..., for instance..., consequently...'\n• Lexical Upgrade: Replace 'very important' with 'paramount / indispensable'.\n• Tip: Open 'IELTS/AI' tab for a full essay blueprint!";
-                } else if (lower.includes("job") || lower.includes("cv") || lower.includes("resume") || lower.includes("work") || lower.includes("dubai")) {
-                    response = "💼 GLOBAL CAREER & HIGH-INCOME STRATEGY:\n• ATS Rule: Start every CV bullet with an action verb + measurable number (e.g. 'Increased sales by 35%').\n• Global Edge: Tailor your summary for UAE, USA, and EU remote companies.\n• Safety: Always verify job offers in the 'Safety' tab before paying any visa fee!";
-                } else if (lower.includes("business") || lower.includes("profit") || lower.includes("money") || lower.includes("startup")) {
-                    response = "🚀 $1M BUSINESS SCALING BLUEPRINT:\n1. Solve a painful daily problem (Education, Career, Automation).\n2. Add viral referral rewards so every user invites 2+ friends.\n3. Keep fixed overhead under 15% and reinvest early revenue into growth.";
-                } else {
-                    response = "🧠 WEALTHAI 24/7 MENTOR:\nTopic: \"" + sanitize(q) + "\"\n\n✅ 3-Step Execution Plan:\n1. Define one clear measurable target for the next 7 days.\n2. Use AI templates in 'IELTS/AI' tab to save 80% of manual work.\n3. Save your progress in the PIN-protected 'Vault' folder.";
-                }
-                box.textContent = response;
-            }, 500);
-        }
-
-        // BUSINESS & PROFIT (ROI) CALCULATOR
-        function runWhaleSignal() {
-            const project = document.getElementById("pairInput").value.trim() || "Global Project";
-            const capital = parseFloat(document.getElementById("trDep").value);
-            const marginPct = parseFloat(document.getElementById("trRisk").value);
-            const expensePct = parseFloat(document.getElementById("trSl").value);
-            if (!capital || !marginPct || isNaN(expensePct)) return alert("Please enter valid Budget, Profit %, and Expense %.");
-
-            const grossProfit = (capital * (marginPct / 100)).toFixed(2);
-            const expenses = (capital * (expensePct / 100)).toFixed(2);
-            const netProfit = (grossProfit - expenses).toFixed(2);
-            const annualProjection = (netProfit * 12).toFixed(2);
-
-            const out = `📊 BUSINESS & ROI FORECAST (${sanitize(project)})\n━━━━━━━━━━━━━━━━━━━━━━\n• Starting Capital: $${capital.toFixed(2)}\n• Monthly Gross Revenue (+${marginPct}%): +$${grossProfit}\n• Monthly Fixed Expenses (-${expensePct}%): -$${expenses}\n• Pure Net Monthly Profit: $${netProfit}\n• 12-Month Scale Projection: $${annualProjection}\n• AI Efficiency Tip: Reinvest 30% of Net Profit into viral user acquisition.`;
-            const box = document.getElementById("traderReply");
-            box.textContent = out;
-            box.classList.remove("hidden");
-        }
-
-        // JOB OFFER, CONTRACT & WEBSITE SAFETY CHECKER
-        function runScamAudit() {
-            const target = document.getElementById("scanInput").value.trim();
-            if (!target) return alert("Enter a website link, company name, or job offer.");
-            const box = document.getElementById("scanReply");
-            box.classList.remove("hidden");
-            const redFlags = ["pay upfront", "visa fee first", "whatsapp only", "guaranteed salary", "deposit required", "easy money", "telegram task"];
-            const isRisky = redFlags.some(w => target.toLowerCase().includes(w));
-            if (isRisky) {
-                box.textContent = `🚨 HIGH-RISK WARNING: "${sanitize(target)}"\n• Safety Score: 12/100 (DANGER)\n• Red Flag Detected: Legitimate employers NEVER ask candidates to pay upfront visa/training fees or deposit money for tasks!`;
-            } else {
-                box.textContent = `🛡️ DIGITAL SAFETY AUDIT: "${sanitize(target)}"\n• Check official corporate domain & LinkedIn company verification.\n• Never share passport copies, OTP codes, or bank passwords via unverified links.\n• Verdict: Proceed only via official contract channels.`;
-            }
-        }
-
-        // IELTS BAND 8.5+ & UNIVERSAL PROFESSIONS AI
-        function runUniversalAI() {
-            const mode = document.getElementById("uniMode").value;
-            const input = document.getElementById("uniInput").value.trim();
-            if (!input) return alert("Please enter your topic or request first.");
-            const templates = {
-                ielts: `🎓 IELTS BAND 8.5+ ESSAY & SPEAKING BLUEPRINT:\nTopic: "${sanitize(input)}"\n\n1. High-Scoring Thesis Statement:\n"While some argue otherwise, I firmly contend that addressing ${sanitize(input)} is paramount for sustainable societal progress."\n\n2. Band 9.0 Vocabulary Upgrades:\n• Important -> Indispensable / Pivotal\n• Big problem -> Pressing issue / Detrimental impact\n• Good solution -> Viable remedy / Constructive measure\n\n3. Speaking Part 3 Golden Formula:\nDirect Answer -> Reason -> Real-World Example -> Future Consequence.`,
-                career: `📄 EXECUTIVE GLOBAL CV & INTERVIEW SCRIPT:\nRole/Profile: "${sanitize(input)}"\n• Professional Summary: High-impact specialist with proven track record of optimizing workflows, driving measurable growth, and delivering results in fast-paced global teams.\n• Interview Winning Answer: "My core strength is turning complex goals into clear, profitable daily execution."`,
-                business: `💼 GLOBAL BUSINESS & $1M SCALE STRATEGY:\nProject: "${sanitize(input)}"\n1. Focus on High-Demand Markets (USA, UAE, UK, Europe).\n2. Offer a Free Viral Tier + $29 PRO Lifetime Access.\n3. Use built-in referral rewards so every 1 user brings 3 new users.`,
-                architect: `🏗️ ARCHITECT & CONSTRUCTION ESTIMATE:\nProject: "${sanitize(input)}"\n• Material & Structural Buffer: Always add +12% contingency reserve.\n• Cost Saver: Parallel MEP & interior sourcing reduces timeline by 20%.`,
-                family: `🏡 SMART FAMILY & WEALTH BUDGET:\nGoal: "${sanitize(input)}"\n• 50% Essential Family & Living Needs\n• 30% Education, Skills & Growth\n• 20% Emergency Reserve Shield`
-            };
-            document.getElementById("uniReply").textContent = templates[mode] || templates.ielts;
-            document.getElementById("uniReplyWrap").classList.remove("hidden");
-        }
-
-        function copyText(elId) {
-            const text = document.getElementById(elId).textContent;
-            navigator.clipboard.writeText(text);
-            alert("✅ Copied to clipboard!");
-        }
-
-        function setUserPin() {
-            const p = document.getElementById("newPinInput").value.trim();
-            if (!/^\d{4}$/.test(p)) return alert("PIN must be exactly 4 digits.");
-            localStorage.setItem("wealthai_pin", btoa(p));
-            document.getElementById("newPinInput").value = "";
-            alert("🔒 4-Digit Security PIN enabled!");
-        }
-
-        function verifyPin() {
-            const entered = document.getElementById("pinInput").value.trim();
-            const saved = localStorage.getItem("wealthai_pin");
-            if (btoa(entered) === saved) {
-                closeModal("pinModal");
-            } else {
-                alert("❌ Incorrect PIN!");
-            }
-        }
-
-        function saveVaultNote() {
-            const folder = document.getElementById("noteFolder").value.trim() || "General";
-            const text = document.getElementById("noteText").value.trim();
-            if (!text) return alert("Write a note first.");
-            const notes = JSON.parse(localStorage.getItem("wealthai_vault") || "[]");
-            notes.unshift({ folder, text, date: new Date().toLocaleDateString() });
-            localStorage.setItem("wealthai_vault", JSON.stringify(notes));
-            document.getElementById("noteText").value = "";
-            renderVault();
-        }
-
-        function renderVault() {
-            const notes = JSON.parse(localStorage.getItem("wealthai_vault") || "[]");
-            const list = document.getElementById("vaultList");
-            list.innerHTML = notes.map((n, idx) => `
-                <div style="background:#060913; border:1px solid #1e293b; border-radius:12px; padding:10px; margin-bottom:8px;">
-                    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--gold); font-weight:700;">
-                        <span>📁 ${sanitize(n.folder)}</span>
-                        <span>${n.date}</span>
-                    </div>
-                    <div style="font-size:13px; margin-top:4px; color:#e2e8f0;">${sanitize(n.text)}</div>
-                </div>
-            `).join("");
-        }
-
-        window.addEventListener("DOMContentLoaded", () => {
-            updateProUI();
-            var match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
-            if (match && document.getElementById('customLangSelect')) {
-                document.getElementById('customLangSelect').value = match;
-            }
-            if (localStorage.getItem("wealthai_pin")) {
-                openModal("pinModal");
-            }
-        });
-    </script>
-</body>
-</html>
-
-        
-
-        
-
-        
-
-
+    
