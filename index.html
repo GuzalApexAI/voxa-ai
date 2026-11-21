@@ -84,6 +84,7 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
                 <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
 
           <button type="button" class="btn-pro" onclick="openPro()">👑 PRO $29</button>
+      </div>
 
       <h2 id="hero-title">Your All-in-One Voice AI for Every Profession</h2>
       <p class="sub" id="hero-sub">Built for students, doctors, accountants, homemakers, and entrepreneurs. Pure productivity, IELTS learning & smart memory.</p>
@@ -210,6 +211,14 @@ function shareApp() {
   if (tg && tg.openTelegramLink) tg.openTelegramLink(u);
   else window.location.href = u;
   alert("🎉 24-Hour Voxa PRO Trial Activated!");
+}
+function shareApp() {
+  var u = "https://" + "t.me/share/url?url=" + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
+  if (tg && tg.openTelegramLink) {
+    tg.openTelegramLink(u);
+  } else {
+    window.open(u, '_blank');
+  }
 }
 
 function setLang(l) {
