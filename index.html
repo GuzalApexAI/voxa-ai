@@ -363,6 +363,28 @@ async function callGemini(promptText, base64Img, mimeType) {
   }
   return "⚠️ Error: " + (data.error ? data.error.message : "Check API key");
 }
+callGemini = async function(promptText, base64Img, mimeType) {
+  var models = ["gemini-3.8-flash-lite", "gemini-2.5-flash-lite", "gemini-3.8-flash"];
+  var parts = [{ text: promptText }];
+  if (base64Img) {
+    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
+  }
+  for (var i = 0; i < models.length; i++) {
+    try {
+      var url = "https://generativelanguage.googleapis." + "com/v1beta/models/" + models[i] + ":generateContent?key=" + GEMINI_KEY;
+      var res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: parts }] })
+      });
+      var data = await res.json();
+      if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
+        return data.candidates[0].content.parts[0].text;
+      }
+    } catch (err) {}
+  }
+  return "⚠️ Server is busy right now. Please try again in 5 seconds.";
+};
 
 ask = async function(inId, outId, mode) {
   var q = document.getElementById(inId).value.trim();
