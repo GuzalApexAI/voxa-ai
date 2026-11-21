@@ -679,6 +679,97 @@ setLang = function(l) {
     mBtns.at(1).innerText = x.at(14);
   }
 };
+document.querySelector('.lang-sel').onchange = function() {
+  var l = this.value;
+  var db = {
+    uz: [
+      "Har bir kasb uchun yagona Ovozli AI",
+      "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.",
+      "🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!",
+      "ULASHISH",
+      "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.",
+      "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.",
+      "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.",
+      "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.",
+      "💬 Voxa AI'dan istalgan narsani so'rang",
+      "Savolingizni yozing yoki mikrofonni bosing...",
+      "✨ AI Javobini Olish",
+      "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira",
+      "🎙️ AI IELTS va Til Murabbiyi", "🚀 Baholash va Ovozli Javob",
+      "📄 Universal Hujjat va Hayot Skaneri", "🔍 Rasmni Hozir Tahlil Qilish",
+      "💼 Rezyume va Biznes Yordamchi", "⚡ Loyihani Yaratish",
+      "🧠 Aqlli Xotira va PIN Seyf", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash"
+    ],
+    ru: [
+      "Универсальный Голосовой ИИ для всех",
+      "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.",
+      "🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!",
+      "ПОДЕЛИТЬСЯ",
+      "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.",
+      "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.",
+      "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.",
+      "Умная Память", "Сохраняйте расходы и заметки под личным PIN.",
+      "💬 Спросите Voxa AI о чём угодно",
+      "Напишите вопрос или нажмите микрофон...",
+      "✨ Получить ответ ИИ",
+      "Главная", "IELTS", "Сканер", "Карьера", "Память",
+      "🎙️ ИИ Тренер по IELTS и Языкам", "🚀 Оценить и Озвучить",
+      "📄 Универсальный Сканер Документов", "🔍 Анализировать Фото Сейчас",
+      "💼 Помощник по Резюме и Бизнесу", "⚡ Создать Черновик",
+      "🧠 Умная Память и PIN Сейф", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память"
+    ],
+    en: [
+      "Your All-in-One Voice AI for Every Profession",
+      "Built for students, doctors, accountants, homemakers, and entrepreneurs.",
+      "🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!",
+      "SHARE",
+      "IELTS & Voice", "Live speaking practice & 100+ language translator.",
+      "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.",
+      "CV & Business", "Create resumes, cover letters & business plans.",
+      "Smart Memory", "Save daily expenses & notes with personal PIN.",
+      "💬 Ask Voxa AI Anything (Voice or Text)",
+      "Ask about IELTS, docs, recipes, business...",
+      "✨ Generate AI Answer",
+      "Home", "IELTS", "Scanner", "Career", "Memory",
+      "🎙️ AI IELTS & Language Coach", "🚀 Evaluate & Speak Back",
+      "📄 Universal Life & Doc Scanner", "🔍 Analyze Photo Now",
+      "💼 Resume & Business Copilot", "⚡ Create Draft",
+      "🧠 Smart Memory & PIN Vault", "🔐 Save Login & PIN", "➕ Save to Memory"
+    ]
+  };
+  var a = db[l] || db.en;
+  document.getElementById('hero-title').innerText = a.at(0);
+  document.getElementById('hero-sub').innerText = a.at(1);
+  document.getElementById('t-viral').innerHTML = a.at(2);
+  document.querySelector('.btn-green').innerText = a.at(3);
+  document.getElementById('c1-t').innerText = a.at(4);
+  document.getElementById('c1-s').innerText = a.at(5);
+  document.getElementById('c2-t').innerText = a.at(6);
+  document.getElementById('c2-s').innerText = a.at(7);
+  document.getElementById('c3-t').innerText = a.at(8);
+  document.getElementById('c3-s').innerText = a.at(9);
+  document.getElementById('c4-t').innerText = a.at(10);
+  document.getElementById('c4-s').innerText = a.at(11);
+  document.getElementById('ask-lbl').innerText = a.at(12);
+  document.getElementById('q-home').placeholder = a.at(13);
+  document.querySelector('#p-home .btn-main').innerText = a.at(14);
+  var n = document.querySelectorAll('.nav button');
+  n.at(0).innerHTML = "<span>🏠</span>" + a.at(15);
+  n.at(1).innerHTML = "<span>🎙️</span>" + a.at(16);
+  n.at(2).innerHTML = "<span>📄</span>" + a.at(17);
+  n.at(3).innerHTML = "<span>💼</span>" + a.at(18);
+  n.at(4).innerHTML = "<span>🧠</span>" + a.at(19);
+  document.querySelector('#p-ielts h2').innerText = a.at(20);
+  document.querySelector('#p-ielts .btn-main').innerText = a.at(21);
+  document.querySelector('#p-scan h2').innerText = a.at(22);
+  document.querySelector('#p-scan .btn-main').innerText = a.at(23);
+  document.querySelector('#p-work h2').innerText = a.at(24);
+  document.querySelector('#p-work .btn-main').innerText = a.at(25);
+  document.querySelector('#p-memo h2').innerText = a.at(26);
+  var mb = document.querySelectorAll('#p-memo .btn-main');
+  mb.at(0).innerText = a.at(27);
+  mb.at(1).innerText = a.at(28);
+};
 
 showMemos();
 </script>
