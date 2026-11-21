@@ -338,6 +338,12 @@ setLang = function(l) {
     document.getElementById('c4-t').innerText = h;
   }
 };
+var BOT_URL = "https://t.me" + "/VoxaCopilot_bot";
+document.querySelector('.btn-pro').onclick = function() {
+  var p = "https://t.me" + "/tribute/app?startapp=s1dl3";
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(p);
+  else window.open(p, '_blank');
+};
 
 showMemos();
 </script>
