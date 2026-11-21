@@ -48,7 +48,7 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
     <div class="logo">V</div>
     <div><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div>
   </div>
-  <select class="lang-sel" onchange="setLang(this.value)">
+  <select  en, uz, ru, ar, tr, es, fr, de, hi, zh, ja, ko, pt, id, kk, tg)="lang-sel" onchange="setLang(this.value)">
     <option value="en">🌐 EN</option>
     <option value="uz">🇺🇿 UZ</option>
     <option value="ru">🇷🇺 RU</option>
@@ -173,6 +173,8 @@ if (tg) { tg.ready(); tg.expand(); }
 var PRO_URL = "https://t.me";
 var BOT_URL = "https://t.me";
 
+
+
 function go(id, idx) {
   var pages = document.querySelectorAll('.page');
   for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
@@ -185,10 +187,10 @@ function go(id, idx) {
 function openPro() {
   if (tg && tg.openTelegramLink) tg.openTelegramLink(PRO_URL);
   else window.open(PRO_URL, '_blank');
-}
 
 function shareApp() {
-  var u = "https://t.me" + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
+  var base = "https://" + "t.me/share/url?url=";
+  var u = base + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI!");
   if (tg && tg.openTelegramLink) tg.openTelegramLink(u);
   else window.open(u, '_blank');
   alert("🎉 24-Hour Voxa PRO Trial Activated!");
