@@ -548,6 +548,33 @@ setLang = function(l) {
   document.getElementById('c3-t').innerText = x.at(4);
   document.getElementById('c4-t').innerText = x.at(5);
 };
+var _prevLang = setLang;
+setLang = function(l) {
+  _prevLang(l);
+  var full = {
+    uz: ["Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "💬 Voxa AI'dan istalgan narsani so'rang", "IELTS, hujjatlar, retseptlar, biznes haqida yozing...", "✨ AI Javobini Olish", "🎙️ AI IELTS va Til Murabbiyi", "📄 Universal Hujjat va Hayot Skaneri", "💼 Rezyume va Biznes Yordamchi", "🧠 Aqlli Xotira va PIN Seyf"],
+    ru: ["Главная", "IELTS", "Сканер", "Карьера", "Память", "💬 Спросите Voxa AI о чём угодно", "Спросите про IELTS, документы, рецепты, бизнес...", "✨ Получить ответ ИИ", "🎙️ ИИ Тренер по IELTS и Языкам", "📄 Универсальный Сканер Документов", "💼 Помощник по Резюме и Бизнесу", "🧠 Умная Память и PIN Сейф"],
+    en: ["Home", "IELTS", "Scanner", "Career", "Memory", "💬 Ask Voxa AI Anything (Voice or Text)", "Ask about IELTS, docs, recipes, business...", "✨ Generate AI Answer", "🎙️ AI IELTS & Language Coach", "📄 Universal Life & Doc Scanner", "💼 Resume & Business Copilot", "🧠 Smart Memory & PIN Vault"],
+    ar: ["الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "💬 اسأل Voxa AI أي شيء", "اسأل عن IELTS والمستندات والوصفات...", "✨ إنشاء إجابة الذكاء الاصطناعي", "🎙️ مدرب IELTS واللغات", "📄 ماسح المستندات الشامل", "💼 مساعد السيرة والأعمال", "🧠 الذاكرة الذكية"],
+    tr: ["Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "💬 Voxa AI'ya Her Şeyi Sorun", "IELTS, belgeler, tarifler, iş hakkında sorun...", "✨ Yapay Zeka Yanıtı Oluştur", "🎙️ AI IELTS ve Dil Koçu", "📄 Evrensel Belge Tarayıcı", "💼 Özgeçmiş ve İş Asistanı", "🧠 Akıllı Hafıza ve PIN Kasası"]
+  };
+  var f = full[l] || full.en;
+  var navs = document.querySelectorAll('.nav button');
+  if (navs.length >= 5) {
+    navs.at(0).innerHTML = "<span>🏠</span>" + f.at(0);
+    navs.at(1).innerHTML = "<span>🎙️</span>" + f.at(1);
+    navs.at(2).innerHTML = "<span>📄</span>" + f.at(2);
+    navs.at(3).innerHTML = "<span>💼</span>" + f.at(3);
+    navs.at(4).innerHTML = "<span>🧠</span>" + f.at(4);
+  }
+  document.getElementById('ask-lbl').innerText = f.at(5);
+  document.getElementById('q-home').placeholder = f.at(6);
+  document.querySelector('#p-home .btn-main').innerText = f.at(7);
+  document.querySelector('#p-ielts h2').innerText = f.at(8);
+  document.querySelector('#p-scan h2').innerText = f.at(9);
+  document.querySelector('#p-work h2').innerText = f.at(10);
+  document.querySelector('#p-memo h2').innerText = f.at(11);
+};
 
 showMemos();
 </script>
