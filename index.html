@@ -344,6 +344,73 @@ document.querySelector('.btn-pro').onclick = function() {
   if (tg && tg.openTelegramLink) tg.openTelegramLink(p);
   else window.open(p, '_blank');
 };
+var GEMINI_KEY = "AQ.Ab8RN6JNVRFXM6czGZ--oqbp1m3SRDjggaoUZemHncY0MZKvyA ";
+
+async function callGemini(promptText, base64Img, mimeType) {
+  var url = "https://generativelanguage.googleapis." + "com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GEMINI_KEY;
+  var parts = [{ text: promptText }];
+  if (base64Img) {
+    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
+  }
+  var res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ contents: [{ parts: parts }] })
+  });
+  var data = await res.json();
+  if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
+    return data.candidates[0].content.parts[0].text;
+  }
+  return "⚠️ Check API key or try again.";
+}
+
+ask = async function(inId, outId, mode) {
+  var q = document.getElementById(inId).value.trim();
+  var o = document.getElementById(outId);
+  if (!q) { alert("Please type or speak first!"); return; }
+  o.style.display = "block";
+  o.innerHTML = "🧠 <b>Voxa AI</b> is thinking in real-time...";
+  var sys = mode === 'ielts' ? "You are an official IELTS Examiner. Evaluate this answer, give an estimated Band Score (1-9), correct grammar mistakes, and ask 1 follow-up IELTS question: " :
+            mode === 'work' ? "You are an executive HR & Business Consultant. Create a clear, professional, actionable draft for: " :
+            "You are Voxa AI, a helpful universal life and productivity assistant. Give a clear, concise, structured answer: ";
+  try {
+    var ans = await callGemini(sys + q);
+    o.innerHTML = ans.replace(/\n/g, "<br>");
+    if (mode === 'ielts' && 'speechSynthesis' in window) {
+      window.speechSynthesis.speak(new SpeechSynthesisUtterance(ans.slice(0, 180)));
+    }
+  } catch (e) {
+    o.innerHTML = "⚠️ Connection error. Please check your API key.";
+  }
+};
+
+scanDoc = async function() {
+  var fileInput = document.getElementById('f-scan');
+  var type = document.getElementById('t-scan').value;
+  var o = document.getElementById('o-scan');
+  if (!fileInput.files || !fileInput.files[0]) {
+    alert("📸 Please select or take a photo first!");
+    return;
+  }
+  var file = fileInput.files[0];
+  o.style.display = "block";
+  o.innerHTML = "🔍 <b>Voxa Vision AI</b> is analyzing your photo...";
+  var reader = new FileReader();
+  reader.onload = async function() {
+    var base64 = reader.result.split(',')[1];
+    var prompt = type === 'Contract' ? "Analyze this document/contract/message photo. Summarize key terms and warn about any hidden risks or traps." :
+                 type === 'Receipt' ? "Extract all items, prices, and total amount from this receipt photo in a neat list." :
+                 type === 'Recipe' ? "Identify the ingredients in this photo and suggest 2 delicious, healthy recipes." :
+                 "Explain this textbook page or homework problem step-by-step clearly.";
+    try {
+      var ans = await callGemini(prompt, base64, file.type);
+      o.innerHTML = ans.replace(/\n/g, "<br>");
+    } catch (e) {
+      o.innerHTML = "⚠️ Error analyzing photo. Check API key.";
+    }
+  };
+  reader.readAsDataURL(file);
+};
 
 showMemos();
 </script>
