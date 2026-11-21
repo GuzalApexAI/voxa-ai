@@ -524,6 +524,30 @@ callGemini = async function(promptText, base64Img, mimeType) {
     return "⚠️ Connection error.";
   }
 };
+var _baseCall = callGemini;
+callGemini = async function(promptText, base64Img, mimeType) {
+  var sel = document.querySelector('.lang-sel');
+  var langCode = sel ? sel.value : 'en';
+  var rule = "CRITICAL: Answer ONLY in the user's language (UI: " + langCode + ", or exact language of user's input — fluent Uzbek if Uzbek, Russian if Russian). No ** or ### symbols. ";
+  return await _baseCall(rule + promptText, base64Img, mimeType);
+};
+
+setLang = function(l) {
+  var d = {
+    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "IELTS & Voice", "Smart Scanner", "CV & Business", "Smart Memory"],
+    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "IELTS va Ovoz", "Aqlli Skaner", "Rezyume va Biznes", "Aqlli Xotira"],
+    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "IELTS и Голос", "Умный Сканер", "Резюме и Бизнес", "Умная Память"],
+    ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال.", "IELTS والصوت", "الماسح الذكي", "السيرة والأعمال", "الذاكرة الذكية"],
+    tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için.", "IELTS ve Ses", "Akıllı Tarayıcı", "CV ve İş", "Akıllı Hafıza"]
+  };
+  var x = d[l] || d.en;
+  document.getElementById('hero-title').innerText = x.at(0);
+  document.getElementById('hero-sub').innerText = x.at(1);
+  document.getElementById('c1-t').innerText = x.at(2);
+  document.getElementById('c2-t').innerText = x.at(3);
+  document.getElementById('c3-t').innerText = x.at(4);
+  document.getElementById('c4-t').innerText = x.at(5);
+};
 
 showMemos();
 </script>
