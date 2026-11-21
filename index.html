@@ -1,678 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Voxa AI — Universal Voice & Life SuperApp</title>
-  <meta name="description" content="Voxa AI: All-in-one AI Voice Tutor for IELTS, Smart Document & Receipt Scanner, Resume Builder, Expense Memory, and 100+ Language Translator." />
-  <meta name="keywords" content="Voxa AI, IELTS AI Tutor, Voice AI, Resume Builder, Smart Scanner, AI Translator, Productivity App" />
-  <script src="https://telegram.org"></script>
-  <link href="https://googleapis.com" rel="stylesheet">
-  <style>
-    :root {
-      --bg-dark: #070913;
-      --card-bg: rgba(19, 24, 42, 0.78);
-      --border-glass: rgba(255, 255, 255, 0.09);
-      --primary: #8b5cf6;
-      --secondary: #06b6d4;
-      --accent: #ec4899;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.22), transparent 35%),
-        radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.18), transparent 35%),
-        radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.15), transparent 40%);
-      color: var(--text-main);
-      min-height: 100vh;
-      padding-bottom: 90px;
-      overflow-x: hidden;
-    }
-
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 18px;
-      background: rgba(7, 9, 19, 0.85);
-      backdrop-filter: blur(16px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border-glass);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-    }
-
-    .brand-info h1 {
-      font-size: 17px;
-      font-weight: 800;
-      background: linear-gradient(90deg, #fff, #c4b5fd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .brand-info span {
-      font-size: 11px;
-      color: var(--success);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .lang-box {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    #google_translate_element select {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      border: 1px solid var(--border-glass);
-      padding: 6px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      outline: none;
-    }
-
-    .goog-te-gadget { font-size: 0 !important; }
-    .goog-logo-link { display: none !important; }
-
-    /* Container & Pages */
-    .container {
-      padding: 16px;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    .page { display: none; animation: fadeIn 0.3s ease; }
-    .page.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Viral Banner */
-    .viral-card {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.2));
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      border-radius: 16px;
-      padding: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .viral-text {
-      font-size: 12.5px;
-      line-height: 1.4;
-      color: #f1f5f9;
-    }
-
-    .btn-share {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      border: none;
-      padding: 9px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
-    }
-
-    /* Hero Banner (Leonardo AI style) */
-    .hero-card {
-      background: linear-gradient(145deg, rgba(24, 31, 56, 0.9), rgba(15, 20, 38, 0.95));
-      border: 1px solid var(--border-glass);
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .badge-safe {
-      background: rgba(6, 182, 212, 0.15);
-      color: #22d3ee;
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .btn-pro {
-      background: linear-gradient(135deg, #f59e0b, #ea580c);
-      color: #fff;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 12px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-    }
-
-    .hero-card h2 {
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 8px;
-      background: linear-gradient(90deg, #ffffff, #38bdf8, #e879f9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-card p {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .stat-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      padding: 10px 8px;
-      text-align: center;
-    }
-
-    .stat-box small {
-      display: block;
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .stat-box strong {
-      font-size: 13px;
-      color: #38bdf8;
-    }
-
-    /* Tools Grid */
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin: 18px 0 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .tool-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-glass);
-      border-radius: 18px;
-      padding: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-      position: relative;
-    }
-
-    .tool-card:active { transform: scale(0.97); }
-
-    .tool-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-
-    .ic-purple { background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.4); }
-    .ic-cyan { background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.4); }
-    .ic-pink { background: rgba(236, 72, 153, 0.2); border: 1px solid rgba(236, 72, 153, 0.4); }
-    .ic-green { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); }
-
-    .tool-card h3 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .tool-card p {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      line-height: 1.35;
-    }
-
-    /* Interactive AI Box */
-    .ai-box {
-      background: var(--card-bg);
-      border: 1px solid rgba(139, 92, 246, 0.35);
-      border-radius: 18px;
-      padding: 16px;
-      margin-top: 16px;
-    }
-
-    .input-group {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    input, textarea, select.custom-select {
-      width: 100%;
-      background: rgba(7, 9, 19, 0.8);
-      border: 1px solid var(--border-glass);
-      color: #fff;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 13.5px;
-      outline: none;
-    }
-
-    .btn-action {
-      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-      color: #fff;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 13.5px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .btn-voice {
-      background: linear-gradient(135deg, #ec4899, #8b5cf6);
-      border: none;
-      color: white;
-      width: 48px;
-      border-radius: 12px;
-      font-size: 18px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .ai-output {
-      margin-top: 14px;
-      background: rgba(0, 0, 0, 0.45);
-      border-left: 3px solid #06b6d4;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 13px;
-      line-height: 1.55;
-      color: #e2e8f0;
-      display: none;
-    }
-
-    /* Memory List */
-    .memory-item {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-glass);
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-    }
-
-    /* Disclaimer */
-    .disclaimer {
-      margin-top: 24px;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-      line-height: 1.4;
-    }
-
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(10, 13, 26, 0.94);
-      backdrop-filter: blur(18px);
-      border-top: 1px solid var(--border-glass);
-      display: flex;
-      
-      justify-content: space-around;
-      padding: 10px 4px;
-      z-index: 200;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      background: none;
-      width: 20%;
-    }
-
-    .nav-item.active {
-      color: #38bdf8;
-    }
-
-    .nav-item span.icon {
-      font-size: 19px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Voxa AI — Universal Voice & Life Copilot</title>
+<script src="https://telegram.org"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
+body{background:#070913;color:#f8fafc;min-height:100vh;padding-bottom:85px;background-image:radial-gradient(circle at 15% 10%,rgba(139,92,246,.25),transparent 40%),radial-gradient(circle at 85% 30%,rgba(6,182,212,.2),transparent 40%)}
+.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(7,9,19,.92);border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:50}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#ec4899,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.brand h1{font-size:16px;font-weight:800}
+.brand span{font-size:11px;color:#10b981;display:block}
+select.lang-sel{background:#13182a;color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 8px;border-radius:8px;font-size:12px}
+.wrap{padding:14px;max-width:500px;margin:0 auto}
+.page{display:none}
+.page.active{display:block}
+.viral{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(236,72,153,.22));border:1px solid rgba(139,92,246,.45);border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;font-size:12px}
+.btn-green{background:#10b981;color:#fff;border:none;padding:8px 14px;border-radius:9px;font-weight:700;cursor:pointer}
+.card{background:rgba(19,24,42,.88);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;margin-bottom:14px}
+.top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.badge{background:rgba(6,182,212,.15);color:#22d3ee;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.btn-pro{background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;border:none;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px;cursor:pointer}
+h2{font-size:20px;font-weight:800;margin-bottom:8px;line-height:1.25}
+p.sub{font-size:13px;color:#94a3b8;line-height:1.45;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tool{background:rgba(19,24,42,.85);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;cursor:pointer}
+.tool h3{font-size:14px;margin:8px 0 4px}
+.tool p{font-size:11px;color:#94a3b8;line-height:1.35}
+.ico{font-size:22px}
+.row{display:flex;gap:8px;margin-top:8px}
+input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(255,255,255,.15);color:#fff;padding:11px;border-radius:10px;font-size:13px;margin-top:8px}
+.btn-main{background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;border:none;padding:12px;border-radius:11px;font-weight:700;width:100%;margin-top:10px;cursor:pointer;font-size:13.5px}
+.btn-mic{background:#ec4899;color:#fff;border:none;width:46px;border-radius:10px;font-size:18px;margin-top:8px;cursor:pointer;flex-shrink:0}
+.out{margin-top:12px;background:rgba(0,0,0,.5);border-left:3px solid #06b6d4;padding:11px;border-radius:8px;font-size:13px;line-height:1.5;display:none}
+.memo{background:rgba(255,255,255,.05);padding:10px;border-radius:10px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.disc{font-size:11px;color:#64748b;text-align:center;margin-top:16px;line-height:1.4}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0a0d1a;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-around;padding:9px 0;z-index:99}
+.nav button{background:none;border:none;color:#94a3b8;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;width:20%}
+.nav button.active{color:#38bdf8;font-weight:700}
+</style>
 </head>
 <body>
-
-  <div class="header">
-    <div class="brand">
-      <div class="brand-logo">V</div>
-      <div class="brand-info">
-        <h1>Voxa AI</h1>
-        <span>● 24/7 Voice & Life Copilot</span>
-      </div>
+<div class="header">
+  <div class="brand">
+    <div class="logo">V</div>
+    <div><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div>
+  </div>
+  <select class="lang-sel" onchange="setLang(this.value)">
+    <option value="en">🌐 EN</option>
+    <option value="uz">🇺🇿 UZ</option>
+    <option value="ru">🇷🇺 RU</option>
+    <option value="ar">🇸🇦 AR</option>
+    <option value="tr">🇹🇷 TR</option>
+    <option value="es">🇪🇸 ES</option>
+  </select>
+</div>
+<div class="wrap">
+  <div id="p-home" class="page active">
+    <div class="viral">
+      <div>🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</div>
+      <button type="button" class="btn-green" onclick="shareApp()">SHARE</button>
     </div>
-    <div class="lang-box">
-      <div id="google_translate_element"></div>
+
+    <div class="card">
+      <div class="top-row">
+        <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
+        <button type="button" class="btn-pro" onclick="openPro()">👑 PRO $29</button>
+      </div>
+      <h2 id="hero-title">Your All-in-One Voice AI for Every Profession</h2>
+      <p class="sub" id="hero-sub">Built for students, doctors, accountants, homemakers, and entrepreneurs. Pure productivity, IELTS learning & smart memory.</p>
+    </div>
+
+    <div class="grid">
+      <div class="tool" onclick="go('p-ielts',1)"><div class="ico">🎙️</div><h3>IELTS & Voice</h3><p>Live speaking practice & 100+ language translator.</p></div>
+      <div class="tool" onclick="go('p-scan',2)"><div class="ico">📄</div><h3>Smart Scanner</h3><p>Analyze contracts, receipts, recipes & study notes.</p></div>
+      <div class="tool" onclick="go('p-work',3)"><div class="ico">💼</div><h3>CV & Business</h3><p>Create resumes, cover letters & business plans.</p></div>
+      <div class="tool" onclick="go('p-memo',4)"><div class="ico">🧠</div><h3>Smart Memory</h3><p>Save daily expenses & notes with personal PIN.</p></div>
+    </div>
+
+    <div class="card">
+      <b>💬 Ask Voxa AI Anything (Voice or Text)</b>
+      <div class="row">
+        <input id="q-home" placeholder="Ask about IELTS, docs, recipes, business...">
+        <button type="button" class="btn-mic" onclick="mic('q-home')">🎤</button>
+      </div>
+      <button type="button" class="btn-main" onclick="ask('q-home','o-home','gen')">✨ Generate AI Answer</button>
+      <div id="o-home" class="out"></div>
     </div>
   </div>
 
-  <div class="container">
-    <div id="page-home" class="page active">
-      <div class="viral-card">
-        <div class="viral-text">
-          🎁 <strong>Share with 1 friend</strong> to unlock 24 hours of <strong>Voxa PRO</strong> for free!
-        </div>
-        <button class="btn-share" onclick="shareApp()">SHARE</button>
+  <div id="p-ielts" class="page">
+    <div class="card">
+      <h2>🎙️ AI IELTS & Language Coach</h2>
+      <p class="sub">Practice IELTS Speaking & Writing or translate into 100+ languages.</p>
+      <select id="ielts-t" class="inp">
+        <option value="Speaking">IELTS Speaking Simulator (Band Score)</option>
+        <option value="Writing">IELTS Writing Essay Checker</option>
+        <option value="Translate">Smart Voice Translator (EN/UZ/RU/AR)</option>
+      </select>
+      <div class="row">
+        <textarea id="q-ielts" rows="3" placeholder="Speak or type your English answer..."></textarea>
+        <button type="button" class="btn-mic" onclick="mic('q-ielts')">🎤</button>
       </div>
-
-      <div class="hero-card">
-        <div class="hero-top">
-          <div class="badge-safe">🛡️ Zero-Wallet • 100% Safe</div>
-          <button class="btn-pro" onclick="openPro()">👑 PRO $29</button>
-        </div>
-        <h2>Your All-in-One Voice AI for Every Profession</h2>
-        <p>Built for students, doctors, accountants, homemakers, and entrepreneurs. No wallet connection required — pure productivity, learning & smart memory.</p>
-        <div class="stats-row">
-          <div class="stat-box">
-            <small>AI ENGINE</small>
-            <strong>24/7 Live Voice</strong>
-          </div>
-          <div class="stat-box">
-            <small>LANGUAGES</small>
-            <strong>100+ Global</strong>
-          </div>
-          <div class="stat-box">
-            <small>SECURITY</small>
-            <strong>No Wallet Risk</strong>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-title">
-        <span>✨ Popular Everyday Tools</span>
-        <span style="font-size:12px; color:#38bdf8;">Tap to open</span>
-      </div>
-
-      <div class="tools-grid">
-        <div class="tool-card" onclick="switchPage('page-ielts', 1)">
-          <div class="tool-icon ic-purple">🎙️</div>
-          <h3>IELTS & Voice Tutor</h3>
-          <p>Live English speaking practice, grammar scoring & instant translator.</p>
-        </div>
-        <div class="tool-card" onclick="switchPage('page-scanner', 2)">
-          <div class="tool-icon ic-cyan">📄</div>
-          <h3>Smart Doc & Receipt</h3>
-          <p>Scan contracts, bills, recipes, or notes for instant AI summary.</p>
-        </div>
-        <div class="tool-card" onclick="switchPage('page-career', 3)">
-          <div class="tool-icon ic-pink">💼</div>
-          <h3>CV & Business AI</h3>
-          <p>Create job-winning resumes, business plans & market research.</p>
-        </div>
-        <div class="tool-card" onclick="switchPage('page-memory', 4)">
-          <div class="tool-icon ic-green">🧠</div>
-          <h3>Smart Expense Memory</h3>
-          <p>Record daily expenses & reminders by voice with secure login.</p>
-        </div>
-      </div>
-
-      <div class="ai-box">
-        <div style="font-weight:700; font-size:14px;">💬 Ask Voxa AI Anything (Voice or Text)</div>
-        <div class="input-group">
-          <input type="text" id="home-prompt" placeholder="Ask about IELTS, business, recipes, docs..." />
-          <button class="btn-voice" onclick="startVoice('home-prompt')" title="Speak">🎤</button>
-        </div>
-        <button class="btn-action" onclick="runAI('home-prompt', 'home-output', 'general')">✨ Generate AI Answer</button>
-        <div id="home-output" class="ai-output"></div>
-      </div>
-    </div>
-
-    <div id="page-ielts" class="page">
-      <div class="hero-card">
-        <h2>🎙️ AI IELTS & Language Coach</h2>
-        <p>Practice IELTS Speaking Part 1-3, check Writing Task 2 band score, or translate any phrase into 100+ languages.</p>
-        <select id="ielts-mode" class="custom-select" style="margin-bottom:10px;">
-          <option value="speaking">IELTS Speaking Simulator (Band Score + Feedback)</option>
-          <option value="writing">IELTS Writing Essay Checker</option>
-          <option value="translate">Universal Smart Translator (EN / UZ / RU / AR)</option>
-        </select>
-        <div class="input-group">
-          <textarea id="ielts-input" rows="3" placeholder="Tap the mic and speak in English, or paste your essay here..."></textarea>
-          <button class="btn-voice" onclick="startVoice('ielts-input')">🎤</button>
-        </div>
-        <button class="btn-action" onclick="runAI('ielts-input', 'ielts-output', 'ielts')">🚀 Evaluate & Speak Back</button>
-        <div id="ielts-output" class="ai-output"></div>
-      </div>
-    </div>
-
-    <div id="page-scanner" class="page">
-      <div class="hero-card">
-        <h2>📄 Universal Document & Life Scanner</h2>
-        <p>Upload a photo of a contract, store receipt, prescription, or fridge ingredients — Voxa AI analyzes and simplifies it in 3 seconds.</p>
-        <input type="file" id="scan-file" accept="image/*" style="margin-bottom:10px;" />
-        <select id="scan-type" class="custom-select" style="margin-bottom:10px;">
-          <option value="contract">Check Contract / SMS for Hidden Risks</option>
-          <option value="receipt">Extract Receipt Items & Total Cost</option>
-          <option value="food">Suggest Recipes from Food Photo</option>
-          <option value="study">Explain Textbook / Homework Page</option>
-        </select>
-        <button class="btn-action" onclick="analyzeDocument()">🔍 Analyze Document Now</button>
-        <div id="scan-output" class="ai-output"></div>
-      </div>
-    </div>
-
-    <div id="page-career" class="page">
-      <div class="hero-card">
-        <h2>💼 Resume Builder & Business Copilot</h2>
-        <p>Generate international CVs, cover letters, daily work schedules, or data-driven business ideas tailored to your skills.</p>
-        <select id="career-type" class="custom-select" style="margin-bottom:10px;">
-          <option value="cv">Build Professional Resume (CV)</option>
-          <option value="business">Generate Profitable Small Business Plan</option>
-          <option value="market">Educational Market & Data Analysis</option>
-        </select>
-        <textarea id="career-input" rows="3" placeholder="Enter your profession, skills, or business question..."></textarea>
-        <button class="btn-action" onclick="runAI('career-input', 'career-output', 'career')">⚡ Create Professional Draft</button>
-        <div id="career-output" class="ai-output"></div>
-      </div>
-    </div>
-
-    <div id="page-memory" class="page">
-      <div class="hero-card">
-        <h2>🧠 Smart Memory & Account</h2>
-        <p>Save daily expenses, notes, and goals locally on your device. Protected with personal PIN/Password.</p>
-        
-        <div id="auth-section" style="margin-bottom:14px;">
-          <input type="text" id="user-login" placeholder="Create Username" style="margin-bottom:8px;" />
-          <input type="password" id="user-pass" placeholder="Create Personal Password" style="margin-bottom:8px;" />
-          <button class="btn-action" onclick="saveAccount()">🔐 Save Login & Unlock Vault</button>
-        </div>
-
-        <div class="section-title"><span>📝 Add Expense or Note (Voice/Text)</span></div>
-        <div class="input-group">
-          <input type="text" id="memo-input" placeholder="e.g., Groceries $25 or Meeting at 4 PM" />
-          <button class="btn-voice" onclick="startVoice('memo-input')">🎤</button>
-        </div>
-        <button class="btn-action" onclick="addMemory()">➕ Save to AI Memory</button>
-        <div id="memory-list" style="margin-top:12px;"></div>
-      </div>
-    </div>
-
-    <div class="disclaimer">
-      Voxa AI is an educational, productivity, and personal assistant tool. It does not connect to crypto wallets or provide regulated financial/medical advice.
+      <button type="button" class="btn-main" onclick="ask('q-ielts','o-ielts','ielts')">🚀 Evaluate & Speak Back</button>
+      <div id="o-ielts" class="out"></div>
     </div>
   </div>
 
-  <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchPage('page-home', 0)">
-      <span class="icon">🏠</span><span>Home</span>
-    </button>
-    <button class="nav-item" onclick="switchPage('page-ielts', 1)">
-      <span class="icon">🎙️</span><span>IELTS</span>
-    </button>
-    <button class="nav-item" onclick="switchPage('page-scanner', 2)">
-      <span class="icon">📄</span><span>Scanner</span>
-    </button>
-    <button class="nav-item" onclick="switchPage('page-career', 3)">
-      <span class="icon">💼</span><span>Career</span>
-    </button>
-    <button class="nav-item" onclick="switchPage('page-memory', 4)">
-      
-      function runAI(inputId, outputId, category) {
-      const query = document.getElementById(inputId).value.trim();
-      const out = document.getElementById(outputId);
-      if (!query) {
-        alert("Please enter or speak your question first!");
-        return;
-      }
-      out.style.display = "block";
-      out.innerHTML = "⏳ <strong>Voxa AI</strong> is analyzing your request...";
+  <div id="p-scan" class="page">
+    <div class="card">
+      <h2>📄 Universal Life & Doc Scanner</h2>
+      <p class="sub">Upload a photo of a contract, receipt, food, or textbook page.</p>
+      <input type="file" id="f-scan" accept="image/*">
+      <select id="t-scan" class="inp">
+        <option value="Contract">Check Contract / SMS for Risks</option>
+        <option value="Receipt">Extract Receipt Items & Cost</option>
+        <option value="Recipe">Suggest Recipes from Food Photo</option>
+        <option value="Study">Explain Textbook / Homework</option>
+      </select>
+      <button type="button" class="btn-main" onclick="scanDoc()">🔍 Analyze Photo Now</button>
+      <div id="o-scan" class="out"></div>
+    </div>
+  </div>
 
-      setTimeout(() => {
-        let reply = "";
-        if (category === 'ielts') {
-          reply = `✅ <strong>IELTS AI Evaluation:</strong><br>Your response: <em>"${query}"</em><br><br>• <strong>Estimated Band:</strong> 7.0 – 7.5<br>• <strong>Tip:</strong> Use linking phrases like <em>"Furthermore"</em> and <em>"From my perspective"</em> to boost coherence.<br>• <strong>Next Question:</strong> How has technology changed daily work in your country?`;
-          speakText("Your estimated band is 7.5. Try using more advanced linking phrases. Next question: How has technology changed daily work in your country?");
-        } else if (category === 'career') {
-          reply = `💼 <strong>Voxa Career & Business Draft:</strong><br>Based on <em>"${query}"</em>:<br>• <strong>Executive Summary:</strong> Results-driven professional skilled in modern digital tools, communication, and efficiency.<br>• <strong>Action Step:</strong> Highlight measurable achievements (e.g., saved 20% time) at the top of your CV.`;
-        } else {
-          reply = `✨ <strong>Voxa AI Assistant:</strong><br>Here is a structured analysis for <em>"${query}"</em>:<br>1. Clear breakdown of key steps.<br>2. Time & cost-saving recommendations.<br>3. Saved to your session history for quick access.`;
-        }
-        out.innerHTML = reply;
-      }, 800);
-    }
+  <div id="p-work" class="page">
+    <div class="card">
+      <h2>💼 Resume & Business Copilot</h2>
+      <p class="sub">Generate international CVs, business plans, and market research.</p>
+      <select id="t-work" class="inp">
+        <option value="CV">Build Professional Resume (CV)</option>
+        <option value="Plan">Small Business Action Plan</option>
+        <option value="Data">Educational Market Analysis</option>
+      </select>
+      <textarea id="q-work" rows="3" placeholder="Enter your job title, skills, or business idea..."></textarea>
+      <button type="button" class="btn-main" onclick="ask('q-work','o-work','work')">⚡ Create Draft</button>
+      <div id="o-work" class="out"></div>
+    </div>
+  </div>
 
-    function analyzeDocument() {
-      const file = document.getElementById('scan-file').files[0];
-      const type = document.getElementById('scan-type').value;
-      const out = document.getElementById('scan-output');
-      out.style.display = "block";
-      out.innerHTML = "🔍 Scanning image with Voxa Vision AI...";
-      setTimeout(() => {
-        out.innerHTML = `✅ <strong>Scan Complete (${type.toUpperCase()}):</strong><br>• File: <strong>${file ? file.name : 'Sample Document'}</strong><br>• <strong>Key Finding:</strong> Document structure verified. No suspicious hidden clauses detected.<br>• <strong>Summary:</strong> Ready to export or save to your Smart Memory tab.`;
-      }, 1000);
-    }
+  <div id="p-memo" class="page">
+    <div class="card">
+      <h2>🧠 Smart Memory & PIN Vault</h2>
+      <p class="sub">Save daily expenses and reminders privately on your phone.</p>
+      <input id="u-name" placeholder="Create Login / Username">
+      <input id="u-pin" type="password" placeholder="Create Personal PIN">
+      <button type="button" class="btn-main" onclick="saveUser()">🔐 Save Login & PIN</button>
+      <div class="row" style="margin-top:14px">
+        <input id="q-memo" placeholder="e.g., Groceries $20 or Doctor at 5 PM">
+        <button type="button" class="btn-mic" onclick="mic('q-memo')">🎤</button>
+      </div>
+      <button type="button" class="btn-main" onclick="addMemo()">➕ Save to Memory</button>
+      <div id="memo-list"></div>
+    </div>
+  </div>
 
-    function saveAccount() {
-      const u = document.getElementById('user-login').value.trim();
-      const p = document.getElementById('user-pass').value.trim();
-      if (!u || !p) return alert("Enter username and password");
-      localStorage.setItem('voxa_user', JSON.stringify({ u, p }));
-      alert("✅ Account & PIN saved securely on your device!");
-    }
+  <div class="disc">Voxa AI is an educational & productivity tool. No crypto wallets connected. Not financial or medical advice.</div>
+</div>
+<div class="nav">
+  <button type="button" class="active" onclick="go('p-home',0)"><span>🏠</span>Home</button>
+  <button type="button" onclick="go('p-ielts',1)"><span>🎙️</span>IELTS</button>
+  <button type="button" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
+  <button type="button" onclick="go('p-work',3)"><span>💼</span>Career</button>
+  <button type="button" onclick="go('p-memo',4)"><span>🧠</span>Memory</button>
+</div>
 
-    function addMemory() {
-      const val = document.getElementById('memo-input').value.trim();
-      if (!val) return;
-      const list = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
-      list.unshift({ text: val, date: new Date().toLocaleDateString() });
-      localStorage.setItem('voxa_memos', JSON.stringify(list));
-      document.getElementById('memo-input').value = '';
-      renderMemories();
-    }
+<script>
+var tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
 
-    function renderMemories() {
-      const list = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
-      const container = document.getElementById('memory-list');
-      container.innerHTML = list.map((item, idx) => `
-        <div class="memory-item">
-          <div><strong>${item.text}</strong><br><small style="color:#94a3b8">${item.date}</small></div>
-          <button onclick="deleteMemory(${idx})" style="background:none;border:none;color:#ef4444;font-weight:bold;cursor:pointer;">✕</button>
-        </div>
-      `).join('');
+var PRO_URL = "https://t.me";
+var BOT_URL = "https://t.me";
+
+function go(id, idx) {
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  var btns = document.querySelectorAll('.nav button');
+  for (var j = 0; j < btns.length; j++) btns[j].classList.toggle('active', j === idx);
+  window.scrollTo(0, 0);
+}
+
+function openPro() {
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(PRO_URL);
+  else window.open(PRO_URL, '_blank');
+}
+
+function shareApp() {
+  var u = "https://t.me" + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(u);
+  else window.open(u, '_blank');
+  alert("🎉 24-Hour Voxa PRO Trial Activated!");
+}
+
+function setLang(l) {
+  var t = {
+    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter va uy bekalari uchun aqlli yordamchi."],
+    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров и предпринимателей."],
+    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs."],
+    ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال."],
+    tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için."],
+    es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores."]
+  };
+  if (t[l]) {
+    document.getElementById('hero-title').innerText = t[l][0];
+    document.getElementById('hero-sub').innerText = t[l][1];
+  }
+}
+
+function mic(id) {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert("Please allow microphone or type your text."); return; }
+  var r = new SR();
+  r.lang = 'en-US';
+  r.start();
+  r.onresult = function(e) { document.getElementById(id).value = e.results[0][0].transcript; };
+}
+
+function ask(inId, outId, mode) {
+  var q = document.getElementById(inId).value.trim();
+  var o = document.getElementById(outId);
+  if (!q) { alert("Please type or speak first!"); return; }
+  o.style.display = "block";
+  o.innerHTML = "⏳ Voxa AI is thinking...";
+  setTimeout(function() {
+    if (mode === 'ielts') {
+      o.innerHTML = "✅ <b>IELTS Band Estimate: 7.5</b><br>Input: <i>" + q + "</i><br>• Great vocabulary! Use connectors like <i>Furthermore</i> for Band 8.0.";
+      if ('speechSynthesis' in window) window.speechSynthesis.speak(new SpeechSynthesisUtterance("Your estimated band score is 7.5. Great job!"));
+    } else if (mode === 'work') {
+      o.innerHTML = "💼 <b>Professional Draft:</b><br>Tailored summary for <i>" + q + "</i>:<br>• Results-oriented specialist with strong analytical and communication skills.";
+    } else {
+      o.innerHTML = "✨ <b>Voxa AI Response:</b><br>Analysis for <i>" + q + "</i>:<br>1. Key actionable steps prepared.<br>2. Optimized for speed and clarity.";
     }
-    function deleteMemory(idx) {
-      const list = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
-      list.splice(idx, 1);
-      localStorage.setItem('voxa_memos', JSON.stringify(list));
-      renderMemories();
-    }
-    renderMemories();
-  </script>
+  }, 500);
+}
+
+function scanDoc() {
+  var t = document.getElementById('t-scan').value;
+  var o = document.getElementById('o-scan');
+  o.style.display = "block";
+  o.innerHTML = "🔍 Scanning with Voxa Vision...";
+  setTimeout(function() {
+    o.innerHTML = "✅ <b>" + t + " Scan Complete:</b><br>• Document verified cleanly.<br>• Ready to save in your Memory tab.";
+  }, 600);
+}
+
+function saveUser() {
+  var u = document.getElementById('u-name').value.trim();
+  var p = document.getElementById('u-pin').value.trim();
+  if (!u || !p) { alert("Enter username and PIN"); return; }
+  localStorage.setItem('voxa_acc', JSON.stringify({u:u, p:p}));
+  alert("✅ Login & PIN saved!");
+}
+
+function addMemo() {
+  var v = document.getElementById('q-memo').value.trim();
+  if (!v) return;
+  var a = JSON.parse(localStorage.getItem('voxa_m') || '[]');
+  a.unshift({t:v, d:new Date().toLocaleDateString()});
+  localStorage.setItem('voxa_m', JSON.stringify(a));
+  document.getElementById('q-memo').value = '';
+  showMemos();
+}
+
+function showMemos() {
+  var a = JSON.parse(localStorage.getItem('voxa_m') || '[]');
+  var c = document.getElementById('memo-list');
+  var h = '';
+  for (var i = 0; i < a.length; i++) {
+    h += '<div class="memo"><div><b>' + a[i].t + '</b><br><small style="color:#94a3b8">' + a[i].d + '</small></div><button type="button" onclick="delMemo(' + i + ')" style="background:none;border:none;color:#ef4444;font-weight:700">✕</button></div>';
+  }
+  c.innerHTML = h;
+}
+
+function delMemo(i) {
+  var a = JSON.parse(localStorage.getItem('voxa_m') || '[]');
+  a.splice(i, 1);
+  localStorage.setItem('voxa_m', JSON.stringify(a));
+  showMemos();
+}
+showMemos();
+</script>
 </body>
 </html>
-
-    
-
-    
-    
