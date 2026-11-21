@@ -358,12 +358,10 @@ async function callGemini(promptText, base64Img, mimeType) {
     body: JSON.stringify({ contents: [{ parts: parts }] })
   });
   var data = await res.json();
-  if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
-    return data.candidates[0].content.parts[0].text;
+  if (data && data.candidates && data.candidates && data.candidates.content) {
+    return data.candidates.content.parts.text;
   }
-  return "⚠️ Error: " + (data.error ? data.error.message : "Try again");
-}
-
+  return "⚠️ Error: " + (data.error ? data.error.message : "Check API key");
 }
 
 ask = async function(inId, outId, mode) {
@@ -390,16 +388,16 @@ scanDoc = async function() {
   var fileInput = document.getElementById('f-scan');
   var type = document.getElementById('t-scan').value;
   var o = document.getElementById('o-scan');
-  if (!fileInput.files || !fileInput.files[0]) {
+  if (!fileInput.files || !fileInput.files) {
     alert("📸 Please select or take a photo first!");
     return;
   }
-  var file = fileInput.files[0];
+  var file = fileInput.files;
   o.style.display = "block";
   o.innerHTML = "🔍 <b>Voxa Vision AI</b> is analyzing your photo...";
   var reader = new FileReader();
   reader.onload = async function() {
-    var base64 = reader.result.split(',')[1];
+    var base64 = reader.result.split(',');
     var prompt = type === 'Contract' ? "Analyze this document/contract/message photo. Summarize key terms and warn about any hidden risks or traps." :
                  type === 'Receipt' ? "Extract all items, prices, and total amount from this receipt photo in a neat list." :
                  type === 'Recipe' ? "Identify the ingredients in this photo and suggest 2 delicious, healthy recipes." :
@@ -418,3 +416,8 @@ showMemos();
 </script>
 </body>
 </html>
+
+
+
+    
+
