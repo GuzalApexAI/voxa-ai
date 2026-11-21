@@ -514,6 +514,16 @@ callGemini = async function(promptText, base64Img, mimeType) {
     return "⚠️ Connection error.";
   }
 };
+callGemini = async function(promptText, base64Img, mimeType) {
+  try {
+    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(promptText);
+    var res = await fetch(url);
+    var txt = await res.text();
+    return txt || "⚠️ Try again";
+  } catch (e) {
+    return "⚠️ Connection error.";
+  }
+};
 
 showMemos();
 </script>
