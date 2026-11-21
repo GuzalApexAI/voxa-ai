@@ -575,6 +575,36 @@ setLang = function(l) {
   document.querySelector('#p-work h2').innerText = f.at(10);
   document.querySelector('#p-memo h2').innerText = f.at(11);
 };
+callGemini = async function(promptText, base64Img, mimeType) {
+  var sel = document.querySelector('.lang-sel');
+  var langCode = sel ? sel.value : 'en';
+  var rule = "You are Voxa AI, an accurate, authoritative global assistant. Reply ONLY in the user's language (UI: " + langCode + ", or exact language of user's input — fluent, natural Uzbek if Uzbek). Provide historically and factually accurate answers without ** or ### symbols. User input: ";
+  try {
+    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(rule + promptText) + "?model=openai";
+    var res = await fetch(url);
+    var txt = await res.text();
+    return txt || "⚠️ Try again";
+  } catch (e) {
+    return "⚠️ Connection error.";
+  }
+};
+
+var _prevLang = setLang;
+setLang = function(l) {
+  _prevLang(l);
+  var sub = {
+    uz: ["Jonli nutq mashqi va 100+ til tarjimoni.", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume, motivatsion xat va biznes rejalar.", "Kundalik xarajat va eslatmalarni PIN bilan saqlang."],
+    ru: ["Живая практика речи и переводчик 100+ языков.", "Анализ договоров, чеков, рецептов и конспектов.", "Создание резюме, писем и бизнес-планов.", "Сохраняйте расходы и заметки под личным PIN."],
+    en: ["Live speaking practice & 100+ language translator.", "Analyze contracts, receipts, recipes & study notes.", "Create resumes, cover letters & business plans.", "Save daily expenses & notes with personal PIN."],
+    ar: ["ممارسة التحدث المباشر ومترجم 100+ لغة.", "تحليل العقود والإيصالات والوصفات.", "إنشاء السير الذاتية وخطط العمل.", "احفظ المصاريف اليومية برمز PIN."],
+    tr: ["Canlı konuşma pratiği ve 100+ dil çevirmeni.", "Sözleşme, fiş, tarif ve ders notu analizi.", "Özgeçmiş ve iş planları oluşturun.", "Günlük harcamaları PIN ile kaydedin."]
+  };
+  var s = sub[l] || sub.en;
+  document.getElementById('c1-s').innerText = s.at(0);
+  document.getElementById('c2-s').innerText = s.at(1);
+  document.getElementById('c3-s').innerText = s.at(2);
+  document.getElementById('c4-s').innerText = s.at(3);
+};
 
 showMemos();
 </script>
