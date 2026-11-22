@@ -470,6 +470,36 @@ document.querySelector('.lang-sel').onchange = function() {
   document.getElementById('q-memo').placeholder = x.at(43);
 };
 </script>
+<script>
+setInterval(function() {
+  var sel = document.querySelector('.lang-sel');
+  if (!sel || sel.dataset.done === sel.value) return;
+  sel.dataset.done = sel.value;
+  var l = sel.value;
+  var T = {
+    uz: ["Ovoz, Dizayn va Universal AI Ensiklopediya", "Ta'lim (1-sinfdan Professorlikkacha), Tibbiyot, Moliya, Qurilish, Diniy va Dunyoviy ilmlar, IELTS va AI Logo Studiyasi.", "🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!", "ULASHISH", "Shartnoma va Firibgarlik Qalqoni", "Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.", "IELTS va Jonli Tarjimon", "Band Score bahosi va 2 tomonlama ovozli tarjimon.", "AI Logo va Dizayn Studiyasi", "Leonardo AI kabi 4K logo, banner va dizayn yarating.", "Aqlli Kamera: Uy va Avto Usta", "Kir yuvish mashinasi xato kodi (E04) va avto ta'mir.", "Chek va Xarajatlar Buxgalteri", "Ovoz va chek orqali shaxsiy hisobchi + PIN seyf.", "Universal AI Ensiklopediya", "Barcha fanlar, Tibbiyot, Moliya, Qurilish va Ilmiy ishlar.", "💬 Voxa AI'dan istalgan narsani so'rang", "✨ AI Javobini Olish", "Bosh sahifa", "IELTS", "Skaner", "Studiya", "Seyf", "🎙️ AI IELTS va Jonli Ovozli Tarjimon", "IELTS bahosini oling yoki sayohat/biznesda 2 tomonlama tarjima qiling.", "🚀 Baholash va Tarjima", "🛡️ Aqlli Kamera: Shartnoma, Ta'mir va Chek", "Shartnoma, xato kodi (E04), chek yoki darslik rasmini yuklang.", "🔍 Rasmni Hozir Tahlil Qilish", "🎨 AI Logo, Art va Akademik Studiya", "Leonardo AI kabi 4K logo yarating yoki fan, moliya, tibbiyot bo'yicha yordam oling.", "🖼️ 4K Logo / Dizayn Yaratish", "⚡ Yechish / Loyiha Yaratish", "🧾 Shaxsiy AI Buxgalter va PIN Seyf", "Kundalik xarajatlarni ovoz bilan yozing va 4 xonali PIN bilan himoyalang.", "🔐 Login va PIN saqlash", "➕ Xarajat / Eslatma saqlash", "Fan, tibbiyot, moliya, qurilish yoki savol yozing...", "IELTS bahosi yoki tarjima uchun gapiring yoki yozing...", "Masalan: Kofe brendi uchun oltin sher logotipi", "Fan, tibbiyot, moliya, qurilish yoki Rezyume yozing...", "Foydalanuvchi nomi", "4 xonali PIN", "Masalan: Bugun tushlikka $25 sarfladim..."],
+    ru: ["Голосовой, Дизайн и Универсальный ИИ Энциклопедия", "Наука (от школы до профессора), Медицина, Финансы, Строительство, Религия и История, IELTS и ИИ Лого Студия.", "🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!", "ПОДЕЛИТЬСЯ", "Щит от Договоров и Мошенников", "Проверка кредитов, аренды и СМС на скрытые риски.", "IELTS и Живой Переводчик", "Оценка Band Score и 2-сторонний голосовой перевод.", "ИИ Лого и Дизайн Студия", "Создавайте 4K логотипы и арт как в Leonardo AI.", "Умная Камера: Дом и Авто Мастер", "Расшифровка кодов ошибок (E04) и ремонт авто.", "Чек и Контроль Расходов", "Голосовой и фото бухгалтер + личный PIN сейф.", "Универсальный ИИ Эксперт", "Все науки, Медицина, Финансы, Строительство и Диссертации.", "💬 Спросите Voxa AI о чём угодно", "✨ Получить ответ ИИ", "Главная", "IELTS", "Сканер", "Студия", "Сейф", "🎙️ ИИ IELTS и Живой Переводчик", "Получите оценку IELTS или 2-сторонний перевод в поездках и бизнесе.", "🚀 Оценить и Перевести", "🛡️ Умная Камера: Договор, Ремонт и Чек", "Загрузите фото договора, кода ошибки (E04), чека или учебника.", "🔍 Анализировать Фото Сейчас", "🎨 ИИ Лого, Арт и Академическая Студия", "Создавайте 4K логотипы или решайте задачи по науке, медицине и бизнесу.", "🖼️ Создать 4K Лого / Дизайн", "⚡ Решить / Создать Текст", "🧾 Личный ИИ Бухгалтер и PIN Сейф", "Ведите учёт расходов голосом и защищайте заметки PIN-кодом.", "🔐 Сохранить Логин и PIN", "➕ Сохранить Расход / Заметку", "Задайте вопрос по науке, медицине, финансам...", "Говорите или пишите для оценки IELTS или перевода...", "Например: Минималистичный золотой лев для кофейни", "Введите задачу по науке, медицине, финансам или Резюме...", "Имя пользователя", "4-значный PIN", "Например: Потратил $25 на обед сегодня..."],
+    en: ["All-in-One Voice, Design & Universal AI Encyclopedia", "Education (School to Professor), Medicine, Finance, Engineering, History, World Religions, IELTS & AI Logo Studio.", "🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!", "SHARE", "Contract & Scam Shield", "Detect hidden traps in loans, contracts & SMS.", "IELTS & Live Translator", "Band Score coach & 2-way voice interpreter.", "AI Logo & Design Studio", "Create 4K logos, ads & art like Leonardo AI.", "Smart Camera: Repair", "Fix home appliances, error codes & car issues.", "Receipt & Expense AI", "Voice & photo personal accountant + PIN vault.", "Universal AI Encyclopedia", "All Sciences, Medicine, Finance, Engineering & Research.", "💬 Ask Voxa AI Anything (Voice or Text)", "✨ Generate AI Answer", "Home", "IELTS", "Scanner", "Studio", "Vault", "🎙️ AI IELTS & Live Voice Translator", "Get instant IELTS Band Score feedback or live 2-way travel/business translation.", "🚀 Evaluate & Translate", "🛡️ Smart Camera: Contract, Repair & Receipt", "Upload photo of a contract, error code (E04), car part, receipt, or textbook.", "🔍 Analyze Photo Now", "🎨 AI Logo, Art & Academic Studio", "Create 4K brand logos like Leonardo AI, or get Science, Medicine, Finance & Business help.", "🖼️ Generate 4K Logo / Design", "⚡ Solve / Create Draft", "🧾 Personal AI Accountant & PIN Vault", "Track daily expenses by voice and protect private notes with 4-digit PIN.", "🔐 Save Login & PIN", "➕ Save Expense / Note", "Ask any question: Science, Medicine, Finance, Engineering...", "Speak or type for IELTS evaluation or live translation...", "e.g., Minimalist golden lion logo for coffee brand", "Enter Science, Medicine, Finance, Engineering, or CV...", "Username", "4-Digit PIN", "e.g., Spent $25 on lunch today..."]
+  };
+  var x = T[l] || T.en;
+  var ids = ['hero-title','hero-sub','t-viral','btn-green','c1-t','c1-s','c2-t','c2-s','c3-t','c3-s','c4-t','c4-s','c5-t','c5-s','c6-t','c6-s','ask-lbl','b-home','n-0','n-1','n-2','n-3','n-4','t-ielts','s-ielts','b-ielts','t-scan-h','s-scan','b-scan','t-art','s-art','b-img','b-work','t-memo','s-memo','b-pin','b-memo'];
+  var ic = ["🏠","🎙️","🛡️","🎨","🧾"];
+  for (var i = 0; i < ids.length; i++) {
+    var el = ids[i] === 'btn-green' ? document.querySelector('.btn-green') : document.getElementById(ids[i]);
+    if (!el) continue;
+    if (i === 2) el.innerHTML = x[i];
+    else if (i >= 18 && i <= 22) el.innerHTML = "<span>" + ic[i - 18] + "</span>" + x[i];
+    else el.innerText = x[i];
+  }
+  document.getElementById('q-home').placeholder = x[37];
+  document.getElementById('q-ielts').placeholder = x[38];
+  document.getElementById('q-art').placeholder = x[39];
+  document.getElementById('q-work').placeholder = x[40];
+  document.getElementById('u-name').placeholder = x[41];
+  document.getElementById('u-pin').placeholder = x[42];
+  document.getElementById('q-memo').placeholder = x[43];
+}, 200);
+</script>
 
 </body>
 </html>
