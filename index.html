@@ -1,173 +1,154 @@
-i<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Voxa AI — Universal Voice & Life Copilot</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Voxa AI — Voice & Life Copilot</title>
 <script src="https://telegram.org"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
-body{background:#070913;color:#f8fafc;min-height:100vh;padding-bottom:85px;overflow-x:hidden;background-image:radial-gradient(circle at 15% 10%,rgba(139,92,246,.25),transparent 40%),radial-gradient(circle at 85% 30%,rgba(6,182,212,.2),transparent 40%)}
-.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(7,9,19,.95);border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:50}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#090d16;color:#f8fafc;padding-bottom:88px;overflow-x:hidden}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#0f172a;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:99}
 .brand{display:flex;align-items:center;gap:10px}
-.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#ec4899,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
-.brand h1{font-size:16px;font-weight:800}
-.brand span{font-size:11px;color:#10b981;display:block}
-select.lang-sel{background:#13182a;color:#fff;border:1px solid rgba(255,255,255,.25);padding:7px 10px;border-radius:10px;font-size:12px;font-weight:600}
-.wrap{padding:14px;max-width:500px;margin:0 auto}
-.page{display:none}
-.page.active{display:block}
-.viral{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(236,72,153,.22));border:1px solid rgba(139,92,246,.45);border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;font-size:12px}
-.btn-green{background:#10b981;color:#fff;border:none;padding:8px 14px;border-radius:9px;font-weight:700;cursor:pointer;flex-shrink:0}
-.card{background:rgba(19,24,42,.88);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;margin-bottom:14px}
+.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff}
+.brand-t h1{font-size:16px;font-weight:800;line-height:1.1}
+.brand-t span{font-size:11px;color:#38bdf8}
+.lang-sel{background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:7px 8px;font-size:12px;font-weight:700;outline:none}
+.wrap{padding:14px;max-width:480px;margin:auto}
+.page{display:none}.page.active{display:block}
+.card{background:linear-gradient(180deg,#111827,#0f172a);border:1px solid #1e293b;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .top-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
-.badge{background:rgba(6,182,212,.15);color:#22d3ee;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.btn-pro{background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;text-decoration:none;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px;display:inline-block;flex-shrink:0}
-h2{font-size:20px;font-weight:800;margin-bottom:8px;line-height:1.25}
-p.sub{font-size:13px;color:#94a3b8;line-height:1.45;margin-bottom:12px}
+.badge{background:rgba(16,185,129,.15);color:#34d399;padding:5px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.btn-pro{background:linear-gradient(90deg,#f59e0b,#ea580c);color:#fff;border:none;padding:7px 13px;border-radius:99px;font-size:12px;font-weight:800;cursor:pointer}
+h2{font-size:19px;font-weight:800;line-height:1.25;margin-bottom:6px}
+.sub{font-size:13px;color:#94a3b8;line-height:1.4;margin-bottom:14px}
+.viral{background:linear-gradient(90deg,#1e1b4b,#311042);border:1px solid #4f46e5;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.viral p{font-size:12px;color:#e0e7ff;line-height:1.3}
+.btn-green{background:#10b981;color:#fff;border:none;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.tool{background:rgba(19,24,42,.85);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;cursor:pointer}
-.tool h3{font-size:14px;margin:8px 0 4px}
-.tool p{font-size:11px;color:#94a3b8;line-height:1.35}
-.ico{font-size:22px}
-.row{display:flex;gap:8px;margin-top:8px}
-input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(255,255,255,.15);color:#fff;padding:11px;border-radius:10px;font-size:13px;margin-top:8px}
-.btn-main{background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;border:none;padding:12px;border-radius:11px;font-weight:700;width:100%;margin-top:10px;cursor:pointer;font-size:13.5px}
-.btn-mic{background:#ec4899;color:#fff;border:none;width:46px;border-radius:10px;font-size:18px;margin-top:8px;cursor:pointer;flex-shrink:0}
-.out{margin-top:12px;background:rgba(0,0,0,.5);border-left:3px solid #06b6d4;padding:11px;border-radius:8px;font-size:13px;line-height:1.5;display:none}
-.memo{background:rgba(255,255,255,.05);padding:10px;border-radius:10px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
-.disc{font-size:11px;color:#64748b;text-align:center;margin-top:16px;line-height:1.4}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#0a0d1a;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-around;padding:9px 0;z-index:99}
-.nav button{background:none;border:none;color:#94a3b8;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;width:20%}
-.nav button.active{color:#38bdf8;font-weight:700}
+.tile{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:14px;cursor:pointer}
+.tile .ic{font-size:24px;margin-bottom:8px}
+.tile h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.tile p{font-size:11px;color:#94a3b8;line-height:1.3}
+.row{display:flex;gap:8px;margin-bottom:10px}
+input,textarea,select.inp{width:100%;background:#020617;border:1px solid #334155;border-radius:12px;padding:12px;color:#fff;font-size:14px;outline:none}
+.btn-mic{width:50px;flex-shrink:0;background:linear-gradient(135deg,#ec4899,#8b5cf6);border:none;border-radius:12px;color:#fff;font-size:20px;cursor:pointer}
+.btn-main{width:100%;background:linear-gradient(90deg,#6366f1,#06b6d4);border:none;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px}
+.out{background:#020617;border:1px solid #38bdf8;border-radius:12px;padding:12px;margin-top:12px;font-size:13px;line-height:1.5;color:#e2e8f0;display:none}
+.memo{background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.disc{text-align:center;font-size:11px;color:#64748b;margin:14px 0}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;padding:8px 0;z-index:99}
+.nav button{background:none;border:none;color:#94a3b8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.nav button.active{color:#38bdf8}
+.nav button span{font-size:18px}
 </style>
 </head>
 <body>
-<div class="header">
+
+<div class="hdr">
   <div class="brand">
     <div class="logo">V</div>
-    <div><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div>
+    <div class="brand-t"><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div>
   </div>
   <select class="lang-sel" onchange="setLang(this.value)">
-    <option value="en">🇺🇸 EN</option>
-    <option value="uz">🇺🇿 UZ</option>
-    <option value="ru">🇷🇺 RU</option>
-    <option value="ar">🇸🇦 AR</option>
-    <option value="tr">🇹🇷 TR</option>
-    <option value="es">🇪🇸 ES</option>
-    <option value="hi">🇮🇳 HI</option>
-    <option value="pt">🇧🇷 PT</option>
-    <option value="id">🇮🇩 ID</option>
-    <option value="de">🇩🇪 DE</option>
-    <option value="fr">🇫🇷 FR</option>
-    <option value="ko">🇰🇷 KO</option>
-    <option value="ja">🇯🇵 JA</option>
-    <option value="zh">🇨🇳 ZH</option>
-    <option value="kk">🇰🇿 KK</option>
-    <option value="tg">🇹🇯 TG</option>
-    <option value="az">🇦🇿 AZ</option>
-    <option value="fa">🇮🇷 FA</option>
-    <option value="vi">🇻🇳 VI</option>
-    <option value="uk">🇺🇦 UK</option>
+    <option value="en">🇺🇸 EN</option><option value="uz">🇺🇿 UZ</option><option value="ru">🇷🇺 RU</option>
+    <option value="ar">🇸🇦 AR</option><option value="tr">🇹🇷 TR</option><option value="es">🇪🇸 ES</option>
+    <option value="hi">🇮🇳 HI</option><option value="pt">🇧🇷 PT</option><option value="id">🇮🇩 ID</option>
+    <option value="de">🇩🇪 DE</option><option value="fr">🇫🇷 FR</option><option value="ko">🇰🇷 KO</option>
+    <option value="ja">🇯🇵 JA</option><option value="zh">🇨🇳 ZH</option><option value="kk">🇰🇿 KK</option>
+    <option value="tg">🇹🇯 TG</option><option value="az">🇦🇿 AZ</option><option value="fa">🇮🇷 FA</option>
+    <option value="vi">🇻🇳 VI</option><option value="uk">🇺🇦 UK</option>
   </select>
 </div>
-
 <div class="wrap">
   <div id="p-home" class="page active">
     <div class="viral">
-      <div id="t-viral">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</div>
+      <p id="t-viral">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</p>
       <button type="button" class="btn-green" onclick="shareApp()">SHARE</button>
     </div>
 
     <div class="card">
       <div class="top-row">
-                <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
-
-          <button type="button" class="btn-pro" onclick="openPro()">👑 PRO $29</button>
+        <span class="badge">🛡️ Zero-Wallet • 100% Safe</span>
+        <button type="button" class="btn-pro" onclick="openPro()">👑 PRO $29</button>
       </div>
-
       <h2 id="hero-title">Your All-in-One Voice AI for Every Profession</h2>
-      <p class="sub" id="hero-sub">Built for students, doctors, accountants, homemakers, and entrepreneurs. Pure productivity, IELTS learning & smart memory.</p>
+      <p id="hero-sub" class="sub">Built for students, doctors, accountants, homemakers, and entrepreneurs.</p>
     </div>
 
     <div class="grid">
-      <div class="tool" onclick="go('p-ielts',1)"><div class="ico">🎙️</div><h3 id="c1-t">IELTS & Voice</h3><p id="c1-s">Live speaking practice & 100+ language translator.</p></div>
-      <div class="tool" onclick="go('p-scan',2)"><div class="ico">📄</div><h3 id="c2-t">Smart Scanner</h3><p id="c2-s">Analyze contracts, receipts, recipes & study notes.</p></div>
-      <div class="tool" onclick="go('p-work',3)"><div class="ico">💼</div><h3 id="c3-t">CV & Business</h3><p id="c3-s">Create resumes, cover letters & business plans.</p></div>
-      <div class="tool" onclick="go('p-memo',4)"><div class="ico">🧠</div><h3 id="c4-t">Smart Memory</h3><p id="c4-s">Save daily expenses & notes with personal PIN.</p></div>
+      <div class="tile" onclick="go('p-ielts',1)"><div class="ic">🎙️</div><h3 id="c1-t">IELTS & Voice</h3><p id="c1-s">Live speaking practice & 100+ language translator.</p></div>
+      <div class="tile" onclick="go('p-scan',2)"><div class="ic">📄</div><h3 id="c2-t">Smart Scanner</h3><p id="c2-s">Analyze contracts, receipts, recipes & study notes.</p></div>
+      <div class="tile" onclick="go('p-work',3)"><div class="ic">💼</div><h3 id="c3-t">CV & Business</h3><p id="c3-s">Create resumes, cover letters & business plans.</p></div>
+      <div class="tile" onclick="go('p-memo',4)"><div class="ic">🧠</div><h3 id="c4-t">Smart Memory</h3><p id="c4-s">Save daily expenses & notes with personal PIN.</p></div>
     </div>
 
     <div class="card">
-      <b id="ask-lbl">💬 Ask Voxa AI Anything (Voice or Text)</b>
+      <h3 id="ask-lbl" style="margin-bottom:8px;font-size:15px">💬 Ask Voxa AI Anything (Voice or Text)</h3>
       <div class="row">
         <input id="q-home" placeholder="Ask about IELTS, docs, recipes, business...">
         <button type="button" class="btn-mic" onclick="mic('q-home')">🎤</button>
       </div>
-      <button type="button" class="btn-main" onclick="ask('q-home','o-home','gen')">✨ Generate AI Answer</button>
+      <button type="button" id="b-home" class="btn-main" onclick="ask('q-home','o-home','general')">✨ Generate AI Answer</button>
       <div id="o-home" class="out"></div>
     </div>
   </div>
+
   <div id="p-ielts" class="page">
     <div class="card">
-      <h2>🎙️ AI IELTS & Language Coach</h2>
-      <p class="sub">Practice IELTS Speaking & Writing or translate into 100+ languages.</p>
-      <select id="ielts-t" class="inp">
-        <option value="Speaking">IELTS Speaking Simulator (Band Score)</option>
-        <option value="Writing">IELTS Writing Essay Checker</option>
-        <option value="Translate">Smart Voice Translator (EN/UZ/RU/AR)</option>
-      </select>
+      <h2 id="t-ielts">🎙️ AI IELTS & Language Coach</h2>
+      <p id="s-ielts" class="sub">Practice IELTS Speaking & Writing or translate into 100+ languages.</p>
       <div class="row">
         <textarea id="q-ielts" rows="3" placeholder="Speak or type your English answer..."></textarea>
         <button type="button" class="btn-mic" onclick="mic('q-ielts')">🎤</button>
       </div>
-      <button type="button" class="btn-main" onclick="ask('q-ielts','o-ielts','ielts')">🚀 Evaluate & Speak Back</button>
+      <button type="button" id="b-ielts" class="btn-main" onclick="ask('q-ielts','o-ielts','ielts')">🚀 Evaluate & Speak Back</button>
       <div id="o-ielts" class="out"></div>
     </div>
   </div>
 
   <div id="p-scan" class="page">
     <div class="card">
-      <h2>📄 Universal Life & Doc Scanner</h2>
-      <p class="sub">Upload a photo of a contract, receipt, food, or textbook page.</p>
-      <input type="file" id="f-scan" accept="image/*">
-      <select id="t-scan" class="inp">
-        <option value="Contract">Check Contract / SMS for Risks</option>
-        <option value="Receipt">Extract Receipt Items & Cost</option>
-        <option value="Recipe">Suggest Recipes from Food Photo</option>
-        <option value="Study">Explain Textbook / Homework</option>
-      </select>
-      <button type="button" class="btn-main" onclick="scanDoc()">🔍 Analyze Photo Now</button>
+      <h2 id="t-scan-h">📄 Universal Life & Doc Scanner</h2>
+      <p id="s-scan" class="sub">Upload a photo of a contract, receipt, food, or textbook page.</p>
+      <div class="row"><input type="file" id="f-scan" accept="image/*"></div>
+      <div class="row">
+        <select id="t-scan" class="inp">
+          <option value="Contract">Check Contract / SMS for Risks</option>
+          <option value="Receipt">Extract Receipt Items & Cost</option>
+          <option value="Recipe">Suggest Recipes from Food Photo</option>
+          <option value="Study">Explain Textbook / Homework</option>
+        </select>
+      </div>
+      <button type="button" id="b-scan" class="btn-main" onclick="scanDoc()">🔍 Analyze Photo Now</button>
       <div id="o-scan" class="out"></div>
     </div>
   </div>
 
   <div id="p-work" class="page">
     <div class="card">
-      <h2>💼 Resume & Business Copilot</h2>
-      <p class="sub">Generate international CVs, business plans, and market research.</p>
-      <select id="t-work" class="inp">
-        <option value="CV">Build Professional Resume (CV)</option>
-        <option value="Plan">Small Business Action Plan</option>
-        <option value="Data">Educational Market Analysis</option>
-      </select>
-      <textarea id="q-work" rows="3" placeholder="Enter your job title, skills, or business idea..."></textarea>
-      <button type="button" class="btn-main" onclick="ask('q-work','o-work','work')">⚡ Create Draft</button>
+      <h2 id="t-work">💼 Resume & Business Copilot</h2>
+      <p id="s-work" class="sub">Generate international CVs, business plans, and market research.</p>
+      <div class="row">
+        <textarea id="q-work" rows="3" placeholder="Enter your profession, skills, or business idea..."></textarea>
+        <button type="button" class="btn-mic" onclick="mic('q-work')">🎤</button>
+      </div>
+      <button type="button" id="b-work" class="btn-main" onclick="ask('q-work','o-work','work')">⚡ Create Draft</button>
       <div id="o-work" class="out"></div>
     </div>
   </div>
 
   <div id="p-memo" class="page">
     <div class="card">
-      <h2>🧠 Smart Memory & PIN Vault</h2>
-      <p class="sub">Save daily expenses and reminders privately on your phone.</p>
-      <input id="u-name" placeholder="Create Login / Username">
-      <input id="u-pin" type="password" placeholder="Create Personal PIN">
-      <button type="button" class="btn-main" onclick="saveUser()">🔐 Save Login & PIN</button>
-      <div class="row" style="margin-top:14px">
-        <input id="q-memo" placeholder="e.g., Groceries $20 or Doctor at 5 PM">
+      <h2 id="t-memo">🧠 Smart Memory & PIN Vault</h2>
+      <p id="s-memo" class="sub">Save daily expenses and reminders privately on your phone.</p>
+      <div class="row"><input id="u-name" placeholder="Username"><input id="u-pin" type="password" maxlength="4" placeholder="4-Digit PIN"></div>
+      <button type="button" id="b-pin" class="btn-main" style="margin-bottom:12px" onclick="saveUser()">🔐 Save Login & PIN</button>
+      <div class="row">
+        <input id="q-memo" placeholder="e.g., Spent $25 on groceries...">
         <button type="button" class="btn-mic" onclick="mic('q-memo')">🎤</button>
       </div>
-      <button type="button" class="btn-main" onclick="addMemo()">➕ Save to Memory</button>
+      <button type="button" id="b-memo" class="btn-main" onclick="addMemo()">➕ Save to Memory</button>
       <div id="memo-list"></div>
     </div>
   </div>
@@ -176,409 +157,54 @@ input,textarea,select.inp{width:100%;background:#090d1a;border:1px solid rgba(25
 </div>
 
 <div class="nav">
-  <button type="button" class="active" onclick="go('p-home',0)"><span>🏠</span>Home</button>
-  <button type="button" onclick="go('p-ielts',1)"><span>🎙️</span>IELTS</button>
-  <button type="button" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
-  <button type="button" onclick="go('p-work',3)"><span>💼</span>Career</button>
-  <button type="button" onclick="go('p-memo',4)"><span>🧠</span>Memory</button>
+  <button type="button" id="n-0" class="active" onclick="go('p-home',0)"><span>🏠</span>Home</button>
+  <button type="button" id="n-1" onclick="go('p-ielts',1)"><span>🎙️</span>IELTS</button>
+  <button type="button" id="n-2" onclick="go('p-scan',2)"><span>📄</span>Scanner</button>
+  <button type="button" id="n-3" onclick="go('p-work',3)"><span>💼</span>Career</button>
+  <button type="button" id="n-4" onclick="go('p-memo',4)"><span>🧠</span>Memory</button>
 </div>
 <script>
 var tg = window.Telegram && window.Telegram.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
 
-var BOT_URL = "https://t.me" + "VoxaCopilot_bot";
-
 function go(id, idx) {
   var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+  for (var i = 0; i < pages.length; i++) pages.at(i).classList.remove('active');
   document.getElementById(id).classList.add('active');
   var btns = document.querySelectorAll('.nav button');
-  for (var j = 0; j < btns.length; j++) btns[j].classList.toggle('active', j === idx);
+  for (var j = 0; j < btns.length; j++) btns.at(j).classList.toggle('active', j === idx);
   window.scrollTo(0, 0);
 }
+
 function openPro() {
-  var link = "https://" + "t.me/tribute/app?startapp=s1dl3";
-  if (tg && tg.openTelegramLink) {
-    tg.openTelegramLink(link);
-  } else {
-    window.open(link, '_blank');
-  }
+  var p = "https://t.me" + "/tribute/app?startapp=s1dl3";
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(p);
+  else window.open(p, '_blank');
 }
 
 function shareApp() {
-  var base = "https://t.me" + "share/url?url=";
-  var u = base + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
+  var u = "https://t.me" + "/share/url?url=" + encodeURIComponent("https://t.me" + "/VoxaCopilot_bot") + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
   if (tg && tg.openTelegramLink) tg.openTelegramLink(u);
-  else window.location.href = u;
-  alert("🎉 24-Hour Voxa PRO Trial Activated!");
-}
-function shareApp() {
-  var u = "https://" + "t.me/share/url?url=" + encodeURIComponent(BOT_URL) + "&text=" + encodeURIComponent("🚀 Voxa AI — All-in-one Voice AI for IELTS, Smart Scanner & CV Builder!");
-  if (tg && tg.openTelegramLink) {
-    tg.openTelegramLink(u);
-  } else {
-    window.open(u, '_blank');
-  }
-}
-
-function setLang(l) {
-  var d = {
-    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "IELTS & Voice", "Smart Scanner", "CV & Business", "Smart Memory"],
-    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "IELTS va Ovoz", "Aqlli Skaner", "Rezyume va Biznes", "Aqlli Xotira"],
-    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "IELTS и Голос", "Умный Сканер", "Резюме и Бизнес", "Умная Память"],
-    ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال.", "IELTS والصوت", "الماسح الذكي", "السيرة والأعمال", "الذاكرة الذكية"],
-    tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için.", "IELTS ve Ses", "Akıllı Tarayıcı", "CV ve İş", "Akıllı Hafıza"],
-    es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores.", "IELTS y Voz", "Escáner Inteligente", "CV y Negocios", "Memoria Inteligente"],
-    hi: ["हर पेशे के लिए आपका ऑल-इन-वन वॉयस AI", "छात्रों, डॉक्टरों, एकाउंटेंट्स और उद्यमियों के लिए निर्मित।", "IELTS और आवाज़", "स्मार्ट स्कैनर", "CV और व्यापार", "स्मार्ट मेमोरी"],
-    pt: ["Sua IA de Voz Completa para Todas as Profissões", "Feito para estudantes, médicos, contadores e empreendedores.", "IELTS e Voz", "Scanner Inteligente", "CV e Negócios", "Memória Inteligente"],
-    id: ["AI Suara Lengkap untuk Semua Profesi", "Dibuat untuk pelajar, dokter, akuntan, dan pengusaha.", "IELTS & Suara", "Pemindai Pintar", "CV & Bisnis", "Memori Pintar"],
-    de: ["Ihre All-in-One Sprach-KI für jeden Beruf", "Entwickelt für Studenten, Ärzte, Buchhalter und Unternehmer.", "IELTS & Sprache", "Smart Scanner", "Lebenslauf & Business", "Smart Speicher"],
-    fr: ["Votre IA Vocale Tout-en-Un pour Chaque Métier", "Conçu pour étudiants, médecins, comptables et entrepreneurs.", "IELTS & Voix", "Scanner Intelligent", "CV & Business", "Mémoire Intelligente"],
-    ko: ["모든 직업을 위한 올인원 음성 AI", "학생, 의사, 회계사, 주부 및 기업가를 위해 제작되었습니다.", "IELTS 및 음성", "스마트 스캐너", "이력서 및 비즈니스", "스마트 메모리"],
-    ja: ["あらゆる職業のためのオールインワン音声AI", "学生、医師、会計士、主婦、起業家のために作られました。", "IELTS＆音声", "スマートスキャナー", "履歴書＆ビジネス", "スマートメモリ"],
-    zh: ["适合所有职业的全能语音 AI", "专为学生、医生、会计师和企业家打造。", "雅思与语音", "智能扫描仪", "简历与商业", "智能记忆"],
-    kk: ["Барлық мамандыққа арналған бірыңғай Дауыстық AI", "Студенттер, дәрігерлер, есепшілер мен кәсіпкерлерге арналған.", "IELTS және Дауыс", "Ақылды Сканер", "Түйіндеме және Бизнес", "Ақылды Жад"],
-    tg: ["AI-и овозии ягона барои ҳар як касб", "Барои донишҷӯён, табибон, муҳосибон ва соҳибкорон.", "IELTS ва Овоз", "Сканери Ҳушманд", "Резюме ва Тиҷорат", "Хотираи Ҳушманд"],
-    az: ["Hər Peşə Üçün Vahid Səsli AI", "Tələbələr, həkimlər, mühasiblər və sahibkarlar üçün.", "IELTS və Səs", "Ağıllı Skaner", "CV və Biznes", "Ağıllı Yaddaş"],
-    fa: ["هوش مصنوعی صوتی همه‌کاره برای هر شغل", "ساخته شده برای دانشجویان، پزشکان، حسابداران و کارآفرینان.", "آیلتس و صدا", "اسکنر هوشمند", "رزومه و کسب‌وکار", "حافظه هوشمند"],
-    vi: ["AI Giọng Nói Toàn Diện Cho Mọi Ngành Nghề", "Dành cho sinh viên, bác sĩ, kế toán và doanh nhân.", "IELTS & Giọng nói", "Máy quét thông minh", "CV & Kinh doanh", "Bộ nhớ thông minh"],
-    uk: ["Універсальний Голосовий ШІ для кожної професії", "Створено для студентів, лікарів, бухгалтерів та підприємців.", "IELTS та Голос", "Розумний Сканер", "Резюме та Бізнес", "Розумна Пам'ять"]
-  };
-  var x = d[l] || d.en;
-  document.getElementById('hero-title').innerText = x;
-  document.getElementById('hero-sub').innerText = x;
-  document.getElementById('c1-t').innerText = x;
-  document.getElementById('c2-t').innerText = x;
-  document.getElementById('c3-t').innerText = x;
-  document.getElementById('c4-t').innerText = x;
+  else window.open(u, '_blank');
 }
 
 function mic(id) {
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { alert("Please allow microphone or type your text."); return; }
   var r = new SR();
-  r.lang = 'en-US';
+  var lc = document.querySelector('.lang-sel').value;
+  var map = { uz: 'uz-UZ', ru: 'ru-RU', en: 'en-US', ar: 'ar-SA', tr: 'tr-TR', es: 'es-ES', kk: 'kk-KZ', tg: 'tg-TJ', de: 'de-DE', fr: 'fr-FR', ko: 'ko-KR', ja: 'ja-JP', zh: 'zh-CN', uk: 'uk-UA' };
+  r.lang = map[lc] || 'en-US';
   r.start();
-  r.onresult = function(e) { document.getElementById(id).value = e.results.transcript; };
-}
-
-function ask(inId, outId, mode) {
-  var q = document.getElementById(inId).value.trim();
-  var o = document.getElementById(outId);
-  if (!q) { alert("Please type or speak first!"); return; }
-  o.style.display = "block";
-  o.innerHTML = "⏳ Voxa AI is thinking...";
-  setTimeout(function() {
-    if (mode === 'ielts') {
-      o.innerHTML = "✅ <b>IELTS Band Estimate: 7.5</b><br>Input: <i>" + q + "</i><br>• Great vocabulary! Use connectors like <i>Furthermore</i> for Band 8.0.";
-      if ('speechSynthesis' in window) window.speechSynthesis.speak(new SpeechSynthesisUtterance("Your estimated band score is 7.5. Great job!"));
-    } else if (mode === 'work') {
-      o.innerHTML = "💼 <b>Professional Draft:</b><br>Tailored summary for <i>" + q + "</i>:<br>• Results-oriented specialist with strong analytical and communication skills.";
-    } else {
-      o.innerHTML = "✨ <b>Voxa AI Response:</b><br>Analysis for <i>" + q + "</i>:<br>1. Key actionable steps prepared.<br>2. Optimized for speed and clarity.";
-    }
-  }, 500);
-}
-
-function scanDoc() {
-  var t = document.getElementById('t-scan').value;
-  var o = document.getElementById('o-scan');
-  o.style.display = "block";
-  o.innerHTML = "🔍 Scanning with Voxa Vision...";
-  setTimeout(function() {
-    o.innerHTML = "✅ <b>" + t + " Scan Complete:</b><br>• Document verified cleanly.<br>• Ready to save in your Memory tab.";
-  }, 600);
-}
-
-function saveUser() {
-  var u = document.getElementById('u-name').value.trim();
-  var p = document.getElementById('u-pin').value.trim();
-  if (!u || !p) { alert("Enter username and PIN"); return; }
-  localStorage.setItem('voxa_acc', JSON.stringify({u:u, p:p}));
-  alert("✅ Login & PIN saved!");
-}
-
-function addMemo() {
-  var v = document.getElementById('q-memo').value.trim();
-  if (!v) return;
-  var a = JSON.parse(localStorage.getItem('voxa_m') || '[]');
-  a.unshift({t:v, d:new Date().toLocaleDateString()});
-  localStorage.setItem('voxa_m', JSON.stringify(a));
-  document.getElementById('q-memo').value = '';
-  showMemos();
-}
-
-function showMemos() {
-  var a = JSON.parse(localStorage.getItem('voxa_m') || '[]');
-  var c = document.getElementById('memo-list');
-  var h = '';
-  for (var i = 0; i < a.length; i++) {
-    h += '<div class="memo"><div><b>' + a[i].t + '</b><br><small style="color:#94a3b8">' + a[i].d + '</small></div><button type="button" onclick="delMemo(' + i + ')" style="background:none;border:none;color:#ef4444;font-weight:700">✕</button></div>';
-  }
-  c.innerHTML = h;
-}
-
-function delMemo(i) {
-  var a = JSON.parse(localStorage.getItem('voxa_m') || '[]');
-  a.splice(i, 1);
-  localStorage.setItem('voxa_m', JSON.stringify(a));
-  showMemos();
-}document.querySelector('.top-row').style.cssText = 'display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:12px;';
-document.getElementById('hero-title').style.cssText = 'clear:both;display:block;width:100%;margin-top:8px;';
-var _oldSetLang = setLang;
-setLang = function(l) {
-  _oldSetLang(l);
-  var h = document.getElementById('hero-title').innerText.split(',');
-  if (h.length >= 6) {
-    document.getElementById('hero-title').innerText = h;
-    document.getElementById('hero-sub').innerText = h + ', ' + h + ', ' + h + ', ' + h;
-    document.getElementById('c1-t').innerText = h;
-    document.getElementById('c2-t').innerText = h;
-    document.getElementById('c3-t').innerText = h;
-    document.getElementById('c4-t').innerText = h;
-  }
-};
-var BOT_URL = "https://t.me" + "/VoxaCopilot_bot";
-document.querySelector('.btn-pro').onclick = function() {
-  var p = "https://t.me" + "/tribute/app?startapp=s1dl3";
-  if (tg && tg.openTelegramLink) tg.openTelegramLink(p);
-  else window.open(p, '_blank');
-};
-var GEMINI_KEY = "AQ.Ab8RN6KtbCMZ4gfVBshFXom" + "2vOi_4T7bBVEv5MOg4MGCS_Gzhg";
-
-async function callGemini(promptText, base64Img, mimeType) {
-  var url = "https://generativelanguage.googleapis." + "com/v1beta/models/gemini-3.8-flash:generateContent?key=" + GEMINI_KEY;
-  var parts = [{ text: promptText }];
-  if (base64Img) {
-    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
-  }
-  var res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ contents: [{ parts: parts }] })
-  });
-  var data = await res.json();
-  if (data && data.candidates && data.candidates && data.candidates.content) {
-    return data.candidates.content.parts.text;
-  }
-  return "⚠️ Error: " + (data.error ? data.error.message : "Check API key");
-}
-callGemini = async function(promptText, base64Img, mimeType) {
-  var models = ["gemini-3.8-flash-lite", "gemini-2.5-flash-lite", "gemini-3.8-flash"];
-  var parts = [{ text: promptText }];
-  if (base64Img) {
-    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
-  }
-  for (var i = 0; i < models.length; i++) {
-    try {
-      var url = "https://generativelanguage.googleapis." + "com/v1beta/models/" + models[i] + ":generateContent?key=" + GEMINI_KEY;
-      var res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: parts }] })
-      });
-      var data = await res.json();
-      if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
-        return data.candidates[0].content.parts[0].text;
-      }
-    } catch (err) {}
-  }
-  return "⚠️ Server is busy right now. Please try again in 5 seconds.";
-};
-callGemini = async function(promptText, base64Img, mimeType) {
-  var models = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash"];
-  var parts = [{ text: promptText }];
-  if (base64Img) {
-    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
-  }
-  for (var i = 0; i < models.length; i++) {
-    try {
-      var url = "https://generativelanguage.googleapis." + "com/v1beta/models/" + models.at(i) + ":generateContent?key=" + GEMINI_KEY;
-      var res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: parts }] })
-      });
-      var data = await res.json();
-      if (data && data.candidates && data.candidates.at(0)) {
-        return data.candidates.at(0).content.parts.at(0).text;
-      }
-      if (data && data.error) var lastErr = data.error.message;
-    } catch (err) {}
-  }
-  return "⚠️ AI Error: " + (lastErr || "Please check connection");
-};
-
-ask = async function(inId, outId, mode) {
-  var q = document.getElementById(inId).value.trim();
-  var o = document.getElementById(outId);
-  if (!q) { alert("Please type or speak first!"); return; }
-  o.style.display = "block";
-  o.innerHTML = "🧠 <b>Voxa AI</b> is thinking in real-time...";
-  var sys = mode === 'ielts' ? "You are an official IELTS Examiner. Evaluate this answer, give an estimated Band Score (1-9), correct grammar mistakes, and ask 1 follow-up IELTS question: " :
-            mode === 'work' ? "You are an executive HR & Business Consultant. Create a clear, professional, actionable draft for: " :
-            "You are Voxa AI, a helpful universal life and productivity assistant. Give a clear, concise, structured answer: ";
-  try {
-    var ans = await callGemini(sys + q);
-    o.innerHTML = ans.replace(/\n/g, "<br>");
-    if (mode === 'ielts' && 'speechSynthesis' in window) {
-      window.speechSynthesis.speak(new SpeechSynthesisUtterance(ans.slice(0, 180)));
-    }
-  } catch (e) {
-    o.innerHTML = "⚠️ Connection error. Please check your API key.";
-  }
-};
-callGemini = async function(promptText, base64Img, mimeType) {
-  var models = ["gemini-3.8-flash", "gemma-3-27b-it", "gemini-3.8-pro"];
-  var parts = [{ text: promptText }];
-  if (base64Img) {
-    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
-  }
-  for (var i = 0; i < models.length; i++) {
-    try {
-      var url = "https://generativelanguage.googleapis." + "com/v1beta/models/" + models.at(i) + ":generateContent?key=" + GEMINI_KEY;
-      var res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: parts }] })
-      });
-      var data = await res.json();
-      if (data && data.candidates && data.candidates.at(0)) {
-        return data.candidates.at(0).content.parts.at(0).text;
-      }
-      if (data && data.error) var lastErr = data.error.message;
-    } catch (err) {}
-  }
-  return "⚠️ AI Error: " + (lastErr || "Please check connection");
-};
-
-scanDoc = async function() {
-  var fileInput = document.getElementById('f-scan');
-  var type = document.getElementById('t-scan').value;
-  var o = document.getElementById('o-scan');
-  if (!fileInput.files || !fileInput.files) {
-    alert("📸 Please select or take a photo first!");
-    return;
-  }
-  var file = fileInput.files;
-  o.style.display = "block";
-  o.innerHTML = "🔍 <b>Voxa Vision AI</b> is analyzing your photo...";
-  var reader = new FileReader();
-  reader.onload = async function() {
-    var base64 = reader.result.split(',');
-    var prompt = type === 'Contract' ? "Analyze this document/contract/message photo. Summarize key terms and warn about any hidden risks or traps." :
-                 type === 'Receipt' ? "Extract all items, prices, and total amount from this receipt photo in a neat list." :
-                 type === 'Recipe' ? "Identify the ingredients in this photo and suggest 2 delicious, healthy recipes." :
-                 "Explain this textbook page or homework problem step-by-step clearly.";
-    try {
-      var ans = await callGemini(prompt, base64, file.type);
-      o.innerHTML = ans.replace(/\n/g, "<br>");
-    } catch (e) {
-      o.innerHTML = "⚠️ Error analyzing photo. Check API key.";
-    }
+  r.onresult = function(e) {
+    var txt = e.results.at(0).at(0).transcript;
+    if (txt) document.getElementById(id).value = txt;
   };
-  reader.readAsDataURL(file);
-};
-callGemini = async function(promptText, base64Img, mimeType) {
-  var base = "https://generativelanguage.googleapis." + "com/v1beta/";
-  var parts = [{ text: promptText }];
-  if (base64Img) {
-    parts.push({ inline_data: { mime_type: mimeType, data: base64Img } });
-  }
-  try {
-    var listRes = await fetch(base + "models?key=" + GEMINI_KEY);
-    var listData = await listRes.json();
-    var mName = "models/gemini-3.8-flash";
-    if (listData && listData.models) {
-      for (var i = 0; i < listData.models.length; i++) {
-        var m = listData.models.at(i);
-        if (m.supportedGenerationMethods && m.supportedGenerationMethods.indexOf("generateContent") !== -1) {
-          if (m.name.indexOf("flash") !== -1 || m.name.indexOf("gemma") !== -1) {
-            mName = m.name;
-            break;
-          }
-        }
-      }
-    }
-    var res = await fetch(base + mName + ":generateContent?key=" + GEMINI_KEY, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: [{ parts: parts }] })
-    });
-    var data = await res.json();
-    if (data && data.candidates && data.candidates.at(0)) {
-      return data.candidates.at(0).content.parts.at(0).text;
-    }
-    return "⚠️ Error: " + (data.error ? data.error.message : "Try again");
-  } catch (e) {
-    return "⚠️ Connection error.";
-  }
-};
-callGemini = async function(promptText, base64Img, mimeType) {
-  try {
-    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(promptText);
-    var res = await fetch(url);
-    var txt = await res.text();
-    return txt || "⚠️ Try again";
-  } catch (e) {
-    return "⚠️ Connection error.";
-  }
-};
-var _baseCall = callGemini;
-callGemini = async function(promptText, base64Img, mimeType) {
-  var sel = document.querySelector('.lang-sel');
-  var langCode = sel ? sel.value : 'en';
-  var rule = "CRITICAL: Answer ONLY in the user's language (UI: " + langCode + ", or exact language of user's input — fluent Uzbek if Uzbek, Russian if Russian). No ** or ### symbols. ";
-  return await _baseCall(rule + promptText, base64Img, mimeType);
-};
+}
 
-setLang = function(l) {
-  var d = {
-    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "IELTS & Voice", "Smart Scanner", "CV & Business", "Smart Memory"],
-    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "IELTS va Ovoz", "Aqlli Skaner", "Rezyume va Biznes", "Aqlli Xotira"],
-    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "IELTS и Голос", "Умный Сканер", "Резюме и Бизнес", "Умная Память"],
-    ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال.", "IELTS والصوت", "الماسح الذكي", "السيرة والأعمال", "الذاكرة الذكية"],
-    tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için.", "IELTS ve Ses", "Akıllı Tarayıcı", "CV ve İş", "Akıllı Hafıza"]
-  };
-  var x = d[l] || d.en;
-  document.getElementById('hero-title').innerText = x.at(0);
-  document.getElementById('hero-sub').innerText = x.at(1);
-  document.getElementById('c1-t').innerText = x.at(2);
-  document.getElementById('c2-t').innerText = x.at(3);
-  document.getElementById('c3-t').innerText = x.at(4);
-  document.getElementById('c4-t').innerText = x.at(5);
-};
-var _prevLang = setLang;
-setLang = function(l) {
-  _prevLang(l);
-  var full = {
-    uz: ["Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "💬 Voxa AI'dan istalgan narsani so'rang", "IELTS, hujjatlar, retseptlar, biznes haqida yozing...", "✨ AI Javobini Olish", "🎙️ AI IELTS va Til Murabbiyi", "📄 Universal Hujjat va Hayot Skaneri", "💼 Rezyume va Biznes Yordamchi", "🧠 Aqlli Xotira va PIN Seyf"],
-    ru: ["Главная", "IELTS", "Сканер", "Карьера", "Память", "💬 Спросите Voxa AI о чём угодно", "Спросите про IELTS, документы, рецепты, бизнес...", "✨ Получить ответ ИИ", "🎙️ ИИ Тренер по IELTS и Языкам", "📄 Универсальный Сканер Документов", "💼 Помощник по Резюме и Бизнесу", "🧠 Умная Память и PIN Сейф"],
-    en: ["Home", "IELTS", "Scanner", "Career", "Memory", "💬 Ask Voxa AI Anything (Voice or Text)", "Ask about IELTS, docs, recipes, business...", "✨ Generate AI Answer", "🎙️ AI IELTS & Language Coach", "📄 Universal Life & Doc Scanner", "💼 Resume & Business Copilot", "🧠 Smart Memory & PIN Vault"],
-    ar: ["الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "💬 اسأل Voxa AI أي شيء", "اسأل عن IELTS والمستندات والوصفات...", "✨ إنشاء إجابة الذكاء الاصطناعي", "🎙️ مدرب IELTS واللغات", "📄 ماسح المستندات الشامل", "💼 مساعد السيرة والأعمال", "🧠 الذاكرة الذكية"],
-    tr: ["Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "💬 Voxa AI'ya Her Şeyi Sorun", "IELTS, belgeler, tarifler, iş hakkında sorun...", "✨ Yapay Zeka Yanıtı Oluştur", "🎙️ AI IELTS ve Dil Koçu", "📄 Evrensel Belge Tarayıcı", "💼 Özgeçmiş ve İş Asistanı", "🧠 Akıllı Hafıza ve PIN Kasası"]
-  };
-  var f = full[l] || full.en;
-  var navs = document.querySelectorAll('.nav button');
-  if (navs.length >= 5) {
-    navs.at(0).innerHTML = "<span>🏠</span>" + f.at(0);
-    navs.at(1).innerHTML = "<span>🎙️</span>" + f.at(1);
-    navs.at(2).innerHTML = "<span>📄</span>" + f.at(2);
-    navs.at(3).innerHTML = "<span>💼</span>" + f.at(3);
-    navs.at(4).innerHTML = "<span>🧠</span>" + f.at(4);
-  }
-  document.getElementById('ask-lbl').innerText = f.at(5);
-  document.getElementById('q-home').placeholder = f.at(6);
-  document.querySelector('#p-home .btn-main').innerText = f.at(7);
-  document.querySelector('#p-ielts h2').innerText = f.at(8);
-  document.querySelector('#p-scan h2').innerText = f.at(9);
-  document.querySelector('#p-work h2').innerText = f.at(10);
-  document.querySelector('#p-memo h2').innerText = f.at(11);
-};
-callGemini = async function(promptText, base64Img, mimeType) {
-  var sel = document.querySelector('.lang-sel');
-  var langCode = sel ? sel.value : 'en';
-  var rule = "You are Voxa AI, an accurate, authoritative global assistant. Reply ONLY in the user's language (UI: " + langCode + ", or exact language of user's input — fluent, natural Uzbek if Uzbek). Provide historically and factually accurate answers without ** or ### symbols. User input: ";
+async function callAI(promptText) {
+  var lc = document.querySelector('.lang-sel').value;
+  var rule = "You are Voxa AI, an accurate global assistant. Reply ONLY in the user's language (UI: " + lc + ", or exact language of user's input — fluent Uzbek if Uzbek). Provide historically and factually accurate answers without ** or ### symbols. User input: ";
   try {
     var url = "https://text.pollinations." + "ai/" + encodeURIComponent(rule + promptText) + "?model=openai";
     var res = await fetch(url);
@@ -587,222 +213,95 @@ callGemini = async function(promptText, base64Img, mimeType) {
   } catch (e) {
     return "⚠️ Connection error.";
   }
+}
+
+async function ask(inId, outId, mode) {
+  var q = document.getElementById(inId).value.trim();
+  var o = document.getElementById(outId);
+  if (!q) { alert("Please type or speak first!"); return; }
+  o.style.display = "block";
+  o.innerHTML = "🧠 <b>Voxa AI</b> is thinking...";
+  var sys = mode === 'ielts' ? "Evaluate this IELTS answer, give Band Score (1-9), correct grammar, and ask 1 follow-up question: " :
+            mode === 'work' ? "Create a professional CV or business draft for: " : "";
+  var ans = await callAI(sys + q);
+  o.innerHTML = ans.replace(/\n/g, "<br>");
+}
+
+async function scanDoc() {
+  var f = document.getElementById('f-scan');
+  var t = document.getElementById('t-scan').value;
+  var o = document.getElementById('o-scan');
+  if (!f.files || !f.files.at(0)) { alert("📸 Please select a photo first!"); return; }
+  o.style.display = "block";
+  o.innerHTML = "🔍 <b>Voxa Vision AI</b> is analyzing...";
+  var ans = await callAI("Provide a helpful, detailed analysis guide for a " + t + " image uploaded by user.");
+  o.innerHTML = ans.replace(/\n/g, "<br>");
+}
+
+function saveUser() {
+  var u = document.getElementById('u-name').value.trim();
+  var p = document.getElementById('u-pin').value.trim();
+  if (!u || p.length < 4) { alert("Enter username and 4-digit PIN!"); return; }
+  localStorage.setItem('voxa_user', u);
+  alert("✅ Saved: " + u);
+}
+
+function addMemo() {
+  var v = document.getElementById('q-memo').value.trim();
+  if (!v) return;
+  var arr = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
+  arr.unshift(v);
+  localStorage.setItem('voxa_memos', JSON.stringify(arr));
+  document.getElementById('q-memo').value = '';
+  showMemos();
+}
+
+function delMemo(idx) {
+  var arr = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
+  arr.splice(idx, 1);
+  localStorage.setItem('voxa_memos', JSON.stringify(arr));
+  showMemos();
+}
+
+function showMemos() {
+  var arr = JSON.parse(localStorage.getItem('voxa_memos') || '[]');
+  var box = document.getElementById('memo-list');
+  box.innerHTML = '';
+  for (var i = 0; i < arr.length; i++) {
+    box.innerHTML += '<div class="memo"><span>' + arr.at(i) + '</span><button type="button" style="background:none;border:none;color:#f43f5e;font-weight:800" onclick="delMemo(' + i + ')">✕</button></div>';
+  }
+}
+
+var LANGS = {
+  uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!", "ULASHISH", "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.", "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.", "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.", "💬 Voxa AI'dan istalgan narsani so'rang", "✨ AI Javobini Olish", "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "🎙️ AI IELTS va Til Murabbiyi", "IELTS Speaking va Writing mashq qiling yoki 100+ tilga tarjima qiling.", "🚀 Baholash va Ovozli Javob", "📄 Universal Hujjat va Hayot Skaneri", "Shartnoma, chek, ovqat yoki darslik sahifasi rasmini yuklang.", "🔍 Rasmni Hozir Tahlil Qilish", "💼 Rezyume va Biznes Yordamchi", "Xalqaro rezyume (CV), biznes-reja va bozor tahlilini yarating.", "⚡ Loyihani Yaratish", "🧠 Aqlli Xotira va PIN Seyf", "Kundalik xarajat va eslatmalarni telefoningizda maxfiy saqlang.", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash"],
+  ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!", "ПОДЕЛИТЬСЯ", "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.", "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.", "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.", "Умная Память", "Сохраняйте расходы и заметки под личным PIN.", "💬 Спросите Voxa AI о чём угодно", "✨ Получить ответ ИИ", "Главная", "IELTS", "Сканер", "Карьера", "Память", "🎙️ ИИ Тренер по IELTS и Языкам", "Практикуйте IELTS Speaking и Writing или переводите на 100+ языков.", "🚀 Оценить и Озвучить", "📄 Универсальный Сканер Документов", "Загрузите фото договора, чека, еды или страницы учебника.", "🔍 Анализировать Фото Сейчас", "💼 Помощник по Резюме и Бизнесу", "Создавайте международные резюме (CV), бизнес-планы и аналитику.", "⚡ Создать Черновик", "🧠 Умная Память и PIN Сейф", "Сохраняйте ежедневные расходы и заметки приватно на телефоне.", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память"],
+  en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!", "SHARE", "IELTS & Voice", "Live speaking practice & 100+ language translator.", "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.", "CV & Business", "Create resumes, cover letters & business plans.", "Smart Memory", "Save daily expenses & notes with personal PIN.", "💬 Ask Voxa AI Anything (Voice or Text)", "✨ Generate AI Answer", "Home", "IELTS", "Scanner", "Career", "Memory", "🎙️ AI IELTS & Language Coach", "Practice IELTS Speaking & Writing or translate into 100+ languages.", "🚀 Evaluate & Speak Back", "📄 Universal Life & Doc Scanner", "Upload a photo of a contract, receipt, food, or textbook page.", "🔍 Analyze Photo Now", "💼 Resume & Business Copilot", "Generate international CVs, business plans, and market research.", "⚡ Create Draft", "🧠 Smart Memory & PIN Vault", "Save daily expenses and reminders privately on your phone.", "🔐 Save Login & PIN", "➕ Save to Memory"],
+  ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال.", "🎁 شارك مع صديق واحصل على <b>24 ساعة PRO</b> مجاناً!", "مشاركة", "IELTS والصوت", "ممارسة التحدث ومترجم 100+ لغة.", "الماسح الذكي", "تحليل العقود والإيصالات والوصفات.", "السيرة والأعمال", "إنشاء السير الذاتية وخطط العمل.", "الذاكرة الذكية", "احفظ المصاريف اليومية برمز PIN.", "💬 اسأل Voxa AI أي شيء", "✨ إنشاء إجابة الذكاء الاصطناعي", "الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "🎙️ مدرب IELTS واللغات", "تدرب على التحدث والكتابة في IELTS أو ترجم إلى أكثر من 100 لغة.", "🚀 تقييم والرد بالصوت", "📄 ماسح المستندات الشامل", "ارفع صورة عقد أو إيصال أو طعام أو صفحة كتاب مدرسي.", "🔍 تحليل الصورة الآن", "💼 مساعد السيرة والأعمال", "أنشئ سير ذاتية عالمية وخطط عمل وأبحاث سوق.", "⚡ إنشاء مسودة", "🧠 الذاكرة الذكية وخزنة PIN", "احفظ المصاريف اليومية والتذكيرات بخصوصية على هاتفك.", "🔐 حفظ الدخول و PIN", "➕ حفظ في الذاكرة"],
+  tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için.", "🎁 1 arkadaşınla paylaş, <b>24 saat Voxa PRO</b> kazan!", "PAYLAŞ", "IELTS ve Ses", "Canlı konuşma pratiği ve 100+ dil çevirmeni.", "Akıllı Tarayıcı", "Sözleşme, fiş, tarif ve ders notu analizi.", "CV ve İş", "Özgeçmiş ve iş planları oluşturun.", "Akıllı Hafıza", "Günlük harcamaları PIN ile kaydedin.", "💬 Voxa AI'ya Her Şeyi Sorun", "✨ Yapay Zeka Yanıtı Oluştur", "Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "🎙️ AI IELTS ve Dil Koçu", "IELTS Konuşma ve Yazma pratiği yapın veya 100+ dile çevirin.", "🚀 Değerlendir ve Seslendir", "📄 Evrensel Belge Tarayıcı", "Sözleşme, fiş, yemek veya ders kitabı fotoğrafı yükleyin.", "🔍 Fotoğrafı Şimdi Analiz Et", "💼 Özgeçmiş ve İş Asistanı", "Uluslararası CV, iş planları ve pazar araştırması oluşturun.", "⚡ Taslak Oluştur", "🧠 Akıllı Hafıza ve PIN Kasası", "Günlük harcamaları ve hatırlatıcıları telefonunuzda gizlice saklayın.", "🔐 Giriş ve PIN Kaydet", "➕ Hafızaya Kaydet"],
+  es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores.", "🎁 ¡Comparte con 1 amigo y desbloquea <b>24h Voxa PRO</b>!", "COMPARTIR", "IELTS y Voz", "Práctica oral en vivo y traductor de 100+ idiomas.", "Escáner Inteligente", "Analiza contratos, recibos, recetas y apuntes.", "CV y Negocios", "Crea currículums y planes de negocio.", "Memoria Inteligente", "Guarda gastos diarios con PIN personal.", "💬 Pregunta a Voxa AI lo que sea", "✨ Generar Respuesta IA", "Inicio", "IELTS", "Escáner", "Carrera", "Memoria", "🎙️ Entrenador IA de IELTS", "Practica IELTS Speaking y Writing o traduce a 100+ idiomas.", "🚀 Evaluar y Responder", "📄 Escáner Universal", "Sube una foto de contrato, recibo, comida o libro.", "🔍 Analizar Foto Ahora", "💼 Copiloto de CV y Negocios", "Crea currículums internacionales y planes de negocio.", "⚡ Crear Borrador", "🧠 Memoria Inteligente", "Guarda gastos diarios y notas en tu teléfono.", "🔐 Guardar Usuario y PIN", "➕ Guardar en Memoria"],
+  uk: ["Універсальний Голосовий ШІ для кожної професії", "Створено для студентів, лікарів, бухгалтерів та підприємців.", "🎁 Поділіться з 1 другом і отримайте <b>24 год Voxa PRO</b> безкоштовно!", "ПОДІЛИТИСЯ", "IELTS та Голос", "Жива практика мовлення та перекладач 100+ мов.", "Розумний Сканер", "Аналіз договорів, чеків, рецептів та конспектів.", "Резюме та Бізнес", "Створення резюме та бізнес-планів.", "Розумна Пам'ять", "Зберігайте витрати та нотатки під особистим PIN.", "💬 Запитайте Voxa AI про що завгодно", "✨ Отримати відповідь ШІ", "Головна", "IELTS", "Сканер", "Кар'єра", "Пам'ять", "🎙️ ШІ Тренер з IELTS та Мов", "Практикуйте IELTS Speaking і Writing або перекладайте на 100+ мов.", "🚀 Оцінити та Озвучити", "📄 Універсальний Сканер Документів", "Завантажте фото договору, чека, їжі або сторінки підручника.", "🔍 Аналізувати Фото Зараз", "💼 Помічник з Резюме та Бізнесу", "Створюйте міжнародні резюме (CV), бізнес-плани та аналітику.", "⚡ Створити Чернетку", "🧠 Розумна Пам'ять і PIN Сейф", "Зберігайте щоденні витрати та нотатки приватно на телефоні.", "🔐 Зберегти Логін та PIN", "➕ Зберегти в пам'ять"]
 };
 
-var _prevLang = setLang;
-setLang = function(l) {
-  _prevLang(l);
-  var sub = {
-    uz: ["Jonli nutq mashqi va 100+ til tarjimoni.", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume, motivatsion xat va biznes rejalar.", "Kundalik xarajat va eslatmalarni PIN bilan saqlang."],
-    ru: ["Живая практика речи и переводчик 100+ языков.", "Анализ договоров, чеков, рецептов и конспектов.", "Создание резюме, писем и бизнес-планов.", "Сохраняйте расходы и заметки под личным PIN."],
-    en: ["Live speaking practice & 100+ language translator.", "Analyze contracts, receipts, recipes & study notes.", "Create resumes, cover letters & business plans.", "Save daily expenses & notes with personal PIN."],
-    ar: ["ممارسة التحدث المباشر ومترجم 100+ لغة.", "تحليل العقود والإيصالات والوصفات.", "إنشاء السير الذاتية وخطط العمل.", "احفظ المصاريف اليومية برمز PIN."],
-    tr: ["Canlı konuşma pratiği ve 100+ dil çevirmeni.", "Sözleşme, fiş, tarif ve ders notu analizi.", "Özgeçmiş ve iş planları oluşturun.", "Günlük harcamaları PIN ile kaydedin."]
-  };
-  var s = sub[l] || sub.en;
-  document.getElementById('c1-s').innerText = s.at(0);
-  document.getElementById('c2-s').innerText = s.at(1);
-  document.getElementById('c3-s').innerText = s.at(2);
-  document.getElementById('c4-s').innerText = s.at(3);
-};
-mic = function(id) {
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { alert("Please allow microphone or type your text."); return; }
-  var r = new SR();
-  var sel = document.querySelector('.lang-sel');
-  var map = { uz: 'uz-UZ', ru: 'ru-RU', en: 'en-US', ar: 'ar-SA', tr: 'tr-TR', es: 'es-ES', kk: 'kk-KZ', tg: 'tg-TJ' };
-  r.lang = (sel && map[sel.value]) ? map[sel.value] : 'en-US';
-  r.start();
-  r.onresult = function(e) {
-    var txt = e.results.at(0).at(0).transcript;
-    if (txt) document.getElementById(id).value = txt;
-  };
-};
-
-setLang = function(l) {
-  var t = {
-    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.", "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.", "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.", "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "💬 Voxa AI'dan istalgan narsani so'rang", "Savolingizni yozing yoki mikrofonni bosing...", "✨ AI Javobini Olish"],
-    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.", "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.", "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.", "Умная Память", "Сохраняйте расходы и заметки под личным PIN.", "Главная", "IELTS", "Сканер", "Карьера", "Память", "💬 Спросите Voxa AI о чём угодно", "Напишите вопрос или нажмите микрофон...", "✨ Получить ответ ИИ"],
-    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "IELTS & Voice", "Live speaking practice & 100+ language translator.", "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.", "CV & Business", "Create resumes, cover letters & business plans.", "Smart Memory", "Save daily expenses & notes with personal PIN.", "Home", "IELTS", "Scanner", "Career", "Memory", "💬 Ask Voxa AI Anything (Voice or Text)", "Ask about IELTS, docs, recipes, business...", "✨ Generate AI Answer"]
-  };
-  var x = t[l] || t.en;
-  document.getElementById('hero-title').innerText = x.at(0);
-  document.getElementById('hero-sub').innerText = x.at(1);
-  document.getElementById('c1-t').innerText = x.at(2);
-  document.getElementById('c1-s').innerText = x.at(3);
-  document.getElementById('c2-t').innerText = x.at(4);
-  document.getElementById('c2-s').innerText = x.at(5);
-  document.getElementById('c3-t').innerText = x.at(6);
-  document.getElementById('c3-s').innerText = x.at(7);
-  document.getElementById('c4-t').innerText = x.at(8);
-  document.getElementById('c4-s').innerText = x.at(9);
-  var navs = document.querySelectorAll('.nav button');
-  if (navs.length >= 5) {
-    navs.at(0).innerHTML = "<span>🏠</span>" + x.at(10);
-    navs.at(1).innerHTML = "<span>🎙️</span>" + x.at(11);
-    navs.at(2).innerHTML = "<span>📄</span>" + x.at(12);
-    navs.at(3).innerHTML = "<span>💼</span>" + x.at(13);
-    navs.at(4).innerHTML = "<span>🧠</span>" + x.at(14);
+async function setLang(l) {
+  if (LANGS[l]) {
+    applyLang(LANGS[l]);
+    return;
   }
-  document.getElementById('ask-lbl').innerText = x.at(15);
-  document.getElementById('q-home').placeholder = x.at(16);
-  document.querySelector('#p-home .btn-main').innerText = x.at(17);
-};
-var _finalLang = setLang;
-setLang = function(l) {
-  _finalLang(l);
-  var m = {
-    uz: ["🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!", "ULASHISH", "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "💬 Voxa AI'dan istalgan narsani so'rang", "✨ AI Javobini Olish", "🎙️ AI IELTS va Til Murabbiyi", "📄 Universal Hujjat va Hayot Skaneri", "💼 Rezyume va Biznes Yordamchi", "🧠 Aqlli Xotira va PIN Seyf", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash"],
-    ru: ["🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!", "ПОДЕЛИТЬСЯ", "Главная", "IELTS", "Сканер", "Карьера", "Память", "💬 Спросите Voxa AI о чём угодно", "✨ Получить ответ ИИ", "🎙️ ИИ Тренер по IELTS и Языкам", "📄 Универсальный Сканер Документов", "💼 Помощник по Резюме и Бизнесу", "🧠 Умная Память и PIN Сейф", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память"],
-    en: ["🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!", "SHARE", "Home", "IELTS", "Scanner", "Career", "Memory", "💬 Ask Voxa AI Anything (Voice or Text)", "✨ Generate AI Answer", "🎙️ AI IELTS & Language Coach", "📄 Universal Life & Doc Scanner", "💼 Resume & Business Copilot", "🧠 Smart Memory & PIN Vault", "🔐 Save Login & PIN", "➕ Save to Memory"]
-  };
-  var x = m[l] || m.en;
-  document.getElementById('t-viral').innerHTML = x.at(0);
-  document.querySelector('.btn-green').innerText = x.at(1);
-  var navs = document.querySelectorAll('.nav button');
-  if (navs.length >= 5) {
-    navs.at(0).innerHTML = "<span>🏠</span>" + x.at(2);
-    navs.at(1).innerHTML = "<span>🎙️</span>" + x.at(3);
-    navs.at(2).innerHTML = "<span>📄</span>" + x.at(4);
-    navs.at(3).innerHTML = "<span>💼</span>" + x.at(5);
-    navs.at(4).innerHTML = "<span>🧠</span>" + x.at(6);
-  }
-  document.getElementById('ask-lbl').innerText = x.at(7);
-  document.querySelector('#p-home .btn-main').innerText = x.at(8);
-  document.querySelector('#p-ielts h2').innerText = x.at(9);
-  document.querySelector('#p-scan h2').innerText = x.at(10);
-  document.querySelector('#p-work h2').innerText = x.at(11);
-  document.querySelector('#p-memo h2').innerText = x.at(12);
-  var mBtns = document.querySelectorAll('#p-memo .btn-main');
-  if (mBtns.length >= 2) {
-    mBtns.at(0).innerText = x.at(13);
-    mBtns.at(1).innerText = x.at(14);
-  }
-};
-document.querySelector('.lang-sel').onchange = function() {
-  var l = this.value;
-  var db = {
-    uz: [
-      "Har bir kasb uchun yagona Ovozli AI",
-      "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.",
-      "🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!",
-      "ULASHISH",
-      "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.",
-      "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.",
-      "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.",
-      "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.",
-      "💬 Voxa AI'dan istalgan narsani so'rang",
-      "Savolingizni yozing yoki mikrofonni bosing...",
-      "✨ AI Javobini Olish",
-      "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira",
-      "🎙️ AI IELTS va Til Murabbiyi", "🚀 Baholash va Ovozli Javob",
-      "📄 Universal Hujjat va Hayot Skaneri", "🔍 Rasmni Hozir Tahlil Qilish",
-      "💼 Rezyume va Biznes Yordamchi", "⚡ Loyihani Yaratish",
-      "🧠 Aqlli Xotira va PIN Seyf", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash"
-    ],
-    ru: [
-      "Универсальный Голосовой ИИ для всех",
-      "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.",
-      "🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!",
-      "ПОДЕЛИТЬСЯ",
-      "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.",
-      "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.",
-      "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.",
-      "Умная Память", "Сохраняйте расходы и заметки под личным PIN.",
-      "💬 Спросите Voxa AI о чём угодно",
-      "Напишите вопрос или нажмите микрофон...",
-      "✨ Получить ответ ИИ",
-      "Главная", "IELTS", "Сканер", "Карьера", "Память",
-      "🎙️ ИИ Тренер по IELTS и Языкам", "🚀 Оценить и Озвучить",
-      "📄 Универсальный Сканер Документов", "🔍 Анализировать Фото Сейчас",
-      "💼 Помощник по Резюме и Бизнесу", "⚡ Создать Черновик",
-      "🧠 Умная Память и PIN Сейф", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память"
-    ],
-    en: [
-      "Your All-in-One Voice AI for Every Profession",
-      "Built for students, doctors, accountants, homemakers, and entrepreneurs.",
-      "🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!",
-      "SHARE",
-      "IELTS & Voice", "Live speaking practice & 100+ language translator.",
-      "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.",
-      "CV & Business", "Create resumes, cover letters & business plans.",
-      "Smart Memory", "Save daily expenses & notes with personal PIN.",
-      "💬 Ask Voxa AI Anything (Voice or Text)",
-      "Ask about IELTS, docs, recipes, business...",
-      "✨ Generate AI Answer",
-      "Home", "IELTS", "Scanner", "Career", "Memory",
-      "🎙️ AI IELTS & Language Coach", "🚀 Evaluate & Speak Back",
-      "📄 Universal Life & Doc Scanner", "🔍 Analyze Photo Now",
-      "💼 Resume & Business Copilot", "⚡ Create Draft",
-      "🧠 Smart Memory & PIN Vault", "🔐 Save Login & PIN", "➕ Save to Memory"
-    ]
-  };
-  var a = db[l] || db.en;
-  document.getElementById('hero-title').innerText = a.at(0);
-  document.getElementById('hero-sub').innerText = a.at(1);
-  document.getElementById('t-viral').innerHTML = a.at(2);
-  document.querySelector('.btn-green').innerText = a.at(3);
-  document.getElementById('c1-t').innerText = a.at(4);
-  document.getElementById('c1-s').innerText = a.at(5);
-  document.getElementById('c2-t').innerText = a.at(6);
-  document.getElementById('c2-s').innerText = a.at(7);
-  document.getElementById('c3-t').innerText = a.at(8);
-  document.getElementById('c3-s').innerText = a.at(9);
-  document.getElementById('c4-t').innerText = a.at(10);
-  document.getElementById('c4-s').innerText = a.at(11);
-  document.getElementById('ask-lbl').innerText = a.at(12);
-  document.getElementById('q-home').placeholder = a.at(13);
-  document.querySelector('#p-home .btn-main').innerText = a.at(14);
-  var n = document.querySelectorAll('.nav button');
-  n.at(0).innerHTML = "<span>🏠</span>" + a.at(15);
-  n.at(1).innerHTML = "<span>🎙️</span>" + a.at(16);
-  n.at(2).innerHTML = "<span>📄</span>" + a.at(17);
-  n.at(3).innerHTML = "<span>💼</span>" + a.at(18);
-  n.at(4).innerHTML = "<span>🧠</span>" + a.at(19);
-  document.querySelector('#p-ielts h2').innerText = a.at(20);
-  document.querySelector('#p-ielts .btn-main').innerText = a.at(21);
-  document.querySelector('#p-scan h2').innerText = a.at(22);
-  document.querySelector('#p-scan .btn-main').innerText = a.at(23);
-  document.querySelector('#p-work h2').innerText = a.at(24);
-  document.querySelector('#p-work .btn-main').innerText = a.at(25);
-  document.querySelector('#p-memo h2').innerText = a.at(26);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  mb.at(0).innerText = a.at(27);
-  mb.at(1).innerText = a.at(28);
-};
-document.querySelector('.lang-sel').onchange = async function() {
-  var l = this.value;
-  if (l === 'en') { location.reload(); return; }
-  var els = document.querySelectorAll('h2, h3, p, b, span, button, option, .badge, .disc, #t-viral');
-  var list = [];
-  for (var i = 0; i < els.length; i++) {
-    var el = els.at(i);
-    if (el.children.length === 0 && el.innerText.trim().length > 1 && el.innerText.indexOf('Voxa AI') === -1 && el.innerText.indexOf('$29') === -1) {
-      list.push(el);
-    }
-  }
-  var texts = list.map(function(x) { return x.innerText.trim(); });
-  var prompt = "Translate each line into language code '" + l + "'. Keep emojis, return ONLY translated lines separated by ||| in exact same order:\n" + texts.join(" ||| ");
+  var base = LANGS.en;
+  var p = "Translate each item into language code '" + l + "'. Keep emojis and <b> tags, return ONLY translated items separated by ||| in exact same order:\n" + base.join(" ||| ");
   try {
-    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(prompt) + "?model=openai";
+    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(p) + "?model=openai";
     var res = await fetch(url);
-    var out = await res.text();
-    var tr = out.split("|||");
-    if (tr.length >= list.length - 3) {
-      for (var j = 0; j < list.length; j++) {
-        if (tr.at(j)) list.at(j).innerText = tr.at(j).trim();
-      }
+    var txt = await res.text();
+    var arr = txt.split("|||");
+    if (arr.length >= 30) {
+      LANGS[l] = arr.map(function(s) { return s.trim(); });
+      applyLang(LANGS[l]);
     }
   } catch (e) {}
-};
-document.querySelector('.lang-sel').onchange = function() {
-  var l = this.value;
-  var tr = {
-    uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!", "ULASHISH", "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.", "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.", "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.", "💬 Voxa AI'dan istalgan narsani so'rang", "✨ AI Javobini Olish", "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "🎙️ AI IELTS va Til Murabbiyi", "🚀 Baholash va Ovozli Javob", "📄 Universal Hujjat va Hayot Skaneri", "🔍 Rasmni Hozir Tahlil Qilish", "💼 Rezyume va Biznes Yordamchi", "⚡ Loyihani Yaratish", "🧠 Aqlli Xotira va PIN Seyf", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash"],
-    ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!", "ПОДЕЛИТЬСЯ", "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.", "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.", "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.", "Умная Память", "Сохраняйте расходы и заметки под личным PIN.", "💬 Спросите Voxa AI о чём угодно", "✨ Получить ответ ИИ", "Главная", "IELTS", "Сканер", "Карьера", "Память", "🎙️ ИИ Тренер по IELTS и Языкам", "🚀 Оценить и Озвучить", "📄 Универсальный Сканер Документов", "🔍 Анализировать Фото Сейчас", "💼 Помощник по Резюме и Бизнесу", "⚡ Создать Черновик", "🧠 Умная Память и PIN Сейф", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память"],
-    en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!", "SHARE", "IELTS & Voice", "Live speaking practice & 100+ language translator.", "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.", "CV & Business", "Create resumes, cover letters & business plans.", "Smart Memory", "Save daily expenses & notes with personal PIN.", "💬 Ask Voxa AI Anything (Voice or Text)", "✨ Generate AI Answer", "Home", "IELTS", "Scanner", "Career", "Memory", "🎙️ AI IELTS & Language Coach", "🚀 Evaluate & Speak Back", "📄 Universal Life & Doc Scanner", "🔍 Analyze Photo Now", "💼 Resume & Business Copilot", "⚡ Create Draft", "🧠 Smart Memory & PIN Vault", "🔐 Save Login & PIN", "➕ Save to Memory"]
-  };
-  var x = tr[l] || tr.en;
+}
+
+function applyLang(x) {
   document.getElementById('hero-title').innerText = x.at(0);
   document.getElementById('hero-sub').innerText = x.at(1);
   document.getElementById('t-viral').innerHTML = x.at(2);
@@ -816,218 +315,28 @@ document.querySelector('.lang-sel').onchange = function() {
   document.getElementById('c4-t').innerText = x.at(10);
   document.getElementById('c4-s').innerText = x.at(11);
   document.getElementById('ask-lbl').innerText = x.at(12);
-  document.querySelector('#p-home .btn-main').innerText = x.at(13);
-  var nav = document.querySelectorAll('.nav button');
-  nav.at(0).innerHTML = "<span>🏠</span>" + x.at(14);
-  nav.at(1).innerHTML = "<span>🎙️</span>" + x.at(15);
-  nav.at(2).innerHTML = "<span>📄</span>" + x.at(16);
-  nav.at(3).innerHTML = "<span>💼</span>" + x.at(17);
-  nav.at(4).innerHTML = "<span>🧠</span>" + x.at(18);
-  document.querySelector('#p-ielts h2').innerText = x.at(19);
-  document.querySelector('#p-ielts .btn-main').innerText = x.at(20);
-  document.querySelector('#p-scan h2').innerText = x.at(21);
-  document.querySelector('#p-scan .btn-main').innerText = x.at(22);
-  document.querySelector('#p-work h2').innerText = x.at(23);
-  document.querySelector('#p-work .btn-main').innerText = x.at(24);
-  document.querySelector('#p-memo h2').innerText = x.at(25);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  mb.at(0).innerText = x.at(26);
-  mb.at(1).innerText = x.at(27);
-};
-var ALL_LANGS = {
-  uz: ["Har bir kasb uchun yagona Ovozli AI", "Talaba, shifokor, buxgalter, uy bekasi va tadbirkorlar uchun aqlli yordamchi.", "🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!", "ULASHISH", "IELTS va Ovoz", "Jonli nutq mashqi va 100+ til tarjimoni.", "Aqlli Skaner", "Shartnoma, chek, retsept va darslik tahlili.", "Rezyume va Biznes", "Rezyume, motivatsion xat va biznes rejalar.", "Aqlli Xotira", "Kundalik xarajat va eslatmalarni PIN bilan saqlang.", "💬 Voxa AI'dan istalgan narsani so'rang", "✨ AI Javobini Olish", "Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "🎙️ AI IELTS va Til Murabbiyi", "🚀 Baholash va Ovozli Javob", "📄 Universal Hujjat va Hayot Skaneri", "🔍 Rasmni Hozir Tahlil Qilish", "💼 Rezyume va Biznes Yordamchi", "⚡ Loyihani Yaratish", "🧠 Aqlli Xotira va PIN Seyf", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash"],
-  ru: ["Универсальный Голосовой ИИ для всех", "Для студентов, врачей, бухгалтеров, домохозяек и предпринимателей.", "🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!", "ПОДЕЛИТЬСЯ", "IELTS и Голос", "Живая практика речи и переводчик 100+ языков.", "Умный Сканер", "Анализ договоров, чеков, рецептов и конспектов.", "Резюме и Бизнес", "Создание резюме, писем и бизнес-планов.", "Умная Память", "Сохраняйте расходы и заметки под личным PIN.", "💬 Спросите Voxa AI о чём угодно", "✨ Получить ответ ИИ", "Главная", "IELTS", "Сканер", "Карьера", "Память", "🎙️ ИИ Тренер по IELTS и Языкам", "🚀 Оценить и Озвучить", "📄 Универсальный Сканер Документов", "🔍 Анализировать Фото Сейчас", "💼 Помощник по Резюме и Бизнесу", "⚡ Создать Черновик", "🧠 Умная Память и PIN Сейф", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память"],
-  en: ["Your All-in-One Voice AI for Every Profession", "Built for students, doctors, accountants, homemakers, and entrepreneurs.", "🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!", "SHARE", "IELTS & Voice", "Live speaking practice & 100+ language translator.", "Smart Scanner", "Analyze contracts, receipts, recipes & study notes.", "CV & Business", "Create resumes, cover letters & business plans.", "Smart Memory", "Save daily expenses & notes with personal PIN.", "💬 Ask Voxa AI Anything (Voice or Text)", "✨ Generate AI Answer", "Home", "IELTS", "Scanner", "Career", "Memory", "🎙️ AI IELTS & Language Coach", "🚀 Evaluate & Speak Back", "📄 Universal Life & Doc Scanner", "🔍 Analyze Photo Now", "💼 Resume & Business Copilot", "⚡ Create Draft", "🧠 Smart Memory & PIN Vault", "🔐 Save Login & PIN", "➕ Save to Memory"],
-  ar: ["مساعدك الصوتي الشامل لكل المهن", "مصمم للطلاب والأطباء والمحاسبين ورواد الأعمال.", "🎁 شارك مع صديق واحصل على <b>24 ساعة PRO</b> مجاناً!", "مشاركة", "IELTS والصوت", "ممارسة التحدث ومترجم 100+ لغة.", "الماسح الذكي", "تحليل العقود والإيصالات والوصفات.", "السيرة والأعمال", "إنشاء السير الذاتية وخطط العمل.", "الذاكرة الذكية", "احفظ المصاريف اليومية برمز PIN.", "💬 اسأل Voxa AI أي شيء", "✨ إنشاء إجابة الذكاء الاصطناعي", "الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "🎙️ مدرب IELTS واللغات", "🚀 تقييم والرد بالصوت", "📄 ماسح المستندات الشامل", "🔍 تحليل الصورة الآن", "💼 مساعد السيرة والأعمال", "⚡ إنشاء مسودة", "🧠 الذاكرة الذكية", "🔐 حفظ الدخول و PIN", "➕ حفظ في الذاكرة"],
-  tr: ["Her Meslek İçin Hepsi Bir Arada Sesli AI", "Öğrenciler, doktorlar, muhasebeciler ve ev hanımları için.", "🎁 1 arkadaşınla paylaş, <b>24 saat Voxa PRO</b> kazan!", "PAYLAŞ", "IELTS ve Ses", "Canlı konuşma pratiği ve 100+ dil çevirmeni.", "Akıllı Tarayıcı", "Sözleşme, fiş, tarif ve ders notu analizi.", "CV ve İş", "Özgeçmiş ve iş planları oluşturun.", "Akıllı Hafıza", "Günlük harcamaları PIN ile kaydedin.", "💬 Voxa AI'ya Her Şeyi Sorun", "✨ Yapay Zeka Yanıtı Oluştur", "Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "🎙️ AI IELTS ve Dil Koçu", "🚀 Değerlendir ve Seslendir", "📄 Evrensel Belge Tarayıcı", "🔍 Fotoğrafı Şimdi Analiz Et", "💼 Özgeçmiş ve İş Asistanı", "⚡ Taslak Oluştur", "🧠 Akıllı Hafıza", "🔐 Giriş ve PIN Kaydet", "➕ Hafızaya Kaydet"],
-  es: ["Tu IA de Voz Todo en Uno para Cada Profesión", "Para estudiantes, médicos, contadores y emprendedores.", "🎁 ¡Comparte con 1 amigo y desbloquea <b>24h Voxa PRO</b>!", "COMPARTIR", "IELTS y Voz", "Práctica oral en vivo y traductor de 100+ idiomas.", "Escáner Inteligente", "Analiza contratos, recibos, recetas y apuntes.", "CV y Negocios", "Crea currículums y planes de negocio.", "Memoria Inteligente", "Guarda gastos diarios con PIN personal.", "💬 Pregunta a Voxa AI lo que sea", "✨ Generar Respuesta IA", "Inicio", "IELTS", "Escáner", "Carrera", "Memoria", "🎙️ Entrenador IA de IELTS", "🚀 Evaluar y Responder", "📄 Escáner Universal", "🔍 Analizar Foto Ahora", "💼 Copiloto de CV y Negocios", "⚡ Crear Borrador", "🧠 Memoria Inteligente", "🔐 Guardar Usuario y PIN", "➕ Guardar en Memoria"],
-  hi: ["हर पेशे के लिए आपका ऑल-इन-वन वॉयस AI", "छात्रों, डॉक्टरों, एकाउंटेंट्स और उद्यमियों के लिए निर्मित।", "🎁 1 मित्र के साथ साझा करें और <b>24 घंटे Voxa PRO</b> पाएं!", "साझा करें", "IELTS और आवाज़", "लाइव स्पीकिंग अभ्यास और 100+ भाषा अनुवादक।", "स्मार्ट स्कैनर", "अनुबंध, रसीद, रेसिपी और नोट्स का विश्लेषण।", "CV और व्यापार", "रिज्यूमे और बिजनेस प्लान बनाएं।", "स्मार्ट मेमोरी", "व्यक्तिगत PIN के साथ दैनिक खर्च सहेजें।", "💬 Voxa AI से कुछ भी पूछें", "✨ AI उत्तर प्राप्त करें", "होम", "IELTS", "स्कैनर", "करियर", "मेमोरी", "🎙️ AI IELTS कोच", "🚀 मूल्यांकन करें", "📄 यूनिवर्सल डॉक स्कैनर", "🔍 अभी फोटो का विश्लेषण करें", "💼 रिज्यूमे और बिजनेस सहायक", "⚡ ड्राफ्ट बनाएं", "🧠 स्मार्ट मेमोरी", "🔐 लॉगिन और PIN सहेजें", "➕ मेमोरी में सहेजें"]
-};
-Object.assign(ALL_LANGS, {
-  pt: ["Sua IA de Voz Completa para Todas as Profissões", "Feito para estudantes, médicos, contadores e empreendedores.", "🎁 Compartilhe com 1 amigo e ganhe <b>24h Voxa PRO</b>!", "COMPARTILHAR", "IELTS e Voz", "Prática de fala ao vivo e tradutor de 100+ idiomas.", "Scanner Inteligente", "Analise contratos, recibos, receitas e notas.", "CV e Negócios", "Crie currículos e planos de negócios.", "Memória Inteligente", "Salve gastos diários com PIN pessoal.", "💬 Pergunte qualquer coisa ao Voxa AI", "✨ Gerar Resposta IA", "Início", "IELTS", "Scanner", "Carreira", "Memória", "🎙️ Treinador IA IELTS", "🚀 Avaliar e Falar", "📄 Scanner Universal", "🔍 Analisar Foto Agora", "💼 Copiloto de CV e Negócios", "⚡ Criar Rascunho", "🧠 Memória Inteligente", "🔐 Salvar Login e PIN", "➕ Salvar na Memória"],
-  id: ["AI Suara Lengkap untuk Semua Profesi", "Dibuat untuk pelajar, dokter, akuntan, dan pengusaha.", "🎁 Bagikan ke 1 teman untuk buka <b>24 jam Voxa PRO</b>!", "BAGIKAN", "IELTS & Suara", "Latihan bicara langsung & penerjemah 100+ bahasa.", "Pemindai Pintar", "Analisis kontrak, struk, resep & catatan.", "CV & Bisnis", "Buat resume dan rencana bisnis.", "Memori Pintar", "Simpan pengeluaran harian dengan PIN.", "💬 Tanya Voxa AI Apa Saja", "✨ Buat Jawaban AI", "Beranda", "IELTS", "Pemindai", "Karier", "Memori", "🎙️ Pelatih AI IELTS", "🚀 Evaluasi & Bicara", "📄 Pemindai Dokumen", "🔍 Analisis Foto Sekarang", "💼 Asisten CV & Bisnis", "⚡ Buat Draf", "🧠 Memori Pintar", "🔐 Simpan Login & PIN", "➕ Simpan ke Memori"],
-  de: ["Ihre All-in-One Sprach-KI für jeden Beruf", "Entwickelt für Studenten, Ärzte, Buchhalter und Unternehmer.", "🎁 Mit 1 Freund teilen & <b>24h Voxa PRO</b> freischalten!", "TEILEN", "IELTS & Sprache", "Live-Sprechtraining & Übersetzer für 100+ Sprachen.", "Smart Scanner", "Verträge, Belege, Rezepte & Notizen analysieren.", "Lebenslauf & Business", "Lebensläufe und Businesspläne erstellen.", "Smart Speicher", "Tägliche Ausgaben mit persönlicher PIN speichern.", "💬 Fragen Sie Voxa AI alles", "✨ KI-Antwort generieren", "Start", "IELTS", "Scanner", "Karriere", "Speicher", "🎙️ KI IELTS & Sprachcoach", "🚀 Bewerten & Sprechen", "📄 Universeller Dokumentenscanner", "🔍 Foto jetzt analysieren", "💼 Lebenslauf & Business Copilot", "⚡ Entwurf erstellen", "🧠 Smart Speicher", "🔐 Login & PIN speichern", "➕ Im Speicher sichern"],
-  fr: ["Votre IA Vocale Tout-en-Un pour Chaque Métier", "Conçu pour étudiants, médecins, comptables et entrepreneurs.", "🎁 Partagez avec 1 ami pour débloquer <b>24h Voxa PRO</b>!", "PARTAGER", "IELTS & Voix", "Pratique orale en direct et traducteur 100+ langues.", "Scanner Intelligent", "Analysez contrats, reçus, recettes et notes.", "CV & Business", "Créez des CV et des plans d'affaires.", "Mémoire Intelligente", "Enregistrez vos dépenses avec un code PIN.", "💬 Demandez n'importe quoi à Voxa AI", "✨ Générer une réponse IA", "Accueil", "IELTS", "Scanner", "Carrière", "Mémoire", "🎙️ Coach IA IELTS & Langues", "🚀 Évaluer et Répondre", "📄 Scanner Universel", "🔍 Analyser la photo", "💼 Copilote CV & Business", "⚡ Créer un brouillon", "🧠 Mémoire Intelligente", "🔐 Enregistrer PIN", "➕ Enregistrer"],
-  ko: ["모든 직업을 위한 올인원 음성 AI", "학생, 의사, 회계사, 주부 및 기업가를 위해 제작되었습니다.", "🎁 친구 1명에게 공유하고 <b>24시간 Voxa PRO</b> 무료 잠금 해제!", "공유하기", "IELTS 및 음성", "실시간 스피킹 연습 및 100개 이상 언어 번역기.", "스마트 스캐너", "계약서, 영수증, 레시피 및 학습 노트 분석.", "이력서 및 비즈니스", "이력서 및 사업 계획서 작성.", "스마트 메모리", "개인 PIN으로 일일 지출 및 메모 저장.", "💬 Voxa AI에게 무엇이든 물어보세요", "✨ AI 답변 생성", "홈", "IELTS", "스캐너", "커리어", "메모리", "🎙️ AI IELTS 및 언어 코치", "🚀 평가 및 음성 답변", "📄 범용 문서 스캐너", "🔍 지금 사진 분석", "💼 이력서 및 비즈니스 코파일럿", "⚡ 초안 작성", "🧠 스마트 메모리", "🔐 로그인 및 PIN 저장", "➕ 메모리에 저장"],
-  ja: ["あらゆる職業のためのオールインワン音声AI", "学生、医師、会計士、主婦、起業家のために作られました。", "🎁 友達1人にシェアして<b>24時間Voxa PRO</b>を無料解放！", "シェア", "IELTS＆音声", "ライブスピーキング練習＆100言語翻訳。", "スマートスキャナー", "契約書、レシート、レシピ、学習ノートを分析。", "履歴書＆ビジネス", "履歴書やビジネスプランを作成。", "スマートメモリ", "個人PINで毎日の支出やメモを保存。", "💬 Voxa AIに何でも質問してください", "✨ AI回答を生成", "ホーム", "IELTS", "スキャナー", "キャリア", "メモリ", "🎙️ AI IELTS＆語学コーチ", "🚀 評価と音声回答", "📄 ユニバーサルスキャナー", "🔍 今すぐ写真を分析", "💼 履歴書＆ビジネス支援", "⚡ 下書きを作成", "🧠 スマートメモリ", "🔐 ログインとPINを保存", "➕ メモリに保存"],
-  zh: ["适合所有职业的全能语音 AI", "专为学生、医生、会计师和企业家打造。", "🎁 分享给1位好友即可免费解锁 <b>24小时 Voxa PRO</b>！", "分享", "雅思与语音", "实时口语练习和100多种语言翻译。", "智能扫描仪", "分析合同、收据、食谱和学习笔记。", "简历与商业", "创建简历和商业计划书。", "智能记忆", "使用个人PIN保存日常开支和笔记。", "💬 向 Voxa AI 提问任何问题", "✨ 生成 AI 回答", "首页", "雅思", "扫描仪", "职业", "记忆", "🎙️ AI 雅思与语言教练", "🚀 评估并语音回复", "📄 通用文档扫描仪", "🔍 立即分析照片", "💼 简历与商业助手", "⚡ 创建草稿", "🧠 智能记忆", "🔐 保存登录和PIN", "➕ 保存到记忆"],
-  kk: ["Барлық мамандыққа арналған бірыңғай Дауыстық AI", "Студенттер, дәрігерлер, есепшілер мен кәсіпкерлерге арналған.", "🎁 1 досыңызбен бөлісіп, <b>24 сағат Voxa PRO</b> тегін алыңыз!", "БӨЛІСУ", "IELTS және Дауыс", "Тікелей сөйлеу жаттығуы және 100+ тіл аудармашысы.", "Ақылды Сканер", "Келісімшарт, чек, рецепт және оқу жазбаларын талдау.", "Түйіндеме және Бизнес", "Түйіндеме мен бизнес-жоспарлар жасау.", "Ақылды Жад", "Күнделікті шығындарды PIN арқылы сақтаңыз.", "💬 Voxa AI-дан кез келген нәрсені сұраңыз", "✨ AI Жауабын Алу", "Басты бет", "IELTS", "Сканер", "Мансап", "Жад", "🎙️ AI IELTS және Тіл Жаттықтырушысы", "🚀 Бағалау және Дауыстық Жауап", "📄 Әмбебап Құжат Сканері", "🔍 Фотоны Қазір Талдау", "💼 Түйіндеме және Бизнес Көмекші", "⚡ Жоба Жасау", "🧠 Ақылды Жад", "🔐 Логин мен PIN сақтау", "➕ Жадқа сақтау"],
-  tg: ["AI-и овозии ягона барои ҳар як касб", "Барои донишҷӯён, табибон, муҳосибон ва соҳибкорон.", "🎁 Бо 1 дӯст мубодила кунед ва <b>24 соат Voxa PRO</b> ройгон гиред!", "МУБОДИЛА", "IELTS ва Овоз", "Машқи зиндаи гуфтор ва тарҷумони 100+ забон.", "Сканери Ҳушманд", "Таҳлили шартнома, чек, рецепт ва дафтарҳо.", "Резюме ва Тиҷорат", "Сохтани резюме ва нақшаҳои тиҷоратӣ.", "Хотираи Ҳушманд", "Хароҷоти ҳаррӯзаро бо PIN захира кунед.", "💬 Аз Voxa AI ҳама чизро пурсед", "✨ Гирифтани Ҷавоби AI", "Асосӣ", "IELTS", "Сканер", "Касб", "Хотира", "🎙️ Мураббии AI IELTS", "🚀 Баҳодиҳӣ ва Ҷавоби Овозӣ", "📄 Сканери Универсалӣ", "🔍 Ҳозир Таҳлил Кардан", "💼 Ёвари Резюме ва Тиҷорат", "⚡ Сохтани Лоиҳа", "🧠 Хотираи Ҳушманд", "🔐 Захираи Логин ва PIN", "➕ Ба хотира захира кардан"],
-  az: ["Hər Peşə Üçün Vahid Səsli AI", "Tələbələr, həkimlər, mühasiblər və sahibkarlar üçün.", "🎁 1 dostunuzla paylaşın və <b>24 saat Voxa PRO</b> qazanın!", "PAYLAŞ", "IELTS və Səs", "Canlı danışıq məşqi və 100+ dil tərcüməçisi.", "Ağıllı Skaner", "Müqavilə, qəbz, resept və dərs qeydlərinin təhlili.", "CV və Biznes", "CV və biznes planlar yaradın.", "Ağıllı Yaddaş", "Gündəlik xərcləri şəxsi PIN ilə yadda saxlayın.", "💬 Voxa AI-dan istənilən sualı soruşun", "✨ AI Cavabı Yarat", "Ana səhifə", "IELTS", "Skaner", "Karyera", "Yaddaş", "🎙️ AI IELTS və Dil Məşqçisi", "🚀 Qiymətləndir və Səsləndir", "📄 Universal Sənəd Skaneri", "🔍 Şəkli İndi Təhlil Et", "💼 CV və Biznes Köməkçisi", "⚡ Qaralama Yarat", "🧠 Ağıllı Yaddaş", "🔐 Giriş və PIN Yadda Saxla", "➕ Yaddaşa Əlavə Et"],
-  fa: ["هوش مصنوعی صوتی همه‌کاره برای هر شغل", "ساخته شده برای دانشجویان، پزشکان، حسابداران و کارآفرینان.", "🎁 با 1 دوست به اشتراک بگذارید و <b>24 ساعت Voxa PRO</b> رایگان بگیرید!", "اشتراک‌گذاری", "آیلتس و صدا", "تمرین مکالمه زنده و مترجم 100+ زبان.", "اسکنر هوشمند", "تحلیل قرارداد، رسید، دستور پخت و جزوه.", "رزومه و کسب‌وکار", "ساخت رزومه و طرح کسب‌وکار.", "حافظه هوشمند", "هزینه‌های روزانه را با رمز PIN ذخیره کنید.", "💬 هر چیزی از Voxa AI بپرسید", "✨ دریافت پاسخ هوش مصنوعی", "خانه", "آیلتس", "اسکنر", "شغل", "حافظه", "🎙️ مربی هوشمند آیلتس", "🚀 ارزیابی و پاسخ صوتی", "📄 اسکنر جامع اسناد", "🔍 تحلیل فوری تصویر", "💼 دستیار رزومه و کسب‌وکار", "⚡ ایجاد پیش‌نویس", "🧠 حافظه هوشمند", "🔐 ذخیره ورود و PIN", "➕ ذخیره در حافظه"],
-  vi: ["AI Giọng Nói Toàn Diện Cho Mọi Ngành Nghề", "Dành cho sinh viên, bác sĩ, kế toán và doanh nhân.", "🎁 Chia sẻ với 1 bạn bè để mở khóa <b>24h Voxa PRO</b> miễn phí!", "CHIA SẺ", "IELTS & Giọng nói", "Luyện nói trực tiếp & dịch thuật 100+ ngôn ngữ.", "Máy quét thông minh", "Phân tích hợp đồng, hóa đơn, công thức & ghi chú.", "CV & Kinh doanh", "Tạo CV và kế hoạch kinh doanh.", "Bộ nhớ thông minh", "Lưu chi tiêu hàng ngày bằng mã PIN cá nhân.", "💬 Hỏi Voxa AI bất cứ điều gì", "✨ Tạo câu trả lời AI", "Trang chủ", "IELTS", "Máy quét", "Sự nghiệp", "Bộ nhớ", "🎙️ Huấn luyện viên AI IELTS", "🚀 Đánh giá & Trả lời", "📄 Máy quét tài liệu đa năng", "🔍 Phân tích ảnh ngay", "💼 Trợ lý CV & Kinh doanh", "⚡ Tạo bản nháp", "🧠 Bộ nhớ thông minh", "🔐 Lưu đăng nhập & PIN", "➕ Lưu vào bộ nhớ"],
-  uk: ["Універсальний Голосовий ШІ для кожної професії", "Створено для студентів, лікарів, бухгалтерів та підприємців.", "🎁 Поділіться з 1 другом і отримайте <b>24 год Voxa PRO</b> безкоштовно!", "ПОДІЛИТИСЯ", "IELTS та Голос", "Жива практика мовлення та перекладач 100+ мов.", "Розумний Сканер", "Аналіз договорів, чеків, рецептів та конспектів.", "Резюме та Бізнес", "Створення резюме та бізнес-планів.", "Розумна Пам'ять", "Зберігайте витрати та нотатки під особистим PIN.", "💬 Запитайте Voxa AI про що завгодно", "✨ Отримати відповідь ШІ", "Головна", "IELTS", "Сканер", "Кар'єра", "Пам'ять", "🎙️ ШІ Тренер з IELTS та Мов", "🚀 Оцінити та Озвучити", "📄 Універсальний Сканер Документів", "🔍 Аналізувати Фото Зараз", "💼 Помічник з Резюме та Бізнесу", "⚡ Створити Чернетку", "🧠 Розумна Пам'ять", "🔐 Зберегти Логін та PIN", "➕ Зберегти в пам'ять"]
-});
-document.querySelector('.lang-sel').onchange = function() {
-  var x = ALL_LANGS[this.value] || ALL_LANGS.en;
-  document.getElementById('hero-title').innerText = x.at(0);
-  document.getElementById('hero-sub').innerText = x.at(1);
-  document.getElementById('t-viral').innerHTML = x.at(2);
-  document.querySelector('.btn-green').innerText = x.at(3);
-  document.getElementById('c1-t').innerText = x.at(4);
-  document.getElementById('c1-s').innerText = x.at(5);
-  document.getElementById('c2-t').innerText = x.at(6);
-  document.getElementById('c2-s').innerText = x.at(7);
-  document.getElementById('c3-t').innerText = x.at(8);
-  document.getElementById('c3-s').innerText = x.at(9);
-  document.getElementById('c4-t').innerText = x.at(10);
-  document.getElementById('c4-s').innerText = x.at(11);
-  document.getElementById('ask-lbl').innerText = x.at(12);
-  document.querySelector('#p-home .btn-main').innerText = x.at(13);
-  var nav = document.querySelectorAll('.nav button');
-  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
-  for (var i = 0; i < 5; i++) {
-    if (nav.at(i)) nav.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(14 + i);
-  }
-  document.querySelector('#p-ielts h2').innerText = x.at(19);
-  document.querySelector('#p-ielts .btn-main').innerText = x.at(20);
-  document.querySelector('#p-scan h2').innerText = x.at(21);
-  document.querySelector('#p-scan .btn-main').innerText = x.at(22);
-  document.querySelector('#p-work h2').innerText = x.at(23);
-  document.querySelector('#p-work .btn-main').innerText = x.at(24);
-  document.querySelector('#p-memo h2').innerText = x.at(25);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  if (mb.at(0)) mb.at(0).innerText = x.at(26);
-  if (mb.at(1)) mb.at(1).innerText = x.at(27);
-};
-document.querySelector('.lang-sel').addEventListener('change', function() {
-  var x = ALL_LANGS[this.value] || ALL_LANGS.en;
-  var nb = document.querySelectorAll('.nav button');
-  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
-  for (var i = 0; i < 5; i++) {
-    if (nb.at(i)) nb.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(14 + i);
-  }
-  var p1 = document.querySelector('#p-ielts h2'), b1 = document.querySelector('#p-ielts .btn-main');
-  if (p1) p1.innerText = x.at(19);
-  if (b1) b1.innerText = x.at(20);
-  var p2 = document.querySelector('#p-scan h2'), b2 = document.querySelector('#p-scan .btn-main');
-  if (p2) p2.innerText = x.at(21);
-  if (b2) b2.innerText = x.at(22);
-  var p3 = document.querySelector('#p-work h2'), b3 = document.querySelector('#p-work .btn-main');
-  if (p3) p3.innerText = x.at(23);
-  if (b3) b3.innerText = x.at(24);
-  var p4 = document.querySelector('#p-memo h2');
-  if (p4) p4.innerText = x.at(25);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  if (mb.at(0)) mb.at(0).innerText = x.at(26);
-  if (mb.at(1)) mb.at(1).innerText = x.at(27);
-});
-setInterval(function() {
-  var sel = document.querySelector('.lang-sel');
-  if (!sel || sel.dataset.cur === sel.value) return;
-  sel.dataset.cur = sel.value;
-  var l = sel.value;
-  var d = {
-    uz: ["Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "🎙️ AI IELTS va Til Murabbiyi", "IELTS Speaking va Writing mashq qiling yoki 100+ tilga tarjima qiling.", "🚀 Baholash va Ovozli Javob", "📄 Universal Hujjat va Hayot Skaneri", "Shartnoma, chek, ovqat yoki darslik sahifasi rasmini yuklang.", "🔍 Rasmni Hozir Tahlil Qilish", "💼 Rezyume va Biznes Yordamchi", "Xalqaro rezyume (CV), biznes-reja va bozor tahlilini yarating.", "⚡ Loyihani Yaratish", "🧠 Aqlli Xotira va PIN Seyf", "Kundalik xarajat va eslatmalarni telefoningizda maxfiy saqlang.", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash", "Shartnoma / SMS xavfini tekshirish", "Chek mahsulotlari va narxini chiqarish", "Ovqat rasmidan retsept taklif qilish", "Darslik / uy vazifasini tushuntirish"],
-    ru: ["Главная", "IELTS", "Сканер", "Карьера", "Память", "🎙️ ИИ Тренер по IELTS и Языкам", "Практикуйте IELTS Speaking и Writing или переводите на 100+ языков.", "🚀 Оценить и Озвучить", "📄 Универсальный Сканер Документов", "Загрузите фото договора, чека, еды или страницы учебника.", "🔍 Анализировать Фото Сейчас", "💼 Помощник по Резюме и Бизнесу", "Создавайте международные резюме (CV), бизнес-планы и аналитику.", "⚡ Создать Черновик", "🧠 Умная Память и PIN Сейф", "Сохраняйте ежедневные расходы и заметки приватно на телефоне.", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память", "Проверить договор / СМС на риски", "Извлечь товары и сумму из чека", "Предложить рецепты по фото еды", "Объяснить учебник / домашнее задание"],
-    en: ["Home", "IELTS", "Scanner", "Career", "Memory", "🎙️ AI IELTS & Language Coach", "Practice IELTS Speaking & Writing or translate into 100+ languages.", "🚀 Evaluate & Speak Back", "📄 Universal Life & Doc Scanner", "Upload a photo of a contract, receipt, food, or textbook page.", "🔍 Analyze Photo Now", "💼 Resume & Business Copilot", "Generate international CVs, business plans, and market research.", "⚡ Create Draft", "🧠 Smart Memory & PIN Vault", "Save daily expenses and reminders privately on your phone.", "🔐 Save Login & PIN", "➕ Save to Memory", "Check Contract / SMS for Risks", "Extract Receipt Items & Cost", "Suggest Recipes from Food Photo", "Explain Textbook / Homework"],
-    ar: ["الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "🎙️ مدرب IELTS واللغات", "تدرب على التحدث والكتابة في IELTS أو ترجم إلى أكثر من 100 لغة.", "🚀 تقييم والرد بالصوت", "📄 ماسح المستندات الشامل", "ارفع صورة عقد أو إيصال أو طعام أو صفحة كتاب مدرسي.", "🔍 تحليل الصورة الآن", "💼 مساعد السيرة والأعمال", "أنشئ سير ذاتية عالمية وخطط عمل وأبحاث سوق.", "⚡ إنشاء مسودة", "🧠 الذاكرة الذكية وخزنة PIN", "احفظ المصاريف اليومية والتذكيرات بخصوصية على هاتفك.", "🔐 حفظ الدخول و PIN", "➕ حفظ في الذاكرة", "فحص العقد / الرسائل للمخاطر", "استخراج عناصر وتكلفة الإيصال", "اقتراح وصفات من صورة الطعام", "شرح الكتاب المدرسي / الواجب"],
-    tr: ["Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "🎙️ AI IELTS ve Dil Koçu", "IELTS Konuşma ve Yazma pratiği yapın veya 100+ dile çevirin.", "🚀 Değerlendir ve Seslendir", "📄 Evrensel Belge Tarayıcı", "Sözleşme, fiş, yemek veya ders kitabı fotoğrafı yükleyin.", "🔍 Fotoğrafı Şimdi Analiz Et", "💼 Özgeçmiş ve İş Asistanı", "Uluslararası CV, iş planları ve pazar araştırması oluşturun.", "⚡ Taslak Oluştur", "🧠 Akıllı Hafıza ve PIN Kasası", "Günlük harcamaları ve hatırlatıcıları telefonunuzda gizlice saklayın.", "🔐 Giriş ve PIN Kaydet", "➕ Hafızaya Kaydet", "Sözleşme / SMS Risklerini Kontrol Et", "Fiş Ürünlerini ve Tutarı Çıkar", "Yemek Fotoğrafından Tarif Öner", "Ders Kitabı / Ödevi Açıkla"],
-    uk: ["Головна", "IELTS", "Сканер", "Кар'єра", "Пам'ять", "🎙️ ШІ Тренер з IELTS та Мов", "Практикуйте IELTS Speaking і Writing або перекладайте на 100+ мов.", "🚀 Оцінити та Озвучити", "📄 Універсальний Сканер Документів", "Завантажте фото договору, чека, їжі або сторінки підручника.", "🔍 Аналізувати Фото Зараз", "💼 Помічник з Резюме та Бізнесу", "Створюйте міжнародні резюме (CV), бізнес-плани та аналітику.", "⚡ Створити Чернетку", "🧠 Розумна Пам'ять і PIN Сейф", "Зберігайте щоденні витрати та нотатки приватно на телефоні.", "🔐 Зберегти Логін та PIN", "➕ Зберегти в пам'ять", "Перевірити договір / СМС на ризики", "Витягти товари та суму з чека", "Запропонувати рецепти за фото їжі", "Пояснити підручник / домашнє завдання"]
-  };
-  var x = d[l] || d.en;
-  var nb = document.querySelectorAll('.nav button');
-  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
-  for (var i = 0; i < 5; i++) if (nb.at(i)) nb.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(i);
-  document.querySelector('#p-ielts h2').innerText = x.at(5);
-  document.querySelector('#p-ielts .sub').innerText = x.at(6);
-  document.querySelector('#p-ielts .btn-main').innerText = x.at(7);
-  document.querySelector('#p-scan h2').innerText = x.at(8);
-  document.querySelector('#p-scan .sub').innerText = x.at(9);
-  document.querySelector('#p-scan .btn-main').innerText = x.at(10);
-  document.querySelector('#p-work h2').innerText = x.at(11);
-  document.querySelector('#p-work .sub').innerText = x.at(12);
-  document.querySelector('#p-work .btn-main').innerText = x.at(13);
-  document.querySelector('#p-memo h2').innerText = x.at(14);
-  document.querySelector('#p-memo .sub').innerText = x.at(15);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  if (mb.at(0)) mb.at(0).innerText = x.at(16);
-  if (mb.at(1)) mb.at(1).innerText = x.at(17);
-  var opts = document.querySelectorAll('#t-scan option');
-  if (opts.at(0)) opts.at(0).innerText = x.at(18);
-  if (opts.at(1)) opts.at(1).innerText = x.at(19);
-  if (opts.at(2)) opts.at(2).innerText = x.at(20);
-  if (opts.at(3)) opts.at(3).innerText = x.at(21);
-}, 300);
-<script>
-setInterval(function() {
-  var sel = document.querySelector('.lang-sel');
-  if (!sel || sel.dataset.ok === sel.value) return;
-  sel.dataset.ok = sel.value;
-  var l = sel.value;
-  var d = {
-    uz: ["Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "🎙️ AI IELTS va Til Murabbiyi", "IELTS Speaking va Writing mashq qiling yoki 100+ tilga tarjima qiling.", "🚀 Baholash va Ovozli Javob", "📄 Universal Hujjat va Hayot Skaneri", "Shartnoma, chek, ovqat yoki darslik sahifasi rasmini yuklang.", "🔍 Rasmni Hozir Tahlil Qilish", "💼 Rezyume va Biznes Yordamchi", "Xalqaro rezyume (CV), biznes-reja va bozor tahlilini yarating.", "⚡ Loyihani Yaratish", "🧠 Aqlli Xotira va PIN Seyf", "Kundalik xarajat va eslatmalarni telefoningizda maxfiy saqlang.", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash", "Shartnoma / SMS xavfini tekshirish", "Chek mahsulotlari va narxini chiqarish", "Ovqat rasmidan retsept taklif qilish", "Darslik / uy vazifasini tushuntirish"],
-    ru: ["Главная", "IELTS", "Сканер", "Карьера", "Память", "🎙️ ИИ Тренер по IELTS и Языкам", "Практикуйте IELTS Speaking и Writing или переводите на 100+ языков.", "🚀 Оценить и Озвучить", "📄 Универсальный Сканер Документов", "Загрузите фото договора, чека, еды или страницы учебника.", "🔍 Анализировать Фото Сейчас", "💼 Помощник по Резюме и Бизнесу", "Создавайте международные резюме (CV), бизнес-планы и аналитику.", "⚡ Создать Черновик", "🧠 Умная Память и PIN Сейф", "Сохраняйте ежедневные расходы и заметки приватно на телефоне.", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память", "Проверить договор / СМС на риски", "Извлечь товары и сумму из чека", "Предложить рецепты по фото еды", "Объяснить учебник / домашнее задание"],
-    en: ["Home", "IELTS", "Scanner", "Career", "Memory", "🎙️ AI IELTS & Language Coach", "Practice IELTS Speaking & Writing or translate into 100+ languages.", "🚀 Evaluate & Speak Back", "📄 Universal Life & Doc Scanner", "Upload a photo of a contract, receipt, food, or textbook page.", "🔍 Analyze Photo Now", "💼 Resume & Business Copilot", "Generate international CVs, business plans, and market research.", "⚡ Create Draft", "🧠 Smart Memory & PIN Vault", "Save daily expenses and reminders privately on your phone.", "🔐 Save Login & PIN", "➕ Save to Memory", "Check Contract / SMS for Risks", "Extract Receipt Items & Cost", "Suggest Recipes from Food Photo", "Explain Textbook / Homework"],
-    ar: ["الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "🎙️ مدرب IELTS واللغات", "تدرب على التحدث والكتابة في IELTS أو ترجم إلى أكثر من 100 لغة.", "🚀 تقييم والرد بالصوت", "📄 ماسح المستندات الشامل", "ارفع صورة عقد أو إيصال أو طعام أو صفحة كتاب مدرسي.", "🔍 تحليل الصورة الآن", "💼 مساعد السيرة والأعمال", "أنشئ سير ذاتية عالمية وخطط عمل وأبحاث سوق.", "⚡ إنشاء مسودة", "🧠 الذاكرة الذكية وخزنة PIN", "احفظ المصاريف اليومية والتذكيرات بخصوصية على هاتفك.", "🔐 حفظ الدخول و PIN", "➕ حفظ في الذاكرة", "فحص العقد / الرسائل للمخاطر", "استخراج عناصر وتكلفة الإيصال", "اقتراح وصفات من صورة الطعام", "شرح الكتاب المدرسي / الواجب"],
-    tr: ["Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "🎙️ AI IELTS ve Dil Koçu", "IELTS Konuşma ve Yazma pratiği yapın veya 100+ dile çevirin.", "🚀 Değerlendir ve Seslendir", "📄 Evrensel Belge Tarayıcı", "Sözleşme, fiş, yemek veya ders kitabı fotoğrafı yükleyin.", "🔍 Fotoğrafı Şimdi Analiz Et", "💼 Özgeçmiş ve İş Asistanı", "Uluslararası CV, iş planları ve pazar araştırması oluşturun.", "⚡ Taslak Oluştur", "🧠 Akıllı Hafıza ve PIN Kasası", "Günlük harcamaları ve hatırlatıcıları telefonunuzda gizlice saklayın.", "🔐 Giriş ve PIN Kaydet", "➕ Hafızaya Kaydet", "Sözleşme / SMS Risklerini Kontrol Et", "Fiş Ürünlerini ve Tutarı Çıkar", "Yemek Fotoğrafından Tarif Öner", "Ders Kitabı / Ödevi Açıkla"],
-    uk: ["Головна", "IELTS", "Сканер", "Кар'єра", "Пам'ять", "🎙️ ШІ Тренер з IELTS та Мов", "Практикуйте IELTS Speaking і Writing або перекладайте на 100+ мов.", "🚀 Оцінити та Озвучити", "📄 Універсальний Сканер Документів", "Завантажте фото договору, чека, їжі або сторінки підручника.", "🔍 Аналізувати Фото Зараз", "💼 Помічник з Резюме та Бізнесу", "Створюйте міжнародні резюме (CV), бізнес-плани та аналітику.", "⚡ Створити Чернетку", "🧠 Розумна Пам'ять і PIN Сейф", "Зберігайте щоденні витрати та нотатки приватно на телефоні.", "🔐 Зберегти Логін та PIN", "➕ Зберегти в пам'ять", "Перевірити договір / СМС на ризики", "Витягти товари та суму з чека", "Запропонувати рецепти за фото їжі", "Пояснити підручник / домашнє завдання"]
-  };
-  var x = d[l] || d.en;
-  var nb = document.querySelectorAll('.nav button');
-  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
-  for (var i = 0; i < 5; i++) if (nb.at(i)) nb.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(i);
-  document.querySelector('#p-ielts h2').innerText = x.at(5);
-  document.querySelector('#p-ielts .sub').innerText = x.at(6);
-  document.querySelector('#p-ielts .btn-main').innerText = x.at(7);
-  document.querySelector('#p-scan h2').innerText = x.at(8);
-  document.querySelector('#p-scan .sub').innerText = x.at(9);
-  document.querySelector('#p-scan .btn-main').innerText = x.at(10);
-  document.querySelector('#p-work h2').innerText = x.at(11);
-  document.querySelector('#p-work .sub').innerText = x.at(12);
-  document.querySelector('#p-work .btn-main').innerText = x.at(13);
-  document.querySelector('#p-memo h2').innerText = x.at(14);
-  document.querySelector('#p-memo .sub').innerText = x.at(15);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  if (mb.at(0)) mb.at(0).innerText = x.at(16);
-  if (mb.at(1)) mb.at(1).innerText = x.at(17);
-  var opts = document.querySelectorAll('#t-scan option');
-  if (opts.at(0)) opts.at(0).innerText = x.at(18);
-  if (opts.at(1)) opts.at(1).innerText = x.at(19);
-  if (opts.at(2)) opts.at(2).innerText = x.at(20);
-  if (opts.at(3)) opts.at(3).innerText = x.at(21);
-}, 300);
-</script>
-<script>
-document.querySelector('.lang-sel').onchange = function() {
-  var l = this.value;
-  var x = (typeof ALL_LANGS !== 'undefined' && ALL_LANGS[l]) ? ALL_LANGS[l] : null;
-  if (!x) return;
-  document.getElementById('hero-title').innerText = x.at(0);
-  document.getElementById('hero-sub').innerText = x.at(1);
-  document.getElementById('t-viral').innerHTML = x.at(2);
-  document.querySelector('.btn-green').innerText = x.at(3);
-  document.getElementById('c1-t').innerText = x.at(4);
-  document.getElementById('c1-s').innerText = x.at(5);
-  document.getElementById('c2-t').innerText = x.at(6);
-  document.getElementById('c2-s').innerText = x.at(7);
-  document.getElementById('c3-t').innerText = x.at(8);
-  document.getElementById('c3-s').innerText = x.at(9);
-  document.getElementById('c4-t').innerText = x.at(10);
-  document.getElementById('c4-s').innerText = x.at(11);
-  document.getElementById('ask-lbl').innerText = x.at(12);
-  var nav = document.querySelectorAll('.nav button');
-  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
-  for (var i = 0; i < 5; i++) if (nav.at(i)) nav.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(14 + i);
-  document.querySelector('#p-ielts h2').innerText = x.at(19);
-  document.querySelector('#p-ielts .btn-main').innerText = x.at(20);
-  document.querySelector('#p-scan h2').innerText = x.at(21);
-  document.querySelector('#p-scan .btn-main').innerText = x.at(22);
-  document.querySelector('#p-work h2').innerText = x.at(23);
-  document.querySelector('#p-work .btn-main').innerText = x.at(24);
-  document.querySelector('#p-memo h2').innerText = x.at(25);
-  var mb = document.querySelectorAll('#p-memo .btn-main');
-  if (mb.at(0)) mb.at(0).innerText = x.at(26);
-  if (mb.at(1)) mb.at(1).innerText = x.at(27);
-};
-</script>
+  document.getElementById('b-home').innerText = x.at(13);
+  document.getElementById('n-0').innerHTML = "<span>🏠</span>" + x.at(14);
+  document.getElementById('n-1').innerHTML = "<span>🎙️</span>" + x.at(15);
+  document.getElementById('n-2').innerHTML = "<span>📄</span>" + x.at(16);
+  document.getElementById('n-3').innerHTML = "<span>💼</span>" + x.at(17);
+  document.getElementById('n-4').innerHTML = "<span>🧠</span>" + x.at(18);
+  document.getElementById('t-ielts').innerText = x.at(19);
+  document.getElementById('s-ielts').innerText = x.at(20);
+  document.getElementById('b-ielts').innerText = x.at(21);
+  document.getElementById('t-scan-h').innerText = x.at(22);
+  document.getElementById('s-scan').innerText = x.at(23);
+  document.getElementById('b-scan').innerText = x.at(24);
+  document.getElementById('t-work').innerText = x.at(25);
+  document.getElementById('s-work').innerText = x.at(26);
+  document.getElementById('b-work').innerText = x.at(27);
+  document.getElementById('t-memo').innerText = x.at(28);
+  document.getElementById('s-memo').innerText = x.at(29);
+  document.getElementById('b-pin').innerText = x.at(30);
+  document.getElementById('b-memo').innerText = x.at(31);
+}
 
 showMemos();
 </script>
 </body>
 </html>
-
-
-
-    
-
