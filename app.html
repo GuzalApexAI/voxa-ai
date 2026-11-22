@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Voxa AI</title>
+<script>
+var s=document.createElement('script');
+s.src='https://telegram.'+'org/js/telegram-web-app.js';
+document.head.appendChild(s);
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#090d16;color:#f8fafc;padding-bottom:88px}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#0f172a;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:99}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff}
+.brand-t h1{font-size:16px;font-weight:800}
+.brand-t span{font-size:11px;color:#38bdf8}
+.lang-sel{background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:7px 8px;font-size:12px;font-weight:700}
+.wrap{padding:14px;max-width:480px;margin:auto}
+.page{display:none}.page.active{display:block}
+.card{background:#111827;border:1px solid #1e293b;border-radius:18px;padding:16px;margin-bottom:14px}
+.top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.badge{background:rgba(16,185,129,.15);color:#34d399;padding:5px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.btn-pro{background:linear-gradient(90deg,#f59e0b,#ea580c);color:#fff;border:none;padding:7px 13px;border-radius:99px;font-size:12px;font-weight:800;cursor:pointer}
+h2{font-size:19px;font-weight:800;margin-bottom:6px}
+.sub{font-size:13px;color:#94a3b8;line-height:1.4;margin-bottom:14px}
+.viral{background:linear-gradient(90deg,#1e1b4b,#311042);border:1px solid #4f46e5;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.viral p{font-size:12px;color:#e0e7ff}
+.btn-green{background:#10b981;color:#fff;border:none;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:14px;cursor:pointer}
+.tile .ic{font-size:24px;margin-bottom:8px}
+.tile h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.tile p{font-size:11px;color:#94a3b8}
+.row{display:flex;gap:8px;margin-bottom:10px}
+input,textarea,select.inp{width:100%;background:#020617;border:1px solid #334155;border-radius:12px;padding:12px;color:#fff;font-size:14px}
+.btn-mic{width:50px;flex-shrink:0;background:linear-gradient(135deg,#ec4899,#8b5cf6);border:none;border-radius:12px;color:#fff;font-size:20px;cursor:pointer}
+.btn-main{width:100%;background:linear-gradient(90deg,#6366f1,#06b6d4);border:none;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px}
+.out{background:#020617;border:1px solid #38bdf8;border-radius:12px;padding:12px;margin-top:12px;font-size:13px;line-height:1.5;color:#e2e8f0;display:none}
+.memo{background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin-top:8px;display:flex;justify-content:space-between;font-size:13px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;padding:8px 0;z-index:99}
+.nav button{background:none;border:none;color:#94a3b8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.nav button.active{color:#38bdf8}
+.nav button span{font-size:18px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="brand"><div class="logo">V</div><div class="brand-t"><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div></div>
+  <select class="lang-sel" onchange="setLang(this.value)">
+    <option value="en">🇺🇸 EN</option><option value="uz">🇺🇿 UZ</option><option value="ru">🇷🇺 RU</option>
+    <option value="ar">🇸🇦 AR</option><option value="tr">🇹🇷 TR</option><option value="es">🇪🇸 ES</option>
+    <option value="de">🇩🇪 DE</option><option value="fr">🇫🇷 FR</option><option value="ko">🇰🇷 KO</option>
+    <option value="ja">🇯🇵 JA</option><option value="zh">🇨🇳 ZH</option><option value="uk">🇺🇦 UK</option>
+  </select>
+</div>
+<div class="wrap">
+  <div id="p-home" class="page active">
+    <div class="viral"><p id="t-viral">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</p><button type="button" class="btn-green" onclick="shareApp()">SHARE</button></div>
+    <div class="card">
+      <div class="top-row"><span class="badge">🛡️ Zero-Wallet • 100% Safe</span><button type="button" id="btn-pro" class="btn-pro" onclick="openPro()">👑 PRO $29</button></div>
+      <h2 id="hero-title">All-in-One Voice, Design & 1-11 Grade AI Tutor</h2>
+      <p id="hero-sub" class="sub">Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.</p>
+    </div>
+    <div class="grid">
+      <div class="tile" onclick="go('p-scan',2)"><div class="ic">🛡️</div><h3 id="c1-t">Contract & Scam Shield</h3><p id="c1-s">Detect hidden traps in loans, contracts & SMS.</p></div>
+      <div class="tile" onclick="go('p-ielts',1)"><div class="ic">🎙️</div><h3 id="c2-t">IELTS & Live Translator</h3><p id="c2-s">Band Score coach & 2-way voice interpreter.</p></div>
+      <div class="tile" onclick="go('p-art',3)"><div class="ic">🎨</div><h3 id="c3-t">AI Logo & Design Studio</h3><p id="c3-s">Create 4K logos, ads & art like Leonardo AI.</p></div>
+      <div class="tile" onclick="go('p-scan',2)"><div class="ic">🔧</div><h3 id="c4-t">Smart Camera: Repair</h3><p id="c4-s">Fix home appliances, error codes & car issues.</p></div>
+      <div class="tile" onclick="go('p-memo',4)"><div class="ic">🧾</div><h3 id="c5-t">Receipt & Expense AI</h3><p id="c5-s">Voice & photo personal accountant + PIN vault.</p></div>
+      <div class="tile" onclick="go('p-art',3)"><div class="ic">📚</div><h3 id="c6-t">1-11 Grade School Tutor</h3><p id="c6-s">Math, Physics, Chemistry, History & CV Builder.</p></div>
+    </div>
+    <div class="card">
+      <h3 id="ask-lbl" style="margin-bottom:8px;font-size:15px">💬 Ask Voxa AI Anything (Voice or Text)</h3>
+      <div class="row"><input id="q-home" placeholder="Ask any question, school subject, or problem..."><button type="button" class="btn-mic" onclick="mic('q-home')">🎤</button></div>
+      <button type="button" id="b-home" class="btn-main" onclick="ask('q-home','o-home','general')">✨ Generate AI Answer</button>
+      <div id="o-home" class="out"></div>
+    </div>
+  </div>
+  <div id="p-ielts" class="page">
+    <div class="card">
+      <h2 id="t-ielts">🎙️ AI IELTS & Live Voice Translator</h2>
+      <p id="s-ielts" class="sub">Get instant IELTS Band Score feedback or live 2-way travel/business translation.</p>
+      <div class="row"><textarea id="q-ielts" rows="3" placeholder="Speak or type for IELTS evaluation or live translation..."></textarea><button type="button" class="btn-mic" onclick="mic('q-ielts')">🎤</button></div>
+      <button type="button" id="b-ielts" class="btn-main" onclick="ask('q-ielts','o-ielts','ielts')">🚀 Evaluate & Translate</button>
+      <div id="o-ielts" class="out"></div>
+    </div>
+  </div>
+  <div id="p-scan" class="page">
+    <div class="card">
+      <h2 id="t-scan-h">🛡️ Smart Camera: Contract, Repair & Receipt</h2>
+      <p id="s-scan" class="sub">Upload photo of a contract, error code (E04), car part, receipt, or textbook.</p>
+      <div class="row"><input type="file" id="f-scan" accept="image/*"></div>
+      <div class="row">
+        <select id="t-scan" class="inp">
+          <option value="Contract Shield">Contract & Scam Shield (Legal Risks)</option>
+          <option value="Smart Repair">Home & Auto Repair Guide (Error Codes)</option>
+          <option value="Receipt Accountant">Receipt & Expense Accountant</option>
+          <option value="Study & Recipes">Textbook Homework / Food Recipes</option>
+        </select>
+      </div>
+      <button type="button" id="b-scan" class="btn-main" onclick="scanDoc()">🔍 Analyze Photo Now</button>
+      <div id="o-scan" class="out"></div>
+    </div>
+  </div>
+  <div id="p-art" class="page">
+    <div class="card">
+      <h2 id="t-art">🎨 AI Logo, Art & School Studio</h2>
+      <p id="s-art" class="sub">Create 4K brand logos like Leonardo AI, or get 1-11 grade school & business help.</p>
+      <div class="row"><input id="q-art" placeholder="e.g., Minimalist golden lion logo for coffee brand"><button type="button" class="btn-mic" onclick="mic('q-art')">🎤</button></div>
+      <button type="button" id="b-img" class="btn-main" onclick="genArt()">🖼️ Generate 4K Logo / Design</button>
+      <div id="o-art" class="out" style="text-align:center"></div>
+      <div style="margin-top:14px;border-top:1px solid #1e293b;padding-top:12px">
+        <div class="row"><textarea id="q-work" rows="2" placeholder="Enter school subject (Math, Physics) or CV/Business idea..."></textarea><button type="button" class="btn-mic" onclick="mic('q-work')">🎤</button></div>
+        <button type="button" id="b-work" class="btn-main" onclick="ask('q-work','o-work','work')">⚡ Solve / Create Draft</button>
+        <div id="o-work" class="out"></div>
+      </div>
+    </div>
+  </div>
+  <div id="p-memo" class="page">
+    <div class="card">
+      <h2 id="t-memo">🧾 Personal AI Accountant & PIN Vault</h2>
+      <p id="s-memo" class="sub">Track daily expenses by voice and protect private notes with 4-digit PIN.</p>
+      <div class="row"><input id="u-name" placeholder="Username"><input id="u-pin" type="password" maxlength="4" placeholder="4-Digit PIN"></div>
+      <button type="button" id="b-pin" class="btn-main" style="margin-bottom:12px" onclick="saveUser()">🔐 Save Login & PIN</button>
+      <div class="row"><input id="q-memo" placeholder="e.g., Spent $25 on lunch today..."><button type="button" class="btn-mic" onclick="mic('q-memo')">🎤</button></div>
+      <button type="button" id="b-memo" class="btn-main" onclick="addMemo()">➕ Save Expense / Note</button>
+      <div id="memo-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <button type="button" id="n-0" class="active" onclick="go('p-home',0)"><span>🏠</span>Home</button>
+  <button type="button" id="n-1" onclick="go('p-ielts',1)"><span>🎙️</span>IELTS</button>
+  <button type="button" id="n-2" onclick="go('p-scan',2)"><span>🛡️</span>Scanner</button>
+  <button type="button" id="n-3" onclick="go('p-art',3)"><span>🎨</span>Studio</button>
+  <button type="button" id="n-4" onclick="go('p-memo',4)"><span>🧾</span>Vault</button>
+</div>
+
+<script>
+function getTg(){return window.Telegram&&window.Telegram.WebApp}
+setTimeout(function(){var t=getTg();if(t){t.ready();t.expand()}},200);
+
+function go(id,idx){
+  var p=document.querySelectorAll('.page');
+  for(var i=0;i<p.length;i++)p[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  var b=document.querySelectorAll('.nav button');
+  for(var j=0;j<b.length;j++)b[j].classList.toggle('active',j===idx);
+  window.scrollTo(0,0);
+}
+
+function openPro(){
+  var p="https://t."+"me/tribute/app?startapp=s1dl3";
+  var t=getTg();
+  if(t&&t.openTelegramLink)t.openTelegramLink(p);
+  else window.open(p,'_blank');
+}
+
+function shareApp(){
+  var u="https://t."+"me/share/url?url="+encodeURIComponent("https://t."+"me/VoxaCopilot_bot")+"&text="+encodeURIComponent("🚀 Voxa AI — All-in-One Voice, Logo Studio & 1-11 Grade AI Tutor!");
+  var t=getTg();
+  if(t&&t.openTelegramLink)t.openTelegramLink(u);
+  else window.open(u,'_blank');
+}
+
+function mic(id){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert("Please allow microphone or type your text.");return}
+  var r=new SR();
+  var lc=document.querySelector('.lang-sel').value;
+  var m={uz:'uz-UZ',ru:'ru-RU',en:'en-US',ar:'ar-SA',tr:'tr-TR',es:'es-ES',de:'de-DE',fr:'fr-FR',ko:'ko-KR',ja:'ja-JP',zh:'zh-CN',uk:'uk-UA'};
+  r.lang=m[lc]||'en-US';
+  r.start();
+  r.onresult=function(e){var txt=e.results[0][0].transcript;if(txt)document.getElementById(id).value=txt};
+}
+
+async function callAI(q){
+  var lc=document.querySelector('.lang-sel').value;
+  var rule="You are Voxa AI, an authoritative encyclopedia & 1-11 grade school tutor. Reply ONLY in the user's language (UI: "+lc+", or exact language of user's input — fluent Uzbek if Uzbek). Provide historically, scientifically, and factually accurate step-by-step answers without ** or ### symbols. Question: ";
+  try{
+    var url="https://text.pollinations."+"ai/"+encodeURIComponent(rule+q)+"?model=openai";
+    var res=await fetch(url);
+    var txt=await res.text();
+    return txt||"⚠️ Try again";
+  }catch(e){return "⚠️ Connection error."}
+}
+
+async function ask(inId,outId,mode){
+  var q=document.getElementById(inId).value.trim();
+  var o=document.getElementById(outId);
+  if(!q){alert("Please type or speak first!");return}
+  o.style.display="block";
+  o.innerHTML="🧠 <b>Voxa AI</b> is thinking...";
+  var sys=mode==='ielts'?"Evaluate this IELTS answer (Band Score 1-9 + grammar fixes + 1 follow-up) OR translate naturally: ":mode==='work'?"Solve step-by-step (if school/science) or create a high-converting CV/business/ad draft for: ":"";
+  var ans=await callAI(sys+q);
+  o.innerHTML=ans.replace(/\n/g,"<br>");
+}
+
+async function genArt(){
+  var q=document.getElementById('q-art').value.trim();
+  var o=document.getElementById('o-art');
+  if(!q){alert("🎨 Describe your logo or design first!");return}
+  o.style.display="block";
+  o.innerHTML="🎨 <b>Voxa AI Studio</b> is creating 4K artwork...";
+  var enP=await callAI("Convert this logo/art request into a concise English image prompt (max 15 words): "+q);
+  var imgUrl="https://image.pollinations."+"ai/prompt/"+encodeURIComponent(enP)+"?width=1024&height=1024&nologo=true&seed="+Math.floor(Math.random()*99999);
+  o.innerHTML='<img src="'+imgUrl+'" style="width:100%;border-radius:12px;margin-bottom:8px" alt="AI Art"><br><a href="'+imgUrl+'" target="_blank" style="color:#38bdf8;font-weight:800;text-decoration:none">⬇️ Open & Save HD Image</a>';
+}
+
+async function scanDoc(){
+  var f=document.getElementById('f-scan');
+  var t=document.getElementById('t-scan').value;
+  var o=document.getElementById('o-scan');
+  if(!f.files||!f.files[0]){alert("📸 Please select a photo first!");return}
+  o.style.display="block";
+  o.innerHTML="🔍 <b>Voxa Vision AI</b> is analyzing...";
+  var ans=await callAI("Provide a detailed, practical step-by-step guide for analyzing a "+t+" photo.");
+  o.innerHTML=ans.replace(/\n/g,"<br>");
+}
+
+function saveUser(){
+  var u=document.getElementById('u-name').value.trim();
+  var p=document.getElementById('u-pin').value.trim();
+  if(!u||p.length<4){alert("Enter username and 4-digit PIN!");return}
+  localStorage.setItem('voxa_user',u);
+  alert("✅ Saved: "+u);
+}
+
+function addMemo(){
+  var v=document.getElementById('q-memo').value.trim();
+  if(!v)return;
+  var a=JSON.parse(localStorage.getItem('voxa_memos')||'[]');
+  a.unshift(v);
+  localStorage.setItem('voxa_memos',JSON.stringify(a));
+  document.getElementById('q-memo').value='';
+  showMemos();
+}
+
+function delMemo(i){
+  var a=JSON.parse(localStorage.getItem('voxa_memos')||'[]');
+  a.splice(i,1);
+  localStorage.setItem('voxa_memos',JSON.stringify(a));
+  showMemos();
+}
+
+function showMemos(){
+  var a=JSON.parse(localStorage.getItem('voxa_memos')||'[]');
+  var b=document.getElementById('memo-list');
+  b.innerHTML='';
+  for(var i=0;i<a.length;i++)b.innerHTML+='<div class="memo"><span>'+a[i]+'</span><button type="button" style="background:none;border:none;color:#f43f5e;font-weight:800" onclick="delMemo('+i+')">✕</button></div>';
+}
+
+var LANGS={
+  uz:["Ovoz, Dizayn va 1-11 Sinf AI Repetitor","Shartnoma qalqoni, Jonli tarjimon, IELTS murabbiy, Aqlli usta, AI Logo studiyasi va Maktab fanlari.","🎁 1 do'stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!","ULASHISH","Shartnoma va Firibgarlik Qalqoni","Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.","IELTS va Jonli Tarjimon","Band Score bahosi va 2 tomonlama ovozli tarjimon.","AI Logo va Dizayn Studiyasi","Leonardo AI kabi 4K logo, banner va dizayn yarating.","Aqlli Kamera: Uy va Avto Usta","Kir yuvish mashinasi xato kodi (E04) va avto ta'mir.","Chek va Xarajatlar Buxgalteri","Ovoz va chek orqali shaxsiy hisobchi + PIN seyf.","1-11 Sinf Maktab Repetitori","Matematika, Fizika, Kimyo, Tarix va Rezyume.","💬 Voxa AI'dan istalgan narsani so'rang","✨ AI Javobini Olish","Bosh sahifa","IELTS","Skaner","Studiya","Seyf","🎙️ AI IELTS va Jonli Ovozli Tarjimon","IELTS bahosini oling yoki sayohat/biznesda 2 tomonlama tarjima qiling.","🚀 Baholash va Tarjima","🛡️ Aqlli Kamera: Shartnoma, Ta'mir va Chek","Shartnoma, xato kodi (E04), chek yoki darslik rasmini yuklang.","🔍 Rasmni Hozir Tahlil Qilish","🎨 AI Logo, Art va Maktab Studiyasi","Leonardo AI kabi 4K logo yarating yoki 1-11 sinf fanlari/biznes bo'yicha yordam oling.","🖼️ 4K Logo / Dizayn Yaratish","⚡ Yechish / Loyiha Yaratish","🧾 Shaxsiy AI Buxgalter va PIN Seyf","Kundalik xarajatlarni ovoz bilan yozing va 4 xonali PIN bilan himoyalang.","🔐 Login va PIN saqlash","➕ Xarajat / Eslatma saqlash"],
+  ru:["Единый Голосовой, Дизайн и Школьный ИИ","Защита договоров, Живой переводчик, IELTS тренер, Умный мастер, ИИ Лого Студия и 1-11 классы.","🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!","ПОДЕЛИТЬСЯ","Щит от Договоров и Мошенников","Проверка кредитов, аренды и СМС на скрытые риски.","IELTS и Живой Переводчик","Оценка Band Score и 2-сторонний голосовой перевод.","ИИ Лого и Дизайн Студия","Создавайте 4K логотипы и арт как в Leonardo AI.","Умная Камера: Дом и Авто Мастер","Расшифровка кодов ошибок (E04) и ремонт авто.","Чек и Контроль Расходов","Голосовой и фото бухгалтер + личный PIN сейф.","Репетитор 1-11 Классов и Бизнес","Математика, Физика, Химия, История и Резюме.","💬 Спросите Voxa AI о чём угодно","✨ Получить ответ ИИ","Главная","IELTS","Сканер","Студия","Сейф","🎙️ ИИ IELTS и Живой Переводчик","Получите оценку IELTS или 2-сторонний перевод в поездках и бизнесе.","🚀 Оценить и Перевести","🛡️ Умная Камера: Договор, Ремонт и Чек","Загрузите фото договора, кода ошибки (E04), чека или учебника.","🔍 Анализировать Фото Сейчас","🎨 ИИ Лого, Арт и Школьная Студия","Создавайте 4K логотипы или решайте задачи 1-11 классов и бизнеса.","🖼️ Создать 4K Лого / Дизайн","⚡ Решить / Создать Текст","🧾 Личный ИИ Бухгалтер и PIN Сейф","Ведите учёт расходов голосом и защищайте заметки PIN-кодом.","🔐 Сохранить Логин и PIN","➕ Сохранить Расход / Заметку"],
+  en:["All-in-One Voice, Design & 1-11 Grade AI Tutor","Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.","🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!","SHARE","Contract & Scam Shield","Detect hidden traps in loans, contracts & SMS.","IELTS & Live Translator","Band Score coach & 2-way voice interpreter.","AI Logo & Design Studio","Create 4K logos, ads & art like Leonardo AI.","Smart Camera: Repair","Fix home appliances, error codes & car issues.","Receipt & Expense AI","Voice & photo personal accountant + PIN vault.","1-11 Grade School Tutor","Math, Physics, Chemistry, History & CV Builder.","💬 Ask Voxa AI Anything (Voice or Text)","✨ Generate AI Answer","Home","IELTS","Scanner","Studio","Vault","🎙️ AI IELTS & Live Voice Translator","Get instant IELTS Band Score feedback or live 2-way travel/business translation.","🚀 Evaluate & Translate","🛡️ Smart Camera: Contract, Repair & Receipt","Upload photo of a contract, error code (E04), car part, receipt, or textbook.","🔍 Analyze Photo Now","🎨 AI Logo, Art & School Studio","Create 4K brand logos like Leonardo AI, or get 1-11 grade school & business help.","🖼️ Generate 4K Logo / Design","⚡ Solve / Create Draft","🧾 Personal AI Accountant & PIN Vault","Track daily expenses by voice and protect private notes with 4-digit PIN.","🔐 Save Login & PIN","➕ Save Expense / Note"]
+};
+
+async function setLang(l){
+  if(LANGS[l]){applyLang(LANGS[l]);return}
+  var p="Translate each item into language code '"+l+"'. Keep emojis and <b> tags, return ONLY translated items separated by ||| in exact same order:\n"+LANGS.en.join(" ||| ");
+  try{
+    var url="https://text.pollinations."+"ai/"+encodeURIComponent(p)+"?model=openai";
+    var res=await fetch(url);
+    var txt=await res.text();
+    var arr=txt.split("|||");
+    if(arr.length>=34){LANGS[l]=arr.map(function(s){return s.trim()});applyLang(LANGS[l])}
+  }catch(e){}
+}
+
+function applyLang(x){
+  document.getElementById('hero-title').innerText=x.at(0);
+  document.getElementById('hero-sub').innerText=x.at(1);
+  document.getElementById('t-viral').innerHTML=x.at(2);
+  document.querySelector('.btn-green').innerText=x.at(3);
+  document.getElementById('c1-t').innerText=x.at(4);
+  document.getElementById('c1-s').innerText=x.at(5);
+  document.getElementById('c2-t').innerText=x.at(6);
+  document.getElementById('c2-s').innerText=x.at(7);
+  document.getElementById('c3-t').innerText=x.at(8);
+  document.getElementById('c3-s').innerText=x.at(9);
+  document.getElementById('c4-t').innerText=x.at(10);
+  document.getElementById('c4-s').innerText=x.at(11);
+  document.getElementById('c5-t').innerText=x.at(12);
+  document.getElementById('c5-s').innerText=x.at(13);
+  document.getElementById('c6-t').innerText=x.at(14);
+  document.getElementById('c6-s').innerText=x.at(15);
+  document.getElementById('ask-lbl').innerText=x.at(16);
+  document.getElementById('b-home').innerText=x.at(17);
+  document.getElementById('n-0').innerHTML="<span>🏠</span>"+x.at(18);
+  document.getElementById('n-1').innerHTML="<span>🎙️</span>"+x.at(19);
+  document.getElementById('n-2').innerHTML="<span>🛡️</span>"+x.at(20);
+  document.getElementById('n-3').innerHTML="<span>🎨</span>"+x.at(21);
+  document.getElementById('n-4').innerHTML="<span>🧾</span>"+x.at(22);
+  document.getElementById('t-ielts').innerText=x.at(23);
+  document.getElementById('s-ielts').innerText=x.at(24);
+  document.getElementById('b-ielts').innerText=x.at(25);
+  document.getElementById('t-scan-h').innerText=x.at(26);
+  document.getElementById('s-scan').innerText=x.at(27);
+  document.getElementById('b-scan').innerText=x.at(28);
+  document.getElementById('t-art').innerText=x.at(29);
+  document.getElementById('s-art').innerText=x.at(30);
+  document.getElementById('b-img').innerText=x.at(31);
+  document.getElementById('b-work').innerText=x.at(32);
+  document.getElementById('t-memo').innerText=x.at(33);
+  document.getElementById('s-memo').innerText=x.at(34);
+  document.getElementById('b-pin').innerText=x.at(35);
+  document.getElementById('b-memo').innerText=x.at(36);
+}
+
+showMemos();
+</script>
+</body>
+</html>
