@@ -949,6 +949,45 @@ setInterval(function() {
   if (opts.at(2)) opts.at(2).innerText = x.at(20);
   if (opts.at(3)) opts.at(3).innerText = x.at(21);
 }, 300);
+<script>
+setInterval(function() {
+  var sel = document.querySelector('.lang-sel');
+  if (!sel || sel.dataset.ok === sel.value) return;
+  sel.dataset.ok = sel.value;
+  var l = sel.value;
+  var d = {
+    uz: ["Bosh sahifa", "IELTS", "Skaner", "Karyera", "Xotira", "🎙️ AI IELTS va Til Murabbiyi", "IELTS Speaking va Writing mashq qiling yoki 100+ tilga tarjima qiling.", "🚀 Baholash va Ovozli Javob", "📄 Universal Hujjat va Hayot Skaneri", "Shartnoma, chek, ovqat yoki darslik sahifasi rasmini yuklang.", "🔍 Rasmni Hozir Tahlil Qilish", "💼 Rezyume va Biznes Yordamchi", "Xalqaro rezyume (CV), biznes-reja va bozor tahlilini yarating.", "⚡ Loyihani Yaratish", "🧠 Aqlli Xotira va PIN Seyf", "Kundalik xarajat va eslatmalarni telefoningizda maxfiy saqlang.", "🔐 Login va PIN saqlash", "➕ Xotiraga saqlash", "Shartnoma / SMS xavfini tekshirish", "Chek mahsulotlari va narxini chiqarish", "Ovqat rasmidan retsept taklif qilish", "Darslik / uy vazifasini tushuntirish"],
+    ru: ["Главная", "IELTS", "Сканер", "Карьера", "Память", "🎙️ ИИ Тренер по IELTS и Языкам", "Практикуйте IELTS Speaking и Writing или переводите на 100+ языков.", "🚀 Оценить и Озвучить", "📄 Универсальный Сканер Документов", "Загрузите фото договора, чека, еды или страницы учебника.", "🔍 Анализировать Фото Сейчас", "💼 Помощник по Резюме и Бизнесу", "Создавайте международные резюме (CV), бизнес-планы и аналитику.", "⚡ Создать Черновик", "🧠 Умная Память и PIN Сейф", "Сохраняйте ежедневные расходы и заметки приватно на телефоне.", "🔐 Сохранить Логин и PIN", "➕ Сохранить в память", "Проверить договор / СМС на риски", "Извлечь товары и сумму из чека", "Предложить рецепты по фото еды", "Объяснить учебник / домашнее задание"],
+    en: ["Home", "IELTS", "Scanner", "Career", "Memory", "🎙️ AI IELTS & Language Coach", "Practice IELTS Speaking & Writing or translate into 100+ languages.", "🚀 Evaluate & Speak Back", "📄 Universal Life & Doc Scanner", "Upload a photo of a contract, receipt, food, or textbook page.", "🔍 Analyze Photo Now", "💼 Resume & Business Copilot", "Generate international CVs, business plans, and market research.", "⚡ Create Draft", "🧠 Smart Memory & PIN Vault", "Save daily expenses and reminders privately on your phone.", "🔐 Save Login & PIN", "➕ Save to Memory", "Check Contract / SMS for Risks", "Extract Receipt Items & Cost", "Suggest Recipes from Food Photo", "Explain Textbook / Homework"],
+    ar: ["الرئيسية", "IELTS", "الماسح", "المهنة", "الذاكرة", "🎙️ مدرب IELTS واللغات", "تدرب على التحدث والكتابة في IELTS أو ترجم إلى أكثر من 100 لغة.", "🚀 تقييم والرد بالصوت", "📄 ماسح المستندات الشامل", "ارفع صورة عقد أو إيصال أو طعام أو صفحة كتاب مدرسي.", "🔍 تحليل الصورة الآن", "💼 مساعد السيرة والأعمال", "أنشئ سير ذاتية عالمية وخطط عمل وأبحاث سوق.", "⚡ إنشاء مسودة", "🧠 الذاكرة الذكية وخزنة PIN", "احفظ المصاريف اليومية والتذكيرات بخصوصية على هاتفك.", "🔐 حفظ الدخول و PIN", "➕ حفظ في الذاكرة", "فحص العقد / الرسائل للمخاطر", "استخراج عناصر وتكلفة الإيصال", "اقتراح وصفات من صورة الطعام", "شرح الكتاب المدرسي / الواجب"],
+    tr: ["Ana Sayfa", "IELTS", "Tarayıcı", "Kariyer", "Hafıza", "🎙️ AI IELTS ve Dil Koçu", "IELTS Konuşma ve Yazma pratiği yapın veya 100+ dile çevirin.", "🚀 Değerlendir ve Seslendir", "📄 Evrensel Belge Tarayıcı", "Sözleşme, fiş, yemek veya ders kitabı fotoğrafı yükleyin.", "🔍 Fotoğrafı Şimdi Analiz Et", "💼 Özgeçmiş ve İş Asistanı", "Uluslararası CV, iş planları ve pazar araştırması oluşturun.", "⚡ Taslak Oluştur", "🧠 Akıllı Hafıza ve PIN Kasası", "Günlük harcamaları ve hatırlatıcıları telefonunuzda gizlice saklayın.", "🔐 Giriş ve PIN Kaydet", "➕ Hafızaya Kaydet", "Sözleşme / SMS Risklerini Kontrol Et", "Fiş Ürünlerini ve Tutarı Çıkar", "Yemek Fotoğrafından Tarif Öner", "Ders Kitabı / Ödevi Açıkla"],
+    uk: ["Головна", "IELTS", "Сканер", "Кар'єра", "Пам'ять", "🎙️ ШІ Тренер з IELTS та Мов", "Практикуйте IELTS Speaking і Writing або перекладайте на 100+ мов.", "🚀 Оцінити та Озвучити", "📄 Універсальний Сканер Документів", "Завантажте фото договору, чека, їжі або сторінки підручника.", "🔍 Аналізувати Фото Зараз", "💼 Помічник з Резюме та Бізнесу", "Створюйте міжнародні резюме (CV), бізнес-плани та аналітику.", "⚡ Створити Чернетку", "🧠 Розумна Пам'ять і PIN Сейф", "Зберігайте щоденні витрати та нотатки приватно на телефоні.", "🔐 Зберегти Логін та PIN", "➕ Зберегти в пам'ять", "Перевірити договір / СМС на ризики", "Витягти товари та суму з чека", "Запропонувати рецепти за фото їжі", "Пояснити підручник / домашнє завдання"]
+  };
+  var x = d[l] || d.en;
+  var nb = document.querySelectorAll('.nav button');
+  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
+  for (var i = 0; i < 5; i++) if (nb.at(i)) nb.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(i);
+  document.querySelector('#p-ielts h2').innerText = x.at(5);
+  document.querySelector('#p-ielts .sub').innerText = x.at(6);
+  document.querySelector('#p-ielts .btn-main').innerText = x.at(7);
+  document.querySelector('#p-scan h2').innerText = x.at(8);
+  document.querySelector('#p-scan .sub').innerText = x.at(9);
+  document.querySelector('#p-scan .btn-main').innerText = x.at(10);
+  document.querySelector('#p-work h2').innerText = x.at(11);
+  document.querySelector('#p-work .sub').innerText = x.at(12);
+  document.querySelector('#p-work .btn-main').innerText = x.at(13);
+  document.querySelector('#p-memo h2').innerText = x.at(14);
+  document.querySelector('#p-memo .sub').innerText = x.at(15);
+  var mb = document.querySelectorAll('#p-memo .btn-main');
+  if (mb.at(0)) mb.at(0).innerText = x.at(16);
+  if (mb.at(1)) mb.at(1).innerText = x.at(17);
+  var opts = document.querySelectorAll('#t-scan option');
+  if (opts.at(0)) opts.at(0).innerText = x.at(18);
+  if (opts.at(1)) opts.at(1).innerText = x.at(19);
+  if (opts.at(2)) opts.at(2).innerText = x.at(20);
+  if (opts.at(3)) opts.at(3).innerText = x.at(21);
+}, 300);
+</script>
 
 showMemos();
 </script>
