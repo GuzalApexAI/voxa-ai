@@ -311,6 +311,37 @@ function applyLang(x){
   document.getElementById('b-pin').innerText=x.at(35);
   document.getElementById('b-memo').innerText=x.at(36);
 }
+var _baseSet = setLang;
+var EXTRA_TR = {
+  uz: ["Savol, maktab fani yoki muammo yozing...", "IELTS bahosi yoki tarjima uchun gapiring yoki yozing...", "Shartnoma / SMS xavfini tekshirish", "Chek mahsulotlari va narxini chiqarish", "Uy va avto ta'mir (Xato kodlari)", "Darslik uy vazifasi / Ovqat retseptlari", "Masalan: Kofe brendi uchun oltin sher logotipi", "Maktab fani (Matematika, Fizika) yoki Rezyume/Biznes yozing...", "Foydalanuvchi nomi", "4 xonali PIN", "Masalan: Bugun tushlikka $25 sarfladim..."],
+  ru: ["Напишите любой вопрос, школьный предмет или задачу...", "Говорите или пишите для оценки IELTS или перевода...", "Проверить договор / СМС на риски", "Извлечь товары и сумму из чека", "Ремонт дома и авто (Коды ошибок)", "Домашнее задание / Рецепты блюд", "Например: Минималистичный золотой лев для кофейни", "Введите школьный предмет (Математика, Физика) или Резюме/Бизнес...", "Имя пользователя", "4-значный PIN", "Например: Потратил $25 на обед сегодня..."],
+  en: ["Ask any question, school subject, or problem...", "Speak or type for IELTS evaluation or live translation...", "Check Contract / SMS for Risks", "Extract Receipt Items & Cost", "Home & Auto Repair Guide (Error Codes)", "Textbook Homework / Food Recipes", "e.g., Minimalist golden lion logo for coffee brand", "Enter school subject (Math, Physics) or CV/Business idea...", "Username", "4-Digit PIN", "e.g., Spent $25 on lunch today..."]
+};
+function applyExtra(e) {
+  document.getElementById('q-home').placeholder = e.at(0);
+  document.getElementById('q-ielts').placeholder = e.at(1);
+  var opts = document.querySelectorAll('#t-scan option');
+  if (opts.at(0)) opts.at(0).innerText = e.at(2);
+  if (opts.at(2)) opts.at(2).innerText = e.at(3);
+  if (opts.at(1)) opts.at(1).innerText = e.at(4);
+  if (opts.at(3)) opts.at(3).innerText = e.at(5);
+  document.getElementById('q-art').placeholder = e.at(6);
+  document.getElementById('q-work').placeholder = e.at(7);
+  document.getElementById('u-name').placeholder = e.at(8);
+  document.getElementById('u-pin').placeholder = e.at(9);
+  document.getElementById('q-memo').placeholder = e.at(10);
+}
+setLang = async function(l) {
+  await _baseSet(l);
+  if (EXTRA_TR[l]) { applyExtra(EXTRA_TR[l]); return; }
+  try {
+    var u = "https://text.pollinations." + "ai/" + encodeURIComponent("Translate into '" + l + "' separated by |||: " + EXTRA_TR.en.join(" ||| ")) + "?model=openai";
+    var r = await fetch(u);
+    var t = await r.text();
+    var a = t.split("|||");
+    if (a.length >= 11) { EXTRA_TR[l] = a.map(function(s) { return s.trim(); }); applyExtra(EXTRA_TR[l]); }
+  } catch (err) {}
+};
 
 showMemos();
 </script>
