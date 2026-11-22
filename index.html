@@ -368,6 +368,42 @@ function applyLang(x) {
   document.getElementById('b-memo').innerText = x.at(36);
 }
 
+document.getElementById('btn-pro').innerText = '👑 PRO $29';
+setLang = (function(orig) {
+  return async function(l) {
+    await orig(l);
+    document.getElementById('btn-pro').innerText = '👑 PRO $29';
+  };
+})(setLang);
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.nav button, .tile');
+  if (!btn) return;
+  var oc = btn.getAttribute('onclick');
+  if (oc && oc.indexOf("go('") !== -1) {
+    var id = oc.split("'").at(1);
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < pages.length; i++) pages.at(i).style.display = 'none';
+    var target = document.getElementById(id);
+    if (target) target.style.display = 'block';
+    var navs = document.querySelectorAll('.nav button');
+    for (var j = 0; j < navs.length; j++) navs.at(j).classList.remove('active');
+    if (btn.closest('.nav')) btn.classList.add('active');
+  }
+});
+
+var _origAsk = ask;
+ask = async function(inId, outId, mode) {
+  var el = document.getElementById(inId);
+  var origVal = el.value;
+  if (origVal.trim()) {
+    el.value = "[1-11 Grade School Tutor & Global Expert Mode: Explain step-by-step clearly if it is a school subject like Math, Physics, Chemistry, Biology, History, or Language] " + origVal;
+  }
+  await _origAsk(inId, outId, mode);
+  el.value = origVal;
+};
+
+
 showMemos();
 </script>
 </body>
