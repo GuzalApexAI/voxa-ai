@@ -500,6 +500,47 @@ setInterval(function() {
   document.getElementById('q-memo').placeholder = x[43];
 }, 200);
 </script>
+<script>
+callAI = async function(q) {
+  var lc = document.querySelector('.lang-sel').value;
+  var rule = "You are Voxa AI, an authoritative Universal Encyclopedia & Tutor for School to University, Medicine, Finance, Engineering, History, and Daily Life. Reply ONLY in the user's language (UI: " + lc + ", or exact language of user's input — fluent Uzbek if Uzbek). Provide accurate, clear answers without ** or ### symbols. Question: ";
+  try {
+    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(rule + q) + "?model=openai";
+    var res = await fetch(url);
+    var txt = await res.text();
+    return txt || "⚠️ Try again";
+  } catch (e) { return "⚠️ Connection error."; }
+};
+
+setInterval(function() {
+  var sel = document.querySelector('.lang-sel');
+  if (!sel || sel.dataset.espt === sel.value) return;
+  var l = sel.value;
+  if (l !== 'es' && l !== 'pt') { sel.dataset.espt = l; return; }
+  sel.dataset.espt = l;
+  var EP = {
+    es: ["IA de Voz, Diseño y Enciclopedia Universal", "Educación (Escuela a Profesor), Medicina, Finanzas, Ingeniería, Historia, IELTS y Estudio de Logos 4K.", "🎁 ¡Comparte con 1 amigo y desbloquea <b>24h Voxa PRO</b>!", "COMPARTIR", "Escudo de Contratos y Estafas", "Detecta riesgos ocultos en préstamos, contratos y SMS.", "IELTS y Traductor en Vivo", "Evaluación Band Score e intérprete de voz bidireccional.", "Estudio de Logos y Diseño IA", "Crea logos 4K, anuncios y arte como Leonardo AI.", "Cámara Inteligente: Reparación", "Repara electrodomésticos, códigos de error y autos.", "IA de Recibos y Gastos", "Contador personal por voz y foto + bóveda con PIN.", "Enciclopedia Universal IA", "Todas las Ciencias, Medicina, Finanzas e Ingeniería.", "💬 Pregunta lo que sea a Voxa AI", "✨ Generar Respuesta IA", "Inicio", "IELTS", "Escáner", "Estudio", "Bóveda", "🎙️ Entrenador IELTS y Traductor IA", "Obtén puntuación IELTS o traducción de voz en vivo.", "🚀 Evaluar y Traducir", "🛡️ Cámara Inteligente: Contratos y Reparación", "Sube foto de contrato, código de error, recibo o libro.", "🔍 Analizar Foto Ahora", "🎨 Estudio de Logos 4K y Academia", "Crea logos 4K profesionales o resuelve tareas y negocios.", "🖼️ Generar Logo / Diseño 4K", "⚡ Resolver / Crear Borrador", "🧾 Contador Personal IA y Bóveda PIN", "Registra gastos diarios por voz y protege notas con PIN.", "🔐 Guardar Usuario y PIN", "➕ Guardar Gasto / Nota", "Pregunta sobre Ciencia, Medicina, Finanzas, Historia...", "Habla o escribe para evaluar IELTS o traducir...", "ej., Logo minimalista de león dorado para café", "Escribe tema de Ciencia, Medicina, Finanzas o CV...", "Usuario", "PIN de 4 dígitos", "ej., Gasté $25 en almuerzo hoy..."],
+    pt: ["IA de Voz, Design e Enciclopédia Universal", "Educação (Escola a Professor), Medicina, Finanças, Engenharia, História, IELTS e Estúdio de Logos 4K.", "🎁 Compartilhe com 1 amigo e ganhe <b>24h Voxa PRO</b>!", "COMPARTIR", "Escudo contra Contratos e Golpes", "Detecte riscos ocultos em empréstimos, contratos e SMS.", "IELTS e Tradutor ao Vivo", "Nota Band Score e intérprete de voz bidirecional.", "Estúdio de Logos e Design IA", "Crie logos 4K, anúncios e arte como Leonardo AI.", "Câmera Inteligente: Reparos", "Conserte eletrodomésticos, códigos de erro e carros.", "IA de Recibos e Despesas", "Contador pessoal por voz e foto + cofre com PIN.", "Enciclopédia Universal IA", "Todas as Ciências, Medicina, Finanças e Engenharia.", "💬 Pergunte qualquer coisa ao Voxa AI", "✨ Gerar Resposta IA", "Início", "IELTS", "Scanner", "Estúdio", "Cofre", "🎙️ Treinador IELTS e Tradutor IA", "Receba nota IELTS ou tradução de voz ao vivo.", "🚀 Avaliar e Traduzir", "🛡️ Câmera Inteligente: Contratos e Reparos", "Envie foto de contrato, código de erro, recibo ou livro.", "🔍 Analisar Foto Agora", "🎨 Estúdio de Logos 4K e Academia", "Crie logos 4K profissionais ou resolva estudos e negócios.", "🖼️ Gerar Logo / Design 4K", "⚡ Resolver / Criar Rascunho", "🧾 Contador Pessoal IA e Cofre PIN", "Registre gastos diários por voz e proteja notas com PIN.", "🔐 Salvar Login e PIN", "➕ Salvar Gasto / Nota", "Pergunte sobre Ciência, Medicina, Finanças, História...", "Fale ou digite para avaliar IELTS ou traduzir...", "ex., Logo minimalista de leão dourado para café", "Digite tema de Ciência, Medicina, Finanças ou CV...", "Usuário", "PIN de 4 dígitos", "ex., Gastei $25 no almoço hoje..."]
+  };
+  var x = EP[l];
+  var ids = ['hero-title','hero-sub','t-viral','btn-green','c1-t','c1-s','c2-t','c2-s','c3-t','c3-s','c4-t','c4-s','c5-t','c5-s','c6-t','c6-s','ask-lbl','b-home','n-0','n-1','n-2','n-3','n-4','t-ielts','s-ielts','b-ielts','t-scan-h','s-scan','b-scan','t-art','s-art','b-img','b-work','t-memo','s-memo','b-pin','b-memo'];
+  var ic = ["🏠","🎙️","🛡️","🎨","🧾"];
+  for (var i = 0; i < ids.length; i++) {
+    var el = ids[i] === 'btn-green' ? document.querySelector('.btn-green') : document.getElementById(ids[i]);
+    if (!el) continue;
+    if (i === 2) el.innerHTML = x[i];
+    else if (i >= 18 && i <= 22) el.innerHTML = "<span>" + ic[i - 18] + "</span>" + x[i];
+    else el.innerText = x[i];
+  }
+  document.getElementById('q-home').placeholder = x;
+  document.getElementById('q-ielts').placeholder = x;
+  document.getElementById('q-art').placeholder = x;
+  document.getElementById('q-work').placeholder = x;
+  document.getElementById('u-name').placeholder = x;
+  document.getElementById('u-pin').placeholder = x;
+  document.getElementById('q-memo').placeholder = x;
+}, 250);
+</script>
 
 </body>
 </html>
