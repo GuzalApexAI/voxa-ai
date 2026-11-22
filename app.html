@@ -342,6 +342,52 @@ setLang = async function(l) {
     if (a.length >= 11) { EXTRA_TR[l] = a.map(function(s) { return s.trim(); }); applyExtra(EXTRA_TR[l]); }
   } catch (err) {}
 };
+callAI = async function(q) {
+  var lc = document.querySelector('.lang-sel').value;
+  var rule = "You are Voxa AI, a PhD-level Universal Encyclopedia & Live Wikipedia covering ALL fields of human knowledge: Primary School to University & Professor-level Science, Mathematics, Physics, Chemistry, Biology, Medicine, Finance, Engineering, Architecture, Law, History, World Religions & Ethics, and Daily Life. Reply ONLY in the user's language (UI: " + lc + ", or exact language of user's input — fluent, grammatically pure Uzbek if Uzbek). Provide 100% verified, deep, step-by-step academic and practical answers without ** or ### symbols. Question: ";
+  try {
+    var url = "https://text.pollinations." + "ai/" + encodeURIComponent(rule + q) + "?model=openai-large";
+    var res = await fetch(url);
+    var txt = await res.text();
+    return txt || "⚠️ Try again";
+  } catch (e) { return "⚠️ Connection error."; }
+};
+
+var _baseSet = setLang;
+var EXTRA_TR = {
+  uz: ["Ovoz, Dizayn va Universal AI Ensiklopediya", "Ta'lim (1-sinfdan Professorlikkacha), Tibbiyot, Moliya, Qurilish, Diniy va Dunyoviy ilmlar, IELTS va AI Logo Studiyasi.", "Universal AI Ensiklopediya", "Barcha fanlar, Tibbiyot, Moliya, Qurilish va Ilmiy ishlar.", "Fan, tibbiyot, moliya, qurilish yoki istalgan savol yozing...", "IELTS bahosi yoki tarjima uchun gapiring yoki yozing...", "Shartnoma / SMS xavfini tekshirish", "Uy, texnika va qurilish ta'miri", "Chek va moliya hisob-kitobi", "Ilmiy darslik / Ovqat retseptlari", "Masalan: Kofe brendi uchun oltin sher logotipi", "Fan, tibbiyot, moliya, qurilish yoki Rezyume yozing...", "Foydalanuvchi nomi", "4 xonali PIN", "Masalan: Bugun tushlikka $25 sarfladim..."],
+  ru: ["Голосовой, Дизайн и Универсальный ИИ Энциклопедия", "Наука (от школы до профессора), Медицина, Финансы, Строительство, Религия и История, IELTS и ИИ Лого Студия.", "Универсальный ИИ Эксперт", "Все науки, Медицина, Финансы, Строительство и Диссертации.", "Задайте вопрос по науке, медицине, финансам, строительству...", "Говорите или пишите для оценки IELTS или перевода...", "Проверить договор / СМС на риски", "Ремонт дома, техники и строительство", "Учёт чеков и личных финансов", "Учебники, наука / Рецепты блюд", "Например: Минималистичный золотой лев для кофейни", "Введите задачу по науке, медицине, финансам или Резюме...", "Имя пользователя", "4-значный PIN", "Например: Потратил $25 на обед сегодня..."],
+  en: ["All-in-One Voice, Design & Universal AI Encyclopedia", "Education (School to Professor), Medicine, Finance, Engineering, History, World Religions, IELTS & AI Logo Studio.", "Universal AI Encyclopedia", "All Sciences, Medicine, Finance, Engineering & Research.", "Ask any question: Science, Medicine, Finance, Engineering...", "Speak or type for IELTS evaluation or live translation...", "Check Contract / SMS for Risks", "Home, Auto & Engineering Repair", "Receipt & Finance Accountant", "Academic Study / Food Recipes", "e.g., Minimalist golden lion logo for coffee brand", "Enter Science, Medicine, Finance, Engineering, or CV...", "Username", "4-Digit PIN", "e.g., Spent $25 on lunch today..."]
+};
+
+function applyExtra(e) {
+  document.getElementById('hero-title').innerText = e.at(0);
+  document.getElementById('hero-sub').innerText = e.at(1);
+  document.getElementById('c6-t').innerText = e.at(2);
+  document.getElementById('c6-s').innerText = e.at(3);
+  document.getElementById('q-home').placeholder = e.at(4);
+  document.getElementById('q-ielts').placeholder = e.at(5);
+  var opts = document.querySelectorAll('#t-scan option');
+  for (var i = 0; i < 4; i++) if (opts.at(i)) opts.at(i).innerText = e.at(6 + i);
+  document.getElementById('q-art').placeholder = e.at(10);
+  document.getElementById('q-work').placeholder = e.at(11);
+  document.getElementById('u-name').placeholder = e.at(12);
+  document.getElementById('u-pin').placeholder = e.at(13);
+  document.getElementById('q-memo').placeholder = e.at(14);
+}
+
+setLang = async function(l) {
+  await _baseSet(l);
+  if (EXTRA_TR[l]) { applyExtra(EXTRA_TR[l]); return; }
+  try {
+    var u = "https://text.pollinations." + "ai/" + encodeURIComponent("Translate into '" + l + "' separated by |||: " + EXTRA_TR.en.join(" ||| ")) + "?model=openai";
+    var r = await fetch(u);
+    var t = await r.text();
+    var a = t.split("|||");
+    if (a.length >= 15) { EXTRA_TR[l] = a.map(function(s) { return s.trim(); }); applyExtra(EXTRA_TR[l]); }
+  } catch (err) {}
+};
+applyExtra(EXTRA_TR.en);
 
 showMemos();
 </script>
