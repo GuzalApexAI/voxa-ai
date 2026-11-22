@@ -176,7 +176,7 @@ input,textarea,select.inp{width:100%;background:#020617;border:1px solid #334155
   <button type="button" id="n-2" onclick="go('p-scan',2)"><span>🛡️</span>Scanner</button>
   <button type="button" id="n-3" onclick="go('p-art',3)"><span>🎨</span>Studio</button>
   <button type="button" id="n-4" onclick="go('p-memo',4)"><span>🧾</span>Vault</button>
-<div><script>
+</div>div><script>
 function getTg() { return window.Telegram && window.Telegram.WebApp; }
 var isCIS = false;
 setTimeout(function() {
@@ -408,6 +408,24 @@ setInterval(function() {
   if (bp && bp.innerText !== '👑 PRO $29') bp.innerText = '👑 PRO $29';
 }, 300);
 
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.nav button, .tile');
+  if (!btn) return;
+  var oc = btn.getAttribute('onclick');
+  if (oc && oc.indexOf("go('") !== -1) {
+    var id = oc.split("'").at(1);
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < pages.length; i++) pages.at(i).style.display = 'none';
+    var target = document.getElementById(id);
+    if (target) target.style.display = 'block';
+    var navs = document.querySelectorAll('.nav button');
+    for (var j = 0; j < navs.length; j++) navs.at(j).classList.remove('active');
+    if (btn.closest('.nav')) btn.classList.add('active');
+  }
+}, true);
+</script>
+<script>
+document.getElementById('btn-pro').innerText = '👑 PRO $29';
 document.addEventListener('click', function(e) {
   var btn = e.target.closest('.nav button, .tile');
   if (!btn) return;
