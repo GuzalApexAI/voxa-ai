@@ -988,6 +988,39 @@ setInterval(function() {
   if (opts.at(3)) opts.at(3).innerText = x.at(21);
 }, 300);
 </script>
+<script>
+document.querySelector('.lang-sel').onchange = function() {
+  var l = this.value;
+  var x = (typeof ALL_LANGS !== 'undefined' && ALL_LANGS[l]) ? ALL_LANGS[l] : null;
+  if (!x) return;
+  document.getElementById('hero-title').innerText = x.at(0);
+  document.getElementById('hero-sub').innerText = x.at(1);
+  document.getElementById('t-viral').innerHTML = x.at(2);
+  document.querySelector('.btn-green').innerText = x.at(3);
+  document.getElementById('c1-t').innerText = x.at(4);
+  document.getElementById('c1-s').innerText = x.at(5);
+  document.getElementById('c2-t').innerText = x.at(6);
+  document.getElementById('c2-s').innerText = x.at(7);
+  document.getElementById('c3-t').innerText = x.at(8);
+  document.getElementById('c3-s').innerText = x.at(9);
+  document.getElementById('c4-t').innerText = x.at(10);
+  document.getElementById('c4-s').innerText = x.at(11);
+  document.getElementById('ask-lbl').innerText = x.at(12);
+  var nav = document.querySelectorAll('.nav button');
+  var ic = ["🏠", "🎙️", "📄", "💼", "🧠"];
+  for (var i = 0; i < 5; i++) if (nav.at(i)) nav.at(i).innerHTML = "<span>" + ic.at(i) + "</span>" + x.at(14 + i);
+  document.querySelector('#p-ielts h2').innerText = x.at(19);
+  document.querySelector('#p-ielts .btn-main').innerText = x.at(20);
+  document.querySelector('#p-scan h2').innerText = x.at(21);
+  document.querySelector('#p-scan .btn-main').innerText = x.at(22);
+  document.querySelector('#p-work h2').innerText = x.at(23);
+  document.querySelector('#p-work .btn-main').innerText = x.at(24);
+  document.querySelector('#p-memo h2').innerText = x.at(25);
+  var mb = document.querySelectorAll('#p-memo .btn-main');
+  if (mb.at(0)) mb.at(0).innerText = x.at(26);
+  if (mb.at(1)) mb.at(1).innerText = x.at(27);
+};
+</script>
 
 showMemos();
 </script>
