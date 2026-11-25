@@ -297,7 +297,51 @@ if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_s
 document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
 </script>
-</body>
+<script>
+function setLang(l){
+  curL = L[l] ? l : 'en';
+  var d = L[curL], x = IN[curL] || IN.en;
+  document.getElementById('b-share').innerText = d[0];
+  document.getElementById('t-viral').innerHTML = d[1];
+  document.getElementById('hero-title').innerText = d[2];
+  document.getElementById('hero-sub').innerText = d[3];
+  for(var i=0;i<6;i++){
+    document.getElementById('c'+(i+1)+'-t').innerText = d[4+i*2];
+    document.getElementById('c'+(i+1)+'-s').innerText = d[5+i*2];
+  }
+  document.getElementById('b-home').innerText = d[16];
+  document.getElementById('b-ielts').innerText = d[17];
+  onFilePick();
+  document.getElementById('b-scan').innerText = d[19];
+  document.getElementById('b-art').innerText = d[20];
+  document.getElementById('b-memo').innerText = d[21];
+  document.getElementById('q-home').placeholder = x[0];
+  document.getElementById('t-ielts').innerText = x[1];
+  document.getElementById('s-ielts').innerText = x[2];
+  document.getElementById('q-ielts').placeholder = x[3];
+  document.getElementById('t-scan').innerText = x[4];
+  document.getElementById('s-scan').innerText = x[5];
+  document.getElementById('t-art').innerText = x[6];
+  document.getElementById('s-art').innerText = x[7];
+  document.getElementById('q-art').placeholder = x[8];
+  document.getElementById('t-vault').innerText = x[9];
+  document.getElementById('s-vault').innerText = x[10];
+  document.getElementById('q-memo').placeholder = x[11];
+  document.getElementById('b-backup').innerText = x[12];
+  var navIds = ['n-home','n-ielts','n-scan','n-studio','n-vault'];
+  var navIc = ['🏠','🎙','🛡','🎨','🧾'];
+  for(var j=0;j<5;j++) document.getElementById(navIds[j]).innerHTML = '<span>'+navIc[j]+'</span>'+d[22][j];
+  var sel = document.getElementById('scan-mode');
+  for(var m=0;m<4;m++) sel.options[m].text = d[23][m];
+}
+function onFilePick(){
+  var f = document.getElementById('scan-file').files[0];
+  document.getElementById('b-pick').innerText = (L[curL]||L.en)[18] + (f ? ' ✅ ' + f.name : '');
+}
+setLang('en');
+</script>
+
+  </body>
 </html>
 
 
