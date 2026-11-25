@@ -751,6 +751,354 @@ setInterval(function() {
   }
 })();
 </script>
+<script>
+(function(){
+  // 1. Bosh sahifa kartalarini Scanner rejimiga avtomatik ulash
+  document.querySelectorAll('#p-home .tile').forEach(function(tile, idx){
+    tile.addEventListener('click', function(){
+      setTimeout(function(){
+        var sel = document.querySelector('#p-scan select');
+        if(!sel) return;
+        if(idx === 0) sel.selectedIndex = 0; // Contract & Scam Shield
+        if(idx === 3) sel.selectedIndex = 1; // Home & Auto Repair
+        if(idx === 4) sel.selectedIndex = 2; // Receipt & Expense
+      }, 60);
+    });
+  });
+
+  // 2. Barcha 12 til uchun TO'LIQ tarjima (Bosh sahifa + SHARE + Scanner + Pastki menyu)
+  var fullLang = {
+    en: {
+      share: 'SHARE',
+      viral: '🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!',
+      title: 'All-in-One Voice, Design & Universal AI Encyclopedia',
+      sub: 'Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.',
+      tiles: [
+        ['Contract & Scam Shield', 'Detect hidden traps in loans, contracts & SMS.'],
+        ['IELTS & Live Translator', 'Band Score coach & 2-way voice interpreter.'],
+        ['AI Logo & Design Studio', 'Create 4K logos, ads & art like Leonardo AI.'],
+        ['Smart Camera: Repair', 'Fix home appliances, error codes & car issues.'],
+        ['Receipt & Expense AI', 'Voice & photo personal accountant + PIN vault.'],
+        ['Universal AI Encyclopedia', 'All Sciences, Medicine, Finance & Research.']
+      ],
+      photoBtn: '📷 Choose Photo / Snap Camera',
+      scanBtn: '🔍 Analyze Photo Now',
+      scanModes: ['Contract & Scam Shield (Legal Risks)', 'Home & Auto Repair Guide (Error Codes)', 'Receipt & Expense Accountant', 'Textbook Homework / Food Recipes'],
+      nav: ['🏠 Home', '🎙 IELTS', '🛡 Scanner', '🎨 Studio', '🧾 Vault']
+    },
+    uz: {
+      share: 'ULASHISH',
+      viral: '🎁 1 do‘stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!',
+      title: 'Ovoz, Dizayn va Universal AI Ensiklopediya',
+      sub: 'Shartnoma qalqoni, Jonli tarjimon, IELTS murabbiy, Aqlli ta’mir va 4K Logo Studiya.',
+      tiles: [
+        ['Shartnoma va Firibgarlik Qalqoni', 'Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.'],
+        ['IELTS va Jonli Tarjimon', 'Band Score bahosi va 2 tomonlama ovozli tarjimon.'],
+        ['AI Logo va Dizayn Studiyasi', 'Leonardo AI kabi 4K logo, banner va dizayn yarating.'],
+        ['Aqlli Kamera: Uy va Avto Usta', 'Kir yuvish mashinasi xato kodi (E04) va avto ta’mir.'],
+        ['Chek va Xarajatlar AI', 'Ovozli shaxsiy buxgalter va 4 xonali PIN seyf.'],
+        ['Universal AI Ensiklopediya', 'Barcha fanlar, Tibbiyot, Moliya va Ilmiy tahlil.']
+      ],
+      photoBtn: '📷 Rasm Tanlash / Kamera',
+      scanBtn: '🔍 Rasmni Hozir Tahlil Qilish',
+      scanModes: ['Shartnoma va Firibgarlik Qalqoni (Huquqiy xavf)', 'Uy va Avto Ta’mir Ustasi (Xato kodlari)', 'Chek va Xarajatlar Buxgalteri', 'Darslik Uyga Vazifa / Taom Retsepti'],
+      nav: ['🏠 Bosh sahifa', '🎙 IELTS', '🛡 Skaner', '🎨 Studiya', '🧾 Seyf']
+    },
+    ru: {
+      share: 'ПОДЕЛИТЬСЯ',
+      viral: '🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!',
+      title: 'Голосовой, Дизайн и Универсальный ИИ Копилот',
+      sub: 'Защита договоров, Живой переводчик, IELTS тренер, Ремонт и 4K Лого Студия.',
+      tiles: [
+        ['Защита от Договоров и Мошенников', 'Поиск скрытых ловушек в кредитах, договорах и СМС.'],
+        ['IELTS и Живой Переводчик', 'Оценка Band Score и голосовой переводчик на 20 языков.'],
+        ['ИИ Лого и Дизайн Студия', 'Создавайте 4K логотипы, рекламу и арт как Leonardo AI.'],
+        ['Умная Камера: Ремонт Авто/Дома', 'Расшифровка кодов ошибок (E04) и ремонт авто.'],
+        ['Бухгалтер Чеков и Расходов', 'Голосовой учет расходов и защищенный PIN-сейф.'],
+        ['Универсальная ИИ Энциклопедия', 'Наука, Медицина, Финансы, Инженерия и Учеба.']
+      ],
+      photoBtn: '📷 Выбрать Фото / Камера',
+      scanBtn: '🔍 Анализировать Фото Сейчас',
+      scanModes: ['Защита от Договоров и Мошенников', 'Ремонт Авто и Техники (Коды ошибок)', 'Бухгалтер Чеков и Расходов', 'Домашнее Задание / Рецепты'],
+      nav: ['🏠 Главная', '🎙 IELTS', '🛡 Сканер', '🎨 Студия', '🧾 Сейф']
+    },
+    ar: {
+      share: 'مشاركة',
+      viral: '🎁 شارك مع صديق واحد واحصل على <b>24 ساعة Voxa PRO</b> مجاناً!',
+      title: 'مساعد الذكاء الاصطناعي الشامل للصوت والتصميم',
+      sub: 'فحص العقود، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو شعارات 4K.',
+      tiles: [
+        ['درع العقود والاحتيال', 'اكتشف الفخاخ المخفية في القروض والعقود والرسائل.'],
+        ['IELTS والمترجم الفوري', 'تقييم IELTS ومترجم صوتي ثنائي الاتجاه.'],
+        ['استوديو الشعارات والتصميم 4K', 'أنشئ شعارات وإعلانات احترافية بالذكاء الاصطناعي.'],
+        ['الكاميرا الذكية: الصيانة', 'إصلاح الأجهزة المنزلية وأكواد أعطال السيارات.'],
+        ['محاسب الإيصالات والمصاريف', 'محاسب شخصي بالصوت وخزنة برقم سري PIN.'],
+        ['موسوعة الذكاء الاصطناعي الشاملة', 'العلوم والطب والمالية والهندسة والبحث.']
+      ],
+      photoBtn: '📷 اختر صورة / الكاميرا',
+      scanBtn: '🔍 تحليل الصورة الآن',
+      scanModes: ['درع العقود والاحتيال (المخاطر القانونية)', 'دليل إصلاح السيارات والأجهزة', 'محاسب الإيصالات والمصاريف', 'الواجبات المدرسية / وصفات الطعام'],
+      nav: ['🏠 الرئيسية', '🎙 IELTS', '🛡 الماسح', '🎨 الاستوديو', '🧾 الخزنة']
+    },
+    tr: {
+      share: 'PAYLAŞ',
+      viral: '🎁 1 arkadaşınla paylaş, <b>24 saat Voxa PRO</b> ücretsiz kazan!',
+      title: 'Hepsi Bir Arada Ses, Tasarım ve AI Ansiklopedi',
+      sub: 'Sözleşme Kalkanı, Canlı Çevirmen, IELTS Koçu, Akıllı Tamir ve 4K Logo Stüdyosu.',
+      tiles: [
+        ['Sözleşme ve Dolandırıcılık Kalkanı', 'Kredi, sözleşme ve SMS’lerdeki gizli tuzakları bulun.'],
+        ['IELTS ve Canlı Çevirmen', 'Band Score koçu ve 2 yönlü sesli tercüman.'],
+        ['AI Logo ve Tasarım Stüdyosu', 'Leonardo AI gibi 4K logolar, reklamlar ve sanat üretin.'],
+        ['Akıllı Kamera: Tamir Ustası', 'Ev aletleri, hata kodları (E04) ve araç arızaları.'],
+        ['Fiş ve Harcama Muhasebecisi', 'Sesli kişisel muhasebeci ve 4 haneli PIN kasası.'],
+        ['Evrensel AI Ansiklopedisi', 'Bilim, Tıp, Finans, Mühendislik ve Araştırma.']
+      ],
+      photoBtn: '📷 Fotoğraf Seç / Kamera',
+      scanBtn: '🔍 Fotoğrafı Şimdi Analiz Et',
+      scanModes: ['Sözleşme ve Dolandırıcılık Kalkanı', 'Ev ve Oto Tamir Rehberi (Hata Kodları)', 'Fiş ve Harcama Muhasebecisi', 'Ders Ödevi / Yemek Tarifleri'],
+      nav: ['🏠 Ana Sayfa', '🎙 IELTS', '🛡 Tarayıcı', '🎨 Stüdyo', '🧾 Kasa']
+    },
+    es: {
+      share: 'COMPARTIR',
+      viral: '🎁 ¡Comparte con 1 amigo y desbloquea <b>24h Voxa PRO</b> gratis!',
+      title: 'Copiloto IA Todo-en-Uno de Voz, Diseño y Estudio',
+      sub: 'Escudo de Contratos, Traductor en Vivo, Coach IELTS, Reparación y Estudio 4K.',
+      tiles: [
+        ['Escudo de Contratos y Estafas', 'Detecta trampas ocultas en préstamos, contratos y SMS.'],
+        ['IELTS y Traductor en Vivo', 'Evaluador Band Score e intérprete de voz bidireccional.'],
+        ['Estudio de Logos y Diseño 4K', 'Crea logotipos 4K, anuncios y arte como Leonardo AI.'],
+        ['Cámara Inteligente: Reparación', 'Arregla electrodomésticos, códigos de error y autos.'],
+        ['IA de Recibos y Gastos', 'Contador personal por voz y bóveda con PIN.'],
+        ['Enciclopedia Universal IA', 'Ciencias, Medicina, Finanzas, Ingeniería e Investigación.']
+      ],
+      photoBtn: '📷 Elegir Foto / Cámara',
+      scanBtn: '🔍 Analizar Foto Ahora',
+      scanModes: ['Escudo de Contratos y Estafas', 'Guía de Reparación de Auto y Hogar', 'Contador de Recibos y Gastos', 'Tareas Escolares / Recetas'],
+      nav: ['🏠 Inicio', '🎙 IELTS', '🛡 Escáner', '🎨 Estudio', '🧾 Bóveda']
+    },
+    de: {
+      share: 'TEILEN',
+      viral: '🎁 Teile mit 1 Freund und erhalte <b>24h Voxa PRO</b> kostenlos!',
+      title: 'All-in-One Sprach-, Design- & KI-Enzyklopädie',
+      sub: 'Vertragsschutz, Live-Übersetzer, IELTS-Coach, Reparaturhilfe & 4K-Designstudio.',
+      tiles: [
+        ['Vertrags- & Betrugsschutz', 'Versteckte Fallen in Verträgen, Krediten & SMS erkennen.'],
+        ['IELTS & Live-Übersetzer', 'Band-Score-Coach & 2-Wege-Sprachübersetzer.'],
+        ['KI-Logo- & Designstudio', '4K-Logos, Werbung & Kunst wie Leonardo AI erstellen.'],
+        ['Smarte Kamera: Reparatur', 'Haushaltsgeräte, Fehlercodes (E04) & Autoprobleme lösen.'],
+        ['Beleg- & Ausgaben-KI', 'Persönlicher Sprach-Buchhalter & 4-stelliger PIN-Tresor.'],
+        ['Universelle KI-Enzyklopädie', 'Wissenschaft, Medizin, Finanzen, Technik & Forschung.']
+      ],
+      photoBtn: '📷 Foto Wählen / Kamera',
+      scanBtn: '🔍 Foto Jetzt Analysieren',
+      scanModes: ['Vertrags- & Betrugsschutz', 'Auto- & Hausreparatur-Hilfe', 'Beleg- & Ausgabenbuchhalter', 'Hausaufgaben / Kochrezepte'],
+      nav: ['🏠 Start', '🎙 IELTS', '🛡 Scanner', '🎨 Studio', '🧾 Tresor']
+    },
+    fr: {
+      share: 'PARTAGER',
+      viral: '🎁 Partagez avec 1 ami pour débloquer <b>24h Voxa PRO</b> gratuit !',
+      title: 'Copilote IA Tout-en-Un Voix, Design & Savoir',
+      sub: 'Bouclier Contrats, Traducteur Direct, Coach IELTS, Réparation & Studio 4K.',
+      tiles: [
+        ['Bouclier Contrats & Arnaques', 'Détectez les pièges cachés dans les contrats et SMS.'],
+        ['IELTS & Traducteur en Direct', 'Coach Band Score et interprète vocal bidirectionnel.'],
+        ['Studio Logo & Design 4K', 'Créez des logos 4K, publicités et art comme Leonardo AI.'],
+        ['Caméra Intelligente : Réparation', 'Réparez appareils, codes erreur (E04) et pannes auto.'],
+        ['IA Reçus & Dépenses', 'Comptable personnel vocal et coffre-fort avec code PIN.'],
+        ['Encyclopédie Universelle IA', 'Sciences, Médecine, Finance, Ingénierie et Recherche.']
+      ],
+      photoBtn: '📷 Choisir Photo / Caméra',
+      scanBtn: '🔍 Analyser la Photo',
+      scanModes: ['Bouclier Contrats & Arnaques', 'Guide Réparation Auto & Maison', 'Comptable Reçus & Dépenses', 'Devoirs Scolaires / Recettes'],
+      nav: ['🏠 Accueil', '🎙 IELTS', '🛡 Scanner', '🎨 Studio', '🧾 Coffre']
+    },
+    ko: {
+      share: '공유하기',
+      viral: '🎁 친구 1명에게 공유하고 <b>24시간 Voxa PRO</b> 무료 잠금 해제!',
+      title: '올인원 음성, 디자인 및 범용 AI 백과사전',
+      sub: '계약서 스캐너, 실시간 통역기, IELTS 코치, 스마트 수리 및 4K 로고 스튜디오.',
+      tiles: [
+        ['계약서 및 사기 방지 방패', '대출, 계약서 및 SMS의 숨겨진 함정을 탐지합니다.'],
+        ['IELTS 및 실시간 통역기', 'Band Score 코치 및 양방향 음성 통역기.'],
+        ['AI 로고 및 디자인 스튜디오', 'Leonardo AI처럼 4K 로고, 광고 및 아트를 제작하세요.'],
+        ['스마트 카메라: 수리 가이드', '가전제품 오류 코드(E04) 및 자동차 문제 해결.'],
+        ['영수증 및 지출 AI 회계사', '음성 및 사진 개인 회계사 + 4자리 PIN 금고.'],
+        ['범용 AI 백과사전', '모든 과학, 의학, 금융, 공학 및 연구 지원.']
+      ],
+      photoBtn: '📷 사진 선택 / 카메라',
+      scanBtn: '🔍 지금 사진 분석하기',
+      scanModes: ['계약서 및 사기 방지 스캐너', '자동차 및 가전 수리 가이드 (오류 코드)', '영수증 및 지출 회계사', '교과서 숙제 / 요리 레시피'],
+      nav: ['🏠 홈', '🎙 IELTS', '🛡 스캐너', '🎨 스튜디오', '🧾 금고']
+    },
+    uk: {
+      share: 'ПОДІЛИТИСЯ',
+      viral: '🎁 Поділіться з 1 другом та отримайте <b>24год Voxa PRO</b> безкоштовно!',
+      title: 'Голосовий, Дизайн та Універсальний ШІ Копілот',
+      sub: 'Захист договорів, Живий перекладач, IELTS тренер, Ремонт та 4K Лого Студія.',
+      tiles: [
+        ['Захист від Договорів та Шахраїв', 'Пошук прихованих пасток у кредитах, договорах та СМС.'],
+        ['IELTS та Живий Перекладач', 'Оцінка Band Score та голосовий перекладач на 20 мов.'],
+        ['ШІ Лого та Дизайн Студія', 'Створюйте 4K логотипи, рекламу та арт як Leonardo AI.'],
+        ['Розумна Камера: Ремонт Авто/Дому', 'Розшифровка кодів помилок (E04) та ремонт авто.'],
+        ['Бухгалтер Чеків та Витрат', 'Голосовий облік витрат та захищений PIN-сейф.'],
+        ['Універсальна ШІ Енциклопедія', 'Наука, Медицина, Фінанси, Інженерія та Навчання.']
+      ],
+      photoBtn: '📷 Обрати Фото / Камера',
+      scanBtn: '🔍 Аналізувати Фото Зараз',
+      scanModes: ['Захист від Договорів та Шахраїв', 'Ремонт Auto та Техніки (Коди помилок)', 'Бухгалтер Чеків та Витрат', 'Домашнє Завдання / Рецепти'],
+      nav: ['🏠 Головна', '🎙 IELTS', '🛡 Сканер', '🎨 Студія', '🧾 Сейф']
+    }
+  };
+  var fileInp = document.querySelector('#p-scan input[type="file"]');
+  var customBtn = null;
+  if(fileInp){
+    fileInp.style.display = 'none';
+    customBtn = document.createElement('button');
+    customBtn.type = 'button';
+    customBtn.className = 'btn-main';
+    customBtn.style.cssText = 'background:#1e293b;border:1px dashed #38bdf8;margin-bottom:10px;font-weight:700';
+    customBtn.onclick = function(){ fileInp.click(); };
+    fileInp.parentNode.insertBefore(customBtn, fileInp);
+  }
+
+  var scanBtn = document.querySelector('#p-scan .btn-main:not([style*="dashed"])') || Array.from(document.querySelectorAll('#p-scan button')).pop();
+  var scanOut = document.querySelector('#p-scan .out');
+  var newScanBtn = null;
+  if(scanBtn && scanOut){
+    newScanBtn = scanBtn.cloneNode(true);
+    scanBtn.parentNode.replaceChild(newScanBtn, scanBtn);
+  }
+
+  function applyEverything(){
+    var l = (document.querySelector('.lang-sel') || {value:'en'}).value;
+    var tr = fullLang[l] || fullLang.en;
+    var viralEl = document.getElementById('t-viral');
+    if(viralEl) viralEl.innerHTML = tr.viral;
+    var shareBtn = document.querySelector('.btn-green');
+    if(shareBtn) shareBtn.innerText = tr.share;
+    var hTitle = document.getElementById('hero-title');
+    if(hTitle) hTitle.innerText = tr.title;
+    var hSub = document.getElementById('hero-sub');
+    if(hSub) hSub.innerText = tr.sub;
+
+    var homeTiles = document.querySelectorAll('#p-home .tile');
+    if(homeTiles.length >= 6){
+      for(var k=0; k<6; k++){
+        var h3 = homeTiles[k].querySelector('h3');
+        var p = homeTiles[k].querySelector('p');
+        if(h3) h3.innerText = tr.tiles[k][0];
+        if(p) p.innerText = tr.tiles[k][1];
+      }
+    }
+    if(customBtn && fileInp){
+      var fname = (fileInp.files && fileInp.files[0]) ? ' ✅ ' + fileInp.files[0].name : '';
+      customBtn.innerText = tr.photoBtn + fname;
+    }
+    if(newScanBtn) newScanBtn.innerText = tr.scanBtn;
+    var scanSel = document.querySelector('#p-scan select');
+    if(scanSel && scanSel.options.length >= 4){
+      for(var i=0; i<4; i++){ scanSel.options[i].text = tr.scanModes[i]; }
+    }
+    var navBtns = document.querySelectorAll('.nav button');
+    if(navBtns.length >= 5){
+      for(var j=0; j<5; j++){
+        var parts = tr.nav[j].split(' ');
+        var icon = parts.shift();
+        navBtns[j].innerHTML = '<span>' + icon + '</span>' + parts.join(' ');
+      }
+    }
+  }
+  if(fileInp) fileInp.addEventListener('change', applyEverything);
+  setInterval(applyEverything, 260);
+
+  function autoCompressAndAnalyze(file, langCode, modeIdx){
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var img = new Image();
+      img.onload = async function(){
+        var canvas = document.createElement('canvas');
+        var maxW = 550;
+        var scale = Math.min(1, maxW / img.width);
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        var tinyBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+        var prompts = [
+          'You are a Senior Contract Lawyer & Fraud Investigator. Inspect this image carefully. Identify hidden traps, unfair fees, legal risks, or scam signs. Reply clearly in language code: ' + langCode,
+          'You are a Master Auto Mechanic & Appliance Repair Engineer. Look closely at this photo (car dashboard warning light, appliance error code, or part). Identify the exact warning/error, top 3 causes, DIY fix steps, and estimated repair cost. Reply clearly in language code: ' + langCode,
+          'You are a Certified CPA Accountant. Extract all items, dates, taxes, and total amount from this receipt photo in a clean summary. Reply clearly in language code: ' + langCode,
+          'You are an expert Tutor & Chef. Solve the homework problem or explain the food/recipe shown in this photo step-by-step. Reply clearly in language code: ' + langCode
+        ];
+        try {
+          var resp = await fetch('https://pollinations.ai', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              model: 'openai',
+              messages: [{
+                role: 'user',
+                content: [
+                  { type: 'text', text: prompts[modeIdx] || prompts[0] },
+                  { type: 'image_url', image_url: { url: tinyBase64 } }
+                ]
+              }]
+            })
+          });
+          var txt = await resp.text();
+          scanOut.innerHTML = (txt || '⚠️ Try again.').replace(/\n/g, '<br>');
+        } catch(err){
+          scanOut.innerText = '⚠️ Server busy. Please tap Analyze again.';
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if(newScanBtn && scanOut && fileInp){
+    newScanBtn.onclick = function(){
+      var l = (document.querySelector('.lang-sel') || {value:'en'}).value;
+      if(!fileInp.files || !fileInp.files[0]){
+        scanOut.style.display = 'block';
+        scanOut.innerText = '⚠️ Please choose a photo first!';
+        return;
+      }
+      scanOut.style.display = 'block';
+      scanOut.innerText = '🔍 Analyzing image with Vision AI...';
+      var modeIdx = (document.querySelector('#p-scan select') || {selectedIndex:0}).selectedIndex;
+      autoCompressAndAnalyze(fileInp.files[0], l, modeIdx);
+    };
+  }
+
+  setInterval(function(){
+    document.querySelectorAll('#p-studio img').forEach(function(img){
+      if(img.src && img.src.indexOf('pollinations.ai') !== -1 && img.src.indexOf('nologo=true') === -1){
+        img.src = img.src + (img.src.indexOf('?') !== -1 ? '&' : '?') + 'nologo=true';
+      }
+    });
+  }, 400);
+
+  var today = new Date().toDateString();
+  var lastDay = localStorage.getItem('voxa_last_day');
+  var streak = parseInt(localStorage.getItem('voxa_streak') || '0', 10);
+  if(lastDay !== today){
+    streak += 1;
+    localStorage.setItem('voxa_last_day', today);
+    localStorage.setItem('voxa_streak', streak);
+  }
+  var topRow = document.querySelector('#p-home .top-row');
+  if(topRow && !document.getElementById('voxa-streak')){
+    var stBadge = document.createElement('span');
+    stBadge.id = 'voxa-streak';
+    stBadge.className = 'badge';
+    stBadge.style.cssText = 'background:rgba(245,158,11,.18);color:#fbbf24';
+    stBadge.innerText = '🔥 ' + streak + 'd';
+    topRow.insertBefore(stBadge, topRow.children[1]);
+  }
+})();
+</script>
 
 </body>
 </html>
