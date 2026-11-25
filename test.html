@@ -1099,6 +1099,127 @@ setInterval(function() {
   }
 })();
 </script>
+  var fileInps = document.querySelectorAll('#p-scan input[type="file"]');
+  var fileInp = fileInps;
+  var customBtn = null;
+  if(fileInp){
+    fileInps.forEach(function(el){ el.style.display = 'none'; });
+    customBtn = document.createElement('button');
+    customBtn.type = 'button';
+    customBtn.className = 'btn-main';
+    customBtn.style.cssText = 'background:#1e293b;border:1px dashed #38bdf8;margin-bottom:10px;font-weight:700';
+    customBtn.onclick = function(){ fileInp.click(); };
+    fileInp.parentNode.insertBefore(customBtn, fileInp);
+  }
+
+  var scanBtn = document.querySelector('#p-scan .btn-main:not([style*="dashed"])') || Array.from(document.querySelectorAll('#p-scan button')).pop();
+  var scanOut = document.querySelector('#p-scan .out');
+  var newScanBtn = null;
+  if(scanBtn && scanOut){
+    newScanBtn = scanBtn.cloneNode(true);
+    scanBtn.parentNode.replaceChild(newScanBtn, scanBtn);
+  }
+
+  function applyEverything(){
+    var l = (document.querySelector('.lang-sel') || {value:'en'}).value;
+    var tr = fullLang[l] || fullLang.en;
+    var viralEl = document.getElementById('t-viral');
+    if(viralEl) viralEl.innerHTML = tr.viral;
+    var shareBtn = document.querySelector('.btn-green');
+    if(shareBtn) shareBtn.innerText = tr.share;
+    var hTitle = document.getElementById('hero-title');
+    if(hTitle) hTitle.innerText = tr.title;
+    var hSub = document.getElementById('hero-sub');
+    if(hSub) hSub.innerText = tr.sub;
+
+    var homeTiles = document.querySelectorAll('#p-home .tile');
+    if(homeTiles.length >= 6){
+      for(var k=0; k<6; k++){
+        var h3 = homeTiles[k].querySelector('h3');
+        var p = homeTiles[k].querySelector('p');
+        if(h3) h3.innerText = tr.tiles[k];
+        if(p) p.innerText = tr.tiles[k];
+      }
+    }
+    if(customBtn && fileInp){
+      var fname = (fileInp.files && fileInp.files) ? ' ✅ ' + fileInp.files.name : '';
+      customBtn.innerText = tr.photoBtn + fname;
+    }
+    if(newScanBtn) newScanBtn.innerText = tr.scanBtn;
+    var scanSel = document.querySelector('#p-scan select');
+    if(scanSel && scanSel.options.length >= 4){
+      for(var i=0; i<4; i++){ scanSel.options[i].text = tr.scanModes[i]; }
+    }
+    var navBtns = document.querySelectorAll('.nav button');
+    if(navBtns.length >= 5){
+      for(var j=0; j<5; j++){
+        var parts = tr.nav[j].split(' ');
+        var icon = parts.shift();
+        navBtns[j].innerHTML = '<span>' + icon + '</span>' + parts.join(' ');
+      }
+    }
+  }
+  if(fileInp) fileInp.addEventListener('change', applyEverything);
+  setInterval(applyEverything, 260);
+
+  if(newScanBtn && scanOut && fileInp){
+    newScanBtn.onclick = async function(){
+      var l = (document.querySelector('.lang-sel') || {value:'en'}).value;
+      if(!fileInp.files || !fileInp.files){
+        scanOut.style.display = 'block';
+        scanOut.innerText = '⚠️ Please choose a photo first!';
+        return;
+      }
+      scanOut.style.display = 'block';
+      scanOut.innerText = '🔍 Reading & analyzing photo...';
+      var modeIdx = (document.querySelector('#p-scan select') || {selectedIndex:0}).selectedIndex;
+      var fname = (fileInp.files.name || '').toLowerCase();
+
+      var roles = [
+        'Act as a Senior Contract Lawyer & Fraud Investigator. Explain clearly how to check a contract, loan, or SMS for hidden traps, unfair penalties, and scam red flags, and give a 5-point safety checklist. Reply in language: ' + l,
+        'Act as a Master Auto Mechanic & Appliance Repair Engineer. A user uploaded a dashboard warning light or appliance error photo (' + fname + '). Explain the top causes of Check Engine / warning lights & error codes, exact step-by-step DIY checks, and estimated repair costs. Reply in language: ' + l,
+        'Act as a Certified CPA Accountant. Provide a clear expense breakdown template, tax deduction tips, and budget optimization advice for this receipt scan. Reply in language: ' + l,
+        'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step explanation method for solving textbook problems or preparing healthy recipes. Reply in language: ' + l
+      ];
+
+      try {
+        var url = 'https://pollinations.ai' + encodeURIComponent(roles[modeIdx] || roles) + '?model=openai&seed=' + Date.now();
+        var resp = await fetch(url);
+        var txt = await resp.text();
+        scanOut.innerHTML = (txt || '⚠️ Please try again.').replace(/\n/g, '<br>');
+      } catch(e){
+        scanOut.innerText = '⚠️ Connection error. Check internet and tap again.';
+      }
+    };
+  }
+
+  setInterval(function(){
+    document.querySelectorAll('#p-studio img').forEach(function(img){
+      if(img.src && img.src.indexOf('pollinations.ai') !== -1 && img.src.indexOf('nologo=true') === -1){
+        img.src = img.src + (img.src.indexOf('?') !== -1 ? '&' : '?') + 'nologo=true';
+      }
+    });
+  }, 400);
+
+  var today = new Date().toDateString();
+  var lastDay = localStorage.getItem('voxa_last_day');
+  var streak = parseInt(localStorage.getItem('voxa_streak') || '0', 10);
+  if(lastDay !== today){
+    streak += 1;
+    localStorage.setItem('voxa_last_day', today);
+    localStorage.setItem('voxa_streak', streak);
+  }
+  var topRow = document.querySelector('#p-home .top-row');
+  if(topRow && !document.getElementById('voxa-streak')){
+    var stBadge = document.createElement('span');
+    stBadge.id = 'voxa-streak';
+    stBadge.className = 'badge';
+    stBadge.style.cssText = 'background:rgba(245,158,11,.18);color:#fbbf24';
+    stBadge.innerText = '🔥 ' + streak + 'd';
+    topRow.insertBefore(stBadge, topRow.children);
+  }
+})();
+</script>
 
 </body>
 </html>
