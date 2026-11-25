@@ -168,41 +168,7 @@ var IN = {
   uk:['Задайте будь-яке питання: Наука, Медицина, Фінанси...','🎙️ ШІ IELTS та Живий Перекладач','Миттєва оцінка IELTS Band Score або живий переклад на 20 мов.','Введіть текст для перевірки IELTS або перекладу...','🛡️ Розумна Камера: Договір, Ремонт та Чек','Завантажте фото договору, коду помилки (E04), авто чи чека.','🎨 ШІ 4K Лого та Арт Студія','Створюйте 4K логотипи та банери без водяних знаків.','Опишіть логотип, рекламу або 4K арт...','🧾 Особистий Бухгалтер та PIN Сейф','Зберігайте витрати та секретні PIN-нотатки на пристрої.','Напр.: Кава $4.50 або PIN картки 4829...','☁️ Резервна Копія / Скопіювати Все']
 };
 var curL = 'en';
-function setLang(l){
-  curL = L[l] ? l : 'en';
-  var d = L[curL], x = IN[curL] || IN.en;
-  document.getElementById('b-share').innerText = d;
-  document.getElementById('t-viral').innerHTML = d;
-  document.getElementById('hero-title').innerText = d;
-  document.getElementById('hero-sub').innerText = d;
-  for(var i=0;i<6;i++){
-    document.getElementById('c'+(i+1)+'-t').innerText = d[4+i*2];
-    document.getElementById('c'+(i+1)+'-s').innerText = d[5+i*2];
-  }
-  document.getElementById('b-home').innerText = d;
-  document.getElementById('b-ielts').innerText = d;
-  onFilePick();
-  document.getElementById('b-scan').innerText = d;
-  document.getElementById('b-art').innerText = d;
-  document.getElementById('b-memo').innerText = d;
-  document.getElementById('q-home').placeholder = x;
-  document.getElementById('t-ielts').innerText = x;
-  document.getElementById('s-ielts').innerText = x;
-  document.getElementById('q-ielts').placeholder = x;
-  document.getElementById('t-scan').innerText = x;
-  document.getElementById('s-scan').innerText = x;
-  document.getElementById('t-art').innerText = x;
-  document.getElementById('s-art').innerText = x;
-  document.getElementById('q-art').placeholder = x;
-  document.getElementById('t-vault').innerText = x;
-  document.getElementById('s-vault').innerText = x;
-  document.getElementById('q-memo').placeholder = x;
-  document.getElementById('b-backup').innerText = x;
-  var navIds = ['n-home','n-ielts','n-scan','n-studio','n-vault'];
-  var navIc = ['🏠','🎙','🛡','🎨','🧾'];
-  for(var j=0;j<5;j++) document.getElementById(navIds[j]).innerHTML = '<span>'+navIc[j]+'</span>'+d[j];
-  var sel = document.getElementById('scan-mode');
-  for(var m=0;m<4;m++) sel.options[m].text = d[m];
+
 }
 function go(p){
   document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
