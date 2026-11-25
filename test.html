@@ -250,6 +250,104 @@ var td = new Date().toDateString(), ld = localStorage.getItem('v_ld'), st = pars
 if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_st', st); }
 document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
+var curL = 'en';
+function setLang(l){
+  curL = L[l] ? l : 'en';
+  var d = L[curL];
+  document.getElementById('b-share').innerText = d[0];
+  document.getElementById('t-viral').innerHTML = d[1];
+  document.getElementById('hero-title').innerText = d[2];
+  document.getElementById('hero-sub').innerText = d[3];
+  for(var i=0;i<6;i++){
+    document.getElementById('c'+(i+1)+'-t').innerText = d[4+i*2];
+    document.getElementById('c'+(i+1)+'-s').innerText = d[5+i*2];
+  }
+  document.getElementById('b-home').innerText = d[16];
+  document.getElementById('b-ielts').innerText = d[17];
+  onFilePick();
+  document.getElementById('b-scan').innerText = d[19];
+  document.getElementById('b-art').innerText = d[20];
+  document.getElementById('b-memo').innerText = d[21];
+  var navIds = ['n-home','n-ielts','n-scan','n-studio','n-vault'];
+  var navIc = ['🏠','🎙','🛡','🎨','🧾'];
+  for(var j=0;j<5;j++) document.getElementById(navIds[j]).innerHTML = '<span>'+navIc[j]+'</span>'+d[22][j];
+  var sel = document.getElementById('scan-mode');
+  for(var m=0;m<4;m++) sel.options[m].text = d[23][m];
+}
+function go(p){
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
+  document.querySelectorAll('.nav button').forEach(function(e){e.classList.remove('active')});
+  document.getElementById('p-'+p).classList.add('active');
+  document.getElementById('n-'+p).classList.add('active');
+}
+function openScan(m){ go('scan'); document.getElementById('scan-mode').selectedIndex = m; }
+function onFilePick(){
+  var f = document.getElementById('scan-file').files[0];
+  document.getElementById('b-pick').innerText = (L[curL]||L.en)[18] + (f ? ' ✅ ' + f.name : '');
+}
+async function ai(prompt, outId){
+  var el = document.getElementById(outId);
+  el.style.display = 'block';
+  el.innerText = '⏳ Thinking...';
+  try{
+    var r = await fetch('https://pollinations.ai' + encodeURIComponent(prompt + ' (Reply in language code: ' + curL + ')') + '?model=openai&seed=' + Date.now());
+    var t = await r.text();
+    el.innerHTML = (t || '⚠️ Try again.').replace(/\n/g, '<br>');
+  }catch(e){ el.innerText = '⚠️ Network error. Tap again.'; }
+}
+function askHome(){ var q=document.getElementById('q-home').value.trim(); if(q) ai('You are Voxa AI, an expert Universal Copilot: '+q,'out-home'); }
+function askIelts(){ var q=document.getElementById('q-ielts').value.trim(); if(q) ai('Act as a Senior IELTS Examiner & Live Interpreter. Give exact Band Score (0-9), grammar fixes & Band 8.5 version, or translate accurately: '+q,'out-ielts'); }
+function runScan(){
+  var f = document.getElementById('scan-file').files[0];
+  var el = document.getElementById('out-scan');
+  if(!f){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
+  var m = document.getElementById('scan-mode').selectedIndex;
+  var prompts = [
+    'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+f.name+').',
+    'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+f.name+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.',
+    'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+f.name+').',
+    'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+f.name+').'
+  ];
+  ai(prompts[m], 'out-scan');
+}
+function genArt(){
+  var q = document.getElementById('q-art').value.trim(); if(!q) return;
+  var el = document.getElementById('out-art'); el.style.display='block';
+  var u = 'https://pollinations.ai' + encodeURIComponent(q + ', ultra detailed 4k professional design') + '?width=1024&height=1024&nologo=true&seed=' + Date.now();
+  el.innerHTML = '<img src="'+u+'" style="width:100%;border-radius:12px" alt="4K AI">';
+}
+function mic(id){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert('Voice input not supported in this browser'); return; }
+  var r = new SR(); r.lang = curL;
+  r.onresult = function(e){ document.getElementById(id).value = e.results[0][0].transcript; };
+  r.start();
+}
+function shareApp(){
+  var txt = 'Try Voxa AI Copilot 24/7: https://github.io';
+  if(navigator.share) navigator.share({title:'Voxa AI',text:txt}); else { navigator.clipboard.writeText(txt); alert('Link copied! 24h PRO unlocked!'); }
+}
+function openPro(){ document.getElementById('pro-modal').classList.add('open'); }
+function addMemo(){
+  var v = document.getElementById('q-memo').value.trim(); if(!v) return;
+  var arr = JSON.parse(localStorage.getItem('voxa_memos')||'[]'); arr.unshift(v);
+  localStorage.setItem('voxa_memos', JSON.stringify(arr)); document.getElementById('q-memo').value=''; renderMemos();
+}
+function renderMemos(){
+  var arr = JSON.parse(localStorage.getItem('voxa_memos')||'[]');
+  document.getElementById('memo-list').innerHTML = arr.map(function(x,i){ return '<div class="memo"><span>'+x+'</span><span style="color:#f87171;cursor:pointer" onclick="delMemo('+i+')">✕</span></div>'; }).join('');
+}
+function delMemo(i){ var arr=JSON.parse(localStorage.getItem('voxa_memos')||'[]'); arr.splice(i,1); localStorage.setItem('voxa_memos',JSON.stringify(arr)); renderMemos(); }
+function backupVault(){
+  var arr = JSON.parse(localStorage.getItem('voxa_memos')||'[]');
+  navigator.clipboard.writeText('Voxa Vault Backup:\n' + (arr.join('\n') || 'Empty'));
+  alert('☁️ All Vault & PIN notes copied to clipboard!');
+}
+var td = new Date().toDateString(), ld = localStorage.getItem('v_ld'), st = parseInt(localStorage.getItem('v_st')||'0',10);
+if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_st', st); }
+document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
+renderMemos();
 </script>
 </body>
 </html>
+
