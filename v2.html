@@ -237,5 +237,72 @@ if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_s
 document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
 </script>
+
+<script>
+function setLang(l){
+  curL = L[l] ? l : 'en';
+  var d = L[curL], x = IN[curL] || IN.en;
+  document.getElementById('b-share').innerText = d.shift ? L[curL].slice(0,1).pop() : '';
+  var a = L[curL].slice(), b = x.slice();
+  document.getElementById('b-share').innerText = a.shift();
+  document.getElementById('t-viral').innerHTML = a.shift();
+  document.getElementById('hero-title').innerText = a.shift();
+  document.getElementById('hero-sub').innerText = a.shift();
+  for(var i=1;i<=6;i++){
+    document.getElementById('c'+i+'-t').innerText = a.shift();
+    document.getElementById('c'+i+'-s').innerText = a.shift();
+  }
+  document.getElementById('b-home').innerText = a.shift();
+  document.getElementById('b-ielts').innerText = a.shift();
+  var pickTxt = a.shift();
+  var f = document.getElementById('scan-file').files;
+  document.getElementById('b-pick').innerText = pickTxt + (f && f.length ? ' ✅ ' + f.item(0).name : '');
+  document.getElementById('b-scan').innerText = a.shift();
+  document.getElementById('b-art').innerText = a.shift();
+  document.getElementById('b-memo').innerText = a.shift();
+  var navArr = a.shift(), modeArr = a.shift();
+  var navIds = ['n-home','n-ielts','n-scan','n-studio','n-vault'];
+  var navIc = ['🏠','🎙','🛡','🎨','🧾'];
+  for(var j=0;j<5;j++) document.getElementById(navIds[j]).innerHTML = '<span>'+navIc[j]+'</span>'+navArr.shift();
+  var sel = document.getElementById('scan-mode');
+  for(var m=0;m<4;m++) sel.options.item(m).text = modeArr.shift();
+  document.getElementById('q-home').placeholder = b.shift();
+  document.getElementById('t-ielts').innerText = b.shift();
+  document.getElementById('s-ielts').innerText = b.shift();
+  document.getElementById('q-ielts').placeholder = b.shift();
+  document.getElementById('t-scan').innerText = b.shift();
+  document.getElementById('s-scan').innerText = b.shift();
+  document.getElementById('t-art').innerText = b.shift();
+  document.getElementById('s-art').innerText = b.shift();
+  document.getElementById('q-art').placeholder = b.shift();
+  document.getElementById('t-vault').innerText = b.shift();
+  document.getElementById('s-vault').innerText = b.shift();
+  document.getElementById('q-memo').placeholder = b.shift();
+  document.getElementById('b-backup').innerText = b.shift();
+}
+function onFilePick(){ setLang(curL); }
+function runScan(){
+  var f = document.getElementById('scan-file').files;
+  var el = document.getElementById('out-scan');
+  if(!f || !f.length){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
+  var fname = f.item(0).name;
+  var m = document.getElementById('scan-mode').selectedIndex;
+  var prompts = [
+    'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+fname+').',
+    'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+fname+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.',
+    'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+fname+').',
+    'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+fname+').'
+  ];
+  var backups = [
+    '<b>🛡️ Contract & Scam Risk Audit:</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.',
+    '<b>🔧 Check Engine / Error Code Diagnosis:</b><br>1. <b>Loose Gas Cap / Sensor:</b> Tighten fuel cap first (0$ fix).<br>2. <b>O2 Sensor / Catalytic (P0420):</b> Check exhaust oxygen sensor ($80–$220).<br>3. <b>Ignition / Spark Plugs:</b> Inspect misfire codes (P0300) before visiting a mechanic.',
+    '<b>🧾 Receipt & Tax Audit Ready:</b><br>1. Categorize as Business / Deductible Expense.<br>2. Save digital copy in Vault for tax write-offs.',
+    '<b>📚 Step-by-Step Guide Ready:</b><br>1. Break down the core formula/ingredients.<br>2. Verify each step carefully.'
+  ];
+  ai(prompts.slice(m, m+1).pop(), 'out-scan', backups.slice(m, m+1).pop());
+}
+setLang('en');
+</script>
+
 </body>
 </html>
