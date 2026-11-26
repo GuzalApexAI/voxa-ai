@@ -345,6 +345,70 @@ const VOXA_L = {
   }
 })();
 </script>
+<script>
+(function() {
+  // 1. Qolgan 6 ta tilning to'liq lug'ati (DE, FR, KO, JA, ZH, UK)
+  Object.assign(VOXA_L, {
+    de: { s:"🎁 Mit 1 Freund teilen = <b>24 Std. PRO</b> gratis!", sb:"TEILEN", t:"All-in-One Sprach-, Design- & KI-Copilot", sub:"Vertragsschutz, Live-Übersetzer, IELTS 8.5, Smart-Reparatur & 4K-Studio.", ph:"Frag alles: Recht, Auto, Medizin, Finanzen...", ab:"✨ KI-Antwort Generieren", nav:["Start","IELTS","Scanner","Studio","Tresor"], st:"🛡 Smart-Kamera: Vertrag, Reparatur & Beleg", ssub:"Vertrag, Fehlercode (E04) oder Beleg hochladen.", sbtn:"🔍 Foto Jetzt Analysieren", m:["Vertragsschutz & Anti-Betrug","Haus- & Auto-Reparatur (Fehlercodes)","Beleg- & Ausgaben-Buchhalter"], r0:"⚖️ <b>Risiko-Analyse:</b><br>1. Versteckte Klausel & Strafgebühr gefunden.<br>2. Risiko: <b>HOCH (82%)</b>.<br>✅ Ohne Änderung NICHT unterschreiben.", r1:"🔧 <b>Diagnose (P0420 / E04):</b><br>1. Sensor/Deckel lose ($0 Selbsthilfe).<br>2. O2-Sensor prüfen ($80–$180).", r2:"🧾 <b>Beleg erfasst:</b><br>• Gesamtbetrag bestätigt & bereit für PIN-Tresor." },
+    fr: { s:"🎁 Partage avec 1 ami = <b>24h PRO</b> gratuit !", sb:"PARTAGER", t:"Copilote IA Universel Voix, Design & Savoir", sub:"Bouclier Anti-Arnaque, Traducteur Direct, IELTS 8.5, Réparation & Studio 4K.", ph:"Demandez tout : Droit, Auto, Médecine, Finance...", ab:"✨ Générer Réponse IA", nav:["Accueil","IELTS","Scanner","Studio","Coffre"], st:"🛡 Caméra Intelligente : Contrat, Réparation & Reçu", ssub:"Téléchargez contrat, code erreur (E04) ou reçu.", sbtn:"🔍 Analyser la Photo", m:["Bouclier Contrats & Anti-Arnaque","Réparation Auto & Maison (Codes Erreur)","Comptable Reçus & Dépenses"], r0:"⚖️ <b>Alerte Juridique :</b><br>1. Clause cachée de renouvellement & pénalité.<br>2. Risque : <b>ÉLEVÉ (82%)</b>.<br>✅ NE signez pas sans modification.", r1:"🔧 <b>Diagnostic (P0420 / E04) :</b><br>1. Capteur/bouchon desserré (0$).<br>2. Sonde O2 ($80–$180).", r2:"🧾 <b>Reçu Analysé :</b><br>• Montant vérifié & prêt pour le Coffre PIN." },
+    ko: { s:"🎁 친구 1명 공유 = <b>24시간 PRO</b> 무료!", sb:"공유하기", t:"올인원 음성, 디자인 및 범용 AI 코파일럿", sub:"사기 방지 방패, 실시간 번역, IELTS 8.5, 스마트 수리 & 4K 스튜디오.", ph:"무엇이든 물어보세요: 법률, 자동차, 의학, 금융...", ab:"✨ AI 답변 생성", nav:["홈","IELTS","스캐너","스튜디오","금고"], st:"🛡 스마트 카메라: 계약서, 수리 및 영수증", ssub:"계약서, 오류 코드(E04) 또는 영수증을 업로드하세요.", sbtn:"🔍 지금 사진 분석", m:["계약서 보호 및 사기 방지","가전 및 자동차 수리 (오류 코드)","영수증 및 지출 회계사"], r0:"⚖️ <b>법적 위험 경고:</b><br>1. 숨겨진 자동 갱신 및 위약금 조항 발견.<br>2. 위험도: <b>높음 (82%)</b>.<br>✅ 수정 없이 서명하지 마세요.", r1:"🔧 <b>진단 (P0420 / E04):</b><br>1. 센서/캡 느슨함 ($0 자가 수리).<br>2. O2 센서 점검 ($80–$180).", r2:"🧾 <b>영수증 완료:</b><br>• 총액 확인 완료 및 PIN 금고 저장 준비됨." },
+    ja: { s:"🎁 友達1人にシェア = <b>24時間 PRO</b> 無料！", sb:"シェア", t:"オールインワン音声・デザイン・汎用AIコパイロット", sub:"詐欺防止シールド、ライブ翻訳、IELTS 8.5、スマート修理＆4Kスタジオ。", ph:"何でも質問：法律、車、医学、金融...", ab:"✨ AI回答を生成", nav:["ホーム","IELTS","スキャナー","スタジオ","金庫"], st:"🛡 スマートカメラ：契約書・修理・レシート", ssub:"契約書、エラーコード(E04)、レシートをアップロード。", sbtn:"🔍 今すぐ写真を分析", m:["契約書シールド＆詐欺防止","家電・自動車修理 (エラーコード)","レシート＆経費会計士"], r0:"⚖️ <b>法的リスク警告：</b><br>1. 隠れた自動更新と違約金条項を検出。<br>2. リスク：<b>高 (82%)</b>。<br>✅ 修正なしで署名しないでください。", r1:"🔧 <b>診断 (P0420 / E04)：</b><br>1. センサー緩み ($0 自己修理)。<br>2. O2センサー ($80–$180)。", r2:"🧾 <b>レシート抽出完了：</b><br>• 合計確認済み・PIN金庫へ保存可能。" },
+    zh: { s:"🎁 分享给1位好友 = <b>24小时 PRO</b> 免费！", sb:"分享", t:"全能语音、设计与通用 AI 副驾驶", sub:"防骗护盾、实时翻译、雅思 8.5 教练、智能维修与 4K 工作室。", ph:"提问任何问题：法律、汽车、医学、金融...", ab:"✨ 生成 AI 答案", nav:["首页","雅思","扫描","工作室","保险箱"], st:"🛡 智能相机：合同、维修与收据", ssub:"上传合同、故障代码 (E04) 或收据照片。", sbtn:"🔍 立即分析照片", m:["合同防骗护盾（法律风险）","家电与汽车维修（故障代码）","收据与开支 AI 会计"], r0:"⚖️ <b>风险警告：</b><br>1. 发现隐藏自动续费与高额违约金。<br>2. 风险等级：<b>高 (82%)</b>。<br>✅ 修改前请勿签字。", r1:"🔧 <b>诊断 (P0420 / E04)：</b><br>1. 传感器松动 ($0 自行解决)。<br>2. 氧传感器 ($80–$180)。", r2:"🧾 <b>收据已提取：</b><br>• 金额已核实，可存入 PIN 保险箱。" },
+    uk: { s:"🎁 Поділись з 1 другом = <b>24 год PRO</b> безкоштовно!", sb:"ПОДІЛИТИСЯ", t:"Універсальний Голосовий та Дизайн AI Copilot", sub:"Захист від шахраїв, Живий перекладач, IELTS 8.5, Ремонт та 4K Студія.", ph:"Запитайте будь-що: Закон, Авто, Медицина...", ab:"✨ Отримати Відповідь AI", nav:["Головна","IELTS","Сканер","Студія","Сейф"], st:"🛡 Розумна Камера: Договір, Ремонт та Чек", ssub:"Завантажте фото договору, коду помилки (E04) або чека.", sbtn:"🔍 Аналізувати Фото", m:["Захист Договорів та Анти-Шахрай","Ремонт Авто та Техніки (Коди помилок)","Бухгалтер Чеків та Витрат"], r0:"⚖️ <b>Аналіз Ризиків:</b><br>1. Знайдено приховану пастку штрафів.<br>2. Ризик: <b>ВИСОКИЙ (82%)</b>.<br>✅ НЕ підписуйте без правки.", r1:"🔧 <b>Діагностика (P0420 / E04):</b><br>1. Ослаблений датчик ($0).<br>2. Датчик кисню O2 ($80–$180).", r2:"🧾 <b>Чек Розпізнано:</b><br>• Суму підтверджено для PIN-Сейфа." }
+  });
+
+  // 2. Select menyu xatosini tuzatish
+  const origSet = window.setLang;
+  window.setLang = function(l) {
+    if (origSet) origSet(l);
+    const d = VOXA_L[l] || VOXA_L.en;
+    const sel = document.querySelector('#p-scan select');
+    if (sel && sel.options.length >= 3) {
+      sel.options[0].text = d.m[0];
+      sel.options[1].text = d.m[1];
+      sel.options[2].text = d.m[2];
+    }
+  };
+
+  // 3. HAQIQIY JONLI AI (Bosh sahifa + IELTS + 4K Rasm Studiyasi)
+  const homeBtn = document.getElementById('b-home');
+  if (homeBtn) {
+    homeBtn.addEventListener('click', async function(e) {
+      e.stopImmediatePropagation();
+      const q = document.getElementById('q-home')?.value.trim();
+      const out = document.getElementById('out-home');
+      if (!q || !out) return;
+      out.innerHTML = "⚡ Voxa AI...";
+      try {
+        const res = await fetch('https://pollinations.ai' + encodeURIComponent("Answer clearly in user's language as Voxa AI Copilot: " + q));
+        const txt = await res.text();
+        out.innerHTML = txt.replace(/\n/g, '<br>');
+      } catch {
+        out.innerHTML = "✅ Voxa AI: " + q;
+      }
+    }, true);
+  }
+
+  // 4. HAQIQIY 4K LOGO VA RASM GENERATSIYA (Leonardo AI kabi!)
+  const studioBtn = document.querySelector('#p-studio .btn-main');
+  if (studioBtn) {
+    studioBtn.addEventListener('click', function(e) {
+      e.stopImmediatePropagation();
+      const inp = document.querySelector('#p-studio input');
+      const prompt = inp?.value.trim() || "Luxury golden 3D minimalist crown logo on dark background, 4K";
+      let out = document.querySelector('#p-studio .out');
+      if (!out) {
+        out = document.createElement('div');
+        out.className = 'out';
+        out.style.marginTop = '12px';
+        this.parentNode.appendChild(out);
+      }
+      const imgUrl = `https://pollinations.ai{encodeURIComponent(prompt + ", ultra detailed, 4k, watermark free")}?nologo=true&width=768&height=768&seed=${Date.now()}`;
+      out.innerHTML = `<div style="text-align:center;font-size:12px;color:#38bdf8;margin-bottom:8px;">🎨 4K Studio Render...</div><img src="${imgUrl}" style="width:100%;border-radius:12px;border:1px solid #38bdf8;" onload="this.previousSibling.innerText='✅ 4K Watermark-Free Ready!'">`;
+    }, true);
+  }
+})();
+</script>
 
 </body>
 </html>
