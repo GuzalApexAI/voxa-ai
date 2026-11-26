@@ -1112,6 +1112,208 @@ window.addEventListener("load", function() {
     }
 });
 </script>
+<script>
+(function() {
+    function startVoxaEngine() {
+        // 1. BOSH SAHIFA MATNINI YANGILASH (Professor va olimlar uchun)
+        document.querySelectorAll("p, div, span").forEach(el => {
+            if (el.children.length === 0 && el.textContent.includes("School Subjects")) {
+                el.textContent = "Not just for school — built for professors, researchers & scientists too. Contract Shield, Live Translator, IELTS Coach & Smart AI Encyclopedia.";
+            }
+        });
+
+        // 2. BOSH SAHIFADAGI SAVOL-JAVOB (Generate AI Answer)
+        const askInput = document.querySelector("input[placeholder*='Ask any question'], input[type='text'], textarea");
+        let genBtn = null;
+        document.querySelectorAll("button, div, a").forEach(el => {
+            const txt = (el.textContent || "").trim();
+            if (txt.includes("Generate AI Answer") && txt.length < 35) {
+                genBtn = el;
+            }
+        });
+
+        if (askInput && genBtn && !genBtn.dataset.voxaBound) {
+            genBtn.dataset.voxaBound = "1";
+            genBtn.style.cursor = "pointer";
+            genBtn.addEventListener("click", async function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                const q = askInput.value.trim();
+                if (!q) {
+                    alert("Iltimos, savolingizni yozing!");
+                    return;
+                }
+
+                const oldHTML = genBtn.innerHTML;
+                genBtn.innerHTML = "⏳ AI o'ylamoqda...";
+
+                let ansBox = document.getElementById("voxa-home-answer");
+                if (!ansBox) {
+                    ansBox = document.createElement("div");
+                    ansBox.id = "voxa-home-answer";
+                    ansBox.style.cssText = "margin-top:14px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #8b5cf6; color:#f8fafc; font-size:14px; line-height:1.6; text-align:left;";
+                    genBtn.parentNode.insertBefore(ansBox, genBtn.nextSibling);
+                }
+                ansBox.innerHTML = "🧠 Ilmiy va aniq javob tayyorlanmoqda...";
+
+                try {
+                    const res = await fetch("https://pollinations.ai", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            messages: [
+                                { role: "system", content: "You are Voxa AI Universal Encyclopedia — an advanced AI assistant for students, professors, scientists, and researchers. Answer any question accurately, deeply, and clearly in the user's language." },
+                                { role: "user", content: q }
+                            ],
+                            model: "openai"
+                        })
+                    });
+                    const reply = await res.text();
+                    ansBox.innerHTML = "<b>🎓 Voxa AI Javobi:</b><br><br>" + reply.replace(/\n/g, "<br>");
+                } catch (err) {
+                    ansBox.innerHTML = "❌ Tarmoq xatosi: " + err.message;
+                } finally {
+                    genBtn.innerHTML = oldHTML;
+                }
+            }, true);
+        }
+
+        // 3. SMART CAMERA: RASM YUKLASH VA AI TAHLILI
+        let selectedImageBase64 = null;
+
+        let existingFileInput = document.querySelector("input[type='file']");
+        if (!existingFileInput) {
+            existingFileInput = document.createElement("input");
+            existingFileInput.type = "file";
+            existingFileInput.accept = "image/*";
+            existingFileInput.style.cssText = "position:fixed; top:-9999px; left:-9999px;";
+            document.body.appendChild(existingFileInput);
+        } else {
+            existingFileInput.accept = "image/*";
+        }
+
+        let uploadBtn = null;
+        let analyzeBtn = null;
+
+        document.querySelectorAll("button, label, div, a, span").forEach(el => {
+            const txt = (el.textContent || "").trim();
+            if (txt.includes("Choose Photo") && txt.length < 45 && el.children.length <= 2) {
+                uploadBtn = el;
+            }
+            if (txt.includes("Analyze Photo Now") && txt.length < 35 && el.children.length <= 2) {
+                analyzeBtn = el;
+            }
+            if (txt.includes("Diagnostic (P0420 / E04)") && txt.length < 150) {
+                el.style.display = "none";
+            }
+        });
+
+        function handleFileSelected(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                selectedImageBase64 = ev.target.result;
+                if (uploadBtn) {
+                    uploadBtn.innerHTML = "✅ Rasm yuklandi: " + file.name.slice(0, 15);
+                    uploadBtn.style.borderColor = "#22c55e";
+                }
+                let preview = document.getElementById("voxa-cam-preview");
+                if (!preview && uploadBtn) {
+                    preview = document.createElement("img");
+                    preview.id = "voxa-cam-preview";
+                    preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
+                    uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
+                }
+                if (preview) preview.src = selectedImageBase64;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        existingFileInput.addEventListener("change", function() {
+            if (this.files && this.files[0]) handleFileSelected(this.files[0]);
+        });
+
+        if (uploadBtn && !uploadBtn.dataset.voxaCam) {
+            uploadBtn.dataset.voxaCam = "1";
+            uploadBtn.style.cursor = "pointer";
+            uploadBtn.style.pointerEvents = "auto";
+            if (uploadBtn.tagName === "LABEL") uploadBtn.removeAttribute("for");
+
+            uploadBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                existingFileInput.value = "";
+                existingFileInput.click();
+            }, true);
+        }
+
+        if (analyzeBtn && !analyzeBtn.dataset.voxaAnalyze) {
+            analyzeBtn.dataset.voxaAnalyze = "1";
+            analyzeBtn.style.cursor = "pointer";
+            analyzeBtn.style.pointerEvents = "auto";
+
+            analyzeBtn.addEventListener("click", async function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                if (!selectedImageBase64) {
+                    alert("Avval 'Choose Photo / Snap Camera' tugmasini bosib rasm yuklang!");
+                    return;
+                }
+
+                const oldBtn = analyzeBtn.innerHTML;
+                analyzeBtn.innerHTML = "⏳ AI tahlil qilmoqda...";
+
+                let out = document.getElementById("voxa-scan-res");
+                if (!out) {
+                    out = document.createElement("div");
+                    out.id = "voxa-scan-res";
+                    out.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#fff; font-size:14px; line-height:1.5; text-align:left;";
+                    analyzeBtn.parentNode.insertBefore(out, analyzeBtn.nextSibling);
+                }
+                out.style.display = "block";
+                out.innerHTML = "🔍 Rasm o'rganilmoqda, biroz kuting...";
+
+                const sel = document.querySelector("select");
+                const mode = sel ? sel.value : "Smart Camera Analysis";
+
+                try {
+                    const res = await fetch("https://pollinations.ai", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            messages: [
+                                { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give clear, helpful advice." },
+                                {
+                                    role: "user",
+                                    content: [
+                                        { type: "text", text: `Category: ${mode}. Analyze this image in detail and give a clear summary.` },
+                                        { type: "image_url", image_url: { url: selectedImageBase64 } }
+                                    ]
+                                }
+                            ],
+                            model: "openai"
+                        })
+                    });
+                    const txt = await res.text();
+                    out.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + txt.replace(/\n/g, "<br>");
+                } catch (err) {
+                    out.innerHTML = "❌ Xatolik: " + err.message;
+                } finally {
+                    analyzeBtn.innerHTML = oldBtn;
+                }
+            }, true);
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", startVoxaEngine);
+    } else {
+        startVoxaEngine();
+    }
+    setTimeout(startVoxaEngine, 1000);
+})();
+</script>
 
 </body>
 </html>
