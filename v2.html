@@ -211,5 +211,16 @@ if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_s
 document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
 </script>
+
+<script>
+window.go = function(p){
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
+  document.querySelectorAll('.nav button').forEach(function(e){e.classList.remove('active')});
+  document.getElementById('p-'+p).classList.add('active');
+  document.getElementById('n-'+p).classList.add('active');
+};
+window.openScan = function(m){ window.go('scan'); document.getElementById('scan-mode').selectedIndex = m; };
+</script>
+
 </body>
 </html>
