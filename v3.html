@@ -453,6 +453,60 @@ document.addEventListener('click', function(e) {
   }
 }, true);
 </script>
+<script>
+// 1. SHARE tugmasi (xatosiz + belgisi bilan va Telegram ichida to'g'ridan-to'g'ri ochiladi)
+window.shareApp = function() {
+  var url = encodeURIComponent("https://t.me");
+  var txt = encodeURIComponent("🚀 Voxa AI Copilot — All-in-One Voice, 4K Logo Studio, Scam Shield & IELTS Coach!");
+  var link = "https://t.me" + url + "&text=" + txt;
+  
+  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+    window.Telegram.WebApp.openTelegramLink(link);
+  } else {
+    window.location.href = link;
+  }
+};
+
+// 2. Foto Scanner javobi
+window.runScan = function() {
+  var out = document.getElementById('out-scan');
+  var sel = document.getElementById('scan-mode') || document.querySelector('#p-scan select');
+  var lang = document.querySelector('.lang-sel') ? document.querySelector('.lang-sel').value : 'en';
+  var d = (typeof VOXA_L !== 'undefined' && VOXA_L[lang]) ? VOXA_L[lang] : (VOXA_L && VOXA_L.en ? VOXA_L.en : {});
+  var idx = sel ? sel.selectedIndex : 0;
+
+  if (out) {
+    out.style.display = 'block';
+    out.style.padding = '12px';
+    out.style.marginTop = '12px';
+    out.style.borderRadius = '12px';
+    out.style.background = '#020617';
+    out.style.border = '1px solid #38bdf8';
+    out.innerHTML = "⏳ AI Scanning...";
+    setTimeout(function() {
+      out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
+    }, 500);
+  }
+};
+
+// 3. PRO $29 tugmasini Telegram ichida Tribute'ga ulash
+document.addEventListener('click', function(e) {
+  var tributeUrl = "https://t.me";
+  var el = e.target.closest('button, .badge, div');
+  if (!el) return;
+  var txt = el.innerText || "";
+
+  if (txt.indexOf('PRO $29') !== -1 || txt.indexOf('Activate PRO') !== -1 || (el.closest('#pro-modal') && el.tagName === 'BUTTON')) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+      window.Telegram.WebApp.openTelegramLink(tributeUrl);
+    } else {
+      window.location.href = tributeUrl;
+    }
+  }
+}, true);
+</script>
 
 </body>
 </html>
