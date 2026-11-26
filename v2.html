@@ -80,70 +80,53 @@ input,textarea,select.inp{width:100%;background:#020617;border:1px solid #334155
   <button type="button" id="n-vault" onclick="go('vault')"><span>🧾</span>Vault</button>
 </div>
 <script>
-var L = {
-  en:['SHARE','🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!','All-in-One Voice, Design & Universal AI Encyclopedia','Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.','Contract & Scam Shield','Detect hidden traps in loans, contracts & SMS.','IELTS & Live Translator','Band Score coach & 2-way voice interpreter.','AI Logo & Design Studio','Create 4K logos, ads & art like Leonardo AI.','Smart Camera: Repair','Fix home appliances, error codes & car issues.','Receipt & Expense AI','Voice & photo personal accountant + PIN vault.','Universal AI Encyclopedia','All Sciences, Medicine, Finance & Research.','✨ Generate AI Answer','🚀 Evaluate & Translate','📷 Choose Photo / Snap Camera','🔍 Analyze Photo Now','✨ Generate 4K Image','💾 Save to Vault',['Home','IELTS','Scanner','Studio','Vault'],['Contract & Scam Shield (Legal Risks)','Home & Auto Repair Guide (Error Codes)','Receipt & Expense Accountant','Textbook Homework / Food Recipes']],
-  uz:['ULASHISH','🎁 1 do‘stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!','Ovoz, Dizayn va Universal AI Ensiklopediya','Shartnoma qalqoni, Jonli tarjimon, IELTS murabbiy, Aqlli ta’mir va 4K Logo Studiya.','Shartnoma va Firibgarlik Qalqoni','Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.','IELTS va Jonli Tarjimon','Band Score bahosi va 2 tomonlama ovozli tarjimon.','AI Logo va Dizayn Studiyasi','Leonardo AI kabi 4K logo, banner va dizayn yarating.','Aqlli Kamera: Uy va Avto Usta','Kir yuvish mashinasi xato kodi (E04) va avto ta’mir.','Chek va Xarajatlar AI','Ovozli shaxsiy buxgalter va 4 xonali PIN seyf.','Universal AI Ensiklopediya','Barcha fanlar, Tibbiyot, Moliya va Ilmiy tahlil.','✨ AI Javobini Olish','🚀 Baholash va Tarjima','📷 Rasm Tanlash / Kamera','🔍 Rasmni Hozir Tahlil Qilish','✨ 4K Rasm Yaratish','💾 Seyfga Saqlash',['Bosh sahifa','IELTS','Skaner','Studiya','Seyf'],['Shartnoma va Firibgarlik Qalqoni (Huquqiy xavf)','Uy va Avto Ta’mir Ustasi (Xato kodlari)','Chek va Xarajatlar Buxgalteri','Darslik Uyga Vazifa / Taom Retsepti']],
-  ru:['ПОДЕЛИТЬСЯ','🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!','Голосовой, Дизайн и Универсальный ИИ Копилот','Защита договоров, Живой переводчик, IELTS тренер, Ремонт и 4K Лого Студия.','Защита от Договоров и Мошенников','Поиск скрытых ловушек в кредитах, договорах и СМС.','IELTS и Живой Переводчик','Оценка Band Score и голосовой переводчик на 20 языков.','ИИ Лого и Дизайн Студия','Создавайте 4K логотипы, рекламу и арт как Leonardo AI.','Умная Камера: Ремонт Авто/Дома','Расшифровка кодов ошибок (E04) и ремонт авто.','Бухгалтер Чеков и Расходов','Голосовой учет расходов и защищенный PIN-сейф.','Универсальная ИИ Энциклопедия','Наука, Медицина, Финансы, Инженерия и Учеба.','✨ Получить Ответ ИИ','🚀 Оценить и Перевести','📷 Выбрать Фото / Камера','🔍 Анализировать Фото Сейчас','✨ Создать 4K Картинку','💾 Сохранить в Сейф',['Главная','IELTS','Сканер','Студия','Сейф'],['Защита от Договоров и Мошенников','Ремонт Авто и Техники (Коды ошибок)','Бухгалтер Чеков и Расходов','Домашнее Задание / Рецепты']],
-  ar:['مشاركة','🎁 شارك مع صديق واحد واحصل على <b>24 ساعة Voxa PRO</b> مجاناً!','مساعد الذكاء الاصطناعي الشامل للصوت والتصميم','فحص العقود، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو شعارات 4K.','درع العقود والاحتيال','اكتشف الفخاخ المخفية في القروض والعقود والرسائل.','IELTS والمترجم الفوري','تقييم IELTS ومترجم صوتي ثنائي الاتجاه.','استوديو الشعارات والتصميم 4K','أنشئ شعارات وإعلانات احترافية بالذكاء الاصطناعي.','الكاميرا الذكية: الصيانة','إصلاح الأجهزة المنزلية وأكواد أعطال السيارات.','محاسب الإيصالات والمصاريف','محاسب شخصي بالصوت وخزنة برقم سري PIN.','موسوعة الذكاء الاصطناعي الشاملة','العلوم والطب والمالية والهندسة والبحث.','✨ توليد إجابة الذكاء الاصطناعي','🚀 تقييم وترجمة','📷 اختر صورة / الكاميرا','🔍 تحليل الصورة الآن','✨ إنشاء صورة 4K','💾 حفظ في الخزنة',['الرئيسية','IELTS','الماسح','الاستوديو','الخزنة'],['درع العقود والاحتيال (المخاطر القانونية)','دليل إصلاح السيارات والأجهزة','محاسب الإيصالات والمصاريف','الواجبات المدرسية / وصفات الطعام']],
-  tr:['PAYLAŞ','🎁 1 arkadaşınla paylaş, <b>24 saat Voxa PRO</b> ücretsiz kazan!','Hepsi Bir Arada Ses, Tasarım ve AI Ansiklopedi','Sözleşme Kalkanı, Canlı Çevirmen, IELTS Koçu, Akıllı Tamir ve 4K Logo Stüdyosu.','Sözleşme ve Dolandırıcılık Kalkanı','Kredi, sözleşme ve SMS’lerdeki gizli tuzakları bulun.','IELTS ve Canlı Çevirmen','Band Score koçu ve 2 yönlü sesli tercüman.','AI Logo ve Tasarım Stüdyosu','Leonardo AI gibi 4K logolar, reklamlar ve sanat üretin.','Akıllı Kamera: Tamir Ustası','Ev aletleri, hata kodları (E04) ve araç arızaları.','Fiş ve Harcama Muhasebecisi','Sesli kişisel muhasebeci ve 4 haneli PIN kasası.','Evrensel AI Ansiklopedisi','Bilim, Tıp, Finans, Mühendislik ve Araştırma.','✨ AI Yanıtı Oluştur','🚀 Değerlendir ve Çevir','📷 Fotoğraf Seç / Kamera','🔍 Fotoğrafı Şimdi Analiz Et','✨ 4K Görsel Oluştur','💾 Kasaya Kaydet',['Ana Sayfa','IELTS','Tarayıcı','Stüdyo','Kasa'],['Sözleşme ve Dolandırıcılık Kalkanı','Ev ve Oto Tamir Rehberi (Hata Kodları)','Fiş ve Harcama Muhasebecisi','Ders Ödevi / Yemek Tarifleri']],
-  es:['COMPARTIR','🎁 ¡Comparte con 1 amigo y desbloquea <b>24h Voxa PRO</b> gratis!','Copiloto IA Todo-en-Uno de Voz, Diseño y Estudio','Escudo de Contratos, Traductor en Vivo, Coach IELTS, Reparación y Estudio 4K.','Escudo de Contratos y Estafas','Detecta trampas ocultas en préstamos, contratos y SMS.','IELTS y Traductor en Vivo','Evaluador Band Score e intérprete de voz bidireccional.','Estudio de Logos y Diseño 4K','Crea logotipos 4K, anuncios y arte como Leonardo AI.','Cámara Inteligente: Reparación','Arregla electrodomésticos, códigos de error y autos.','IA de Recibos y Gastos','Contador personal por voz y bóveda con PIN.','Enciclopedia Universal IA','Ciencias, Medicina, Finanzas, Ingeniería e Investigación.','✨ Generar Respuesta IA','🚀 Evaluar y Traducir','📷 Elegir Foto / Cámara','🔍 Analizar Foto Ahora','✨ Generar Imagen 4K','💾 Guardar en Bóveda',['Inicio','IELTS','Escáner','Estudio','Bóveda'],['Escudo de Contratos y Estafas','Guía de Reparación de Auto y Hogar','Contador de Recibos y Gastos','Tareas Escolares / Recetas']],
-  de:['TEILEN','🎁 Teile mit 1 Freund und erhalte <b>24h Voxa PRO</b> kostenlos!','All-in-One Sprach-, Design- & KI-Enzyklopädie','Vertragsschutz, Live-Übersetzer, IELTS-Coach, Reparaturhilfe & 4K-Designstudio.','Vertrags- & Betrugsschutz','Versteckte Fallen in Verträgen, Krediten & SMS erkennen.','IELTS & Live-Übersetzer','Band-Score-Coach & 2-Wege-Sprachübersetzer.','KI-Logo- & Designstudio','4K-Logos, Werbung & Kunst wie Leonardo AI erstellen.','Smarte Kamera: Reparatur','Haushaltsgeräte, Fehlercodes (E04) & Autoprobleme lösen.','Beleg- & Ausgaben-KI','Persönlicher Sprach-Buchhalter & 4-stelliger PIN-Tresor.','Universelle KI-Enzyklopädie','Wissenschaft, Medizin, Finanzen, Technik & Forschung.','✨ KI-Antwort Generieren','🚀 Bewerten & Übersetzen','📷 Foto Wählen / Kamera','🔍 Foto Jetzt Analysieren','✨ 4K-Bild Erstellen','💾 Im Tresor Speichern',['Start','IELTS','Scanner','Studio','Tresor'],['Vertrags- & Betrugsschutz','Auto- & Hausreparatur-Hilfe','Beleg- & Ausgabenbuchhalter','Hausaufgaben / Kochrezepte']],
-  fr:['PARTAGER','🎁 Partagez avec 1 ami pour débloquer <b>24h Voxa PRO</b> gratuit !','Copilote IA Tout-en-Un Voix, Design & Savoir','Bouclier Contrats, Traducteur Direct, Coach IELTS, Réparation & Studio 4K.','Bouclier Contrats & Arnaques','Détectez les pièges cachés dans les contrats et SMS.','IELTS & Traducteur en Direct','Coach Band Score et interprète vocal bidirectionnel.','Studio Logo & Design 4K','Créez des logos 4K, publicités et art comme Leonardo AI.','Caméra Intelligente : Réparation','Réparez appareils, codes erreur (E04) et pannes auto.','IA Reçus & Dépenses','Comptable personnel vocal et coffre-fort avec code PIN.','Encyclopédie Universelle IA','Sciences, Médecine, Finance, Ingénierie et Recherche.','✨ Générer Réponse IA','🚀 Évaluer et Traduire','📷 Choisir Photo / Caméra','🔍 Analyser la Photo','✨ Créer Image 4K','💾 Sauvegarder',['Accueil','IELTS','Scanner','Studio','Coffre'],['Bouclier Contrats & Arnaques','Guide Réparation Auto & Maison','Comptable Reçus & Dépenses','Devoirs Scolaires / Recettes']],
-  ko:['공유하기','🎁 친구 1명에게 공유하고 <b>24시간 Voxa PRO</b> 무료 잠금 해제!','올인원 음성, 디자인 및 범용 AI 백과사전','계약서 스캐너, 실시간 통역기, IELTS 코치, 스마트 수리 및 4K 로고 스튜디오.','계약서 및 사기 방지 방패','대출, 계약서 및 SMS의 숨겨진 함정을 탐지합니다.','IELTS 및 실시간 통역기','Band Score 코치 및 양방향 음성 통역기.','AI 로고 및 디자인 스튜디오','Leonardo AI처럼 4K 로고, 광고 및 아트를 제작하세요.','스마트 카메라: 수리 가이드','가전제품 오류 코드(E04) 및 자동차 문제 해결.','영수증 및 지출 AI 회계사','음성 및 사진 개인 회계사 + 4자리 PIN 금고.','범용 AI 백과사전','모든 과학, 의학, 금융, 공학 및 연구 지원.','✨ AI 답변 생성','🚀 평가 및 번역','📷 사진 선택 / 카메라','🔍 지금 사진 분석하기','✨ 4K 이미지 생성','💾 금고에 저장',['홈','IELTS','스캐너','스튜디오','금고'],['계약서 및 사기 방지 스캐너','자동차 및 가전 수리 가이드 (오류 코드)','영수증 및 지출 회계사','교과서 숙제 / 요리 레시피']],
-  ja:['共有する','🎁 友達1人にシェアして<b>24時間 Voxa PRO</b>を無料で解除！','オールインワン音声・デザイン・万能AI百科事典','契約書スキャナー、ライブ翻訳、IELTSコーチ、スマート修理、4Kロゴスタジオ。','契約書・詐欺対策シールド','ローン、契約書、SMSに潜む罠やリスクを検出。','IELTS・ライブ音声翻訳','バンドスコア指導＆双方向リアルタイム音声通訳。','AIロゴ・デザインスタジオ','Leonardo AIのように4Kロゴ・広告・アートを作成。','スマートカメラ：修理ガイド','家電のエラーコード(E04)や車のトラブルを解決。','レシート・経費AI会計士','音声＆写真の個人会計士＋4桁PIN保護金庫。','万能AI百科事典','科学、医学、金融、工学、あらゆる研究をサポート。','✨ AI回答を生成','🚀 評価と翻訳','📷 写真を選択 / カメラ','🔍 今すぐ写真を分析','✨ 4K画像を生成','💾 金庫に保存',['ホーム','IELTS','スキャナー','スタジオ','金庫'],['契約書・詐欺対策スキャナー','車・家電修理ガイド（エラーコード）','レシート・経費会計士','宿題サポート / 料理レシピ']],
-  zh:['分享','🎁 分享给1位好友即可免费解锁 <b>24小时 Voxa PRO</b>！','全能语音、设计与通用AI百科全书','合同防骗卫士、实时翻译、雅思教练、智能维修与4K标志工作室。','合同与防诈骗卫士','识别贷款、合同和短信中的隐藏陷阱与风险。','雅思教练与实时翻译','雅思评分指导与双向实时语音同声传译。','AI标志与设计工作室','像Leonardo AI一样生成4K标志、广告与艺术作品。','智能相机：家电与汽车维修','快速解决家电故障代码(E04)与汽车问题。','票据与支出AI会计师','语音及拍照个人记账本 + 4位PIN码保险箱。','通用AI百科全书','涵盖科学、医学、金融、工程与学术研究。','✨ 生成AI回答','🚀 评估与翻译','📷 选择照片 / 相机','🔍 立即分析照片','✨ 生成4K图像','💾 保存到保险箱',['首页','IELTS','扫描仪','工作室','保险箱'],['合同与防诈骗卫士（法律风险）','汽车与家电维修指南（故障代码）','收据与支出会计师','课本作业辅导 / 美食食谱']],
-  uk:['ПОДІЛИТИСЯ','🎁 Поділіться з 1 другом та отримайте <b>24год Voxa PRO</b> безкоштовно!','Голосовий, Дизайн та Універсальний ШІ Копілот','Захист договорів, Живий перекладач, IELTS тренер, Ремонт та 4K Лого Студія.','Захист від Договорів та Шахраїв','Пошук прихованих пасток у кредитах, договорах та СМС.','IELTS та Живий Перекладач','Оцінка Band Score та голосовий перекладач на 20 мов.','ШІ Лого та Дизайн Студія','Створюйте 4K логотипи, рекламу та арт як Leonardo AI.','Розумна Камера: Ремонт Авто/Дому','Розшифровка кодів помилок (E04) та ремонт авто.','Бухгалтер Чеків та Витрат','Голосовий облік витрат та захищений PIN-сейф.','Універсальна ШІ Енциклопедія','Наука, Медицина, Фінанси, Інженерія та Навчання.','✨ Отримати Відповідь ШІ','🚀 Оцінити та Перекласти','📷 Обрати Фото / Камера','🔍 Аналізувати Фото Зараз','✨ Створити 4K Картинку','💾 Зберегти в Сейф',['Головна','IELTS','Сканер','Студія','Сейф'],['Захист від Договорів та Шахраїв','Ремонт Авто та Техніки (Коди помилок)','Бухгалтер Чеків та Витрат','Домашнє Завдання / Рецепти']]
-};
-var IN = {
-  en:['Ask any question: Science, Medicine, Finance...','🎙️ AI IELTS & Live Voice Translator','Get instant IELTS Band Score feedback or live 2-way translation.','Speak or type for IELTS evaluation or translation...','🛡️ Smart Camera: Contract, Repair & Receipt','Upload photo of a contract, error code (E04), car part, or receipt.','🎨 AI 4K Logo & Art Studio','Create watermark-free 4K logos, ads & banners in seconds.','Describe logo, ad, or 4K art...','🧾 Personal Accountant & PIN Vault','Save daily expenses & private PIN notes locally on your device.','e.g. Coffee $4.50 or Bank PIN 4829...','☁️ Backup / Copy All Data'],
-  uz:['Savolingizni yozing: Fan, Tibbiyot, Moliya...','🎙️ AI IELTS va Jonli Ovozli Tarjimon','Tezkor IELTS Band Score bahosi yoki 2 tomonlama jonli tarjima.','IELTS tekshiruvi yoki tarjima uchun yozing...','🛡️ Aqlli Kamera: Shartnoma, Ta’mir va Chek','Shartnoma, xato kodi (E04), avto qism yoki chek rasmini yuklang.','🎨 AI 4K Logo va Dizayn Studiyasi','Belgisiz (watermark-free) 4K logo, banner va dizayn yarating.','Logo, reklama yoki 4K rasmni tasvirlang...','🧾 Shaxsiy Buxgalter va PIN Seyf','Kunlik xarajatlar va maxfiy PIN kodlarni xavfsiz saqlang.','Masalan: Kofe $4.50 yoki Karta PIN 4829...','☁️ Zaxira Nusxa / Hammasini Nusxalash'],
-  ru:['Задайте любой вопрос: Наука, Медицина, Финансы...','🎙️ ИИ IELTS и Живой Переводчик','Мгновенная оценка IELTS Band Score и живой перевод на 20 языков.','Введите текст для проверки IELTS или перевода...','🛡️ Умная Камера: Договор, Ремонт и Чек','Загрузите фото договора, кода ошибки (E04), авто или чека.','🎨 ИИ 4K Лого и Арт Студия','Создавайте 4K логотипы и баннеры без водяных знаков.','Опишите логотип, рекламу или 4K арт...','🧾 Личный Бухгалтер и PIN Сейф','Сохраняйте расходы и секретные PIN-заметки на устройстве.','Напр.: Кофе $4.50 или PIN карты 4829...','☁️ Резервная Копия / Скопировать Всё'],
-  ar:['اسأل أي سؤال: العلوم، الطب، المالية...','🎙️ مدرب IELTS والمترجم الصوتي الفوري','احصل على تقييم IELTS فوري أو ترجمة صوتية ثنائية الاتجاه.','اكتب أو تحدث لتقييم IELTS أو الترجمة...','🛡️ الكاميرا الذكية: العقود، الصيانة والإيصالات','ارفع صورة عقد، رمز خطأ (E04)، قطعة سيارة أو إيصال.','🎨 استوديو الشعارات والفن 4K','أنشئ شعارات وإعلانات 4K بدون علامة مائية في ثوانٍ.','صف الشعار أو الإعلان أو التصميم...','🧾 المحاسب الشخصي وخزنة PIN','احفظ مصاريفك اليومية وملاحظات PIN السرية بأمان.','مثال: قهوة 4.50$ أو رمز PIN 4829...','☁️ نسخ احتياطي / نسخ جميع البيانات'],
-  tr:['Herhangi bir soru sorun: Bilim, Tıp, Finans...','🎙️ AI IELTS ve Canlı Sesli Çevirmen','Anında IELTS Band Score puanı veya 2 yönlü canlı çeviri alın.','IELTS değerlendirmesi veya çeviri için yazın...','🛡️ Akıllı Kamera: Sözleşme, Tamir ve Fiş','Sözleşme, hata kodu (E04), araç parçası veya fiş fotoğrafı yükleyin.','🎨 AI 4K Logo ve Sanat Stüdyosu','Filigransız 4K logolar, reklamlar ve afişler oluşturun.','Logo, reklam veya 4K görsel tanımlayın...','🧾 Kişisel Muhasebeci ve PIN Kasası','Günlük harcamaları ve gizli PIN notlarını cihazınızda saklayın.','Örn: Kahve $4.50 veya Kart PIN 4829...','☁️ Yedekle / Tüm Verileri Kopyala'],
-  es:['Haz cualquier pregunta: Ciencia, Medicina, Finanzas...','🎙️ Coach IELTS IA y Traductor en Vivo','Obtén puntuación IELTS al instante o traducción bidireccional.','Escribe o habla para evaluación IELTS o traducción...','🛡️ Cámara Inteligente: Contratos, Reparación y Recibos','Sube foto de contrato, código de error (E04), auto o recibo.','🎨 Estudio IA de Logos y Arte 4K','Crea logotipos y anuncios 4K sin marca de agua en segundos.','Describe el logo, anuncio o arte 4K...','🧾 Contador Personal y Bóveda PIN','Guarda gastos diarios y notas PIN privadas en tu dispositivo.','Ej: Café $4.50 o PIN Banco 4829...','☁️ Respaldar / Copiar Todo'],
-  de:['Stelle jede Frage: Wissenschaft, Medizin, Finanzen...','🎙️ KI IELTS-Coach & Live-Übersetzer','Sofortige IELTS-Bewertung oder 2-Wege-Live-Übersetzung.','Text für IELTS-Bewertung oder Übersetzung eingeben...','🛡️ Smarte Kamera: Vertrag, Reparatur & Beleg','Foto von Vertrag, Fehlercode (E04), Autoteil oder Beleg hochladen.','🎨 KI 4K-Logo- & Designstudio','Erstelle 4K-Logos und Banner ohne Wasserzeichen in Sekunden.','Beschreibe Logo, Werbung oder 4K-Bild...','🧾 Persönlicher Buchhalter & PIN-Tresor','Speichere tägliche Ausgaben & geheime PIN-Notizen sicher.','z.B. Kaffee 4,50€ oder Bank-PIN 4829...','☁️ Backup / Alle Daten Kopieren'],
-  fr:['Posez toute question : Science, Médecine, Finance...','🎙️ Coach IELTS IA & Traducteur en Direct','Évaluation IELTS instantanée ou traduction vocale bidirectionnelle.','Écrivez ou parlez pour l’évaluation IELTS ou traduction...','🛡️ Caméra Intelligente : Contrat, Réparation & Reçu','Importez une photo de contrat, code erreur (E04), auto ou reçu.','🎨 Studio Logo & Art 4K IA','Créez des logos et bannières 4K sans filigrane en quelques secondes.','Décrivez le logo, la pub ou l’image 4K...','🧾 Comptable Personnel & Coffre PIN','Enregistrez vos dépenses et codes PIN en toute sécurité.','Ex : Café 4,50€ ou PIN Banque 4829...','☁️ Sauvegarde / Tout Copier'],
-  ko:['무엇이든 질문하세요: 과학, 의학, 금융...','🎙️ AI IELTS 및 실시간 음성 통역기','즉각적인 IELTS 점수 피드백 또는 양방향 실시간 번역을 받으세요.','IELTS 평가 또는 번역을 위해 입력하세요...','🛡️ 스마트 카메라: 계약서, 수리 및 영수증','계약서, 오류 코드(E04), 자동차 부품 또는 영수증 사진을 업로드하세요.','🎨 AI 4K 로고 및 아트 스튜디오','워터마크 없는 4K 로고, 광고 및 배너를 몇 초 만에 제작하세요.','로고, 광고 또는 4K 아트를 설명하세요...','🧾 개인 회계사 및 PIN 금고','일일 지출과 개인 PIN 메모를 기기에 안전하게 저장하세요.','예: 커피 $4.50 또는 카드 PIN 4829...','☁️ 백업 / 모든 데이터 복사'],
-  ja:['何でも質問してください：科学、医学、金融...','🎙️ AI IELTS＆ライブ音声翻訳','即座にIELTSスコア評価または双方向リアルタイム翻訳を取得。','IELTS評価または翻訳のためにテキストを入力...','🛡️ スマートカメラ：契約書・修理・レシート','契約書、エラーコード(E04)、車部品、レシートの写真をアップロード。','🎨 AI 4Kロゴ＆アートスタジオ','透かしなしの4Kロゴ・広告・バナーを数秒で作成。','ロゴ、広告、または4Kアートを入力...','🧾 個人会計士＆PIN保護金庫','毎日の支出と秘密のPINメモをデバイスに安全に保存。','例：コーヒー $4.50 または暗証番号 4829...','☁️ バックアップ / 全データコピー'],
-  zh:['提出任何问题：科学、医学、金融...','🎙️ AI雅思教练与实时语音翻译','立即获取雅思评分反馈或双向实时语音翻译。','输入或说出内容进行雅思评估或翻译...','🛡️ 智能相机：合同、维修与收据','上传合同、故障代码(E04)、汽车零件或收据照片。','🎨 AI 4K标志与艺术工作室','几秒内生成无水印4K标志、广告与横幅。','描述标志、广告或4K图像...','🧾 个人会计师与PIN保险箱','在本地设备上安全保存日常开支与私密PIN笔记。','例如：咖啡 $4.50 或银行卡PIN 4829...','☁️ 备份 / 复制全部数据'],
-  uk:['Задайте будь-яке питання: Наука, Медицина, Фінанси...','🎙️ ШІ IELTS та Живий Перекладач','Миттєва оцінка IELTS Band Score або живий переклад на 20 мов.','Введіть текст для перевірки IELTS або перекладу...','🛡️ Розумна Камера: Договір, Ремонт та Чек','Завантажте фото договору, коду помилки (E04), авто чи чека.','🎨 ШІ 4K Лого та Арт Студія','Створюйте 4K логотипи та банери без водяних знаків.','Опишіть логотип, рекламу або 4K арт...','🧾 Особистий Бухгалтер та PIN Сейф','Зберігайте витрати та секретні PIN-нотатки на пристрої.','Напр.: Кава $4.50 або PIN картки 4829...','☁️ Резервна Копія / Скопіювати Все']
+var D = {
+  en:{sh:'SHARE',vi:'🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!',ti:'All-in-One Voice, Design & Universal AI Encyclopedia',su:'Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.',c1t:'Contract & Scam Shield',c1s:'Detect hidden traps in loans, contracts & SMS.',c2t:'IELTS & Live Translator',c2s:'Band Score coach & 2-way voice interpreter.',c3t:'AI Logo & Design Studio',c3s:'Create 4K logos, ads & art like Leonardo AI.',c4t:'Smart Camera: Repair',c4s:'Fix home appliances, error codes & car issues.',c5t:'Receipt & Expense AI',c5s:'Voice & photo personal accountant + PIN vault.',c6t:'Universal AI Encyclopedia',c6s:'All Sciences, Medicine, Finance & Research.',qh:'Ask any question: Science, Medicine, Finance...',bh:'✨ Generate AI Answer',tie:'🎙️ AI IELTS & Live Voice Translator',sie:'Get instant IELTS Band Score feedback or live 2-way translation.',qie:'Speak or type for IELTS evaluation or translation...',bie:'🚀 Evaluate & Translate',tsc:'🛡️ Smart Camera: Contract, Repair & Receipt',ssc:'Upload photo of a contract, error code (E04), car part, or receipt.',bpi:'📷 Choose Photo / Snap Camera',bsc:'🔍 Analyze Photo Now',m0:'Contract & Scam Shield (Legal Risks)',m1:'Home & Auto Repair Guide (Error Codes)',m2:'Receipt & Expense Accountant',m3:'Textbook Homework / Food Recipes',tar:'🎨 AI 4K Logo & Art Studio',sar:'Create watermark-free 4K logos, ads & banners in seconds.',qar:'Describe logo, ad, or 4K art...',bar:'✨ Generate 4K Image',tva:'🧾 Personal Accountant & PIN Vault',sva:'Save daily expenses & private PIN notes locally on your device.',qme:'e.g. Coffee $4.50 or Bank PIN 4829...',bme:'💾 Save to Vault',bba:'☁️ Backup / Copy All Data',nh:'Home',ni:'IELTS',ns:'Scanner',nst:'Studio',nv:'Vault'},
+  uz:{sh:'ULASHISH',vi:'🎁 1 do‘stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!',ti:'Ovoz, Dizayn va Universal AI Ensiklopediya',su:'Shartnoma qalqoni, Jonli tarjimon, IELTS murabbiy, Aqlli ta’mir va 4K Logo Studiya.',c1t:'Shartnoma va Firibgarlik Qalqoni',c1s:'Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.',c2t:'IELTS va Jonli Tarjimon',c2s:'Band Score bahosi va 2 tomonlama ovozli tarjimon.',c3t:'AI Logo va Dizayn Studiyasi',c3s:'Leonardo AI kabi 4K logo, banner va dizayn yarating.',c4t:'Aqlli Kamera: Uy va Avto Usta',c4s:'Kir yuvish mashinasi xato kodi (E04) va avto ta’mir.',c5t:'Chek va Xarajatlar AI',c5s:'Ovozli shaxsiy buxgalter va 4 xonali PIN seyf.',c6t:'Universal AI Ensiklopediya',c6s:'Barcha fanlar, Tibbiyot, Moliya va Ilmiy tahlil.',qh:'Savolingizni yozing: Fan, Tibbiyot, Moliya...',bh:'✨ AI Javobini Olish',tie:'🎙️ AI IELTS va Jonli Ovozli Tarjimon',sie:'Tezkor IELTS Band Score bahosi yoki 2 tomonlama jonli tarjima.',qie:'IELTS tekshiruvi yoki tarjima uchun yozing...',bie:'🚀 Baholash va Tarjima',tsc:'🛡️ Aqlli Kamera: Shartnoma, Ta’mir va Chek',ssc:'Shartnoma, xato kodi (E04), avto qism yoki chek rasmini yuklang.',bpi:'📷 Rasm Tanlash / Kamera',bsc:'🔍 Rasmni Hozir Tahlil Qilish',m0:'Shartnoma va Firibgarlik Qalqoni (Huquqiy xavf)',m1:'Uy va Avto Ta’mir Ustasi (Xato kodlari)',m2:'Chek va Xarajatlar Buxgalteri',m3:'Darslik Uyga Vazifa / Taom Retsepti',tar:'🎨 AI 4K Logo va Dizayn Studiyasi',sar:'Belgisiz (watermark-free) 4K logo, banner va dizayn yarating.',qar:'Logo, reklama yoki 4K rasmni tasvirlang...',bar:'✨ 4K Rasm Yaratish',tva:'🧾 Shaxsiy Buxgalter va PIN Seyf',sva:'Kunlik xarajatlar va maxfiy PIN kodlarni xavfsiz saqlang.',qme:'Masalan: Kofe $4.50 yoki Karta PIN 4829...',bme:'💾 Seyfga Saqlash',bba:'☁️ Zaxira Nusxa / Hammasini Nusxalash',nh:'Bosh sahifa',ni:'IELTS',ns:'Skaner',nst:'Studiya',nv:'Seyf'},
+  ru:{sh:'ПОДЕЛИТЬСЯ',vi:'🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!',ti:'Голосовой, Дизайн и Универсальный ИИ Копилот',su:'Защита договоров, Живой переводчик, IELTS тренер, Ремонт и 4K Лого Студия.',c1t:'Защита от Договоров и Мошенников',c1s:'Поиск скрытых ловушек в кредитах, договорах и СМС.',c2t:'IELTS и Живой Переводчик',c2s:'Оценка Band Score и голосовой переводчик на 20 языков.',c3t:'ИИ Лого и Дизайн Студия',c3s:'Создавайте 4K логотипы, рекламу и арт как Leonardo AI.',c4t:'Умная Камера: Ремонт Авто/Дома',c4s:'Расшифровка кодов ошибок (E04) и ремонт авто.',c5t:'Бухгалтер Чеков и Расходов',c5s:'Голосовой учет расходов и защищенный PIN-сейф.',c6t:'Универсальная ИИ Энциклопедия',c6s:'Наука, Медицина, Финансы, Инженерия и Учеба.',qh:'Задайте любой вопрос: Наука, Медицина, Финансы...',bh:'✨ Получить Ответ ИИ',tie:'🎙️ ИИ IELTS и Живой Переводчик',sie:'Мгновенная оценка IELTS Band Score и живой перевод на 20 языков.',qie:'Введите текст для проверки IELTS или перевода...',bie:'🚀 Оценить и Перевести',tsc:'🛡️ Умная Камера: Договор, Ремонт и Чек',ssc:'Загрузите фото договора, кода ошибки (E04), авто или чека.',bpi:'📷 Выбрать Фото / Камера',bsc:'🔍 Анализировать Фото Сейчас',m0:'Защита от Договоров и Мошенников',m1:'Ремонт Авто и Техники (Коды ошибок)',m2:'Бухгалтер Чеков и Расходов',m3:'Домашнее Задание / Рецепты',tar:'🎨 ИИ 4K Лого и Арт Студия',sar:'Создавайте 4K логотипы и баннеры без водяных знаков.',qar:'Опишите логотип, рекламу или 4K арт...',bar:'✨ Создать 4K Картинку',tva:'🧾 Личный Бухгалтер и PIN Сейф',sva:'Сохраняйте расходы и секретные PIN-заметки на устройстве.',qme:'Напр.: Кофе $4.50 или PIN карты 4829...',bme:'💾 Сохранить в Сейф',bba:'☁️ Резервная Копия / Скопировать Всё',nh:'Главная',ni:'IELTS',ns:'Сканер',nst:'Студия',nv:'Сейф'},
+  ar:{sh:'مشاركة',vi:'🎁 شارك مع صديق واحد واحصل على <b>24 ساعة Voxa PRO</b> مجاناً!',ti:'مساعد الذكاء الاصطناعي الشامل للصوت والتصميم',su:'فحص العقود، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو شعارات 4K.',c1t:'درع العقود والاحتيال',c1s:'اكتشف الفخاخ المخفية في القروض والعقود والرسائل.',c2t:'IELTS والمترجم الفوري',c2s:'تقييم IELTS ومترجم صوتي ثنائي الاتجاه.',c3t:'استوديو الشعارات والتصميم 4K',c3s:'أنشئ شعارات وإعلانات احترافية بالذكاء الاصطناعي.',c4t:'الكاميرا الذكية: الصيانة',c4s:'إصلاح الأجهزة المنزلية وأكواد أعطال السيارات.',c5t:'محاسب الإيصالات والمصاريف',c5s:'محاسب شخصي بالصوت وخزنة برقم سري PIN.',c6t:'موسوعة الذكاء الاصطناعي الشاملة',c6s:'العلوم والطب والمالية والهندسة والبحث.',qh:'اسأل أي سؤال: العلوم، الطب، المالية...',bh:'✨ توليد إجابة الذكاء الاصطناعي',tie:'🎙️ مدرب IELTS والمترجم الصوتي الفوري',sie:'احصل على تقييم IELTS فوري أو ترجمة صوتية ثنائية الاتجاه.',qie:'اكتب أو تحدث لتقييم IELTS أو الترجمة...',bie:'🚀 تقييم وترجمة',tsc:'🛡️ الكاميرا الذكية: العقود، الصيانة والإيصالات',ssc:'ارفع صورة عقد، رمز خطأ (E04)، قطعة سيارة أو إيصال.',bpi:'📷 اختر صورة / الكاميرا',bsc:'🔍 تحليل الصورة الآن',m0:'درع العقود والاحتيال (المخاطر القانونية)',m1:'دليل إصلاح السيارات والأجهزة',m2:'محاسب الإيصالات والمصاريف',m3:'الواجبات المدرسية / وصفات الطعام',tar:'🎨 استوديو الشعارات والفن 4K',sar:'أنشئ شعارات وإعلانات 4K بدون علامة مائية في ثوانٍ.',qar:'صف الشعار أو الإعلان أو التصميم...',bar:'✨ إنشاء صورة 4K',tva:'🧾 المحاسب الشخصي وخزنة PIN',sva:'احفظ مصاريفك اليومية وملاحظات PIN السرية بأمان.',qme:'مثال: قهوة 4.50$ أو رمز PIN 4829...',bme:'💾 حفظ في الخزنة',bba:'☁️ نسخ احتياطي / نسخ جميع البيانات',nh:'الرئيسية',ni:'IELTS',ns:'الماسح',nst:'الاستوديو',nv:'الخزنة'},
+  tr:{sh:'PAYLAŞ',vi:'🎁 1 arkadaşınla paylaş, <b>24 saat Voxa PRO</b> ücretsiz kazan!',ti:'Hepsi Bir Arada Ses, Tasarım ve AI Ansiklopedi',su:'Sözleşme Kalkanı, Canlı Çevirmen, IELTS Koçu, Akıllı Tamir ve 4K Logo Stüdyosu.',c1t:'Sözleşme ve Dolandırıcılık Kalkanı',c1s:'Kredi, sözleşme ve SMS’lerdeki gizli tuzakları bulun.',c2t:'IELTS ve Canlı Çevirmen',c2s:'Band Score koçu ve 2 yönlü sesli tercüman.',c3t:'AI Logo ve Tasarım Stüdyosu',c3s:'Leonardo AI gibi 4K logolar, reklamlar ve sanat üretin.',c4t:'Akıllı Kamera: Tamir Ustası',c4s:'Ev aletleri, hata kodları (E04) ve araç arızaları.',c5t:'Fiş ve Harcama Muhasebecisi',c5s:'Sesli kişisel muhasebeci ve 4 haneli PIN kasası.',c6t:'Evrensel AI Ansiklopedisi',c6s:'Bilim, Tıp, Finans, Mühendislik ve Araştırma.',qh:'Herhangi bir soru sorun: Bilim, Tıp, Finans...',bh:'✨ AI Yanıtı Oluştur',tie:'🎙️ AI IELTS ve Canlı Sesli Çevirmen',sie:'Anında IELTS Band Score puanı veya 2 yönlü canlı çeviri alın.',qie:'IELTS değerlendirmesi veya çeviri için yazın...',bie:'🚀 Değerlendir ve Çevir',tsc:'🛡️ Akıllı Kamera: Sözleşme, Tamir ve Fiş',ssc:'Sözleşme, hata kodu (E04), araç parçası veya fiş fotoğrafı yükleyin.',bpi:'📷 Fotoğraf Seç / Kamera',bsc:'🔍 Fotoğrafı Şimdi Analiz Et',m0:'Sözleşme ve Dolandırıcılık Kalkanı',m1:'Ev ve Oto Tamir Rehberi (Hata Kodları)',m2:'Fiş ve Harcama Muhasebecisi',m3:'Ders Ödevi / Yemek Tarifleri',tar:'🎨 AI 4K Logo ve Sanat Stüdyosu',sar:'Filigransız 4K logolar, reklamlar ve afişler oluşturun.',qar:'Logo, reklam veya 4K görsel tanımlayın...',bar:'✨ 4K Görsel Oluştur',tva:'🧾 Kişisel Muhasebeci ve PIN Kasası',sva:'Günlük harcamaları ve gizli PIN notlarını cihazınızda saklayın.',qme:'Örn: Kahve $4.50 veya Kart PIN 4829...',bme:'💾 Kasaya Kaydet',bba:'☁️ Yedekle / Tüm Verileri Kopyala',nh:'Ana Sayfa',ni:'IELTS',ns:'Tarayıcı',nst:'Stüdyo',nv:'Kasa'},
+  es:{sh:'COMPARTIR',vi:'🎁 ¡Comparte con 1 amigo y desbloquea <b>24h Voxa PRO</b> gratis!',ti:'Copiloto IA Todo-en-Uno de Voz, Diseño y Estudio',su:'Escudo de Contratos, Traductor en Vivo, Coach IELTS, Reparación y Estudio 4K.',c1t:'Escudo de Contratos y Estafas',c1s:'Detecta trampas ocultas en préstamos, contratos y SMS.',c2t:'IELTS y Traductor en Vivo',c2s:'Evaluador Band Score e intérprete de voz bidireccional.',c3t:'Estudio de Logos y Diseño 4K',c3s:'Crea logotipos 4K, anuncios y arte como Leonardo AI.',c4t:'Cámara Inteligente: Reparación',c4s:'Arregla electrodomésticos, códigos de error y autos.',c5t:'IA de Recibos y Gastos',c5s:'Contador personal por voz y bóveda con PIN.',c6t:'Enciclopedia Universal IA',c6s:'Ciencias, Medicina, Finanzas, Ingeniería e Investigación.',qh:'Haz cualquier pregunta: Ciencia, Medicina, Finanzas...',bh:'✨ Generar Respuesta IA',tie:'🎙️ Coach IELTS IA y Traductor en Vivo',sie:'Obtén puntuación IELTS al instante o traducción bidireccional.',qie:'Escribe o habla para evaluación IELTS o traducción...',bie:'🚀 Evaluar y Traducir',tsc:'🛡️ Cámara Inteligente: Contratos, Reparación y Recibos',ssc:'Sube foto de contrato, código de error (E04), auto o recibo.',bpi:'📷 Elegir Foto / Cámara',bsc:'🔍 Analizar Foto Ahora',m0:'Escudo de Contratos y Estafas',m1:'Guía de Reparación de Auto y Hogar',m2:'Contador de Recibos y Gastos',m3:'Tareas Escolares / Recetas',tar:'🎨 Estudio IA de Logos y Arte 4K',sar:'Crea logotipos y anuncios 4K sin marca de agua en segundos.',qar:'Describe el logo, anuncio o arte 4K...',bar:'✨ Generar Imagen 4K',tva:'🧾 Contador Personal y Bóveda PIN',sva:'Guarda gastos diarios y notas PIN privadas en tu dispositivo.',qme:'Ej: Café $4.50 o PIN Banco 4829...',bme:'💾 Guardar en Bóveda',bba:'☁️ Respaldar / Copiar Todo',nh:'Inicio',ni:'IELTS',ns:'Escáner',nst:'Estudio',nv:'Bóveda'},
+  de:{sh:'TEILEN',vi:'🎁 Teile mit 1 Freund und erhalte <b>24h Voxa PRO</b> kostenlos!',ti:'All-in-One Sprach-, Design- & KI-Enzyklopädie',su:'Vertragsschutz, Live-Übersetzer, IELTS-Coach, Reparaturhilfe & 4K-Designstudio.',c1t:'Vertrags- & Betrugsschutz',c1s:'Versteckte Fallen in Verträgen, Krediten & SMS erkennen.',c2t:'IELTS & Live-Übersetzer',c2s:'Band-Score-Coach & 2-Wege-Sprachübersetzer.',c3t:'KI-Logo- & Designstudio',c3s:'4K-Logos, Werbung & Kunst wie Leonardo AI erstellen.',c4t:'Smarte Kamera: Reparatur',c4s:'Haushaltsgeräte, Fehlercodes (E04) & Autoprobleme lösen.',c5t:'Beleg- & Ausgaben-KI',c5s:'Persönlicher Sprach-Buchhalter & 4-stelliger PIN-Tresor.',c6t:'Universelle KI-Enzyklopädie',c6s:'Wissenschaft, Medizin, Finanzen, Technik & Forschung.',qh:'Stelle jede Frage: Wissenschaft, Medizin, Finanzen...',bh:'✨ KI-Antwort Generieren',tie:'🎙️ KI IELTS-Coach & Live-Übersetzer',sie:'Sofortige IELTS-Bewertung oder 2-Wege-Live-Übersetzung.',qie:'Text für IELTS-Bewertung oder Übersetzung eingeben...',bie:'🚀 Bewerten & Übersetzen',tsc:'🛡️ Smarte Kamera: Vertrag, Reparatur & Beleg',ssc:'Foto von Vertrag, Fehlercode (E04), Autoteil oder Beleg hochladen.',bpi:'📷 Foto Wählen / Kamera',bsc:'🔍 Foto Jetzt Analysieren',m0:'Vertrags- & Betrugsschutz',m1:'Auto- & Hausreparatur-Hilfe',m2:'Beleg- & Ausgabenbuchhalter',m3:'Hausaufgaben / Kochrezepte',tar:'🎨 KI 4K-Logo- & Designstudio',sar:'Erstelle 4K-Logos und Banner ohne Wasserzeichen in Sekunden.',qar:'Beschreibe Logo, Werbung oder 4K-Bild...',bar:'✨ 4K-Bild Erstellen',tva:'🧾 Persönlicher Buchhalter & PIN-Tresor',sva:'Speichere tägliche Ausgaben & geheime PIN-Notizen sicher.',qme:'z.B. Kaffee 4,50€ oder Bank-PIN 4829...',bme:'💾 Im Tresor Speichern',bba:'☁️ Backup / Alle Daten Kopieren',nh:'Start',ni:'IELTS',ns:'Scanner',nst:'Studio',nv:'Tresor'},
+  fr:{sh:'PARTAGER',vi:'🎁 Partagez avec 1 ami pour débloquer <b>24h Voxa PRO</b> gratuit !',ti:'Copilote IA Tout-en-Un Voix, Design & Savoir',su:'Bouclier Contrats, Traducteur Direct, Coach IELTS, Réparation & Studio 4K.',c1t:'Bouclier Contrats & Arnaques',c1s:'Détectez les pièges cachés dans les contrats et SMS.',c2t:'IELTS & Traducteur en Direct',c2s:'Coach Band Score et interprète vocal bidirectionnel.',c3t:'Studio Logo & Design 4K',c3s:'Créez des logos 4K, publicités et art comme Leonardo AI.',c4t:'Caméra Intelligente : Réparation',c4s:'Réparez appareils, codes erreur (E04) et pannes auto.',c5t:'IA Reçus & Dépenses',c5s:'Comptable personnel vocal et coffre-fort avec code PIN.',c6t:'Encyclopédie Universelle IA',c6s:'Sciences, Médecine, Finance, Ingénierie et Recherche.',qh:'Posez toute question : Science, Médecine, Finance...',bh:'✨ Générer Réponse IA',tie:'🎙️ Coach IELTS IA & Traducteur en Direct',sie:'Évaluation IELTS instantanée ou traduction vocale bidirectionnelle.',qie:'Écrivez ou parlez pour l’évaluation IELTS ou traduction...',bie:'🚀 Évaluer et Traduire',tsc:'🛡️ Caméra Intelligente : Contrat, Réparation & Reçu',ssc:'Importez une photo de contrat, code erreur (E04), auto ou reçu.',bpi:'📷 Choisir Photo / Caméra',bsc:'🔍 Analyser la Photo',m0:'Bouclier Contrats & Arnaques',m1:'Guide Réparation Auto & Maison',m2:'Comptable Reçus & Dépenses',m3:'Devoirs Scolaires / Recettes',tar:'🎨 Studio Logo & Art 4K IA',sar:'Créez des logos et bannières 4K sans filigrane en quelques secondes.',qar:'Décrivez le logo, la pub ou l’image 4K...',bar:'✨ Créer Image 4K',tva:'🧾 Comptable Personnel & Coffre PIN',sva:'Enregistrez vos dépenses et codes PIN en toute sécurité.',qme:'Ex : Café 4,50€ ou PIN Banque 4829...',bme:'💾 Sauvegarder',bba:'☁️ Sauvegarde / Tout Copier',nh:'Accueil',ni:'IELTS',ns:'Scanner',nst:'Studio',nv:'Coffre'},
+  ko:{sh:'공유하기',vi:'🎁 친구 1명에게 공유하고 <b>24시간 Voxa PRO</b> 무료 잠금 해제!',ti:'올인원 음성, 디자인 및 범용 AI 백과사전',su:'계약서 스캐너, 실시간 통역기, IELTS 코치, 스마트 수리 및 4K 로고 스튜디오.',c1t:'계약서 및 사기 방지 방패',c1s:'대출, 계약서 및 SMS의 숨겨진 함정을 탐지합니다.',c2t:'IELTS 및 실시간 통역기',c2s:'Band Score 코치 및 양방향 음성 통역기.',c3t:'AI 로고 및 디자인 스튜디오',c3s:'Leonardo AI처럼 4K 로고, 광고 및 아트를 제작하세요.',c4t:'스마트 카메라: 수리 가이드',c4s:'가전제품 오류 코드(E04) 및 자동차 문제 해결.',c5t:'영수증 및 지출 AI 회계사',c5s:'음성 및 사진 개인 회계사 + 4자리 PIN 금고.',c6t:'범용 AI 백과사전',c6s:'모든 과학, 의학, 금융, 공학 및 연구 지원.',qh:'무엇이든 질문하세요: 과학, 의학, 금융...',bh:'✨ AI 답변 생성',tie:'🎙️ AI IELTS 및 실시간 음성 통역기',sie:'즉각적인 IELTS 점수 피드백 또는 양방향 실시간 번역을 받으세요.',qie:'IELTS 평가 또는 번역을 위해 입력하세요...',bie:'🚀 평가 및 번역',tsc:'🛡️ 스마트 카메라: 계약서, 수리 및 영수증',ssc:'계약서, 오류 코드(E04), 자동차 부품 또는 영수증 사진을 업로드하세요.',bpi:'📷 사진 선택 / 카메라',bsc:'🔍 지금 사진 분석하기',m0:'계약서 및 사기 방지 스캐너',m1:'자동차 및 가전 수리 가이드 (오류 코드)',m2:'영수증 및 지출 회계사',m3:'교과서 숙제 / 요리 레시피',tar:'🎨 AI 4K 로고 및 아트 스튜디오',sar:'워터마크 없는 4K 로고, 광고 및 배너를 몇 초 만에 제작하세요.',qar:'로고, 광고 또는 4K 아트를 설명하세요...',bar:'✨ 4K 이미지 생성',tva:'🧾 개인 회계사 및 PIN 금고',sva:'일일 지출과 개인 PIN 메모를 기기에 안전하게 저장하세요.',qme:'예: 커피 $4.50 또는 카드 PIN 4829...',bme:'💾 금고에 저장',bba:'☁️ 백업 / 모든 데이터 복사',nh:'홈',ni:'IELTS',ns:'스캐너',nst:'스튜디오',nv:'금고'},
+  ja:{sh:'共有する',vi:'🎁 友達1人にシェアして<b>24時間 Voxa PRO</b>を無料で解除！',ti:'オールインワン音声・デザイン・万能AI百科事典',su:'契約書スキャナー、ライブ翻訳、IELTSコーチ、スマート修理、4Kロゴスタジオ。',c1t:'契約書・詐欺対策シールド',c1s:'ローン、契約書、SMSに潜む罠やリスクを検出。',c2t:'IELTS・ライブ音声翻訳',c2s:'バンドスコア指導＆双方向リアルタイム音声通訳。',c3t:'AIロゴ・デザインスタジオ',c3s:'Leonardo AIのように4Kロゴ・広告・アートを作成。',c4t:'スマートカメラ：修理ガイド',c4s:'家電のエラーコード(E04)や車のトラブルを解決。',c5t:'レシート・経費AI会計士',c5s:'音声＆写真の個人会計士＋4桁PIN保護金庫。',c6t:'万能AI百科事典',c6s:'科学、医学、金融、工学、あらゆる研究をサポート。',qh:'何でも質問してください：科学、医学、金融...',bh:'✨ AI回答を生成',tie:'🎙️ AI IELTS＆ライブ音声翻訳',sie:'即座にIELTSスコア評価または双方向リアルタイム翻訳を取得。',qie:'IELTS評価または翻訳のためにテキストを入力...',bie:'🚀 評価と翻訳',tsc:'🛡️ スマートカメラ：契約書・修理・レシート',ssc:'契約書、エラーコード(E04)、車部品、レシートの写真をアップロード。',bpi:'📷 写真を選択 / カメラ',bsc:'🔍 今すぐ写真を分析',m0:'契約書・詐欺対策スキャナー',m1:'車・家電修理ガイド（エラーコード）',m2:'レシート・経費会計士',m3:'宿題サポート / 料理レシピ',tar:'🎨 AI 4Kロゴ＆アートスタジオ',sar:'透かしなしの4Kロゴ・広告・バナーを数秒で作成。',qar:'ロゴ、広告、または4Kアートを入力...',bar:'✨ 4K画像を生成',tva:'🧾 個人会計士＆PIN保護金庫',sva:'毎日の支出と秘密のPINメモをデバイスに安全に保存。',qme:'例：コーヒー $4.50 または暗証番号 4829...',bme:'💾 金庫に保存',bba:'☁️ バックアップ / 全データコピー',nh:'ホーム',ni:'IELTS',ns:'スキャナー',nst:'スタジオ',nv:'金庫'},
+  zh:{sh:'分享',vi:'🎁 分享给1位好友即可免费解锁 <b>24小时 Voxa PRO</b>！',ti:'全能语音、设计与通用AI百科全书',su:'合同防骗卫士、实时翻译、雅思教练、智能维修与4K标志工作室。',c1t:'合同与防诈骗卫士',c1s:'识别贷款、合同和短信中的隐藏陷阱与风险。',c2t:'雅思教练与实时翻译',c2s:'雅思评分指导与双向实时语音同声传译。',c3t:'AI标志与设计工作室',c3s:'像Leonardo AI一样生成4K标志、广告与艺术作品。',c4t:'智能相机：家电与汽车维修',c4s:'快速解决家电故障代码(E04)与汽车问题。',c5t:'票据与支出AI会计师',c5s:'语音及拍照个人记账本 + 4位PIN码保险箱。',c6t:'通用AI百科全书',c6s:'涵盖科学、医学、金融、工程与学术研究。',qh:'提出任何问题：科学、医学、金融...',bh:'✨ 生成AI回答',tie:'🎙️ AI雅思教练与实时语音翻译',sie:'立即获取雅思评分反馈或双向实时语音翻译。',qie:'输入或说出内容进行雅思评估或翻译...',bie:'🚀 评估与翻译',tsc:'🛡️ 智能相机：合同、维修与收据',ssc:'上传合同、故障代码(E04)、汽车零件或收据照片。',bpi:'📷 选择照片 / 相机',bsc:'🔍 立即分析照片',m0:'合同与防诈骗卫士（法律风险）',m1:'汽车与家电维修指南（故障代码）',m2:'收据与支出会计师',m3:'课本作业辅导 / 美食食谱',tar:'🎨 AI 4K标志与艺术工作室',sar:'几秒内生成无水印4K标志、广告与横幅。',qar:'描述标志、广告或4K图像...',bar:'✨ 生成4K图像',tva:'🧾 个人会计师与PIN保险箱',sva:'在本地设备上安全保存日常开支与私密PIN笔记。',qme:'例如：咖啡 $4.50 或银行卡PIN 4829...',bme:'💾 保存到保险箱',bba:'☁️ 备份 / 复制全部数据',nh:'首页',ni:'IELTS',ns:'扫描仪',nst:'工作室',nv:'保险箱'},
+  uk:{sh:'ПОДІЛИТИСЯ',vi:'🎁 Поділіться з 1 другом та отримайте <b>24год Voxa PRO</b> безкоштовно!',ti:'Голосовий, Дизайн та Універсальний ШІ Копілот',su:'Захист договорів, Живий перекладач, IELTS тренер, Ремонт та 4K Лого Студія.',c1t:'Захист від Договорів та Шахраїв',c1s:'Пошук прихованих пасток у кредитах, договорах та СМС.',c2t:'IELTS та Живий Перекладач',c2s:'Оцінка Band Score та голосовий перекладач на 20 мов.',c3t:'ШІ Лого та Дизайн Студія',c3s:'Створюйте 4K логотипи, рекламу та арт як Leonardo AI.',c4t:'Розумна Камера: Ремонт Авто/Дому',c4s:'Розшифровка кодів помилок (E04) та ремонт авто.',c5t:'Бухгалтер Чеків та Витрат',c5s:'Голосовий облік витрат та захищений PIN-сейф.',c6t:'Універсальна ШІ Енциклопедія',c6s:'Наука, Медицина, Фінанси, Інженерія та Навчання.',qh:'Задайте будь-яке питання: Наука, Медицина, Фінанси...',bh:'✨ Отримати Відповідь ШІ',tie:'🎙️ ШІ IELTS та Живий Перекладач',sie:'Миттєва оцінка IELTS Band Score або живий переклад на 20 мов.',qie:'Введіть текст для перевірки IELTS або перекладу...',bie:'🚀 Оцінити та Перекласти',tsc:'🛡️ Розумна Камера: Договір, Ремонт та Чек',ssc:'Завантажте фото договору, коду помилки (E04), авто чи чека.',bpi:'📷 Обрати Фото / Камера',bsc:'🔍 Аналізувати Фото Зараз',m0:'Захист від Договорів та Шахраїв',m1:'Ремонт Авто та Техніки (Коди помилок)',m2:'Бухгалтер Чеків та Витрат',m3:'Домашнє Завдання / Рецепти',tar:'🎨 ШІ 4K Лого та Арт Студія',sar:'Створюйте 4K логотипи та банери без водяних знаків.',qar:'Опишіть логотип, рекламу або 4K арт...',bar:'✨ Створити 4K Картинку',tva:'🧾 Особистий Бухгалтер та PIN Сейф',sva:'Зберігайте витрати та секретні PIN-нотатки на пристрої.',qme:'Напр.: Кава $4.50 або PIN картки 4829...',bme:'💾 Зберегти в Сейф',bba:'☁️ Резервна Копія / Скопіювати Все',nh:'Головна',ni:'IELTS',ns:'Сканер',nst:'Студія',nv:'Сейф'}
 };
 var curL = 'en';
 function setLang(l){
-  curL = L[l] ? l : 'en';
-  var d = L[curL], x = IN[curL] || IN.en;
-  document.getElementById('b-share').innerText = d;
-  document.getElementById('t-viral').innerHTML = d;
-  document.getElementById('hero-title').innerText = d;
-  document.getElementById('hero-sub').innerText = d;
-  for(var i=0;i<6;i++){
-    document.getElementById('c'+(i+1)+'-t').innerText = d[4+i*2];
-    document.getElementById('c'+(i+1)+'-s').innerText = d[5+i*2];
-  }
-  document.getElementById('b-home').innerText = d;
-  document.getElementById('b-ielts').innerText = d;
+  curL = D[l] ? l : 'en';
+  var d = D[curL];
+  document.getElementById('b-share').innerText = d.sh;
+  document.getElementById('t-viral').innerHTML = d.vi;
+  document.getElementById('hero-title').innerText = d.ti;
+  document.getElementById('hero-sub').innerText = d.su;
+  document.getElementById('c1-t').innerText = d.c1t; document.getElementById('c1-s').innerText = d.c1s;
+  document.getElementById('c2-t').innerText = d.c2t; document.getElementById('c2-s').innerText = d.c2s;
+  document.getElementById('c3-t').innerText = d.c3t; document.getElementById('c3-s').innerText = d.c3s;
+  document.getElementById('c4-t').innerText = d.c4t; document.getElementById('c4-s').innerText = d.c4s;
+  document.getElementById('c5-t').innerText = d.c5t; document.getElementById('c5-s').innerText = d.c5s;
+  document.getElementById('c6-t').innerText = d.c6t; document.getElementById('c6-s').innerText = d.c6s;
+  document.getElementById('q-home').placeholder = d.qh; document.getElementById('b-home').innerText = d.bh;
+  document.getElementById('t-ielts').innerText = d.tie; document.getElementById('s-ielts').innerText = d.sie;
+  document.getElementById('q-ielts').placeholder = d.qie; document.getElementById('b-ielts').innerText = d.bie;
+  document.getElementById('t-scan').innerText = d.tsc; document.getElementById('s-scan').innerText = d.ssc;
   onFilePick();
-  document.getElementById('b-scan').innerText = d;
-  document.getElementById('b-art').innerText = d;
-  document.getElementById('b-memo').innerText = d;
-  document.getElementById('q-home').placeholder = x;
-  document.getElementById('t-ielts').innerText = x;
-  document.getElementById('s-ielts').innerText = x;
-  document.getElementById('q-ielts').placeholder = x;
-  document.getElementById('t-scan').innerText = x;
-  document.getElementById('s-scan').innerText = x;
-  document.getElementById('t-art').innerText = x;
-  document.getElementById('s-art').innerText = x;
-  document.getElementById('q-art').placeholder = x;
-  document.getElementById('t-vault').innerText = x;
-  document.getElementById('s-vault').innerText = x;
-  document.getElementById('q-memo').placeholder = x;
-  document.getElementById('b-backup').innerText = x;
-  var navIds = ['n-home','n-ielts','n-scan','n-studio','n-vault'];
-  var navIc = ['🏠','🎙','🛡','🎨','🧾'];
-  for(var j=0;j<5;j++) document.getElementById(navIds[j]).innerHTML = '<span>'+navIc[j]+'</span>'+d[j];
+  document.getElementById('b-scan').innerText = d.bsc;
   var sel = document.getElementById('scan-mode');
-  for(var m=0;m<4;m++) sel.options[m].text = d[m];
+  sel.options.item(0).text = d.m0; sel.options.item(1).text = d.m1;
+  sel.options.item(2).text = d.m2; sel.options.item(3).text = d.m3;
+  document.getElementById('t-art').innerText = d.tar; document.getElementById('s-art').innerText = d.sar;
+  document.getElementById('q-art').placeholder = d.qar; document.getElementById('b-art').innerText = d.bar;
+  document.getElementById('t-vault').innerText = d.tva; document.getElementById('s-vault').innerText = d.sva;
+  document.getElementById('q-memo').placeholder = d.qme; document.getElementById('b-memo').innerText = d.bme;
+  document.getElementById('b-backup').innerText = d.bba;
+  document.getElementById('n-home').innerHTML = '<span>🏠</span>' + d.nh;
+  document.getElementById('n-ielts').innerHTML = '<span>🎙</span>' + d.ni;
+  document.getElementById('n-scan').innerHTML = '<span>🛡</span>' + d.ns;
+  document.getElementById('n-studio').innerHTML = '<span>🎨</span>' + d.nst;
+  document.getElementById('n-vault').innerHTML = '<span>🧾</span>' + d.nv;
 }
 function go(p){
   document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
@@ -154,51 +137,42 @@ function go(p){
 function openScan(m){ go('scan'); document.getElementById('scan-mode').selectedIndex = m; }
 function onFilePick(){
   var f = document.getElementById('scan-file').files;
-  document.getElementById('b-pick').innerText = (L[curL]||L.en) + (f ? ' ✅ ' + f.name : '');
+  document.getElementById('b-pick').innerText = D[curL].bpi + (f && f.length ? ' ✅ ' + f.item(0).name : '');
 }
 async function ai(prompt, outId, fallbackHtml){
   var el = document.getElementById(outId);
   el.style.display = 'block';
   el.innerText = '⏳ Thinking...';
   var fullP = prompt + ' (Reply strictly in language: ' + curL + ')';
-  var urls = [
-    'https://pollinations.ai' + encodeURIComponent(fullP) + '?model=openai&seed=' + Date.now(),
-    'https://pollinations.ai' + encodeURIComponent(fullP) + '?model=mistral&seed=' + Date.now()
-  ];
-  for(var i=0; i<urls.length; i++){
-    try{
-      var r = await fetch(urls[i]);
-      if(r.ok){
-        var t = await r.text();
-        if(t && t.length > 5 && t.indexOf('<!DOCTYPE') === -1){
-          el.innerHTML = t.replace(/\n/g, '<br>');
-          return;
-        }
-      }
-    }catch(e){}
-  }
-  el.innerHTML = fallbackHtml || '⚠️ AI server busy right now. Please tap again in 3 seconds.';
+  var urls = ['https://pollinations.ai' + encodeURIComponent(fullP) + '?model=openai&seed=' + Date.now()];
+  try{
+    var r = await fetch(urls.pop());
+    if(r.ok){
+      var t = await r.text();
+      if(t && t.length > 5 && t.indexOf('<!DOCTYPE') === -1){ el.innerHTML = t.replace(/\n/g, '<br>'); return; }
+    }
+  }catch(e){}
+  el.innerHTML = fallbackHtml || '⚠️ AI server busy right now. Please tap again.';
 }
 function askHome(){ var q=document.getElementById('q-home').value.trim(); if(q) ai('You are Voxa AI, an expert Universal Copilot: '+q,'out-home'); }
 function askIelts(){ var q=document.getElementById('q-ielts').value.trim(); if(q) ai('Act as a Senior IELTS Examiner & Live Interpreter. Give exact Band Score (0-9), grammar fixes & Band 8.5 version, or translate accurately: '+q,'out-ielts'); }
 function runScan(){
   var f = document.getElementById('scan-file').files;
   var el = document.getElementById('out-scan');
-  if(!f){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
+  if(!f || !f.length){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
+  var fname = f.item(0).name;
   var m = document.getElementById('scan-mode').selectedIndex;
-  var prompts = [
-    'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+f.name+').',
-    'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+f.name+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.',
-    'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+f.name+').',
-    'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+f.name+').'
-  ];
-  var backups = [
-    '<b>🛡️ Contract & Scam Risk Audit:</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.',
-    '<b>🔧 Check Engine / Error Code Diagnosis:</b><br>1. <b>Loose Gas Cap / Sensor:</b> Tighten fuel cap first (0$ fix).<br>2. <b>O2 Sensor / Catalytic (P0420):</b> Check exhaust oxygen sensor ($80–$220).<br>3. <b>Ignition / Spark Plugs:</b> Inspect misfire codes (P0300) before visiting a mechanic.',
-    '<b>🧾 Receipt & Tax Audit Ready:</b><br>1. Categorize as Business / Deductible Expense.<br>2. Save digital copy in Vault for tax write-offs.',
-    '<b>📚 Step-by-Step Guide Ready:</b><br>1. Break down the core formula/ingredients.<br>2. Verify each step carefully.'
-  ];
-  ai(prompts[m], 'out-scan', backups[m]);
+  var p0 = 'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+fname+').';
+  var p1 = 'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+fname+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.';
+  var p2 = 'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+fname+').';
+  var p3 = 'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+fname+').';
+  var b0 = '<b>🛡️ Contract & Scam Risk Audit:</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.';
+  var b1 = '<b>🔧 Check Engine / Error Code Diagnosis:</b><br>1. <b>Loose Gas Cap / Sensor:</b> Tighten fuel cap first (0$ fix).<br>2. <b>O2 Sensor / Catalytic (P0420):</b> Check exhaust oxygen sensor ($80–$220).<br>3. <b>Ignition / Spark Plugs:</b> Inspect misfire codes (P0300) before visiting a mechanic.';
+  var b2 = '<b>🧾 Receipt & Tax Audit Ready:</b><br>1. Categorize as Business / Deductible Expense.<br>2. Save digital copy in Vault for tax write-offs.';
+  var b3 = '<b>📚 Step-by-Step Guide Ready:</b><br>1. Break down the core formula/ingredients.<br>2. Verify each step carefully.';
+  var p = m===0 ? p0 : (m===1 ? p1 : (m===2 ? p2 : p3));
+  var b = m===0 ? b0 : (m===1 ? b1 : (m===2 ? b2 : b3));
+  ai(p, 'out-scan', b);
 }
 function genArt(){
   var q = document.getElementById('q-art').value.trim(); if(!q) return;
@@ -210,7 +184,7 @@ function mic(id){
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ alert('Voice input not supported in this browser'); return; }
   var r = new SR(); r.lang = curL;
-  r.onresult = function(e){ document.getElementById(id).value = e.results.transcript; };
+  r.onresult = function(e){ document.getElementById(id).value = e.results.item(0).item(0).transcript; };
   r.start();
 }
 function shareApp(){
@@ -237,72 +211,5 @@ if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_s
 document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
 </script>
-
-<script>
-function setLang(l){
-  curL = L[l] ? l : 'en';
-  var d = L[curL], x = IN[curL] || IN.en;
-  document.getElementById('b-share').innerText = d.shift ? L[curL].slice(0,1).pop() : '';
-  var a = L[curL].slice(), b = x.slice();
-  document.getElementById('b-share').innerText = a.shift();
-  document.getElementById('t-viral').innerHTML = a.shift();
-  document.getElementById('hero-title').innerText = a.shift();
-  document.getElementById('hero-sub').innerText = a.shift();
-  for(var i=1;i<=6;i++){
-    document.getElementById('c'+i+'-t').innerText = a.shift();
-    document.getElementById('c'+i+'-s').innerText = a.shift();
-  }
-  document.getElementById('b-home').innerText = a.shift();
-  document.getElementById('b-ielts').innerText = a.shift();
-  var pickTxt = a.shift();
-  var f = document.getElementById('scan-file').files;
-  document.getElementById('b-pick').innerText = pickTxt + (f && f.length ? ' ✅ ' + f.item(0).name : '');
-  document.getElementById('b-scan').innerText = a.shift();
-  document.getElementById('b-art').innerText = a.shift();
-  document.getElementById('b-memo').innerText = a.shift();
-  var navArr = a.shift(), modeArr = a.shift();
-  var navIds = ['n-home','n-ielts','n-scan','n-studio','n-vault'];
-  var navIc = ['🏠','🎙','🛡','🎨','🧾'];
-  for(var j=0;j<5;j++) document.getElementById(navIds[j]).innerHTML = '<span>'+navIc[j]+'</span>'+navArr.shift();
-  var sel = document.getElementById('scan-mode');
-  for(var m=0;m<4;m++) sel.options.item(m).text = modeArr.shift();
-  document.getElementById('q-home').placeholder = b.shift();
-  document.getElementById('t-ielts').innerText = b.shift();
-  document.getElementById('s-ielts').innerText = b.shift();
-  document.getElementById('q-ielts').placeholder = b.shift();
-  document.getElementById('t-scan').innerText = b.shift();
-  document.getElementById('s-scan').innerText = b.shift();
-  document.getElementById('t-art').innerText = b.shift();
-  document.getElementById('s-art').innerText = b.shift();
-  document.getElementById('q-art').placeholder = b.shift();
-  document.getElementById('t-vault').innerText = b.shift();
-  document.getElementById('s-vault').innerText = b.shift();
-  document.getElementById('q-memo').placeholder = b.shift();
-  document.getElementById('b-backup').innerText = b.shift();
-}
-function onFilePick(){ setLang(curL); }
-function runScan(){
-  var f = document.getElementById('scan-file').files;
-  var el = document.getElementById('out-scan');
-  if(!f || !f.length){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
-  var fname = f.item(0).name;
-  var m = document.getElementById('scan-mode').selectedIndex;
-  var prompts = [
-    'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+fname+').',
-    'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+fname+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.',
-    'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+fname+').',
-    'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+fname+').'
-  ];
-  var backups = [
-    '<b>🛡️ Contract & Scam Risk Audit:</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.',
-    '<b>🔧 Check Engine / Error Code Diagnosis:</b><br>1. <b>Loose Gas Cap / Sensor:</b> Tighten fuel cap first (0$ fix).<br>2. <b>O2 Sensor / Catalytic (P0420):</b> Check exhaust oxygen sensor ($80–$220).<br>3. <b>Ignition / Spark Plugs:</b> Inspect misfire codes (P0300) before visiting a mechanic.',
-    '<b>🧾 Receipt & Tax Audit Ready:</b><br>1. Categorize as Business / Deductible Expense.<br>2. Save digital copy in Vault for tax write-offs.',
-    '<b>📚 Step-by-Step Guide Ready:</b><br>1. Break down the core formula/ingredients.<br>2. Verify each step carefully.'
-  ];
-  ai(prompts.slice(m, m+1).pop(), 'out-scan', backups.slice(m, m+1).pop());
-}
-setLang('en');
-</script>
-
 </body>
 </html>
