@@ -839,6 +839,152 @@ document.addEventListener('click', function(e) {
     }
 })();
 </script>
+<script>
+(function() {
+    function fixVoxaCamera() {
+        // 1. Yashirin fayl tanlagich yaratamiz
+        let fileInput = document.getElementById("voxa-real-file");
+        if (!fileInput) {
+            fileInput = document.createElement("input");
+            fileInput.id = "voxa-real-file";
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+            fileInput.style.cssText = "position:fixed; top:-9999px; left:-9999px; opacity:0;";
+            document.body.appendChild(fileInput);
+        }
+
+        // 2. Tugmalarni va eski demo qutini aniq topamiz
+        let uploadBtn = null;
+        let analyzeBtn = null;
+        let demoBox = null;
+
+        document.querySelectorAll("button, label, div, a").forEach(el => {
+            const txt = (el.innerText || el.textContent || "").trim();
+            if (txt.includes("Choose Photo") && txt.length < 50) {
+                uploadBtn = el;
+            }
+            if (txt.includes("Analyze Photo Now") && txt.length < 40) {
+                analyzeBtn = el;
+            }
+            if (txt.includes("Diagnostic (P0420 / E04)") && txt.length < 150) {
+                demoBox = el;
+            }
+        });
+
+        // Oldindan chiqib turgan yolg'on/demo javobni yashiramiz
+        if (demoBox) {
+            demoBox.style.display = "none";
+        }
+
+        let selectedImageBase64 = null;
+
+        // 3. "Choose Photo / Snap Camera" bosilganda galereya/kamerani ochish
+        if (uploadBtn) {
+            uploadBtn.style.cursor = "pointer";
+            uploadBtn.style.pointerEvents = "auto";
+            // Agar label bo'lsa, eski for atributini o'chiramiz
+            if (uploadBtn.tagName === "LABEL") uploadBtn.removeAttribute("for");
+
+            uploadBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                fileInput.value = "";
+                fileInput.click();
+            }, true);
+
+            fileInput.addEventListener("change", function() {
+                const file = fileInput.files && fileInput.files;
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    selectedImageBase64 = ev.target.result;
+                    uploadBtn.innerHTML = "✅ Rasm tanlandi: " + file.name.slice(0, 18);
+                    uploadBtn.style.borderColor = "#22c55e";
+
+                    let preview = document.getElementById("voxa-img-preview");
+                    if (!preview) {
+                        preview = document.createElement("img");
+                        preview.id = "voxa-img-preview";
+                        preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
+                        uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
+                    }
+                    preview.src = selectedImageBase64;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // 4. "Analyze Photo Now" bosilganda haqiqiy AI tahlili
+        if (analyzeBtn) {
+            analyzeBtn.style.cursor = "pointer";
+            analyzeBtn.style.pointerEvents = "auto";
+
+            analyzeBtn.addEventListener("click", async function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                if (!selectedImageBase64) {
+                    alert("Avval 'Choose Photo / Snap Camera' tugmasini bosib rasm yuklang!");
+                    return;
+                }
+
+                const oldBtnHTML = analyzeBtn.innerHTML;
+                analyzeBtn.innerHTML = "⏳ AI rasmni o'rganmoqda...";
+                analyzeBtn.style.opacity = "0.75";
+
+                let resultBox = document.getElementById("voxa-ai-output");
+                if (!resultBox) {
+                    resultBox = document.createElement("div");
+                    resultBox.id = "voxa-ai-output";
+                    resultBox.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#f8fafc; font-size:14px; line-height:1.5; text-align:left;";
+                    analyzeBtn.parentNode.insertBefore(resultBox, analyzeBtn.nextSibling);
+                }
+                resultBox.style.display = "block";
+                resultBox.innerHTML = "🔍 Rasm tahlil qilinmoqda, biroz kuting...";
+
+                const selectBox = document.querySelector("select");
+                const category = selectBox ? selectBox.value : "Smart Camera Analysis";
+
+                try {
+                    const response = await fetch("https://pollinations.ai", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            messages: [
+                                { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give clear, helpful advice." },
+                                {
+                                    role: "user",
+                                    content: [
+                                        { type: "text", text: `Category: ${category}. Analyze this image in detail, identify problems, hidden risks, or answers, and give a clear summary.` },
+                                        { type: "image_url", image_url: { url: selectedImageBase64 } }
+                                    ]
+                                }
+                            ],
+                            model: "openai"
+                        })
+                    });
+
+                    if (!response.ok) throw new Error("Server xatosi: " + response.status);
+                    const aiReply = await response.text();
+                    resultBox.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + aiReply.replace(/\n/g, "<br>");
+                } catch (err) {
+                    resultBox.innerHTML = "❌ Xatolik: " + err.message;
+                } finally {
+                    analyzeBtn.innerHTML = oldBtnHTML;
+                    analyzeBtn.style.opacity = "1";
+                }
+            }, true);
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", fixVoxaCamera);
+    } else {
+        fixVoxaCamera();
+    }
+})();
+</script>
 
 </body>
 </html>
