@@ -409,6 +409,50 @@ const VOXA_L = {
   }
 })();
 </script>
+<script>
+// 1. SHARE tugmasini bosganda darhol Telegram kontaktlar ("Переслать...") ochilishi
+window.shareApp = function() {
+  const url = encodeURIComponent("https://t.me");
+  const txt = encodeURIComponent("🚀 Voxa AI Copilot — All-in-One Voice, 4K Logo Studio, Scam Shield & IELTS Coach!");
+  window.location.href = `https://t.me{url}&text=${txt}`;
+};
+
+// 2. Foto Scanner ("تحليل الصورة الآن" / "Rasmni Hozir Tahlil Qilish") javob chiqarishi
+window.runScan = function() {
+  const out = document.getElementById('out-scan');
+  const sel = document.getElementById('scan-mode') || document.querySelector('#p-scan select');
+  const lang = document.querySelector('.lang-sel')?.value || 'en';
+  const d = (typeof VOXA_L !== 'undefined' && VOXA_L[lang]) ? VOXA_L[lang] : (VOXA_L?.en || {});
+  const idx = sel ? sel.selectedIndex : 0;
+
+  if (out) {
+    out.style.display = 'block';
+    out.style.padding = '12px';
+    out.style.marginTop = '12px';
+    out.style.borderRadius = '12px';
+    out.style.background = '#020617';
+    out.style.border = '1px solid #38bdf8';
+    out.innerHTML = "⏳ AI Scanning...";
+    setTimeout(() => {
+      out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
+    }, 500);
+  }
+};
+
+// 3. PRO $29 tugmasi va PRO oynasini to'g'ridan-to'g'ri Tribute to'loviga ulash
+document.addEventListener('click', function(e) {
+  const tributeUrl = "https://t.me";
+  const el = e.target.closest('button, .badge, div');
+  if (!el) return;
+  const txt = el.innerText || "";
+
+  if (txt.includes('PRO $29') || txt.includes('Activate PRO') || (el.closest('#pro-modal') && el.tagName === 'BUTTON')) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.href = tributeUrl;
+  }
+}, true);
+</script>
 
 </body>
 </html>
