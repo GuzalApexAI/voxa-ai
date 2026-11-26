@@ -269,6 +269,82 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
+<script>
+// Telegram Mini App avtomatik kengaytirish
+if (window.Telegram && window.Telegram.WebApp) {
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+
+const VOXA_L = {
+  en: { s:"🎁 Share with 1 friend = <b>24h PRO</b> free!", sb:"SHARE", t:"All-in-One Voice, Design & Universal AI Copilot", sub:"Anti-Scam Shield, Live Translator, IELTS 8.5 Coach, Smart Repair & 4K Studio.", ph:"Ask anything: Science, Law, Auto, Medicine...", ab:"✨ Generate AI Answer", nav:["Home","IELTS","Scanner","Studio","Vault"], st:"🛡 Smart Camera: Contract, Repair & Receipt", ssub:"Upload contract, error code (E04), car part or receipt.", sbtn:"🔍 Analyze Photo Now", m:["Contract & Scam Shield (Legal)","Home & Auto Repair (Error Codes)","Receipt & Expense Accountant"], r0:"⚖️ <b>Scam & Legal Alert:</b><br>1. Hidden auto-renewal & penalty trap detected.<br>2. Risk Score: <b>HIGH (82%)</b>.<br>✅ Do NOT sign without written edit.", r1:"🔧 <b>Diagnostic (P0420 / E04):</b><br>1. Loose sensor/cap ($0 self-fix).<br>2. O2 Sensor wear ($80–$180).<br>✅ Check sensor plug before mechanic.", r2:"🧾 <b>Receipt Extracted:</b><br>• Category: Business & Supplies<br>• Tax & Total Verified<br>✅ Saved to PIN Vault." },
+  uz: { s:"🎁 1 do'stga ulashing = <b>24 soat PRO</b> bepul!", sb:"ULASHISH", t:"Ovoz, Dizayn va Universal AI Copilot", sub:"Firibgarlik Qalqoni, Jonli Tarjimon, IELTS 8.5, Aqlli Ta'mir va 4K Studiya.", ph:"Savol yozing: Qonun, Avto, Tibbiyot, Moliya...", ab:"✨ AI Javobini Olish", nav:["Bosh sahifa","IELTS","Skaner","Studiya","Seyf"], st:"🛡 Aqlli Kamera: Shartnoma, Ta'mir va Chek", ssub:"Shartnoma, xato kodi (E04), avto qism yoki chek yuklang.", sbtn:"🔍 Rasmni Hozir Tahlil Qilish", m:["Shartnoma va Firibgarlik Qalqoni","Uy va Avto Ta'mir (Xato kodlari)","Chek va Xarajatlar Buxgalteri"], r0:"⚖️ <b>Firibgarlik va Huquqiy Tahlil:</b><br>1. Yashirin jarima va qarz tuzog'i aniqlandi.<br>2. Xavf darajasi: <b>YUQORI (82%)</b>.<br>✅ O'zgartirish kiritmasdan IMZO QO'YMANG.", r1:"🔧 <b>Diagnostika (P0420 / E04):</b><br>1. Datchik yoki qopqoq bo'shagan ($0 o'zingiz tuzatasiz).<br>2. O2 datchik ($80–$180).<br>✅ Ustaga borishdan oldin ulanishni tekshiring.", r2:"🧾 <b>Chek Tahlil Qilindi:</b><br>• Toifa: Xarajatlar va Biznes<br>• Jami summa va QQS aniqlandi<br>✅ PIN Seyfga saqlashga tayyor." },
+  ru: { s:"🎁 Поделись с 1 другом = <b>24ч PRO</b> бесплатно!", sb:"ПОДЕЛИТЬСЯ", t:"Универсальный Голосовой и Дизайн AI Copilot", sub:"Защита от мошенников, Живой переводчик, IELTS 8.5, Ремонт и 4K Студия.", ph:"Спросите что угодно: Закон, Авто, Медицина...", ab:"✨ Получить Ответ AI", nav:["Главная","IELTS","Сканер","Студия","Сейф"], st:"🛡 Умная Камера: Договор, Ремонт и Чек", ssub:"Загрузите фото договора, кода ошибки (E04) или чека.", sbtn:"🔍 Анализировать Фото", m:["Защита Договоров и Анти-Мошенник","Ремонт Авто и Техники (Коды ошибок)","Бухгалтер Чеков и Расходов"], r0:"⚖️ <b>Анализ Рисков и Мошенничества:</b><br>1. Найдена скрытая ловушка автопродления и штрафа.<br>2. Уровень риска: <b>ВЫСОКИЙ (82%)</b>.<br>✅ НЕ подписывайте без правки.", r1:"🔧 <b>Диагностика (P0420 / E04):</b><br>1. Ослаблен датчик/крышка ($0 своими руками).<br>2. Датчик кислорода O2 ($80–$180).<br>✅ Проверьте контакты перед СТО.", r2:"🧾 <b>Чек Распознан:</b><br>• Категория: Покупки и Бизнес<br>• Итоговая сумма подтверждена<br>✅ Готово для PIN-Сейфа." },
+  ar: { s:"🎁 شارك مع صديق = <b>24 ساعة PRO</b> مجاناً!", sb:"مشاركة", t:"مساعد الذكاء الاصطناعي الشامل للصوت والتصميم", sub:"درع الاحتيال، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو 4K.", ph:"اسأل أي شيء: القانون، السيارات، الطب...", ab:"✨ توليد إجابة AI", nav:["الرئيسية","IELTS","الماسح","الاستوديو","الخزنة"], st:"🛡 الكاميرا الذكية: العقود، الصيانة والفواتير", ssub:"ارفع صورة عقد أو رمز خطأ (E04) أو فاتورة.", sbtn:"🔍 تحليل الصورة الآن", m:["درع العقود والاحتيال","إصلاح السيارات والأجهزة","محاسب الفواتير"], r0:"⚖️ <b>تحليل الاحتيال:</b><br>1. تم كشف شرط غرامة مخفي.<br>2. مستوى الخطر: <b>مرتفع (82%)</b>.<br>✅ لا توقع قبل التعديل.", r1:"🔧 <b>التشخيص (P0420 / E04):</b><br>1. ارتخاء الحساس ($0).<br>2. حساس الأكسجين ($80–$180).", r2:"🧾 <b>تم تحليل الفاتورة:</b><br>• تم التحقق من المبلغ الإجمالي وجاهز للحفظ." },
+  tr: { s:"🎁 1 arkadaşla paylaş = <b>24 saat PRO</b> bedava!", sb:"PAYLAŞ", t:"Hepsi Bir Arada Ses, Tasarım ve AI Copilot", sub:"Dolandırıcılık Kalkanı, Canlı Çeviri, IELTS 8.5, Akıllı Tamir ve 4K Stüdyo.", ph:"Her şeyi sor: Hukuk, Oto, Tıp, Finans...", ab:"✨ AI Yanıtı Oluştur", nav:["Ana Sayfa","IELTS","Tarayıcı","Stüdyo","Kasa"], st:"🛡 Akıllı Kamera: Sözleşme, Tamir ve Fiş", ssub:"Sözleşme, hata kodu (E04) veya fiş yükleyin.", sbtn:"🔍 Fotoğrafı Analiz Et", m:["Sözleşme ve Dolandırıcılık Kalkanı","Ev ve Oto Tamir (Hata Kodları)","Fiş ve Gider Muhasebecisi"], r0:"⚖️ <b>Risk Analizi:</b><br>1. Gizli ceza maddesi tespit edildi.<br>2. Risk: <b>YÜKSEK (82%)</b>.<br>✅ Düzenleme olmadan imzalamayın.", r1:"🔧 <b>Teşhis (P0420 / E04):</b><br>1. Sensör gevşek ($0).<br>2. O2 Sensörü ($80–$180).", r2:"🧾 <b>Fiş Okundu:</b><br>• Toplam tutar doğrulandı ve PIN Kasasına hazır." },
+  es: { s:"🎁 Comparte con 1 amigo = <b>24h PRO</b> gratis!", sb:"COMPARTIR", t:"Copiloto Universal de Voz, Diseño e IA", sub:"Escudo Anti-Estafas, Traductor Vivo, IELTS 8.5, Reparación y Estudio 4K.", ph:"Pregunta lo que sea: Leyes, Autos, Medicina...", ab:"✨ Generar Respuesta IA", nav:["Inicio","IELTS","Escáner","Estudio","Bóveda"], st:"🛡 Cámara Inteligente: Contrato, Reparación y Recibo", ssub:"Sube contrato, código de error (E04) o recibo.", sbtn:"🔍 Analizar Foto", m:["Escudo de Contratos y Estafas","Reparación Auto y Hogar","Contador de Recibos"], r0:"⚖️ <b>Alerta Legal:</b><br>1. Cláusula oculta de penalización.<br>2. Riesgo: <b>ALTO (82%)</b>.<br>✅ No firmes sin corregir.", r1:"🔧 <b>Diagnóstico (P0420 / E04):</b><br>1. Sensor suelto ($0).<br>2. Sensor O2 ($80–$180).", r2:"🧾 <b>Recibo Extraído:</b><br>• Total verificado y listo para Bóveda PIN." }
+};
+['de','fr','ko','ja','zh','uk'].forEach(k => VOXA_L[k] = VOXA_L.en);
+</script>
+<script>
+(function() {
+  let curL = 'en';
+  const oldSetLang = window.setLang;
+
+  window.setLang = function(l) {
+    if (typeof oldSetLang === 'function') oldSetLang(l);
+    curL = VOXA_L[l] ? l : 'en';
+    const d = VOXA_L[curL];
+    document.documentElement.dir = (curL === 'ar') ? 'rtl' : 'ltr';
+
+    const ids = {'id-viral': d.s, 'hero-title': d.t, 'hero-sub': d.sub, 'b-home': d.ab};
+    for (let k in ids) {
+      let el = document.getElementById(k);
+      if (el) el.innerHTML = ids[k];
+    }
+    const vb = document.querySelector('.viral button');
+    if (vb) vb.innerText = d.sb;
+    const qh = document.getElementById('q-home');
+    if (qh) qh.placeholder = d.ph;
+
+    const navs = document.querySelectorAll('nav button span');
+    if (navs.length >= 5) d.nav.forEach((txt, i) => navs[i].innerText = txt);
+
+    const sp = document.getElementById('p-scan');
+    if (sp) {
+      if (sp.querySelector('h2')) sp.querySelector('h2').innerText = d.st;
+      if (sp.querySelector('p')) sp.querySelector('p').innerText = d.ssub;
+      if (sp.querySelector('.btn-main')) sp.querySelector('.btn-main').innerText = d.sbtn;
+      const sel = sp.querySelector('select');
+      if (sel && sel.options.length >= 3) {
+        sel.options.text = d.m;
+        sel.options.text = d.m;
+        sel.options.text = d.m;
+      }
+    }
+  };
+
+  // Scanner tugmasini tanlangan til va rejimga ulash
+  const sBtn = document.querySelector('#p-scan .btn-main');
+  if (sBtn) {
+    sBtn.addEventListener('click', function(e) {
+      e.stopImmediatePropagation();
+      const sel = document.querySelector('#p-scan select');
+      let out = document.querySelector('#p-scan .out');
+      if (!out) {
+        out = document.createElement('div');
+        out.className = 'out';
+        out.style.cssText = 'margin-top:12px;padding:12px;border-radius:12px;background:#020617;border:1px solid #38bdf8;font-size:13px;line-height:1.5;';
+        this.parentNode.appendChild(out);
+      }
+      const d = VOXA_L[curL] || VOXA_L.en;
+      const idx = sel ? sel.selectedIndex : 0;
+      out.innerHTML = "⏳ AI...";
+      setTimeout(() => { out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2); }, 500);
+    }, true);
+  }
+})();
+</script>
 
 </body>
 </html>
