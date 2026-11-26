@@ -203,5 +203,16 @@ if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_s
 document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
 </script>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button');
+  if(!b || !b.id) return;
+  var map = {'n-home':'home','n-ielts':'ielts','n-scan':'scan','n-studio':'studio','n-vault':'vault'};
+  if(map[b.id]){
+    document.querySelectorAll('.page').forEach(function(p){p.style.display='none';});
+    document.getElementById('p-'+map[b.id]).style.display='block';
+  }
+});
+
 </body>
 </html>
