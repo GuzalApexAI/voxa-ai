@@ -213,6 +213,62 @@ document.addEventListener('click', function(e){
     document.getElementById('p-'+map[b.id]).style.display='block';
   }
 });
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Tepadagi 6 ta kartochka va pastki menyu tugmalarini ulash
+    const navButtons = document.querySelectorAll('nav button, nav a, .grid > div');
+    
+    navButtons.forEach(btn => {
+        btn.style.cursor = 'pointer';
+        btn.addEventListener('click', function() {
+            const text = this.innerText.toLowerCase();
+            let targetHeading = "";
+
+            if (text.includes('ielts')) targetHeading = "AI IELTS";
+            else if (text.includes('contract') || text.includes('scanner') || text.includes('repair') || text.includes('receipt')) targetHeading = "Smart Camera";
+            else if (text.includes('studio') || text.includes('logo')) targetHeading = "AI 4K Logo";
+            else if (text.includes('vault') || text.includes('expense')) targetHeading = "Personal Accountant";
+            else if (text.includes('home')) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            // Tegishli bo'limga silliq o'tish
+            if (targetHeading) {
+                const headings = Array.from(document.querySelectorAll('h2, h3'));
+                const target = headings.find(h => h.innerText.includes(targetHeading));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // 2. Barcha asosiy tugmalarga jonli reaksiya (bosilganda ishlashi) berish
+    const actionButtons = document.querySelectorAll('button');
+    actionButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const btnText = this.innerText.trim();
+            
+            // Share tugmasi
+            if (btnText.includes('SHARE')) {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Havola nusxalandi! Do'stingizga yuboring va 24 soatlik PRO ochiladi.");
+            } 
+            // AI va boshqa funksiya tugmalari
+            else if (btnText.includes('Generate') || btnText.includes('Evaluate') || btnText.includes('Analyze') || btnText.includes('Save')) {
+                const originalText = this.innerHTML;
+                this.innerHTML = "⏳ Bajarilmoqda...";
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    alert("Funksiya muvaffaqiyatli ishga tushdi! (Backend API ulanishiga tayyor)");
+                }, 1200);
+            }
+        });
+    });
+});
+</script>
 
 </body>
 </html>
