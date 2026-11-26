@@ -600,6 +600,124 @@ document.addEventListener('click', function(e) {
   }, true);
 })();
 </script>
+<script>
+(function() {
+  let uploadedBase64 = null;
+
+  // 1. Rasm tanlash oynasini (Choose Photo) majburan ochish va rasmni o'qish
+  document.addEventListener('click', function(e) {
+    const chooseArea = e.target.closest('label, .upload-box, [for*="file"], [for*="scan"], [for*="img"]');
+    const isChooseText = (e.target.innerText || "").includes('Choose Photo');
+
+    if (chooseArea || isChooseText) {
+      const fileInp = document.querySelector('#p-scan input[type="file"]') || document.querySelector('input[type="file"]');
+      if (fileInp && e.target !== fileInp) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        fileInp.click(); // Galereya yoki kamerani majburan ochadi
+      }
+    }
+  }, true);
+
+  // 2. Tanlangan rasmni xotiraga olish va hajmini kichraytirish
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'file') {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Tugma matnini yangilash (fayl tanlanganini ko'rsatish uchun)
+      const labels = document.querySelectorAll('label, div, span');
+      labels.forEach(el => {
+        if (el.children.length === 0 && (el.innerText.includes('Choose Photo') || el.innerText.includes('.jpg') || el.innerText.includes('.png'))) {
+          el.innerText = "📷 Choose Photo / Snap Camera ✅ " + file.name;
+        }
+      });
+
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxW = 600;
+          const scale = Math.min(1, maxW / img.width);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          uploadedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }, true);
+
+  // 3. "Analyze Photo Now" tugmasi bosilganda eski soxta kodni bloklab, HAQIQIY AI ga yuborish
+  document.addEventListener('click', async function(e) {
+    const btn = e.target.closest('button, .btn-main');
+    if (!btn) return;
+
+    const txt = btn.innerText || "";
+    if (txt.includes('Analyze Photo')) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      let out = document.getElementById('out-scan');
+      if (!out) {
+        out = document.createElement('div');
+        out.id = 'out-scan';
+        btn.parentNode.appendChild(out);
+      }
+      out.style.cssText = "display:block !important; margin-top:14px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#f8fafc; font-size:14px; line-height:1.5; white-space:pre-wrap;";
+
+      if (!uploadedBase64) {
+        out.innerHTML = "⚠️ Avval rasm tanlang yoki kameradan rasmga oling!";
+        return;
+      }
+
+      // Scanner ichidagi select (kategoriya) va tilni aniq topish
+      const scanSelects = document.querySelectorAll('#p-scan select');
+      const sel = scanSelects.length > 0 ? scanSelects[0] : document.querySelectorAll('select')[1];
+      const modeText = (sel && sel.options[sel.selectedIndex]) ? sel.options[sel.selectedIndex].text : "General Analysis";
+
+      const langSel = document.querySelector('.lang-sel') || document.querySelector('select');
+      const lang = langSel ? langSel.value : "en";
+
+      out.innerHTML = "⏳ AI rasmni o'qimoqda va tahlil qilmoqda...";
+      btn.disabled = true;
+
+      const prompt = `You are Voxa AI Smart Scanner. Analyze this photo in detail for the category: "${modeText}". Answer in language: "${lang}". Be clear, practical, and structured.`;
+
+      try {
+        const response = await fetch('https://pollinations.ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  { type: 'text', text: prompt },
+                  { type: 'image_url', image_url: { url: uploadedBase64 } }
+                ]
+              }
+            ],
+            model: 'openai'
+          })
+        });
+
+        if (!response.ok) throw new Error("Server xatosi");
+        const aiResult = await response.text();
+        out.innerHTML = "🤖 <b>Voxa AI Tahlili:</b><br><br>" + aiResult.replace(/\n/g, "<br>");
+      } catch (err) {
+        out.innerHTML = "❌ Internet yoki serverda xatolik bo'ldi. Qayta urinib ko'ring.";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  }, true);
+})();
+</script>
 
 </body>
 </html>
