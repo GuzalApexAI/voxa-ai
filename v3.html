@@ -985,6 +985,133 @@ document.addEventListener('click', function(e) {
     }
 })();
 </script>
+<script>
+window.addEventListener("load", function() {
+    let selectedBase64 = null;
+    let uploadBtn = null;
+    let analyzeBtn = null;
+
+    // 1. Tugmalarni va eski yolg'on javobni topamiz
+    document.querySelectorAll("*").forEach(el => {
+        if (el.children.length === 0 || el.tagName === "BUTTON" || el.tagName === "LABEL") {
+            const t = (el.textContent || "").trim();
+            if (t.includes("Choose Photo / Snap Camera") && t.length < 45) {
+                uploadBtn = el.closest("button, label, div") || el;
+            }
+            if (t.includes("Analyze Photo Now") && t.length < 35) {
+                analyzeBtn = el.closest("button, label, div") || el;
+            }
+            if (t.includes("Diagnostic (P0420 / E04)")) {
+                const box = el.closest("div");
+                if (box) box.style.display = "none";
+            }
+        }
+    });
+
+    // 2. Tugma ustiga to'g'ridan-to'g'ri ishlaydigan shaffof fayl tanlagich qo'yamiz (100% bosiladi!)
+    if (uploadBtn) {
+        uploadBtn.style.position = "relative";
+        uploadBtn.style.overflow = "hidden";
+        uploadBtn.style.zIndex = "999";
+
+        const directInput = document.createElement("input");
+        directInput.type = "file";
+        directInput.accept = "image/*";
+        directInput.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:1000;";
+        uploadBtn.appendChild(directInput);
+
+        directInput.addEventListener("change", function() {
+            const file = directInput.files && directInput.files;
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                selectedBase64 = e.target.result;
+                // Tugma matnini yangilaymiz (inputni saqlab qolgan holda)
+                uploadBtn.childNodes.forEach(node => {
+                    if (node.nodeType === 3) node.textContent = "";
+                });
+                let labelSpan = document.getElementById("voxa-up-text");
+                if (!labelSpan) {
+                    labelSpan = document.createElement("span");
+                    labelSpan.id = "voxa-up-text";
+                    uploadBtn.insertBefore(labelSpan, directInput);
+                }
+                labelSpan.textContent = "✅ Rasm yuklandi: " + file.name.slice(0, 15);
+                uploadBtn.style.borderColor = "#22c55e";
+
+                let preview = document.getElementById("voxa-img-preview");
+                if (!preview) {
+                    preview = document.createElement("img");
+                    preview.id = "voxa-img-preview";
+                    preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
+                    uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
+                }
+                preview.src = selectedBase64;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // 3. Analyze Photo Now tugmasini ishlatamiz
+    if (analyzeBtn) {
+        analyzeBtn.style.position = "relative";
+        analyzeBtn.style.zIndex = "999";
+        analyzeBtn.style.cursor = "pointer";
+
+        analyzeBtn.addEventListener("click", async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!selectedBase64) {
+                alert("Iltimos, avval 'Choose Photo / Snap Camera' tugmasini bosib rasm yuklang!");
+                return;
+            }
+
+            const oldText = analyzeBtn.innerHTML;
+            analyzeBtn.innerHTML = "⏳ AI tahlil qilmoqda...";
+
+            let out = document.getElementById("voxa-ai-res");
+            if (!out) {
+                out = document.createElement("div");
+                out.id = "voxa-ai-res";
+                out.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#fff; font-size:14px; line-height:1.5; text-align:left;";
+                analyzeBtn.parentNode.insertBefore(out, analyzeBtn.nextSibling);
+            }
+            out.innerHTML = "🔍 Rasm o'rganilmoqda, biroz kuting...";
+
+            const sel = document.querySelector("select");
+            const cat = sel ? sel.value : "Smart Camera";
+
+            try {
+                const res = await fetch("https://pollinations.ai", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give clear, helpful advice." },
+                            {
+                                role: "user",
+                                content: [
+                                    { type: "text", text: `Category: ${cat}. Analyze this image in detail and give a clear summary.` },
+                                    { type: "image_url", image_url: { url: selectedBase64 } }
+                                ]
+                            }
+                        ],
+                        model: "openai"
+                    })
+                });
+                const txt = await res.text();
+                out.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + txt.replace(/\n/g, "<br>");
+            } catch (err) {
+                out.innerHTML = "❌ Xatolik: " + err.message;
+            } finally {
+                analyzeBtn.innerHTML = oldText;
+            }
+        }, true);
+    }
+});
+</script>
 
 </body>
 </html>
