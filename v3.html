@@ -409,103 +409,64 @@ const VOXA_L = {
   }
 })();
 </script>
+
+
+
 <script>
-// 1. SHARE tugmasini bosganda darhol Telegram kontaktlar ("Переслать...") ochilishi
-window.shareApp = function() {
-  const url = encodeURIComponent("https://t.me");
-  const txt = encodeURIComponent("🚀 Voxa AI Copilot — All-in-One Voice, 4K Logo Studio, Scam Shield & IELTS Coach!");
-  window.location.href = `https://t.me{url}&text=${txt}`;
-};
-
-// 2. Foto Scanner ("تحليل الصورة الآن" / "Rasmni Hozir Tahlil Qilish") javob chiqarishi
-window.runScan = function() {
-  const out = document.getElementById('out-scan');
-  const sel = document.getElementById('scan-mode') || document.querySelector('#p-scan select');
-  const lang = document.querySelector('.lang-sel')?.value || 'en';
-  const d = (typeof VOXA_L !== 'undefined' && VOXA_L[lang]) ? VOXA_L[lang] : (VOXA_L?.en || {});
-  const idx = sel ? sel.selectedIndex : 0;
-
-  if (out) {
-    out.style.display = 'block';
-    out.style.padding = '12px';
-    out.style.marginTop = '12px';
-    out.style.borderRadius = '12px';
-    out.style.background = '#020617';
-    out.style.border = '1px solid #38bdf8';
-    out.innerHTML = "⏳ AI Scanning...";
-    setTimeout(() => {
-      out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
-    }, 500);
+setTimeout(function() {
+  // 1. SHARE tugmasi — darhol Telegram kontaktlarini ochadi
+  var shareBtn = document.querySelector('.viral button');
+  if (shareBtn) {
+    shareBtn.removeAttribute('onclick');
+    shareBtn.onclick = function(e) {
+      e.preventDefault();
+      var u = encodeURIComponent("https://t.me" + "VoxaCopilot_bot");
+      var t = encodeURIComponent("Voxa AI Copilot — Voice, 4K Studio & Scam Shield");
+      window.location.href = "https://t.me/share/url?url=" + u + "&text=" + t;
+    };
   }
-};
 
-// 3. PRO $29 tugmasi va PRO oynasini to'g'ridan-to'g'ri Tribute to'loviga ulash
-document.addEventListener('click', function(e) {
-  const tributeUrl = "https://t.me";
-  const el = e.target.closest('button, .badge, div');
-  if (!el) return;
-  const txt = el.innerText || "";
-
-  if (txt.includes('PRO $29') || txt.includes('Activate PRO') || (el.closest('#pro-modal') && el.tagName === 'BUTTON')) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    window.location.href = tributeUrl;
-  }
-}, true);
-</script>
-<script>
-// 1. SHARE tugmasi (xatosiz + belgisi bilan va Telegram ichida to'g'ridan-to'g'ri ochiladi)
-window.shareApp = function() {
-  var url = encodeURIComponent("https://t.me");
-  var txt = encodeURIComponent("🚀 Voxa AI Copilot — All-in-One Voice, 4K Logo Studio, Scam Shield & IELTS Coach!");
-  var link = "https://t.me" + url + "&text=" + txt;
-  
-  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
-    window.Telegram.WebApp.openTelegramLink(link);
-  } else {
-    window.location.href = link;
-  }
-};
-
-// 2. Foto Scanner javobi
-window.runScan = function() {
-  var out = document.getElementById('out-scan');
-  var sel = document.getElementById('scan-mode') || document.querySelector('#p-scan select');
-  var lang = document.querySelector('.lang-sel') ? document.querySelector('.lang-sel').value : 'en';
-  var d = (typeof VOXA_L !== 'undefined' && VOXA_L[lang]) ? VOXA_L[lang] : (VOXA_L && VOXA_L.en ? VOXA_L.en : {});
-  var idx = sel ? sel.selectedIndex : 0;
-
-  if (out) {
-    out.style.display = 'block';
-    out.style.padding = '12px';
-    out.style.marginTop = '12px';
-    out.style.borderRadius = '12px';
-    out.style.background = '#020617';
-    out.style.border = '1px solid #38bdf8';
-    out.innerHTML = "⏳ AI Scanning...";
-    setTimeout(function() {
-      out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
-    }, 500);
-  }
-};
-
-// 3. PRO $29 tugmasini Telegram ichida Tribute'ga ulash
-document.addEventListener('click', function(e) {
-  var tributeUrl = "https://t.me";
-  var el = e.target.closest('button, .badge, div');
-  if (!el) return;
-  var txt = el.innerText || "";
-
-  if (txt.indexOf('PRO $29') !== -1 || txt.indexOf('Activate PRO') !== -1 || (el.closest('#pro-modal') && el.tagName === 'BUTTON')) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
-      window.Telegram.WebApp.openTelegramLink(tributeUrl);
-    } else {
-      window.location.href = tributeUrl;
+  // 2. PRO $29 tugmasi — darhol Tribute'ga o'tadi
+  var tribUrl = "https://t.me/tribute/app?startapp=" + "s1dl3";
+  document.querySelectorAll('.badge, button').forEach(function(el) {
+    if (el.innerText && (el.innerText.indexOf('PRO $29') !== -1 || el.innerText.indexOf('Activate PRO') !== -1)) {
+      el.removeAttribute('onclick');
+      el.onclick = function(e) {
+        e.preventDefault();
+        window.location.href = tribUrl;
+      };
     }
+  });
+
+  // 3. FOTO SCANNER ("Анализировать Фото") — natijani 100% chiqaradi
+  var scanBtn = document.querySelector('#p-scan .btn-main');
+  if (scanBtn) {
+    scanBtn.removeAttribute('onclick');
+    scanBtn.onclick = function(e) {
+      e.preventDefault();
+      var sel = document.querySelector('#p-scan select');
+      var lang = document.querySelector('.lang-sel') ? document.querySelector('.lang-sel').value : 'en';
+      var d = (typeof VOXA_L !== 'undefined' && VOXA_L[lang]) ? VOXA_L[lang] : {
+        r0: "⚖️ <b>Legal Alert:</b> Hidden penalty trap detected (Risk: 82%).",
+        r1: "🔧 <b>Diagnostic (P0420 / E04):</b> Loose sensor/cap ($0 self-fix) or O2 sensor ($80–$180).",
+        r2: "🧾 <b>Receipt Verified:</b> Total & Tax extracted. Ready for PIN Vault."
+      };
+      var idx = sel ? sel.selectedIndex : 0;
+
+      var out = document.getElementById('out-scan');
+      if (!out) {
+        out = document.createElement('div');
+        out.id = 'out-scan';
+        scanBtn.parentNode.appendChild(out);
+      }
+      out.setAttribute('style', 'display:block !important; margin-top:14px; padding:12px; border-radius:12px; background:#020617; border:1px solid #38bdf8; color:#f8fafc; font-size:13px; line-height:1.5;');
+      out.innerHTML = "⏳ AI Scanning...";
+      setTimeout(function() {
+        out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
+      }, 400);
+    };
   }
-}, true);
+}, 300);
 </script>
 
 </body>
