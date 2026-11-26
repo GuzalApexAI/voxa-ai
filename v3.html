@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Voxa AI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#090d16;color:#f8fafc;padding-bottom:88px}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#0f172a;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:99}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff}
+.brand-t h1{font-size:16px;font-weight:800}.brand-t span{font-size:11px;color:#38bdf8}
+.lang-sel{background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:7px 8px;font-size:12px;font-weight:700}
+.wrap{padding:14px;max-width:480px;margin:auto}.page{display:none}.page.active{display:block}
+.card{background:#111827;border:1px solid #1e293b;border-radius:18px;padding:16px;margin-bottom:14px}
+.top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.badge{background:rgba(16,185,129,.15);color:#34d399;padding:5px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.btn-pro{background:linear-gradient(90deg,#f59e0b,#ea580c);color:#fff;border:none;padding:7px 13px;border-radius:99px;font-size:12px;font-weight:800;cursor:pointer}
+h2{font-size:19px;font-weight:800;margin-bottom:6px}.sub{font-size:13px;color:#94a3b8;line-height:1.4;margin-bottom:14px}
+.viral{background:linear-gradient(90deg,#1e1b4b,#311042);border:1px solid #4f46e5;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.viral p{font-size:12px;color:#e0e7ff}.btn-green{background:#10b981;color:#fff;border:none;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:14px;cursor:pointer}
+.tile .ic{font-size:24px;margin-bottom:8px}.tile h3{font-size:14px;font-weight:700;margin-bottom:4px}.tile p{font-size:11px;color:#94a3b8}
+.row{display:flex;gap:8px;margin-bottom:10px}
+input,textarea,select.inp{width:100%;background:#020617;border:1px solid #334155;border-radius:12px;padding:12px;color:#fff;font-size:14px}
+.btn-mic{width:50px;flex-shrink:0;background:linear-gradient(135deg,#ec4899,#8b5cf6);border:none;border-radius:12px;color:#fff;font-size:20px;cursor:pointer}
+.btn-main{width:100%;background:linear-gradient(90deg,#6366f1,#06b6d4);border:none;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px}
+.btn-file{width:100%;background:#1e293b;border:1px dashed #38bdf8;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px}
+.out{background:#020617;border:1px solid #38bdf8;border-radius:12px;padding:12px;margin-top:12px;font-size:13px;line-height:1.5;color:#e2e8f0;display:none}
+.memo{background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin-top:8px;display:flex;justify-content:space-between;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(2,6,23,.9);display:none;align-items:center;justify-content:center;padding:16px;z-index:999}.modal.open{display:flex}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;padding:8px 0;z-index:99}
+.nav button{background:none;border:none;color:#94a3b8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.nav button.active{color:#38bdf8}.nav button span{font-size:18px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="brand"><div class="logo">V</div><div class="brand-t"><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div></div>
+  <select class="lang-sel" onchange="setLang(this.value)">
+    <option value="en">🇺🇸 EN</option><option value="uz">🇺🇿 UZ</option><option value="ru">🇷🇺 RU</option>
+    <option value="ar">🇸🇦 AR</option><option value="tr">🇹🇷 TR</option><option value="es">🇪🇸 ES</option>
+    <option value="de">🇩🇪 DE</option><option value="fr">🇫🇷 FR</option><option value="ko">🇰🇷 KO</option>
+    <option value="ja">🇯🇵 JA</option><option value="zh">🇨🇳 ZH</option><option value="uk">🇺🇦 UK</option>
+  </select>
+</div>
+<div class="wrap">
+  <div id="p-home" class="page active">
+    <div class="viral"><p id="t-viral">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</p><button type="button" id="b-share" class="btn-green" onclick="shareApp()">SHARE</button></div>
+    <div class="card">
+      <div class="top-row"><span class="badge">🛡️ Zero-Wallet • 100% Safe</span><span id="streak-badge" class="badge" style="background:rgba(245,158,11,.18);color:#fbbf24">🔥 1d</span><button type="button" class="btn-pro" onclick="document.getElementById('pro-modal').classList.add('open')">👑 PRO $29</button></div>
+      <h2 id="hero-title">All-in-One Voice, Design & Universal AI Encyclopedia</h2>
+      <p id="hero-sub" class="sub">Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.</p>
+      <div class="row"><input id="q-home" placeholder="Ask any question: Science, Medicine, Finance..."><button type="button" class="btn-mic" onclick="mic('q-home')">🎤</button></div>
+      <button type="button" id="b-home" class="btn-main" onclick="askHome()">✨ Generate AI Answer</button>
+      <div id="out-home" class="out"></div>
+    </div>
+    <div class="grid">
+      <div class="tile" onclick="openScan(0)"><div class="ic">🛡️</div><h3 id="c1-t">Contract & Scam Shield</h3><p id="c1-s">Detect hidden traps in loans, contracts & SMS.</p></div>
+      <div class="tile" onclick="go('ielts')"><div class="ic">🎙️</div><h3 id="c2-t">IELTS & Live Translator</h3><p id="c2-s">Band Score coach & 2-way voice interpreter.</p></div>
+      <div class="tile" onclick="go('studio')"><div class="ic">🎨</div><h3 id="c3-t">AI Logo & Design Studio</h3><p id="c3-s">Create 4K logos, ads & art like Leonardo AI.</p></div>
+      <div class="tile" onclick="openScan(1)"><div class="ic">🔧</div><h3 id="c4-t">Smart Camera: Repair</h3><p id="c4-s">Fix home appliances, error codes & car issues.</p></div>
+      <div class="tile" onclick="openScan(2)"><div class="ic">🧾</div><h3 id="c5-t">Receipt & Expense AI</h3><p id="c5-s">Voice & photo personal accountant + PIN vault.</p></div>
+      <div class="tile" onclick="document.getElementById('q-home').focus()"><div class="ic">🌍</div><h3 id="c6-t">Universal AI Encyclopedia</h3><p id="c6-s">All Sciences, Medicine, Finance & Research.</p></div>
+    </div>
+  </div>
+  <div id="p-ielts" class="page"><div class="card"><h2 id="t-ielts">🎙️ AI IELTS & Live Voice Translator</h2><p id="s-ielts" class="sub">Get instant IELTS Band Score feedback or live 2-way translation.</p><div class="row"><textarea id="q-ielts" rows="3" placeholder="Speak or type for IELTS evaluation or translation..."></textarea><button type="button" class="btn-mic" onclick="mic('q-ielts')">🎤</button></div><button type="button" id="b-ielts" class="btn-main" onclick="askIelts()">🚀 Evaluate & Translate</button><div id="out-ielts" class="out"></div></div></div>
+  <div id="p-scan" class="page"><div class="card"><h2 id="t-scan">🛡️ Smart Camera: Contract, Repair & Receipt</h2><p id="s-scan" class="sub">Upload photo of a contract, error code (E04), car part, or receipt.</p><input type="file" id="scan-file" accept="image/*" style="display:none" onchange="onFilePick()"><button type="button" id="b-pick" class="btn-file" onclick="document.getElementById('scan-file').click()">📷 Choose Photo / Snap Camera</button><select id="scan-mode" class="inp" style="margin-bottom:10px"><option value="0">Contract & Scam Shield (Legal Risks)</option><option value="1">Home & Auto Repair Guide (Error Codes)</option><option value="2">Receipt & Expense Accountant</option><option value="3">Textbook Homework / Food Recipes</option></select><button type="button" id="b-scan" class="btn-main" onclick="runScan()">🔍 Analyze Photo Now</button><div id="out-scan" class="out"></div></div></div>
+  <div id="p-studio" class="page"><div class="card"><h2 id="t-art">🎨 AI 4K Logo & Art Studio</h2><p id="s-art" class="sub">Create watermark-free 4K logos, ads & banners in seconds.</p><div class="row"><input id="q-art" placeholder="Describe logo, ad, or 4K art..."><button type="button" class="btn-mic" onclick="mic('q-art')">🎤</button></div><button type="button" id="b-art" class="btn-main" onclick="genArt()">✨ Generate 4K Image</button><div id="out-art" class="out" style="text-align:center"></div></div></div>
+  <div id="p-vault" class="page"><div class="card"><h2 id="t-vault">🧾 Personal Accountant & PIN Vault</h2><p id="s-vault" class="sub">Save daily expenses & private PIN notes locally on your device.</p><div class="row"><input id="q-memo" placeholder="e.g. Coffee $4.50 or Bank PIN 4829..."><button type="button" class="btn-mic" onclick="mic('q-memo')">🎤</button></div><button type="button" id="b-memo" class="btn-main" onclick="addMemo()">💾 Save to Vault</button><button type="button" id="b-backup" class="btn-file" style="margin-top:8px" onclick="backupVault()">☁️ Backup / Copy All Data</button><div id="memo-list"></div></div></div>
+</div>
+<div id="pro-modal" class="modal" onclick="if(event.target===this)this.classList.remove('open')"><div class="card" style="max-width:380px;width:100%;border-color:#f59e0b"><h2>👑 Voxa AI PRO ($29/mo)</h2><p class="sub">✅ Unlimited 4K Watermark-Free Studio<br>✅ Priority Contract & Auto Repair AI<br>✅ 24/7 IELTS Examiner & 20-Lang Voice<br><br>Message <b>@VoxaCopilot_bot</b> on Telegram to activate PRO instantly!</p><button type="button" class="btn-main" onclick="document.getElementById('pro-modal').classList.remove('open')">OK</button></div></div>
+<div class="nav">
+  <button type="button" id="n-home" class="active" onclick="go('home')"><span>🏠</span>Home</button>
+  <button type="button" id="n-ielts" onclick="go('ielts')"><span>🎙</span>IELTS</button>
+  <button type="button" id="n-scan" onclick="go('scan')"><span>🛡</span>Scanner</button>
+  <button type="button" id="n-studio" onclick="go('studio')"><span>🎨</span>Studio</button>
+  <button type="button" id="n-vault" onclick="go('vault')"><span>🧾</span>Vault</button>
+</div>
+<script>
+var curL = 'en';
+var D = {
+  en:{sh:'SHARE',vi:'🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!',ti:'All-in-One Voice, Design & Universal AI Encyclopedia',su:'Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.',c1t:'Contract & Scam Shield',c1s:'Detect hidden traps in loans, contracts & SMS.',c2t:'IELTS & Live Translator',c2s:'Band Score coach & 2-way voice interpreter.',c3t:'AI Logo & Design Studio',c3s:'Create 4K logos, ads & art like Leonardo AI.',c4t:'Smart Camera: Repair',c4s:'Fix home appliances, error codes & car issues.',c5t:'Receipt & Expense AI',c5s:'Voice & photo personal accountant + PIN vault.',c6t:'Universal AI Encyclopedia',c6s:'All Sciences, Medicine, Finance & Research.',qh:'Ask any question: Science, Medicine, Finance...',bh:'✨ Generate AI Answer',tie:'🎙️ AI IELTS & Live Voice Translator',sie:'Get instant IELTS Band Score feedback or live 2-way translation.',qie:'Speak or type for IELTS evaluation or translation...',bie:'🚀 Evaluate & Translate',tsc:'🛡️ Smart Camera: Contract, Repair & Receipt',ssc:'Upload photo of a contract, error code (E04), car part, or receipt.',bpi:'📷 Choose Photo / Snap Camera',bsc:'🔍 Analyze Photo Now',m0:'Contract & Scam Shield (Legal Risks)',m1:'Home & Auto Repair Guide (Error Codes)',m2:'Receipt & Expense Accountant',m3:'Textbook Homework / Food Recipes',tar:'🎨 AI 4K Logo & Art Studio',sar:'Create watermark-free 4K logos, ads & banners in seconds.',qar:'Describe logo, ad, or 4K art...',bar:'✨ Generate 4K Image',tva:'🧾 Personal Accountant & PIN Vault',sva:'Save daily expenses & private PIN notes locally on your device.',qme:'e.g. Coffee $4.50 or Bank PIN 4829...',bme:'💾 Save to Vault',bba:'☁️ Backup / Copy All Data',nh:'Home',ni:'IELTS',ns:'Scanner',nst:'Studio',nv:'Vault'},
+  uz:{sh:'ULASHISH',vi:'🎁 1 do‘stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!',ti:'Ovoz, Dizayn va Universal AI Ensiklopediya',su:'Shartnoma qalqoni, Jonli tarjimon, IELTS murabbiy, Aqlli ta’mir va 4K Logo Studiya.',c1t:'Shartnoma va Firibgarlik Qalqoni',c1s:'Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.',c2t:'IELTS va Jonli Tarjimon',c2s:'Band Score bahosi va 2 tomonlama ovozli tarjimon.',c3t:'AI Logo va Dizayn Studiyasi',c3s:'Leonardo AI kabi 4K logo, banner va dizayn yarating.',c4t:'Aqlli Kamera: Uy va Avto Usta',c4s:'Kir yuvish mashinasi xato kodi (E04) va avto ta’mir.',c5t:'Chek va Xarajatlar AI',c5s:'Ovozli shaxsiy buxgalter va 4 xonali PIN seyf.',c6t:'Universal AI Ensiklopediya',c6s:'Barcha fanlar, Tibbiyot, Moliya va Ilmiy tahlil.',qh:'Savolingizni yozing: Fan, Tibbiyot, Moliya...',bh:'✨ AI Javobini Olish',tie:'🎙️ AI IELTS va Jonli Ovozli Tarjimon',sie:'Tezkor IELTS Band Score bahosi yoki 2 tomonlama jonli tarjima.',qie:'IELTS tekshiruvi yoki tarjima uchun yozing...',bie:'🚀 Baholash va Tarjima',tsc:'🛡️ Aqlli Kamera: Shartnoma, Ta’mir va Chek',ssc:'Shartnoma, xato kodi (E04), avto qism yoki chek rasmini yuklang.',bpi:'📷 Rasm Tanlash / Kamera',bsc:'🔍 Rasmni Hozir Tahlil Qilish',m0:'Shartnoma va Firibgarlik Qalqoni (Huquqiy xavf)',m1:'Uy va Avto Ta’mir Ustasi (Xato kodlari)',m2:'Chek va Xarajatlar Buxgalteri',m3:'Darslik Uyga Vazifa / Taom Retsepti',tar:'🎨 AI 4K Logo va Dizayn Studiyasi',sar:'Belgisiz (watermark-free) 4K logo, banner va dizayn yarating.',qar:'Logo, reklama yoki 4K rasmni tasvirlang...',bar:'✨ 4K Rasm Yaratish',tva:'🧾 Shaxsiy Buxgalter va PIN Seyf',sva:'Kunlik xarajatlar va maxfiy PIN kodlarni xavfsiz saqlang.',qme:'Masalan: Kofe $4.50 yoki Karta PIN 4829...',bme:'💾 Seyfga Saqlash',bba:'☁️ Zaxira Nusxa / Hammasini Nusxalash',nh:'Bosh sahifa',ni:'IELTS',ns:'Skaner',nst:'Studiya',nv:'Seyf'},
+  ru:{sh:'ПОДЕЛИТЬСЯ',vi:'🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!',ti:'Голосовой, Дизайн и Универсальный ИИ Копилот',su:'Защита договоров, Живой переводчик, IELTS тренер, Ремонт и 4K Лого Студия.',c1t:'Защита от Договоров и Мошенников',c1s:'Поиск скрытых ловушек в кредитах, договорах и СМС.',c2t:'IELTS и Живой Переводчик',c2s:'Оценка Band Score и голосовой переводчик на 20 языков.',c3t:'ИИ Лого и Дизайн Студия',c3s:'Создавайте 4K логотипы, рекламу и арт как Leonardo AI.',c4t:'Умная Камера: Ремонт Авто/Дома',c4s:'Расшифровка кодов ошибок (E04) и ремонт авто.',c5t:'Бухгалтер Чеков и Расходов',c5s:'Голосовой учет расходов и защищенный PIN-сейф.',c6t:'Универсальная ИИ Энциклопедия',c6s:'Наука, Медицина, Финансы, Инженерия и Учеба.',qh:'Задайте любой вопрос: Наука, Медицина, Финансы...',bh:'✨ Получить Ответ ИИ',tie:'🎙️ ИИ IELTS и Живой Переводчик',sie:'Мгновенная оценка IELTS Band Score и живой перевод на 20 языков.',qie:'Введите текст для проверки IELTS или перевода...',bie:'🚀 Оценить и Перевести',tsc:'🛡️ Умная Камера: Договор, Ремонт и Чек',ssc:'Загрузите фото договора, кода ошибки (E04), авто или чека.',bpi:'📷 Выбрать Фото / Камера',bsc:'🔍 Анализировать Фото Сейчас',m0:'Защита от Договоров и Мошенников',m1:'Ремонт Авто и Техники (Коды ошибок)',m2:'Бухгалтер Чеков и Расходов',m3:'Домашнее Задание / Рецепты',tar:'🎨 ИИ 4K Лого и Арт Студия',sar:'Создавайте 4K логотипы и баннеры без водяных знаков.',qar:'Опишите логотип, рекламу или 4K арт...',bar:'✨ Создать 4K Картинку',tva:'🧾 Личный Бухгалтер и PIN Сейф',sva:'Сохраняйте расходы и секретные PIN-заметки на устройстве.',qme:'Напр.: Кофе $4.50 или PIN карты 4829...',bme:'💾 Сохранить в Сейф',bba:'☁️ Резервная Копия / Скопировать Всё',nh:'Главная',ni:'IELTS',ns:'Сканер',nst:'Студия',nv:'Сейф'},
+  ar:{sh:'مشاركة',vi:'🎁 شارك مع صديق واحد واحصل على <b>24 ساعة Voxa PRO</b> مجاناً!',ti:'مساعد الذكاء الاصطناعي الشامل للصوت والتصميم',su:'فحص العقود، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو شعارات 4K.',c1t:'درع العقود والاحتيال',c1s:'اكتشف الفخاخ المخفية في القروض والعقود والرسائل.',c2t:'IELTS والمترجم الفوري',c2s:'تقييم IELTS ومترجم صوتي ثنائي الاتجاه.',c3t:'استوديو الشعارات والتصميم 4K',c3s:'أنشئ شعارات وإعلانات احترافية بالذكاء الاصطناعي.',c4t:'الكاميرا الذكية: الصيانة',c4s:'إصلاح الأجهزة المنزلية وأكواد أعطال السيارات.',c5t:'محاسب الإيصالات والمصاريف',c5s:'محاسب شخصي بالصوت وخزنة برقم سري PIN.',c6t:'موسوعة الذكاء الاصطناعي الشاملة',c6s:'العلوم والطب والمالية والهندسة والبحث.',qh:'اسأل أي سؤال: العلوم، الطب، المالية...',bh:'✨ توليد إجابة الذكاء الاصطناعي',tie:'🎙️ مدرب IELTS والمترجم الصوتي الفوري',sie:'احصل على تقييم IELTS فوري أو ترجمة صوتية ثنائية الاتجاه.',qie:'اكتب أو تحدث لتقييم IELTS أو الترجمة...',bie:'🚀 تقييم وترجمة',tsc:'🛡️ الكاميرا الذكية: العقود، الصيانة والإيصالات',ssc:'ارفع صورة عقد، رمز خطأ (E04)، قطعة سيارة أو إيصال.',bpi:'📷 اختر صورة / الكاميرا',bsc:'🔍 تحليل الصورة الآن',m0:'درع العقود والاحتيال (المخاطر القانونية)',m1:'دليل إصلاح السيارات والأجهزة',m2:'محاسب الإيصالات والمصاريف',m3:'الواجبات المدرسية / وصفات الطعام',tar:'🎨 استوديو الشعارات والفن 4K',sar:'أنشئ شعارات وإعلانات 4K بدون علامة مائية في ثوانٍ.',qar:'صف الشعار أو الإعلان أو التصميم...',bar:'✨ إنشاء صورة 4K',tva:'🧾 المحاسب الشخصي وخزنة PIN',sva:'احفظ مصاريفك اليومية وملاحظات PIN السرية بأمان.',qme:'مثال: قهوة 4.50$ أو رمز PIN 4829...',bme:'💾 حفظ في الخزنة',bba:'☁️ نسخ احتياطي / نسخ جميع البيانات',nh:'الرئيسية',ni:'IELTS',ns:'الماسح',nst:'الاستوديو',nv:'الخزنة'}
+};
+function setLang(l){
+  curL = D[l] ? l : 'en';
+  var d = D[curL];
+  document.getElementById('b-share').innerText = d.sh;
+  document.getElementById('t-viral').innerHTML = d.vi;
+  document.getElementById('hero-title').innerText = d.ti;
+  document.getElementById('hero-sub').innerText = d.su;
+  document.getElementById('c1-t').innerText = d.c1t; document.getElementById('c1-s').innerText = d.c1s;
+  document.getElementById('c2-t').innerText = d.c2t; document.getElementById('c2-s').innerText = d.c2s;
+  document.getElementById('c3-t').innerText = d.c3t; document.getElementById('c3-s').innerText = d.c3s;
+  document.getElementById('c4-t').innerText = d.c4t; document.getElementById('c4-s').innerText = d.c4s;
+  document.getElementById('c5-t').innerText = d.c5t; document.getElementById('c5-s').innerText = d.c5s;
+  document.getElementById('c6-t').innerText = d.c6t; document.getElementById('c6-s').innerText = d.c6s;
+  document.getElementById('q-home').placeholder = d.qh; document.getElementById('b-home').innerText = d.bh;
+  document.getElementById('t-ielts').innerText = d.tie; document.getElementById('s-ielts').innerText = d.sie;
+  document.getElementById('q-ielts').placeholder = d.qie; document.getElementById('b-ielts').innerText = d.bie;
+  document.getElementById('t-scan').innerText = d.tsc; document.getElementById('s-scan').innerText = d.ssc;
+  onFilePick();
+  document.getElementById('b-scan').innerText = d.bsc;
+  var sel = document.getElementById('scan-mode');
+  sel.options.item(0).text = d.m0; sel.options.item(1).text = d.m1;
+  sel.options.item(2).text = d.m2; sel.options.item(3).text = d.m3;
+  document.getElementById('t-art').innerText = d.tar; document.getElementById('s-art').innerText = d.sar;
+  document.getElementById('q-art').placeholder = d.qar; document.getElementById('b-art').innerText = d.bar;
+  document.getElementById('t-vault').innerText = d.tva; document.getElementById('s-vault').innerText = d.sva;
+  document.getElementById('q-memo').placeholder = d.qme; document.getElementById('b-memo').innerText = d.bme;
+  document.getElementById('b-backup').innerText = d.bba;
+  document.getElementById('n-home').innerHTML = '<span>🏠</span>' + d.nh;
+  document.getElementById('n-ielts').innerHTML = '<span>🎙</span>' + d.ni;
+  document.getElementById('n-scan').innerHTML = '<span>🛡</span>' + d.ns;
+  document.getElementById('n-studio').innerHTML = '<span>🎨</span>' + d.nst;
+  document.getElementById('n-vault').innerHTML = '<span>🧾</span>' + d.nv;
+}
+function go(p){
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
+  document.querySelectorAll('.nav button').forEach(function(e){e.classList.remove('active')});
+  document.getElementById('p-'+p).classList.add('active');
+  document.getElementById('n-'+p).classList.add('active');
+}
+function openScan(m){ go('scan'); document.getElementById('scan-mode').selectedIndex = m; }
+function onFilePick(){
+  var f = document.getElementById('scan-file').files;
+  document.getElementById('b-pick').innerText = D[curL].bpi + (f && f.length ? ' ✅ ' + f.item(0).name : '');
+}
+async function ai(prompt, outId, fallbackHtml){
+  var el = document.getElementById(outId);
+  el.style.display = 'block';
+  el.innerText = '⏳ Thinking...';
+  var fullP = prompt + ' (Reply strictly in language: ' + curL + ')';
+  var u = 'https://text.' + 'pollinations.ai/' + encodeURIComponent(fullP) + '?model=openai&seed=' + Date.now();
+  try{
+    var r = await fetch(u);
+    if(r.ok){
+      var t = await r.text();
+      if(t && t.length > 5 && t.indexOf('<!DOCTYPE') === -1){ el.innerHTML = t.replace(/\n/g, '<br>'); return; }
+    }
+  }catch(e){}
+  el.innerHTML = fallbackHtml || '⚠️ AI server busy right now. Please tap again.';
+}
+function askHome(){ var q=document.getElementById('q-home').value.trim(); if(q) ai('You are Voxa AI, an expert Universal Copilot: '+q,'out-home'); }
+function askIelts(){ var q=document.getElementById('q-ielts').value.trim(); if(q) ai('Act as a Senior IELTS Examiner & Live Interpreter. Give exact Band Score (0-9), grammar fixes & Band 8.5 version, or translate accurately: '+q,'out-ielts'); }
+function runScan(){
+  var f = document.getElementById('scan-file').files;
+  var el = document.getElementById('out-scan');
+  if(!f || !f.length){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
+  var fname = f.item(0).name;
+  var m = document.getElementById('scan-mode').selectedIndex;
+  var p0 = 'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+fname+').';
+  var p1 = 'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+fname+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.';
+  var p2 = 'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+fname+').';
+  var p3 = 'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+fname+').';
+  var b0 = '<b>🛡️ Contract & Scam Risk Audit:</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.';
+  var b1 = '<b>🔧 Check Engine / Error Code Diagnosis:</b><br>1. <b>Loose Gas Cap / Sensor:</b> Tighten fuel cap first (0$ fix).<br>2. <b>O2 Sensor / Catalytic (P0420):</b> Check exhaust oxygen sensor ($80–$220).<br>3. <b>Ignition / Spark Plugs:</b> Inspect misfire codes (P0300) before visiting a mechanic.';
+  var b2 = '<b>🧾 Receipt & Tax Audit Ready:</b><br>1. Categorize as Business / Deductible Expense.<br>2. Save digital copy in Vault for tax write-offs.';
+  var b3 = '<b>📚 Step-by-Step Guide Ready:</b><br>1. Break down the core formula/ingredients.<br>2. Verify each step carefully.';
+  var p = m===0 ? p0 : (m===1 ? p1 : (m===2 ? p2 : p3));
+  var b = m===0 ? b0 : (m===1 ? b1 : (m===2 ? b2 : b3));
+  ai(p, 'out-scan', b);
+}
+function genArt(){
+  var q = document.getElementById('q-art').value.trim(); if(!q) return;
+  var el = document.getElementById('out-art'); el.style.display='block';
+  var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(q + ', ultra detailed 4k professional design') + '?width=1024&height=1024&nologo=true&seed=' + Date.now();
+  el.innerHTML = '<img src="'+u+'" style="width:100%;border-radius:12px" alt="4K AI">';
+}
+function mic(id){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert('Voice input not supported in this browser'); return; }
+  var r = new SR(); r.lang = curL;
+  r.onresult = function(e){ document.getElementById(id).value = e.results.item(0).item(0).transcript; };
+  r.start();
+}
+function shareApp(){
+  var txt = 'Try Voxa AI Copilot 24/7: https://guzalapexai.' + 'github.io/voxa-ai/app.html';
+  if(navigator.share) navigator.share({title:'Voxa AI',text:txt}); else { navigator.clipboard.writeText(txt); alert('Link copied! 24h PRO unlocked!'); }
+}
+function addMemo(){
+  var v = document.getElementById('q-memo').value.trim(); if(!v) return;
+  var arr = JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array();
+  arr.unshift(v);
+  localStorage.setItem('voxa_memos', JSON.stringify(arr)); document.getElementById('q-memo').value=''; renderMemos();
+}
+function renderMemos(){
+  var arr = JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array();
+  document.getElementById('memo-list').innerHTML = arr.map(function(x,i){ return '<div class="memo"><span>'+x+'</span><span style="color:#f87171;cursor:pointer" onclick="delMemo('+i+')">✕</span></div>'; }).join('');
+}
+function delMemo(i){ var arr=JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array(); arr.splice(i,1); localStorage.setItem('voxa_memos',JSON.stringify(arr)); renderMemos(); }
+function backupVault(){
+  var arr = JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array();
+  navigator.clipboard.writeText('Voxa Vault Backup:\n' + (arr.join('\n') || 'Empty'));
+  alert('☁️ All Vault & PIN notes copied to clipboard!');
+}
+var td = new Date().toDateString(), ld = localStorage.getItem('v_ld'), st = parseInt(localStorage.getItem('v_st')||'0',10);
+if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_st', st); }
+document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
+renderMemos();
+</script>
+</body>
+</html>
