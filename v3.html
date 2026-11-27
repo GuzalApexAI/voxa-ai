@@ -608,6 +608,97 @@ renderMemos();
   };
 })();
 </script>
+<script>
+(function(){
+  var lt = document.getElementById('logoText');
+  if(lt && !document.getElementById('canvaPanel')){
+    var panel = document.createElement('div');
+    panel.id = 'canvaPanel';
+    panel.style.cssText = 'margin-bottom:12px';
+    panel.innerHTML =
+      '<div id="colorDots" style="display:flex;gap:8px;overflow-x:auto;padding:6px 2px;margin-bottom:8px;align-items:center">' +
+        '<span data-c="gold" title="Gold Glitter" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #fff;background:linear-gradient(135deg,#fef08a,#f59e0b,#b45309)"></span>' +
+        '<span data-c="#ffffff" title="White" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#ffffff"></span>' +
+        '<span data-c="#000000" title="Black" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#000000"></span>' +
+        '<span data-c="#ef4444" title="Red" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#ef4444"></span>' +
+        '<span data-c="#3b82f6" title="Blue" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#3b82f6"></span>' +
+        '<span data-c="#10b981" title="Green" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#10b981"></span>' +
+        '<span data-c="#facc15" title="Yellow" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#facc15"></span>' +
+        '<span data-c="#7e22ce" title="Purple / Chernel" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#7e22ce"></span>' +
+        '<span data-c="#ec4899" title="Pink" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#ec4899"></span>' +
+        '<span data-c="#06b6d4" title="Cyan" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid #475569;background:#06b6d4"></span>' +
+      '</div>' +
+      '<select id="logoFont" style="width:100%;background:#020617;color:#fff;border:1px solid #334155;border-radius:12px;padding:11px;font-size:13px;font-weight:700">' +
+        '<option value="900 78px Arial Black,sans-serif">🅰️ Canva Sans Heavy (Montserrat)</option>' +
+        '<option value="italic bold 78px Georgia,serif">👑 Luxury Royal Serif (Playfair)</option>' +
+        '<option value="bold 84px Impact,sans-serif">🔥 Poster Tall Bold (Bebas Neue)</option>' +
+        '<option value="bold 74px Courier New,monospace">⚡ Futuristic Cyber (Orbitron)</option>' +
+        '<option value="italic 82px Brush Script MT,cursive">✍️ Signature Calligraphic (Pacifico)</option>' +
+        '<option value="bold 76px Trebuchet MS,sans-serif">💎 Clean Modern Brand (Oswald)</option>' +
+      '</select>';
+    lt.parentNode.insertBefore(panel, document.getElementById('t-art-btn'));
+  }
+
+  var selColor = 'gold';
+  var lastImg = null;
+
+  function renderCanvas(){
+    if(!lastImg) return;
+    var el = document.getElementById('artOutput');
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fnt = (document.getElementById('logoFont') || {value:'900 78px Arial Black,sans-serif'}).value;
+    var w = lastImg.naturalWidth || 1024;
+    var h = Math.floor((lastImg.naturalHeight || 1024) * 0.88);
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(lastImg, 0, 0, w, h, 0, 0, w, h);
+    if(txt){
+      ctx.font = fnt;
+      ctx.textAlign = 'center';
+      ctx.shadowColor = selColor === '#000000' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.85)';
+      ctx.shadowBlur = 14;
+      ctx.shadowOffsetY = 5;
+      if(selColor === 'gold'){
+        var grad = ctx.createLinearGradient(w*0.25, 0, w*0.75, 0);
+        grad.addColorStop(0,'#fef08a'); grad.addColorStop(0.5,'#f59e0b'); grad.addColorStop(1,'#fde047');
+        ctx.fillStyle = grad;
+      } else {
+        ctx.fillStyle = selColor;
+      }
+      ctx.fillText(txt, w/2, h - 42);
+    }
+    var cleanUrl = c.toDataURL('image/png');
+    el.innerHTML = '<img src="' + cleanUrl + '" style="width:100%;border-radius:12px;display:block;margin-bottom:10px" alt="4K Studio">' +
+      '<a href="' + cleanUrl + '" download="VoxaAI_Canva4K.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">⬇️ Download 4K (0% Watermark)</a>';
+  }
+
+  document.querySelectorAll('#colorDots span').forEach(function(dot){
+    dot.onclick = function(){
+      document.querySelectorAll('#colorDots span').forEach(function(d){ d.style.borderColor = '#475569'; });
+      dot.style.borderColor = '#ffffff';
+      selColor = dot.getAttribute('data-c');
+      renderCanvas();
+    };
+  });
+  var fSel = document.getElementById('logoFont');
+  if(fSel) fSel.onchange = renderCanvas;
+  if(lt) lt.oninput = renderCanvas;
+
+  window.generateArt = function(){
+    var q = document.getElementById('artInput').value.trim();
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Generating 0% Watermark 4K Logo...';
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(q + ', centered emblem on dark background, studio lighting, 8k') + '?model=flux&width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*99999);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){ lastImg = img; renderCanvas(); };
+    img.src = u;
+  };
+})();
+</script>
 
 </body>
 </html>
