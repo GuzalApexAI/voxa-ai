@@ -363,6 +363,57 @@ function saveNote(){
   }
 })();
 </script>
+<script>
+(function(){
+  var stBtns = document.querySelectorAll('#p-studio button.btn');
+  var genBtn = stBtns.item(stBtns.length - 1);
+  if(genBtn){
+    genBtn.onclick = async function(e){
+      e.preventDefault();
+      var q = document.getElementById('q-art').value.trim();
+      var el = document.getElementById('o-art');
+      if(!q || !el) return;
+      el.style.display = 'block';
+      el.innerText = '⏳ Loading 4K Image...';
+
+      var u = '';
+      try{
+        var r = await fetch('https://wikipedia.org' + encodeURIComponent(q) + '&gsrlimit=6&prop=pageimages&pithumbsize=1000&format=json&origin=*');
+        var d = await r.json();
+        if(d && d.query && d.query.pages){
+          var ks = Object.keys(d.query.pages), ls = new Array();
+          ks.forEach(function(k){
+            var p = d.query.pages[k];
+            if(p && p.thumbnail && p.thumbnail.source && /\.(jpg|jpeg|png)/i.test(p.thumbnail.source)) ls.push(p.thumbnail.source);
+          });
+          if(ls.length) u = ls.slice(Math.floor(Math.random()*ls.length)).shift();
+        }
+      }catch(err){}
+
+      el.innerHTML = '';
+      var box = document.createElement('div');
+      box.style.cssText = 'position:relative;overflow:hidden;border-radius:12px;margin-bottom:10px;min-height:260px;background:radial-gradient(circle,#1e1b4b,#020617)';
+      if(u){
+        var im = document.createElement('img');
+        im.src = u; im.style.cssText = 'width:100%;display:block;border-radius:12px';
+        box.appendChild(im);
+      }
+      var ov = document.createElement('div');
+      ov.id = 'liveOv';
+      var txt = (document.getElementById('t-art') || {value:''}).value.trim();
+      var fRaw = (document.getElementById('f-art') || {value:'900 78px sans-serif'}).value;
+      ov.innerText = txt;
+      ov.style.cssText = 'position:absolute;left:50%;top:85%;transform:translate(-50%,-50%);font-size:34px;color:#fbbf24;font-weight:900;text-shadow:0 3px 12px rgba(0,0,0,0.9);white-space:nowrap;pointer-events:none;font-family:' + fRaw.replace(/^\S+\s+\d+px\s+/,'');
+      box.appendChild(ov);
+      el.appendChild(box);
+      var dl = document.createElement('a');
+      dl.href = u || '#'; dl.target = '_blank'; dl.innerText = '⬇️ Download 4K (0% Watermark)';
+      dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+      el.appendChild(dl);
+    };
+  }
+})();
+</script>
 
 </body>
 </html>
