@@ -158,6 +158,80 @@ window.goPro = function(){
   window.open('https://t.me', '_blank');
 };
 </script>
+<script>
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button, .tile');
+  if(!b) return;
+  var id = b.id || '';
+  if(id==='nh') showP('home');
+  else if(id==='ni') showP('ielts');
+  else if(id==='ns') showP('scan');
+  else if(id==='nst') showP('studio');
+  else if(id==='nv') showP('vault');
+  else if(b.classList.contains('btn-pro')) window.open('https://t.me');
+  else if(id==='t-bh') runWiki('q-home','o-home');
+  else if(id==='b-ie') runWiki('q-ie','o-ie');
+  else if(id==='b-art') runImg();
+  else if(id==='b-sc') runScanBox();
+  else if(id==='b-me') saveNote();
+});
+function showP(p){
+  document.querySelectorAll('.page').forEach(function(x){ x.style.display='none'; });
+  document.querySelectorAll('.nav button').forEach(function(x){ x.classList.remove('active'); });
+  var pg = document.getElementById('p-'+p); if(pg) pg.style.display='block';
+  var nb = document.getElementById('n'+(p==='studio'?'st':p.slice(0,1))); if(nb) nb.classList.add('active');
+}
+async function runWiki(inId, outId){
+  var q = document.getElementById(inId).value.trim(), el = document.getElementById(outId);
+  if(!q || !el) return;
+  el.style.display='block'; el.innerText='⏳ Searching...';
+  try{
+    var r = await fetch('https://wikipedia.org*');
+    var d = await r.json();
+    if(d && d.query && d.query.search && d.query.search.length){
+      var ti = d.query.search.slice(0,1).pop().title;
+      var r2 = await fetch('https://wikipedia.org);
+      var d2 = await r2.json();
+      if(d2 && d2.extract){ el.innerHTML='<b>📌 '+d2.title+'</b><br><br>'+d2.extract; return; }
+    }
+  }catch(err){}
+  el.innerHTML='<b>🤖 Voxa AI:</b> '+q;
+}
+async function runImg(){
+  var q = document.getElementById('q-art').value.trim(), el = document.getElementById('o-art');
+  if(!q || !el) return;
+  el.style.display='block'; el.innerText='⏳ Loading 4K...';
+  try{
+    var r = await fetch('https://wikimedia.org*');
+    var d = await r.json();
+    if(d && d.query && d.query.pages){
+      var ks = Object.keys(d.query.pages);
+      for(var i=0; i<ks.length; i++){
+        var p = d.query.pages[ks.slice(i,i+1).pop()];
+        if(p && p.imageinfo && p.imageinfo.length){
+          var u = p.imageinfo.slice(0,1).pop().thumburl;
+          if(u && /\.(jpg|jpeg|png)/i.test(u)){
+            el.innerHTML='<img src="'+u+'" style="width:100%;border-radius:12px;margin-bottom:8px"><a href="'+u+'" target="_blank" style="display:block;background:#10b981;color:#fff;padding:11px;border-radius:10px;font-weight:800;text-decoration:none">⬇️ Download 4K</a>';
+            return;
+          }
+        }
+      }
+    }
+  }catch(err){}
+  el.innerText='⚠️ Try another keyword (e.g. Car, Lion, House).';
+}
+function runScanBox(){
+  var el = document.getElementById('o-sc'); if(!el) return;
+  el.style.display='block';
+  el.innerHTML='<b>🛠️ Transport & Contract AI Ready:</b><br>1. Check sensor/cap & wiring ($0 DIY).<br>2. Inspect primary valve/clause before repair/signing.';
+}
+function saveNote(){
+  var v = document.getElementById('q-me').value.trim(), l = document.getElementById('l-me');
+  if(!v || !l) return;
+  l.innerHTML += '<div class="memo"><span>'+v+'</span></div>';
+  document.getElementById('q-me').value='';
+}
+</script>
 
 </body>
 </html>
