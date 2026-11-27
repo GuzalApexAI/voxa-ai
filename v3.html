@@ -699,6 +699,107 @@ renderMemos();
   };
 })();
 </script>
+<script>
+(function(){
+  var lt = document.getElementById('logoText');
+  if(lt && !document.getElementById('movePad')){
+    var pad = document.createElement('div');
+    pad.id = 'movePad';
+    pad.style.cssText = 'display:flex;gap:6px;justify-content:space-between;margin-bottom:10px';
+    var bs = 'flex:1;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:9px 0;font-size:15px;font-weight:800;cursor:pointer';
+    pad.innerHTML =
+      '<button type="button" id="mvL" style="'+bs+'">⬅️</button>' +
+      '<button type="button" id="mvU" style="'+bs+'">⬆️</button>' +
+      '<button type="button" id="mvD" style="'+bs+'">⬇️</button>' +
+      '<button type="button" id="mvR" style="'+bs+'">➡️</button>' +
+      '<button type="button" id="szM" style="'+bs+';color:#38bdf8">A-</button>' +
+      '<button type="button" id="szP" style="'+bs+';color:#38bdf8">A+</button>';
+    lt.parentNode.insertBefore(pad, document.getElementById('t-art-btn'));
+  }
+
+  var posX = 0.50, posY = 0.88, fSize = 76, selColor = 'gold', lastImg = null;
+
+  function drawProCanvas(){
+    if(!lastImg) return;
+    var el = document.getElementById('artOutput');
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fSel = document.getElementById('logoFont');
+    var fRaw = fSel ? fSel.value : '900 78px Arial Black,sans-serif';
+    var fnt = fRaw.replace(/\d+px/, fSize + 'px');
+    var w = lastImg.naturalWidth || 1024;
+    var h = Math.floor((lastImg.naturalHeight || 1024) * 0.88);
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(lastImg, 0, 0, w, h, 0, 0, w, h);
+    if(txt){
+      ctx.font = fnt;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = selColor === '#000000' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.85)';
+      ctx.shadowBlur = 14;
+      ctx.shadowOffsetY = 5;
+      if(selColor === 'gold'){
+        var grad = ctx.createLinearGradient(w*0.25, 0, w*0.75, 0);
+        grad.addColorStop(0,'#fef08a'); grad.addColorStop(0.5,'#f59e0b'); grad.addColorStop(1,'#fde047');
+        ctx.fillStyle = grad;
+      } else { ctx.fillStyle = selColor; }
+      ctx.fillText(txt, w * posX, h * posY);
+    }
+    var cleanUrl = c.toDataURL('image/png');
+    var dlLabel = (document.getElementById('dl4kBtn') || {innerText:'⬇️ Download 4K (0% Watermark)'}).innerText;
+    el.innerHTML = '<img id="prev4k" src="' + cleanUrl + '" style="width:100%;border-radius:12px;display:block;margin-bottom:10px;cursor:crosshair" alt="4K Studio">' +
+      '<a id="dl4kBtn" href="' + cleanUrl + '" download="VoxaAI_ProDesign.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">' + dlLabel + '</a>';
+    var pv = document.getElementById('prev4k');
+    if(pv){
+      pv.onclick = function(e){
+        var r = pv.getBoundingClientRect();
+        posX = Math.max(0.1, Math.min(0.9, (e.clientX - r.left) / r.width));
+        posY = Math.max(0.1, Math.min(0.95, (e.clientY - r.top) / r.height));
+        drawProCanvas();
+      };
+    }
+  }
+
+  document.getElementById('mvL').onclick = function(){ posX = Math.max(0.1, posX - 0.05); drawProCanvas(); };
+  document.getElementById('mvR').onclick = function(){ posX = Math.min(0.9, posX + 0.05); drawProCanvas(); };
+  document.getElementById('mvU').onclick = function(){ posY = Math.max(0.08, posY - 0.05); drawProCanvas(); };
+  document.getElementById('mvD').onclick = function(){ posY = Math.min(0.95, posY + 0.05); drawProCanvas(); };
+  document.getElementById('szM').onclick = function(){ fSize = Math.max(28, fSize - 10); drawProCanvas(); };
+  document.getElementById('szP').onclick = function(){ fSize = Math.min(160, fSize + 10); drawProCanvas(); };
+
+  document.querySelectorAll('#colorDots span').forEach(function(dot){
+    dot.onclick = function(){
+      document.querySelectorAll('#colorDots span').forEach(function(d){ d.style.borderColor = '#475569'; });
+      dot.style.borderColor = '#ffffff';
+      selColor = dot.getAttribute('data-c');
+      drawProCanvas();
+    };
+  });
+  var fSel = document.getElementById('logoFont');
+  if(fSel) fSel.onchange = drawProCanvas;
+  if(lt) lt.oninput = drawProCanvas;
+
+  window.generateArt = function(){
+    var q = document.getElementById('artInput').value.trim();
+    var tp = (document.getElementById('designType') || {value:'logo'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Rendering 4K Canva PRO Studio...';
+    var suffix = tp==='card' ? ', luxury minimalist business card mockup, gold foil border, dark background' :
+                 tp==='invite' ? ', royal floral wedding invitation card template, gold ornamental frame, elegant' :
+                 tp==='greet' ? ', festive luxury greeting postcard design, warm golden sparkles, 8k' :
+                 tp==='banner' ? ', wide cinematic youtube banner background, modern neon gradient, 8k' :
+                 ', centered emblem on dark background, studio lighting, 8k';
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(q + suffix) + '?width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*99999);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){ lastImg = img; drawProCanvas(); };
+    img.src = u;
+  };
+})();
+</script>
 
 </body>
 </html>
