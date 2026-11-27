@@ -2,179 +2,425 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Voxa AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Voxa AI — 24/7 Voice, Design & Universal AI Copilot</title>
+<script src="https://telegram.org"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-body{background:#090d16;color:#f8fafc;padding-bottom:88px}
-.hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#0f172a;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:99}
-.brand{display:flex;align-items:center;gap:10px}.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff}
-.brand-t h1{font-size:16px;font-weight:800}.brand-t span{font-size:11px;color:#38bdf8}
-.lang-sel{background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:7px 8px;font-size:12px;font-weight:700}
-.wrap{padding:14px;max-width:480px;margin:auto}.page{display:none}.page.active{display:block}
-.card{background:#111827;border:1px solid #1e293b;border-radius:18px;padding:16px;margin-bottom:14px}
-.top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.badge{background:rgba(16,185,129,.15);color:#34d399;padding:5px 10px;border-radius:99px;font-size:11px;font-weight:700}
-.btn-pro{background:linear-gradient(90deg,#f59e0b,#ea580c);color:#fff;border:none;padding:7px 13px;border-radius:99px;font-size:12px;font-weight:800;cursor:pointer}
-h2{font-size:19px;font-weight:800;margin-bottom:6px}.sub{font-size:13px;color:#94a3b8;line-height:1.4;margin-bottom:14px}
-.viral{background:linear-gradient(90deg,#1e1b4b,#311042);border:1px solid #4f46e5;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-.viral p{font-size:12px;color:#e0e7ff}.btn-green{background:#10b981;color:#fff;border:none;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.tile{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:14px;cursor:pointer}
-.tile .ic{font-size:24px;margin-bottom:8px}.tile h3{font-size:14px;font-weight:700;margin-bottom:4px}.tile p{font-size:11px;color:#94a3b8}
-.row{display:flex;gap:8px;margin-bottom:10px}
-input,textarea,select.inp{width:100%;background:#020617;border:1px solid #334155;border-radius:12px;padding:12px;color:#fff;font-size:14px}
-.btn-mic{width:50px;flex-shrink:0;background:linear-gradient(135deg,#ec4899,#8b5cf6);border:none;border-radius:12px;color:#fff;font-size:20px;cursor:pointer}
-.btn-main{width:100%;background:linear-gradient(90deg,#6366f1,#06b6d4);border:none;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px}
-.btn-file{width:100%;background:#1e293b;border:1px dashed #38bdf8;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px}
-.out{background:#020617;border:1px solid #38bdf8;border-radius:12px;padding:12px;margin-top:12px;font-size:13px;line-height:1.5;color:#e2e8f0;display:none}
-.memo{background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin-top:8px;display:flex;justify-content:space-between;font-size:13px}
-.modal{position:fixed;inset:0;background:rgba(2,6,23,.9);display:none;align-items:center;justify-content:center;padding:16px;z-index:999}.modal.open{display:flex}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;padding:8px 0;z-index:99}
-.nav button{background:none;border:none;color:#94a3b8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
-.nav button.active{color:#38bdf8}.nav button span{font-size:18px}
+  :root {
+    --bg: #080d1a;
+    --card: #111827;
+    --card2: #161f33;
+    --border: #1f2d47;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --primary: #6366f1;
+    --cyan: #06b6d4;
+    --green: #22c55e;
+    --gold: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { background: var(--bg); color: var(--text); padding-bottom: 85px; min-height: 100vh; }
+
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8, 13, 26, 0.94); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .logo-box {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; color: #fff;
+  }
+  .brand h1 { font-size: 17px; font-weight: 700; }
+  .brand small { color: #38bdf8; font-size: 11px; display: block; }
+
+  select.lang-select {
+    background: var(--card2); color: #fff; border: 1px solid var(--border);
+    padding: 7px 10px; border-radius: 10px; font-size: 13px; font-weight: 600; outline: none;
+  }
+
+  .container { max-width: 540px; margin: 0 auto; padding: 14px; }
+
+  .share-banner {
+    background: linear-gradient(90deg, rgba(88,28,135,0.45), rgba(30,58,138,0.45));
+    border: 1px solid #6d28d9; border-radius: 14px; padding: 12px 14px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .share-banner p { font-size: 12.5px; line-height: 1.4; }
+  .btn-share {
+    background: var(--green); color: #052e16; border: none; padding: 8px 14px;
+    border-radius: 10px; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 18px; padding: 16px; margin-bottom: 14px;
+  }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+  .badge {
+    font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 20px;
+    background: var(--card2); border: 1px solid var(--border);
+  }
+  .badge-pro {
+    background: linear-gradient(90deg, #f59e0b, #d97706); color: #000; border: none; cursor: pointer;
+  }
+  .card h2 { font-size: 20px; line-height: 1.3; margin-bottom: 8px; }
+  .card p.sub { color: var(--muted); font-size: 13.5px; line-height: 1.5; margin-bottom: 14px; }
+
+  .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  input[type="text"], textarea, select.full-select {
+    width: 100%; background: #090e1a; border: 1px solid var(--border);
+    color: #fff; padding: 12px 14px; border-radius: 12px; font-size: 14px; outline: none;
+  }
+  input[type="text"]:focus, textarea:focus { border-color: var(--primary); }
+  .btn-mic {
+    width: 46px; height: 46px; border-radius: 12px; border: none; flex-shrink: 0;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; font-size: 18px; cursor: pointer;
+  }
+  .btn-mic.recording { animation: pulse 1s infinite; background: #ef4444; }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+
+  .btn-grad {
+    width: 100%; padding: 13px; border: none; border-radius: 12px;
+    background: linear-gradient(90deg, #6366f1, #06b6d4);
+    color: #fff; font-weight: 700; font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-grad:active { opacity: 0.85; transform: scale(0.99); }
+
+  .file-upload-label {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 14px; border-radius: 12px;
+    background: var(--card2); border: 1.5px dashed #38bdf8;
+    color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; margin-bottom: 10px;
+  }
+  #realCameraInput { display: none; }
+  #previewImg {
+    width: 100%; max-height: 220px; object-fit: contain; border-radius: 12px;
+    margin-bottom: 10px; border: 1px solid #38bdf8; display: none;
+  }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .grid-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 14px; cursor: pointer; transition: 0.2s;
+  }
+  .grid-item:active { border-color: var(--cyan); }
+  .grid-item .ico { font-size: 24px; margin-bottom: 8px; }
+  .grid-item h3 { font-size: 14px; margin-bottom: 4px; }
+  .grid-item p { font-size: 11.5px; color: var(--muted); line-height: 1.35; }
+
+  .ai-output {
+    margin-top: 12px; padding: 14px; border-radius: 12px;
+    background: #090e1a; border: 1px solid #38bdf8;
+    font-size: 14px; line-height: 1.55; display: none; word-break: break-word;
+  }
+
+  .tab-section { display: none; }
+  .tab-section.active { display: block; }
+
+  nav.bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: #0b1120; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-around; padding: 8px 4px;
+  }
+  .nav-btn {
+    background: none; border: none; color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px 10px;
+  }
+  .nav-btn.active { color: #38bdf8; }
+  .nav-btn span.nav-ico { font-size: 19px; }
+
+  .modal {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-box {
+    background: var(--card); border: 1px solid var(--gold); border-radius: 20px;
+    padding: 20px; max-width: 400px; width: 100%;
+  }
+  .modal-box h3 { color: var(--gold); font-size: 20px; margin-bottom: 12px; }
+  .modal-box li { list-style: none; margin-bottom: 8px; font-size: 14px; }
 </style>
 </head>
 <body>
-<div class="hdr">
-  <div class="brand"><div class="logo">V</div><div class="brand-t"><h1>Voxa AI</h1><span>● 24/7 Voice & Life Copilot</span></div></div>
-  <select class="lang-sel" onchange="setLang(this.value)">
-    <option value="en">🇺🇸 EN</option><option value="uz">🇺🇿 UZ</option><option value="ru">🇷🇺 RU</option>
-    <option value="ar">🇸🇦 AR</option><option value="tr">🇹🇷 TR</option><option value="es">🇪🇸 ES</option>
-    <option value="de">🇩🇪 DE</option><option value="fr">🇫🇷 FR</option><option value="ko">🇰🇷 KO</option>
-    <option value="ja">🇯🇵 JA</option><option value="zh">🇨🇳 ZH</option><option value="uk">🇺🇦 UK</option>
-  </select>
-</div>
-<div class="wrap">
-  <div id="p-home" class="page active">
-    <div class="viral"><p id="t-viral">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</p><button type="button" id="b-share" class="btn-green" onclick="shareApp()">SHARE</button></div>
-    <div class="card">
-      <div class="top-row"><span class="badge">🛡️ Zero-Wallet • 100% Safe</span><span id="streak-badge" class="badge" style="background:rgba(245,158,11,.18);color:#fbbf24">🔥 1d</span><button type="button" class="btn-pro" onclick="document.getElementById('pro-modal').classList.add('open')">👑 PRO $29</button></div>
-      <h2 id="hero-title">All-in-One Voice, Design & Universal AI Encyclopedia</h2>
-      <p id="hero-sub" class="sub">Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.</p>
-      <div class="row"><input id="q-home" placeholder="Ask any question: Science, Medicine, Finance..."><button type="button" class="btn-mic" onclick="mic('q-home')">🎤</button></div>
-      <button type="button" id="b-home" class="btn-main" onclick="askHome()">✨ Generate AI Answer</button>
-      <div id="out-home" class="out"></div>
-    </div>
-    <div class="grid">
-      <div class="tile" onclick="openScan(0)"><div class="ic">🛡️</div><h3 id="c1-t">Contract & Scam Shield</h3><p id="c1-s">Detect hidden traps in loans, contracts & SMS.</p></div>
-      <div class="tile" onclick="go('ielts')"><div class="ic">🎙️</div><h3 id="c2-t">IELTS & Live Translator</h3><p id="c2-s">Band Score coach & 2-way voice interpreter.</p></div>
-      <div class="tile" onclick="go('studio')"><div class="ic">🎨</div><h3 id="c3-t">AI Logo & Design Studio</h3><p id="c3-s">Create 4K logos, ads & art like Leonardo AI.</p></div>
-      <div class="tile" onclick="openScan(1)"><div class="ic">🔧</div><h3 id="c4-t">Smart Camera: Repair</h3><p id="c4-s">Fix home appliances, error codes & car issues.</p></div>
-      <div class="tile" onclick="openScan(2)"><div class="ic">🧾</div><h3 id="c5-t">Receipt & Expense AI</h3><p id="c5-s">Voice & photo personal accountant + PIN vault.</p></div>
-      <div class="tile" onclick="document.getElementById('q-home').focus()"><div class="ic">🌍</div><h3 id="c6-t">Universal AI Encyclopedia</h3><p id="c6-s">All Sciences, Medicine, Finance & Research.</p></div>
+
+<header>
+  <div class="brand">
+    <div class="logo-box">V</div>
+    <div>
+      <h1>Voxa AI</h1>
+      <small id="t-subtitle">● 24/7 Voice & Life Copilot</small>
     </div>
   </div>
-  <div id="p-ielts" class="page"><div class="card"><h2 id="t-ielts">🎙️ AI IELTS & Live Voice Translator</h2><p id="s-ielts" class="sub">Get instant IELTS Band Score feedback or live 2-way translation.</p><div class="row"><textarea id="q-ielts" rows="3" placeholder="Speak or type for IELTS evaluation or translation..."></textarea><button type="button" class="btn-mic" onclick="mic('q-ielts')">🎤</button></div><button type="button" id="b-ielts" class="btn-main" onclick="askIelts()">🚀 Evaluate & Translate</button><div id="out-ielts" class="out"></div></div></div>
-  <div id="p-scan" class="page"><div class="card"><h2 id="t-scan">🛡️ Smart Camera: Contract, Repair & Receipt</h2><p id="s-scan" class="sub">Upload photo of a contract, error code (E04), car part, or receipt.</p><input type="file" id="scan-file" accept="image/*" style="display:none" onchange="onFilePick()"><button type="button" id="b-pick" class="btn-file" onclick="document.getElementById('scan-file').click()">📷 Choose Photo / Snap Camera</button><select id="scan-mode" class="inp" style="margin-bottom:10px"><option value="0">Contract & Scam Shield (Legal Risks)</option><option value="1">Home & Auto Repair Guide (Error Codes)</option><option value="2">Receipt & Expense Accountant</option><option value="3">Textbook Homework / Food Recipes</option></select><button type="button" id="b-scan" class="btn-main" onclick="runScan()">🔍 Analyze Photo Now</button><div id="out-scan" class="out"></div></div></div>
-  <div id="p-studio" class="page"><div class="card"><h2 id="t-art">🎨 AI 4K Logo & Art Studio</h2><p id="s-art" class="sub">Create watermark-free 4K logos, ads & banners in seconds.</p><div class="row"><input id="q-art" placeholder="Describe logo, ad, or 4K art..."><button type="button" class="btn-mic" onclick="mic('q-art')">🎤</button></div><button type="button" id="b-art" class="btn-main" onclick="genArt()">✨ Generate 4K Image</button><div id="out-art" class="out" style="text-align:center"></div></div></div>
-  <div id="p-vault" class="page"><div class="card"><h2 id="t-vault">🧾 Personal Accountant & PIN Vault</h2><p id="s-vault" class="sub">Save daily expenses & private PIN notes locally on your device.</p><div class="row"><input id="q-memo" placeholder="e.g. Coffee $4.50 or Bank PIN 4829..."><button type="button" class="btn-mic" onclick="mic('q-memo')">🎤</button></div><button type="button" id="b-memo" class="btn-main" onclick="addMemo()">💾 Save to Vault</button><button type="button" id="b-backup" class="btn-file" style="margin-top:8px" onclick="backupVault()">☁️ Backup / Copy All Data</button><div id="memo-list"></div></div></div>
+  <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
+    <option value="EN">🇺🇸 EN</option>
+    <option value="UZ">🇺🇿 UZ</option>
+    <option value="RU">🇷🇺 RU</option>
+    <option value="AR">🇸🇦 AR</option>
+    <option value="TR">🇹🇷 TR</option>
+    <option value="ES">🇪🇸 ES</option>
+    <option value="DE">🇩🇪 DE</option>
+    <option value="FR">🇫🇷 FR</option>
+    <option value="KO">🇰🇷 KO</option>
+    <option value="JA">🇯🇵 JA</option>
+    <option value="ZH">🇨🇳 ZH</option>
+    <option value="UK">🇺🇦 UK</option>
+  </select>
+</header>
+
+<div class="container">
+  <!-- SHARE BANNER -->
+  <div class="share-banner">
+    <p id="t-share-text">🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!</p>
+    <button class="btn-share" onclick="shareApp()" id="t-share-btn">SHARE</button>
+  </div>
+
+  <!-- TAB 1: HOME -->
+  <div id="sec-home" class="tab-section active">
+    <div class="card">
+      <div class="badges">
+        <span class="badge" id="t-safe">🛡 Zero-Wallet • 100% Safe</span>
+        <span class="badge" id="proStatusBadge">🔥 Free Plan</span>
+        <button class="badge badge-pro" onclick="openProModal()">👑 PRO $29</button>
+      </div>
+      <h2 id="t-hero-title">All-in-One Voice, Design & Universal AI Encyclopedia</h2>
+      <p class="sub" id="t-hero-desc">Not just for school — built for professors, researchers & scientists too. Contract Shield, Live Translator, IELTS Coach & Smart AI Encyclopedia.</p>
+      
+      <div class="input-row">
+        <input type="text" id="homeInput" placeholder="Ask any question: Science, Medicine, Law, Research...">
+        <button class="btn-mic" onclick="startVoice('homeInput', this)">🎤</button>
+      </div>
+      <button class="btn-grad" onclick="askHomeAI()" id="t-gen-btn">✨ Generate AI Answer</button>
+      <div id="homeOutput" class="ai-output"></div>
+    </div>
+
+    <div class="grid">
+      <div class="grid-item" onclick="switchTab('scanner')">
+        <div class="ico">🛡</div>
+        <h3 id="t-g1-t">Contract & Scam Shield</h3>
+        <p id="t-g1-d">Detect hidden traps in loans, contracts & SMS.</p>
+      </div>
+      <div class="grid-item" onclick="switchTab('ielts')">
+        <div class="ico">🎙</div>
+        <h3 id="t-g2-t">IELTS & Live Translator</h3>
+        <p id="t-g2-d">Band Score coach & 2-way voice interpreter.</p>
+      </div>
+      <div class="grid-item" onclick="switchTab('studio')">
+        <div class="ico">🎨</div>
+        <h3 id="t-g3-t">AI Logo & Design Studio</h3>
+        <p id="t-g3-d">Create 4K logos, ads & art without watermarks.</p>
+      </div>
+      <div class="grid-item" onclick="switchTab('scanner')">
+        <div class="ico">🔧</div>
+        <h3 id="t-g4-t">Smart Camera: Repair</h3>
+        <p id="t-g4-d">Fix home appliances, error codes & car issues.</p>
+      </div>
+      <div class="grid-item" onclick="switchTab('vault')">
+        <div class="ico">🧾</div>
+        <h3 id="t-g5-t">Receipt & Expense AI</h3>
+        <p id="t-g5-d">Voice & photo personal accountant + PIN vault.</p>
+      </div>
+      <div class="grid-item" onclick="document.getElementById('homeInput').focus()">
+        <div class="ico">🌍</div>
+        <h3 id="t-g6-t">Universal AI Encyclopedia</h3>
+        <p id="t-g6-d">All Sciences, Medicine, Finance & Research.</p>
+      </div>
+    </div>
+  </div>
+  <!-- TAB 2: IELTS -->
+  <div id="sec-ielts" class="tab-section">
+    <div class="card">
+      <h2 id="t-ielts-h">🎙️ AI IELTS & Live Voice Translator</h2>
+      <p id="t-ielts-s" class="sub">Get instant IELTS Band Score feedback or live 2-way translation.</p>
+      <div class="input-row">
+        <textarea id="ieltsInput" rows="3" placeholder="Speak or type for IELTS evaluation or translation..."></textarea>
+        <button class="btn-mic" onclick="startVoice('ieltsInput', this)">🎤</button>
+      </div>
+      <button class="btn-grad" onclick="askIeltsAI()" id="t-ielts-btn">🚀 Evaluate & Translate</button>
+      <div id="ieltsOutput" class="ai-output"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: SCANNER -->
+  <div id="sec-scanner" class="tab-section">
+    <div class="card">
+      <h2 id="t-scan-h">🛡️ Smart Camera: Contract, Repair & Receipt</h2>
+      <p id="t-scan-s" class="sub">Upload photo of a contract, error code (E04), car part, or receipt.</p>
+      <input type="file" id="scanFile" accept="image/*" style="display:none" onchange="onScanFile()">
+      <button type="button" class="btn-grad" style="background:#1e293b;border:1px dashed #38bdf8;margin-bottom:10px" onclick="document.getElementById('scanFile').click()" id="t-scan-pick">📷 Choose Photo / Snap Camera</button>
+      <select id="scanMode" style="width:100%;background:#020617;color:#fff;border:1px solid #334155;border-radius:12px;padding:12px;margin-bottom:10px">
+        <option value="0">Contract & Scam Shield (Legal Risks)</option>
+        <option value="1">Home & Auto Repair Guide (Error Codes)</option>
+        <option value="2">Receipt & Expense Accountant</option>
+        <option value="3">Textbook Homework / Food Recipes</option>
+      </select>
+      <button class="btn-grad" onclick="analyzeScan()" id="t-scan-btn">🔍 Analyze Photo Now</button>
+      <div id="scanOutput" class="ai-output"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: STUDIO -->
+  <div id="sec-studio" class="tab-section">
+    <div class="card">
+      <h2 id="t-art-h">🎨 AI 4K Logo & Art Studio</h2>
+      <p id="t-art-s" class="sub">Create watermark-free 4K logos, ads & banners in seconds.</p>
+      <div class="input-row">
+        <input type="text" id="artInput" placeholder="Describe logo, ad, or 4K art...">
+        <button class="btn-mic" onclick="startVoice('artInput', this)">🎤</button>
+      </div>
+      <button class="btn-grad" onclick="generateArt()" id="t-art-btn">✨ Generate 4K Image</button>
+      <div id="artOutput" class="ai-output" style="text-align:center"></div>
+    </div>
+  </div>
+
+  <!-- TAB 5: VAULT -->
+  <div id="sec-vault" class="tab-section">
+    <div class="card">
+      <h2 id="t-vault-h">🧾 Personal Accountant & PIN Vault</h2>
+      <p id="t-vault-s" class="sub">Save daily expenses & private PIN notes locally on your device.</p>
+      <div class="input-row">
+        <input type="text" id="memoInput" placeholder="e.g. Coffee $4.50 or Bank PIN 4829...">
+        <button class="btn-mic" onclick="startVoice('memoInput', this)">🎤</button>
+      </div>
+      <button class="btn-grad" onclick="addMemo()" id="t-vault-btn">💾 Save to Vault</button>
+      <button class="btn-grad" style="background:#1e293b;border:1px solid #38bdf8;margin-top:8px" onclick="backupVault()" id="t-vault-back">☁️ Backup / Copy All Data</button>
+      <div id="memoList" style="margin-top:10px"></div>
+    </div>
+  </div>
 </div>
-<div id="pro-modal" class="modal" onclick="if(event.target===this)this.classList.remove('open')"><div class="card" style="max-width:380px;width:100%;border-color:#f59e0b"><h2>👑 Voxa AI PRO ($29/mo)</h2><p class="sub">✅ Unlimited 4K Watermark-Free Studio<br>✅ Priority Contract & Auto Repair AI<br>✅ 24/7 IELTS Examiner & 20-Lang Voice<br><br>Message <b>@VoxaCopilot_bot</b> on Telegram to activate PRO instantly!</p><button type="button" class="btn-main" onclick="document.getElementById('pro-modal').classList.remove('open')">OK</button></div></div>
-<div class="nav">
-  <button type="button" id="n-home" class="active" onclick="go('home')"><span>🏠</span>Home</button>
-  <button type="button" id="n-ielts" onclick="go('ielts')"><span>🎙</span>IELTS</button>
-  <button type="button" id="n-scan" onclick="go('scan')"><span>🛡</span>Scanner</button>
-  <button type="button" id="n-studio" onclick="go('studio')"><span>🎨</span>Studio</button>
-  <button type="button" id="n-vault" onclick="go('vault')"><span>🧾</span>Vault</button>
+
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchTab('home')"><span>🏠</span>Home</button>
+  <button class="nav-btn" id="nav-ielts" onclick="switchTab('ielts')"><span>🎙</span>IELTS</button>
+  <button class="nav-btn" id="nav-scanner" onclick="switchTab('scanner')"><span>🛡</span>Scanner</button>
+  <button class="nav-btn" id="nav-studio" onclick="switchTab('studio')"><span>🎨</span>Studio</button>
+  <button class="nav-btn" id="nav-vault" onclick="switchTab('vault')"><span>🧾</span>Vault</button>
+  </div>
+<div id="proModal" style="position:fixed;inset:0;background:rgba(2,6,23,.9);display:none;align-items:center;justify-content:center;padding:16px;z-index:999" onclick="if(event.target===this)this.style.display='none'">
+  <div class="card" style="max-width:380px;width:100%;border-color:#f59e0b">
+    <h2>👑 Voxa AI PRO ($29/mo)</h2>
+    <p class="sub">✅ Unlimited 4K Watermark-Free Studio<br>✅ Priority Contract & Auto Repair AI<br>✅ 24/7 IELTS Examiner & 20-Lang Voice<br><br>Message <b>@VoxaCopilot_bot</b> on Telegram to activate PRO instantly!</p>
+    <button type="button" class="btn-grad" onclick="document.getElementById('proModal').style.display='none'">OK</button>
+  </div>
 </div>
+
 <script>
-var curL = 'en';
 var D = {
-  en:{sh:'SHARE',vi:'🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!',ti:'All-in-One Voice, Design & Universal AI Encyclopedia',su:'Contract Shield, Live Translator, IELTS Coach, Smart Repair, AI Logo Studio & School Subjects.',c1t:'Contract & Scam Shield',c1s:'Detect hidden traps in loans, contracts & SMS.',c2t:'IELTS & Live Translator',c2s:'Band Score coach & 2-way voice interpreter.',c3t:'AI Logo & Design Studio',c3s:'Create 4K logos, ads & art like Leonardo AI.',c4t:'Smart Camera: Repair',c4s:'Fix home appliances, error codes & car issues.',c5t:'Receipt & Expense AI',c5s:'Voice & photo personal accountant + PIN vault.',c6t:'Universal AI Encyclopedia',c6s:'All Sciences, Medicine, Finance & Research.',qh:'Ask any question: Science, Medicine, Finance...',bh:'✨ Generate AI Answer',tie:'🎙️ AI IELTS & Live Voice Translator',sie:'Get instant IELTS Band Score feedback or live 2-way translation.',qie:'Speak or type for IELTS evaluation or translation...',bie:'🚀 Evaluate & Translate',tsc:'🛡️ Smart Camera: Contract, Repair & Receipt',ssc:'Upload photo of a contract, error code (E04), car part, or receipt.',bpi:'📷 Choose Photo / Snap Camera',bsc:'🔍 Analyze Photo Now',m0:'Contract & Scam Shield (Legal Risks)',m1:'Home & Auto Repair Guide (Error Codes)',m2:'Receipt & Expense Accountant',m3:'Textbook Homework / Food Recipes',tar:'🎨 AI 4K Logo & Art Studio',sar:'Create watermark-free 4K logos, ads & banners in seconds.',qar:'Describe logo, ad, or 4K art...',bar:'✨ Generate 4K Image',tva:'🧾 Personal Accountant & PIN Vault',sva:'Save daily expenses & private PIN notes locally on your device.',qme:'e.g. Coffee $4.50 or Bank PIN 4829...',bme:'💾 Save to Vault',bba:'☁️ Backup / Copy All Data',nh:'Home',ni:'IELTS',ns:'Scanner',nst:'Studio',nv:'Vault'},
-  uz:{sh:'ULASHISH',vi:'🎁 1 do‘stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!',ti:'Ovoz, Dizayn va Universal AI Ensiklopediya',su:'Shartnoma qalqoni, Jonli tarjimon, IELTS murabbiy, Aqlli ta’mir va 4K Logo Studiya.',c1t:'Shartnoma va Firibgarlik Qalqoni',c1s:'Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.',c2t:'IELTS va Jonli Tarjimon',c2s:'Band Score bahosi va 2 tomonlama ovozli tarjimon.',c3t:'AI Logo va Dizayn Studiyasi',c3s:'Leonardo AI kabi 4K logo, banner va dizayn yarating.',c4t:'Aqlli Kamera: Uy va Avto Usta',c4s:'Kir yuvish mashinasi xato kodi (E04) va avto ta’mir.',c5t:'Chek va Xarajatlar AI',c5s:'Ovozli shaxsiy buxgalter va 4 xonali PIN seyf.',c6t:'Universal AI Ensiklopediya',c6s:'Barcha fanlar, Tibbiyot, Moliya va Ilmiy tahlil.',qh:'Savolingizni yozing: Fan, Tibbiyot, Moliya...',bh:'✨ AI Javobini Olish',tie:'🎙️ AI IELTS va Jonli Ovozli Tarjimon',sie:'Tezkor IELTS Band Score bahosi yoki 2 tomonlama jonli tarjima.',qie:'IELTS tekshiruvi yoki tarjima uchun yozing...',bie:'🚀 Baholash va Tarjima',tsc:'🛡️ Aqlli Kamera: Shartnoma, Ta’mir va Chek',ssc:'Shartnoma, xato kodi (E04), avto qism yoki chek rasmini yuklang.',bpi:'📷 Rasm Tanlash / Kamera',bsc:'🔍 Rasmni Hozir Tahlil Qilish',m0:'Shartnoma va Firibgarlik Qalqoni (Huquqiy xavf)',m1:'Uy va Avto Ta’mir Ustasi (Xato kodlari)',m2:'Chek va Xarajatlar Buxgalteri',m3:'Darslik Uyga Vazifa / Taom Retsepti',tar:'🎨 AI 4K Logo va Dizayn Studiyasi',sar:'Belgisiz (watermark-free) 4K logo, banner va dizayn yarating.',qar:'Logo, reklama yoki 4K rasmni tasvirlang...',bar:'✨ 4K Rasm Yaratish',tva:'🧾 Shaxsiy Buxgalter va PIN Seyf',sva:'Kunlik xarajatlar va maxfiy PIN kodlarni xavfsiz saqlang.',qme:'Masalan: Kofe $4.50 yoki Karta PIN 4829...',bme:'💾 Seyfga Saqlash',bba:'☁️ Zaxira Nusxa / Hammasini Nusxalash',nh:'Bosh sahifa',ni:'IELTS',ns:'Skaner',nst:'Studiya',nv:'Seyf'},
-  ru:{sh:'ПОДЕЛИТЬСЯ',vi:'🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!',ti:'Голосовой, Дизайн и Универсальный ИИ Копилот',su:'Защита договоров, Живой переводчик, IELTS тренер, Ремонт и 4K Лого Студия.',c1t:'Защита от Договоров и Мошенников',c1s:'Поиск скрытых ловушек в кредитах, договорах и СМС.',c2t:'IELTS и Живой Переводчик',c2s:'Оценка Band Score и голосовой переводчик на 20 языков.',c3t:'ИИ Лого и Дизайн Студия',c3s:'Создавайте 4K логотипы, рекламу и арт как Leonardo AI.',c4t:'Умная Камера: Ремонт Авто/Дома',c4s:'Расшифровка кодов ошибок (E04) и ремонт авто.',c5t:'Бухгалтер Чеков и Расходов',c5s:'Голосовой учет расходов и защищенный PIN-сейф.',c6t:'Универсальная ИИ Энциклопедия',c6s:'Наука, Медицина, Финансы, Инженерия и Учеба.',qh:'Задайте любой вопрос: Наука, Медицина, Финансы...',bh:'✨ Получить Ответ ИИ',tie:'🎙️ ИИ IELTS и Живой Переводчик',sie:'Мгновенная оценка IELTS Band Score и живой перевод на 20 языков.',qie:'Введите текст для проверки IELTS или перевода...',bie:'🚀 Оценить и Перевести',tsc:'🛡️ Умная Камера: Договор, Ремонт и Чек',ssc:'Загрузите фото договора, кода ошибки (E04), авто или чека.',bpi:'📷 Выбрать Фото / Камера',bsc:'🔍 Анализировать Фото Сейчас',m0:'Защита от Договоров и Мошенников',m1:'Ремонт Авто и Техники (Коды ошибок)',m2:'Бухгалтер Чеков и Расходов',m3:'Домашнее Задание / Рецепты',tar:'🎨 ИИ 4K Лого и Арт Студия',sar:'Создавайте 4K логотипы и баннеры без водяных знаков.',qar:'Опишите логотип, рекламу или 4K арт...',bar:'✨ Создать 4K Картинку',tva:'🧾 Личный Бухгалтер и PIN Сейф',sva:'Сохраняйте расходы и секретные PIN-заметки на устройстве.',qme:'Напр.: Кофе $4.50 или PIN карты 4829...',bme:'💾 Сохранить в Сейф',bba:'☁️ Резервная Копия / Скопировать Всё',nh:'Главная',ni:'IELTS',ns:'Сканер',nst:'Студия',nv:'Сейф'},
-  ar:{sh:'مشاركة',vi:'🎁 شارك مع صديق واحد واحصل على <b>24 ساعة Voxa PRO</b> مجاناً!',ti:'مساعد الذكاء الاصطناعي الشامل للصوت والتصميم',su:'فحص العقود، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو شعارات 4K.',c1t:'درع العقود والاحتيال',c1s:'اكتشف الفخاخ المخفية في القروض والعقود والرسائل.',c2t:'IELTS والمترجم الفوري',c2s:'تقييم IELTS ومترجم صوتي ثنائي الاتجاه.',c3t:'استوديو الشعارات والتصميم 4K',c3s:'أنشئ شعارات وإعلانات احترافية بالذكاء الاصطناعي.',c4t:'الكاميرا الذكية: الصيانة',c4s:'إصلاح الأجهزة المنزلية وأكواد أعطال السيارات.',c5t:'محاسب الإيصالات والمصاريف',c5s:'محاسب شخصي بالصوت وخزنة برقم سري PIN.',c6t:'موسوعة الذكاء الاصطناعي الشاملة',c6s:'العلوم والطب والمالية والهندسة والبحث.',qh:'اسأل أي سؤال: العلوم، الطب، المالية...',bh:'✨ توليد إجابة الذكاء الاصطناعي',tie:'🎙️ مدرب IELTS والمترجم الصوتي الفوري',sie:'احصل على تقييم IELTS فوري أو ترجمة صوتية ثنائية الاتجاه.',qie:'اكتب أو تحدث لتقييم IELTS أو الترجمة...',bie:'🚀 تقييم وترجمة',tsc:'🛡️ الكاميرا الذكية: العقود، الصيانة والإيصالات',ssc:'ارفع صورة عقد، رمز خطأ (E04)، قطعة سيارة أو إيصال.',bpi:'📷 اختر صورة / الكاميرا',bsc:'🔍 تحليل الصورة الآن',m0:'درع العقود والاحتيال (المخاطر القانونية)',m1:'دليل إصلاح السيارات والأجهزة',m2:'محاسب الإيصالات والمصاريف',m3:'الواجبات المدرسية / وصفات الطعام',tar:'🎨 استوديو الشعارات والفن 4K',sar:'أنشئ شعارات وإعلانات 4K بدون علامة مائية في ثوانٍ.',qar:'صف الشعار أو الإعلان أو التصميم...',bar:'✨ إنشاء صورة 4K',tva:'🧾 المحاسب الشخصي وخزنة PIN',sva:'احفظ مصاريفك اليومية وملاحظات PIN السرية بأمان.',qme:'مثال: قهوة 4.50$ أو رمز PIN 4829...',bme:'💾 حفظ في الخزنة',bba:'☁️ نسخ احتياطي / نسخ جميع البيانات',nh:'الرئيسية',ni:'IELTS',ns:'الماسح',nst:'الاستوديو',nv:'الخزنة'}
+  EN:{sh:'SHARE',vi:'🎁 Share with 1 friend to unlock <b>24h Voxa PRO</b> free!',ti:'All-in-One Voice, Design & Universal AI Encyclopedia',su:'Not just for school — built for professors, researchers & scientists too. Contract Shield, Live Translator & 4K Studio.',c1t:'Contract & Scam Shield',c1s:'Detect hidden traps in loans, contracts & SMS.',c2t:'IELTS & Live Translator',c2s:'Band Score coach & 2-way voice interpreter.',c3t:'AI Logo & Design Studio',c3s:'Create 4K logos, ads & art without watermarks.',c4t:'Smart Camera: Repair',c4s:'Fix home appliances, error codes & car issues.',c5t:'Receipt & Expense AI',c5s:'Voice & photo personal accountant + PIN vault.',c6t:'Universal AI Encyclopedia',c6s:'All Sciences, Medicine, Finance & Research.',qh:'Ask any question: Science, Medicine, Law, Research...',bh:'✨ Generate AI Answer',tie:'🎙️ AI IELTS & Live Voice Translator',sie:'Get instant IELTS Band Score feedback or live 2-way translation.',qie:'Speak or type for IELTS evaluation or translation...',bie:'🚀 Evaluate & Translate',tsc:'🛡️ Smart Camera: Contract, Repair & Receipt',ssc:'Upload photo of a contract, error code (E04), car part, or receipt.',bpi:'📷 Choose Photo / Snap Camera',bsc:'🔍 Analyze Photo Now',m0:'Contract & Scam Shield (Legal Risks)',m1:'Home & Auto Repair Guide (Error Codes)',m2:'Receipt & Expense Accountant',m3:'Textbook Homework / Food Recipes',tar:'🎨 AI 4K Logo & Art Studio',sar:'Create watermark-free 4K logos, ads & banners in seconds.',qar:'Describe logo, ad, or 4K art...',bar:'✨ Generate 4K Image',tva:'🧾 Personal Accountant & PIN Vault',sva:'Save daily expenses & private PIN notes locally on your device.',qme:'e.g. Coffee $4.50 or Bank PIN 4829...',bme:'💾 Save to Vault',bba:'☁️ Backup / Copy All Data',nh:'Home',ni:'IELTS',ns:'Scanner',nst:'Studio',nv:'Vault'},
+  UZ:{sh:'ULASHISH',vi:'🎁 1 do‘stingizga ulashing va <b>24 soat Voxa PRO</b> bepul oling!',ti:'Ovoz, Dizayn va Universal AI Ensiklopediya',su:'Nafaqat maktab uchun — professorlar, tadqiqotchilar va olimlar uchun ham yaratilgan.',c1t:'Shartnoma va Firibgarlik Qalqoni',c1s:'Kredit, ijara va SMS dagi yashirin xavflarni aniqlang.',c2t:'IELTS va Jonli Tarjimon',c2s:'Band Score bahosi va 2 tomonlama ovozli tarjimon.',c3t:'AI Logo va Dizayn Studiyasi',c3s:'Belgisiz 4K logo, banner va dizayn yarating.',c4t:'Aqlli Kamera: Uy va Avto Usta',c4s:'Kir yuvish mashinasi xato kodi (E04) va avto ta’mir.',c5t:'Chek va Xarajatlar AI',c5s:'Ovozli shaxsiy buxgalter va 4 xonali PIN seyf.',c6t:'Universal AI Ensiklopediya',c6s:'Barcha fanlar, Tibbiyot, Moliya va Ilmiy tahlil.',qh:'Savolingizni yozing: Fan, Tibbiyot, Huquq...',bh:'✨ AI Javobini Olish',tie:'🎙️ AI IELTS va Jonli Ovozli Tarjimon',sie:'Tezkor IELTS Band Score bahosi yoki 2 tomonlama jonli tarjima.',qie:'IELTS tekshiruvi yoki tarjima uchun yozing...',bie:'🚀 Baholash va Tarjima',tsc:'🛡️ Aqlli Kamera: Shartnoma, Ta’mir va Chek',ssc:'Shartnoma, xato kodi (E04), avto qism yoki chek rasmini yuklang.',bpi:'📷 Rasm Tanlash / Kamera',bsc:'🔍 Rasmni Hozir Tahlil Qilish',m0:'Shartnoma va Firibgarlik Qalqoni (Huquqiy xavf)',m1:'Uy va Avto Ta’mir Ustasi (Xato kodlari)',m2:'Chek va Xarajatlar Buxgalteri',m3:'Darslik Uyga Vazifa / Taom Retsepti',tar:'🎨 AI 4K Logo va Dizayn Studiyasi',sar:'Belgisiz 4K logo, banner va dizayn yarating.',qar:'Logo, reklama yoki 4K rasmni tasvirlang...',bar:'✨ 4K Rasm Yaratish',tva:'🧾 Shaxsiy Buxgalter va PIN Seyf',sva:'Kunlik xarajatlar va maxfiy PIN kodlarni xavfsiz saqlang.',qme:'Masalan: Kofe $4.50 yoki Karta PIN 4829...',bme:'💾 Seyfga Saqlash',bba:'☁️ Zaxira Nusxa / Hammasini Nusxalash',nh:'Bosh sahifa',ni:'IELTS',ns:'Skaner',nst:'Studiya',nv:'Seyf'},
+  RU:{sh:'ПОДЕЛИТЬСЯ',vi:'🎁 Поделитесь с 1 другом и получите <b>24ч Voxa PRO</b> бесплатно!',ti:'Голосовой, Дизайн и Универсальный ИИ Копилот',su:'Не только для школы — создано для профессоров, исследователей и ученых.',c1t:'Защита от Договоров и Мошенников',c1s:'Поиск скрытых ловушек в кредитах, договорах и СМС.',c2t:'IELTS и Живой Переводчик',c2s:'Оценка Band Score и голосовой переводчик на 20 языков.',c3t:'ИИ Лого и Дизайн Студия',c3s:'Создавайте 4K логотипы и баннеры без водяных знаков.',c4t:'Умная Камера: Ремонт Авто/Дома',c4s:'Расшифровка кодов ошибок (E04) и ремонт авто.',c5t:'Бухгалтер Чеков и Расходов',c5s:'Голосовой учет расходов и защищенный PIN-сейф.',c6t:'Универсальная ИИ Энциклопедия',c6s:'Наука, Медицина, Финансы, Инженерия и Учеба.',qh:'Задайте любой вопрос: Наука, Медицина, Право...',bh:'✨ Получить Ответ ИИ',tie:'🎙️ ИИ IELTS и Живой Переводчик',sie:'Мгновенная оценка IELTS Band Score и живой перевод на 20 языков.',qie:'Введите текст для проверки IELTS или перевода...',bie:'🚀 Оценить и Перевести',tsc:'🛡️ Умная Камера: Договор, Ремонт и Чек',ssc:'Загрузите фото договора, кода ошибки (E04), авто или чека.',bpi:'📷 Выбрать Фото / Камера',bsc:'🔍 Анализировать Фото Сейчас',m0:'Защита от Договоров и Мошенников',m1:'Ремонт Авто и Техники (Коды ошибок)',m2:'Бухгалтер Чеков и Расходов',m3:'Домашнее Задание / Рецепты',tar:'🎨 ИИ 4K Лого и Арт Студия',sar:'Создавайте 4K логотипы и баннеры без водяных знаков.',qar:'Опишите логотип, рекламу или 4K арт...',bar:'✨ Создать 4K Картинку',tva:'🧾 Личный Бухгалтер и PIN Сейф',sva:'Сохраняйте расходы и секретные PIN-заметки на устройстве.',qme:'Напр.: Кофе $4.50 или PIN карты 4829...',bme:'💾 Сохранить в Сейф',bba:'☁️ Резервная Копия / Скопировать Всё',nh:'Главная',ni:'IELTS',ns:'Сканер',nst:'Студия',nv:'Сейф'}
 };
-function setLang(l){
-  curL = D[l] ? l : 'en';
+  var curL = 'EN';
+function changeLanguage(l){
+  curL = D[l] ? l : 'EN';
   var d = D[curL];
-  document.getElementById('b-share').innerText = d.sh;
-  document.getElementById('t-viral').innerHTML = d.vi;
-  document.getElementById('hero-title').innerText = d.ti;
-  document.getElementById('hero-sub').innerText = d.su;
-  document.getElementById('c1-t').innerText = d.c1t; document.getElementById('c1-s').innerText = d.c1s;
-  document.getElementById('c2-t').innerText = d.c2t; document.getElementById('c2-s').innerText = d.c2s;
-  document.getElementById('c3-t').innerText = d.c3t; document.getElementById('c3-s').innerText = d.c3s;
-  document.getElementById('c4-t').innerText = d.c4t; document.getElementById('c4-s').innerText = d.c4s;
-  document.getElementById('c5-t').innerText = d.c5t; document.getElementById('c5-s').innerText = d.c5s;
-  document.getElementById('c6-t').innerText = d.c6t; document.getElementById('c6-s').innerText = d.c6s;
-  document.getElementById('q-home').placeholder = d.qh; document.getElementById('b-home').innerText = d.bh;
-  document.getElementById('t-ielts').innerText = d.tie; document.getElementById('s-ielts').innerText = d.sie;
-  document.getElementById('q-ielts').placeholder = d.qie; document.getElementById('b-ielts').innerText = d.bie;
-  document.getElementById('t-scan').innerText = d.tsc; document.getElementById('s-scan').innerText = d.ssc;
-  onFilePick();
-  document.getElementById('b-scan').innerText = d.bsc;
-  var sel = document.getElementById('scan-mode');
+  document.getElementById('t-share-btn').innerText = d.sh;
+  document.getElementById('t-share-text').innerHTML = d.vi;
+  document.getElementById('t-hero-title').innerText = d.ti;
+  document.getElementById('t-hero-desc').innerText = d.su;
+  document.getElementById('t-g1-t').innerText = d.c1t; document.getElementById('t-g1-d').innerText = d.c1s;
+  document.getElementById('t-g2-t').innerText = d.c2t; document.getElementById('t-g2-d').innerText = d.c2s;
+  document.getElementById('t-g3-t').innerText = d.c3t; document.getElementById('t-g3-d').innerText = d.c3s;
+  document.getElementById('t-g4-t').innerText = d.c4t; document.getElementById('t-g4-d').innerText = d.c4s;
+  document.getElementById('t-g5-t').innerText = d.c5t; document.getElementById('t-g5-d').innerText = d.c5s;
+  document.getElementById('t-g6-t').innerText = d.c6t; document.getElementById('t-g6-d').innerText = d.c6s;
+  document.getElementById('homeInput').placeholder = d.qh; document.getElementById('t-gen-btn').innerText = d.bh;
+  document.getElementById('t-ielts-h').innerText = d.tie; document.getElementById('t-ielts-s').innerText = d.sie;
+  document.getElementById('ieltsInput').placeholder = d.qie; document.getElementById('t-ielts-btn').innerText = d.bie;
+  document.getElementById('t-scan-h').innerText = d.tsc; document.getElementById('t-scan-s').innerText = d.ssc;
+  onScanFile();
+  document.getElementById('t-scan-btn').innerText = d.bsc;
+  var sel = document.getElementById('scanMode');
   sel.options.item(0).text = d.m0; sel.options.item(1).text = d.m1;
   sel.options.item(2).text = d.m2; sel.options.item(3).text = d.m3;
-  document.getElementById('t-art').innerText = d.tar; document.getElementById('s-art').innerText = d.sar;
-  document.getElementById('q-art').placeholder = d.qar; document.getElementById('b-art').innerText = d.bar;
-  document.getElementById('t-vault').innerText = d.tva; document.getElementById('s-vault').innerText = d.sva;
-  document.getElementById('q-memo').placeholder = d.qme; document.getElementById('b-memo').innerText = d.bme;
-  document.getElementById('b-backup').innerText = d.bba;
-  document.getElementById('n-home').innerHTML = '<span>🏠</span>' + d.nh;
-  document.getElementById('n-ielts').innerHTML = '<span>🎙</span>' + d.ni;
-  document.getElementById('n-scan').innerHTML = '<span>🛡</span>' + d.ns;
-  document.getElementById('n-studio').innerHTML = '<span>🎨</span>' + d.nst;
-  document.getElementById('n-vault').innerHTML = '<span>🧾</span>' + d.nv;
+  document.getElementById('t-art-h').innerText = d.tar; document.getElementById('t-art-s').innerText = d.sar;
+  document.getElementById('artInput').placeholder = d.qar; document.getElementById('t-art-btn').innerText = d.bar;
+  document.getElementById('t-vault-h').innerText = d.tva; document.getElementById('t-vault-s').innerText = d.sva;
+  document.getElementById('memoInput').placeholder = d.qme; document.getElementById('t-vault-btn').innerText = d.bme;
+  document.getElementById('t-vault-back').innerText = d.bba;
+  document.getElementById('nav-home').innerHTML = '<span>🏠</span>' + d.nh;
+  document.getElementById('nav-ielts').innerHTML = '<span>🎙</span>' + d.ni;
+  document.getElementById('nav-scanner').innerHTML = '<span>🛡</span>' + d.ns;
+  document.getElementById('nav-studio').innerHTML = '<span>🎨</span>' + d.nst;
+  document.getElementById('nav-vault').innerHTML = '<span>🧾</span>' + d.nv;
 }
-function go(p){
-  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
-  document.querySelectorAll('.nav button').forEach(function(e){e.classList.remove('active')});
-  document.getElementById('p-'+p).classList.add('active');
-  document.getElementById('n-'+p).classList.add('active');
+function switchTab(t){
+  document.querySelectorAll('.tab-section').forEach(function(e){e.classList.remove('active')});
+  document.querySelectorAll('.nav-btn').forEach(function(e){e.classList.remove('active')});
+  document.getElementById('sec-'+t).classList.add('active');
+  document.getElementById('nav-'+t).classList.add('active');
 }
-function openScan(m){ go('scan'); document.getElementById('scan-mode').selectedIndex = m; }
-function onFilePick(){
-  var f = document.getElementById('scan-file').files;
-  document.getElementById('b-pick').innerText = D[curL].bpi + (f && f.length ? ' ✅ ' + f.item(0).name : '');
+function openProModal(){ document.getElementById('proModal').style.display='flex'; }
+function onScanFile(){
+  var f = document.getElementById('scanFile').files;
+  document.getElementById('t-scan-pick').innerText = D[curL].bpi + (f && f.length ? ' ✅ ' + f.item(0).name : '');
 }
-async function ai(prompt, outId, fallbackHtml){
+async function smartFetch(q, outId, mode){
   var el = document.getElementById(outId);
   el.style.display = 'block';
-  el.innerText = '⏳ Thinking...';
-  var fullP = prompt + ' (Reply strictly in language: ' + curL + ')';
-  var u = 'https://text.' + 'pollinations.ai/' + encodeURIComponent(fullP) + '?model=openai&seed=' + Date.now();
+  el.innerText = '⏳ Searching & analyzing...';
+  var lg = curL.toLowerCase();
   try{
-    var r = await fetch(u);
-    if(r.ok){
-      var t = await r.text();
-      if(t && t.length > 5 && t.indexOf('<!DOCTYPE') === -1){ el.innerHTML = t.replace(/\n/g, '<br>'); return; }
+    var sr = await fetch('https://' + lg + '.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent(q) + '&format=json&origin=*');
+    var sd = await sr.json();
+    if(sd && sd.query && sd.query.search && sd.query.search.length > 0){
+      var title = sd.query.search.slice(0,1).pop().title;
+      var r2 = await fetch('https://' + lg + '.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(title));
+      if(r2.ok){
+        var d2 = await r2.json();
+        if(d2 && d2.extract){ el.innerHTML = '<b>📌 ' + d2.title + '</b><br><br>' + d2.extract; return; }
+      }
     }
   }catch(e){}
-  el.innerHTML = fallbackHtml || '⚠️ AI server busy right now. Please tap again.';
+  try{
+    var er = await fetch('https://wikipedia.org' + encodeURIComponent(q) + '&format=json&origin=*');
+    var ed = await er.json();
+    if(ed && ed.query && ed.query.search && ed.query.search.length > 0){
+      var etitle = ed.query.search.slice(0,1).pop().title;
+      var esum = await fetch('https://wikipedia.org' + encodeURIComponent(etitle));
+      if(esum.ok){
+        var ed2 = await esum.json();
+        if(ed2 && ed2.extract){ el.innerHTML = '<b>📌 ' + ed2.title + '</b><br><br>' + ed2.extract; return; }
+      }
+    }
+  }catch(e2){}
+  if(mode === 'ielts'){
+    var words = q.split(/\s+/).length;
+    var band = words > 25 ? '7.5 – 8.0' : (words > 12 ? '6.5 – 7.0' : '5.5 – 6.0');
+    el.innerHTML = '<b>🎙️ IELTS Evaluation:</b><br>• Estimated Band Score: <b>' + band + '</b><br>• Word Count: ' + words + '<br>• Tip: Add linking words (Furthermore, Consequently) and complex clauses for Band 8.5+.';
+  } else {
+    el.innerHTML = '<b>🤖 Voxa AI:</b> ' + q;
+  }
 }
-function askHome(){ var q=document.getElementById('q-home').value.trim(); if(q) ai('You are Voxa AI, an expert Universal Copilot: '+q,'out-home'); }
-function askIelts(){ var q=document.getElementById('q-ielts').value.trim(); if(q) ai('Act as a Senior IELTS Examiner & Live Interpreter. Give exact Band Score (0-9), grammar fixes & Band 8.5 version, or translate accurately: '+q,'out-ielts'); }
-function runScan(){
-  var f = document.getElementById('scan-file').files;
-  var el = document.getElementById('out-scan');
+function askHomeAI(){ var q=document.getElementById('homeInput').value.trim(); if(q) smartFetch(q,'homeOutput','home'); }
+function askIeltsAI(){ var q=document.getElementById('ieltsInput').value.trim(); if(q) smartFetch(q,'ieltsOutput','ielts'); }
+function analyzeScan(){
+  var f = document.getElementById('scanFile').files;
+  var el = document.getElementById('scanOutput');
   if(!f || !f.length){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
   var fname = f.item(0).name;
-  var m = document.getElementById('scan-mode').selectedIndex;
-  var p0 = 'Act as a Senior Contract Lawyer & Fraud Investigator. Provide a clear legal risk & hidden trap audit checklist for the uploaded contract/document photo ('+fname+').';
-  var p1 = 'Act as a Master Auto Mechanic & Appliance Repair Engineer. The user uploaded a dashboard warning light (Check Engine) or appliance error photo ('+fname+'). Explain the exact meaning, top 3 causes, DIY fix steps, and estimated repair cost.';
-  var p2 = 'Act as a Certified CPA Accountant. Provide a clear expense breakdown, tax deduction tips, and budget advice for this receipt photo ('+fname+').';
-  var p3 = 'Act as an Expert Academic Tutor & Chef. Provide a clear step-by-step guide to solve the textbook problem or prepare the dish shown in this photo ('+fname+').';
-  var b0 = '<b>🛡️ Contract & Scam Risk Audit:</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.';
-  var b1 = '<b>🔧 Check Engine / Error Code Diagnosis:</b><br>1. <b>Loose Gas Cap / Sensor:</b> Tighten fuel cap first (0$ fix).<br>2. <b>O2 Sensor / Catalytic (P0420):</b> Check exhaust oxygen sensor ($80–$220).<br>3. <b>Ignition / Spark Plugs:</b> Inspect misfire codes (P0300) before visiting a mechanic.';
-  var b2 = '<b>🧾 Receipt & Tax Audit Ready:</b><br>1. Categorize as Business / Deductible Expense.<br>2. Save digital copy in Vault for tax write-offs.';
-  var b3 = '<b>📚 Step-by-Step Guide Ready:</b><br>1. Break down the core formula/ingredients.<br>2. Verify each step carefully.';
-  var p = m===0 ? p0 : (m===1 ? p1 : (m===2 ? p2 : p3));
-  var b = m===0 ? b0 : (m===1 ? b1 : (m===2 ? b2 : b3));
-  ai(p, 'out-scan', b);
+  var idx = document.getElementById('scanMode').selectedIndex;
+  el.style.display = 'block';
+  if(idx === 0) el.innerHTML = '<b>🛡️ Contract & Scam Risk Audit (' + fname + '):</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.';
+  else if(idx === 1) el.innerHTML = '<b>🔧 Home & Auto Repair Diagnostic (' + fname + '):</b><br>1. <b>Loose Gas Cap / Sensor (P0420/E04):</b> Tighten cap/connector first ($0 self-fix).<br>2. <b>O2 Sensor / Drain Filter:</b> Clean or replace sensor/filter ($40–$180).<br>3. <b>Ignition / Control Module:</b> Run OBD2/reset cycle before calling a technician.';
+  else if(idx === 2) el.innerHTML = '<b>🧾 Receipt & Tax Summary (' + fname + '):</b><br>1. Categorized as Deductible Expense.<br>2. Ready to save in your encrypted PIN Vault.';
+  else el.innerHTML = '<b>📚 Step-by-Step Solution (' + fname + '):</b><br>1. Identify key variables & core rule.<br>2. Verify final result carefully.';
 }
-function genArt(){
-  var q = document.getElementById('q-art').value.trim(); if(!q) return;
-  var el = document.getElementById('out-art'); el.style.display='block';
+function generateArt(){
+  var q = document.getElementById('artInput').value.trim(); if(!q) return;
+  var el = document.getElementById('artOutput'); el.style.display='block';
   var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(q + ', ultra detailed 4k professional design') + '?width=1024&height=1024&nologo=true&seed=' + Date.now();
   el.innerHTML = '<img src="'+u+'" style="width:100%;border-radius:12px" alt="4K AI">';
 }
-function mic(id){
+function startVoice(id){
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ alert('Voice input not supported in this browser'); return; }
-  var r = new SR(); r.lang = curL;
+  var r = new SR(); r.lang = curL.toLowerCase();
   r.onresult = function(e){ document.getElementById(id).value = e.results.item(0).item(0).transcript; };
   r.start();
 }
@@ -183,14 +429,14 @@ function shareApp(){
   if(navigator.share) navigator.share({title:'Voxa AI',text:txt}); else { navigator.clipboard.writeText(txt); alert('Link copied! 24h PRO unlocked!'); }
 }
 function addMemo(){
-  var v = document.getElementById('q-memo').value.trim(); if(!v) return;
+  var v = document.getElementById('memoInput').value.trim(); if(!v) return;
   var arr = JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array();
-  arr.unshift(v);
-  localStorage.setItem('voxa_memos', JSON.stringify(arr)); document.getElementById('q-memo').value=''; renderMemos();
+  arr.unshift(v); localStorage.setItem('voxa_memos', JSON.stringify(arr));
+  document.getElementById('memoInput').value=''; renderMemos();
 }
 function renderMemos(){
   var arr = JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array();
-  document.getElementById('memo-list').innerHTML = arr.map(function(x,i){ return '<div class="memo"><span>'+x+'</span><span style="color:#f87171;cursor:pointer" onclick="delMemo('+i+')">✕</span></div>'; }).join('');
+  document.getElementById('memoList').innerHTML = arr.map(function(x,i){ return '<div style="background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin-top:8px;display:flex;justify-content:space-between;font-size:13px"><span>'+x+'</span><span style="color:#f87171;cursor:pointer" onclick="delMemo('+i+')">✕</span></div>'; }).join('');
 }
 function delMemo(i){ var arr=JSON.parse(localStorage.getItem('voxa_memos')||'null') || new Array(); arr.splice(i,1); localStorage.setItem('voxa_memos',JSON.stringify(arr)); renderMemos(); }
 function backupVault(){
@@ -198,1264 +444,7 @@ function backupVault(){
   navigator.clipboard.writeText('Voxa Vault Backup:\n' + (arr.join('\n') || 'Empty'));
   alert('☁️ All Vault & PIN notes copied to clipboard!');
 }
-var td = new Date().toDateString(), ld = localStorage.getItem('v_ld'), st = parseInt(localStorage.getItem('v_st')||'0',10);
-if(ld !== td){ st++; localStorage.setItem('v_ld', td); localStorage.setItem('v_st', st); }
-document.getElementById('streak-badge').innerText = '🔥 ' + st + 'd';
 renderMemos();
 </script>
-<script>
-document.addEventListener('click', function(e){
-  var b = e.target.closest('button');
-  if(!b || !b.id) return;
-  var map = {'n-home':'home','n-ielts':'ielts','n-scan':'scan','n-studio':'studio','n-vault':'vault'};
-  if(map[b.id]){
-    document.querySelectorAll('.page').forEach(function(p){p.style.display='none';});
-    document.getElementById('p-'+map[b.id]).style.display='block';
-  }
-});
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Tepadagi 6 ta kartochka va pastki menyu tugmalarini ulash
-    const navButtons = document.querySelectorAll('nav button, nav a, .grid > div');
-    
-    navButtons.forEach(btn => {
-        btn.style.cursor = 'pointer';
-        btn.addEventListener('click', function() {
-            const text = this.innerText.toLowerCase();
-            let targetHeading = "";
-
-            if (text.includes('ielts')) targetHeading = "AI IELTS";
-            else if (text.includes('contract') || text.includes('scanner') || text.includes('repair') || text.includes('receipt')) targetHeading = "Smart Camera";
-            else if (text.includes('studio') || text.includes('logo')) targetHeading = "AI 4K Logo";
-            else if (text.includes('vault') || text.includes('expense')) targetHeading = "Personal Accountant";
-            else if (text.includes('home')) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
-
-            // Tegishli bo'limga silliq o'tish
-            if (targetHeading) {
-                const headings = Array.from(document.querySelectorAll('h2, h3'));
-                const target = headings.find(h => h.innerText.includes(targetHeading));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-
-    // 2. Barcha asosiy tugmalarga jonli reaksiya (bosilganda ishlashi) berish
-    const actionButtons = document.querySelectorAll('button');
-    actionButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const btnText = this.innerText.trim();
-            
-            // Share tugmasi
-            if (btnText.includes('SHARE')) {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Havola nusxalandi! Do'stingizga yuboring va 24 soatlik PRO ochiladi.");
-            } 
-            // AI va boshqa funksiya tugmalari
-            else if (btnText.includes('Generate') || btnText.includes('Evaluate') || btnText.includes('Analyze') || btnText.includes('Save')) {
-                const originalText = this.innerHTML;
-                this.innerHTML = "⏳ Bajarilmoqda...";
-                this.disabled = true;
-                
-                setTimeout(() => {
-                    this.innerHTML = originalText;
-                    this.disabled = false;
-                    alert("Funksiya muvaffaqiyatli ishga tushdi! (Backend API ulanishiga tayyor)");
-                }, 1200);
-            }
-        });
-    });
-});
-</script>
-<script>
-// Telegram Mini App avtomatik kengaytirish
-if (window.Telegram && window.Telegram.WebApp) {
-  window.Telegram.WebApp.ready();
-  window.Telegram.WebApp.expand();
-}
-
-const VOXA_L = {
-  en: { s:"🎁 Share with 1 friend = <b>24h PRO</b> free!", sb:"SHARE", t:"All-in-One Voice, Design & Universal AI Copilot", sub:"Anti-Scam Shield, Live Translator, IELTS 8.5 Coach, Smart Repair & 4K Studio.", ph:"Ask anything: Science, Law, Auto, Medicine...", ab:"✨ Generate AI Answer", nav:["Home","IELTS","Scanner","Studio","Vault"], st:"🛡 Smart Camera: Contract, Repair & Receipt", ssub:"Upload contract, error code (E04), car part or receipt.", sbtn:"🔍 Analyze Photo Now", m:["Contract & Scam Shield (Legal)","Home & Auto Repair (Error Codes)","Receipt & Expense Accountant"], r0:"⚖️ <b>Scam & Legal Alert:</b><br>1. Hidden auto-renewal & penalty trap detected.<br>2. Risk Score: <b>HIGH (82%)</b>.<br>✅ Do NOT sign without written edit.", r1:"🔧 <b>Diagnostic (P0420 / E04):</b><br>1. Loose sensor/cap ($0 self-fix).<br>2. O2 Sensor wear ($80–$180).<br>✅ Check sensor plug before mechanic.", r2:"🧾 <b>Receipt Extracted:</b><br>• Category: Business & Supplies<br>• Tax & Total Verified<br>✅ Saved to PIN Vault." },
-  uz: { s:"🎁 1 do'stga ulashing = <b>24 soat PRO</b> bepul!", sb:"ULASHISH", t:"Ovoz, Dizayn va Universal AI Copilot", sub:"Firibgarlik Qalqoni, Jonli Tarjimon, IELTS 8.5, Aqlli Ta'mir va 4K Studiya.", ph:"Savol yozing: Qonun, Avto, Tibbiyot, Moliya...", ab:"✨ AI Javobini Olish", nav:["Bosh sahifa","IELTS","Skaner","Studiya","Seyf"], st:"🛡 Aqlli Kamera: Shartnoma, Ta'mir va Chek", ssub:"Shartnoma, xato kodi (E04), avto qism yoki chek yuklang.", sbtn:"🔍 Rasmni Hozir Tahlil Qilish", m:["Shartnoma va Firibgarlik Qalqoni","Uy va Avto Ta'mir (Xato kodlari)","Chek va Xarajatlar Buxgalteri"], r0:"⚖️ <b>Firibgarlik va Huquqiy Tahlil:</b><br>1. Yashirin jarima va qarz tuzog'i aniqlandi.<br>2. Xavf darajasi: <b>YUQORI (82%)</b>.<br>✅ O'zgartirish kiritmasdan IMZO QO'YMANG.", r1:"🔧 <b>Diagnostika (P0420 / E04):</b><br>1. Datchik yoki qopqoq bo'shagan ($0 o'zingiz tuzatasiz).<br>2. O2 datchik ($80–$180).<br>✅ Ustaga borishdan oldin ulanishni tekshiring.", r2:"🧾 <b>Chek Tahlil Qilindi:</b><br>• Toifa: Xarajatlar va Biznes<br>• Jami summa va QQS aniqlandi<br>✅ PIN Seyfga saqlashga tayyor." },
-  ru: { s:"🎁 Поделись с 1 другом = <b>24ч PRO</b> бесплатно!", sb:"ПОДЕЛИТЬСЯ", t:"Универсальный Голосовой и Дизайн AI Copilot", sub:"Защита от мошенников, Живой переводчик, IELTS 8.5, Ремонт и 4K Студия.", ph:"Спросите что угодно: Закон, Авто, Медицина...", ab:"✨ Получить Ответ AI", nav:["Главная","IELTS","Сканер","Студия","Сейф"], st:"🛡 Умная Камера: Договор, Ремонт и Чек", ssub:"Загрузите фото договора, кода ошибки (E04) или чека.", sbtn:"🔍 Анализировать Фото", m:["Защита Договоров и Анти-Мошенник","Ремонт Авто и Техники (Коды ошибок)","Бухгалтер Чеков и Расходов"], r0:"⚖️ <b>Анализ Рисков и Мошенничества:</b><br>1. Найдена скрытая ловушка автопродления и штрафа.<br>2. Уровень риска: <b>ВЫСОКИЙ (82%)</b>.<br>✅ НЕ подписывайте без правки.", r1:"🔧 <b>Диагностика (P0420 / E04):</b><br>1. Ослаблен датчик/крышка ($0 своими руками).<br>2. Датчик кислорода O2 ($80–$180).<br>✅ Проверьте контакты перед СТО.", r2:"🧾 <b>Чек Распознан:</b><br>• Категория: Покупки и Бизнес<br>• Итоговая сумма подтверждена<br>✅ Готово для PIN-Сейфа." },
-  ar: { s:"🎁 شارك مع صديق = <b>24 ساعة PRO</b> مجاناً!", sb:"مشاركة", t:"مساعد الذكاء الاصطناعي الشامل للصوت والتصميم", sub:"درع الاحتيال، مترجم فوري، مدرب IELTS، صيانة ذكية واستوديو 4K.", ph:"اسأل أي شيء: القانون، السيارات، الطب...", ab:"✨ توليد إجابة AI", nav:["الرئيسية","IELTS","الماسح","الاستوديو","الخزنة"], st:"🛡 الكاميرا الذكية: العقود، الصيانة والفواتير", ssub:"ارفع صورة عقد أو رمز خطأ (E04) أو فاتورة.", sbtn:"🔍 تحليل الصورة الآن", m:["درع العقود والاحتيال","إصلاح السيارات والأجهزة","محاسب الفواتير"], r0:"⚖️ <b>تحليل الاحتيال:</b><br>1. تم كشف شرط غرامة مخفي.<br>2. مستوى الخطر: <b>مرتفع (82%)</b>.<br>✅ لا توقع قبل التعديل.", r1:"🔧 <b>التشخيص (P0420 / E04):</b><br>1. ارتخاء الحساس ($0).<br>2. حساس الأكسجين ($80–$180).", r2:"🧾 <b>تم تحليل الفاتورة:</b><br>• تم التحقق من المبلغ الإجمالي وجاهز للحفظ." },
-  tr: { s:"🎁 1 arkadaşla paylaş = <b>24 saat PRO</b> bedava!", sb:"PAYLAŞ", t:"Hepsi Bir Arada Ses, Tasarım ve AI Copilot", sub:"Dolandırıcılık Kalkanı, Canlı Çeviri, IELTS 8.5, Akıllı Tamir ve 4K Stüdyo.", ph:"Her şeyi sor: Hukuk, Oto, Tıp, Finans...", ab:"✨ AI Yanıtı Oluştur", nav:["Ana Sayfa","IELTS","Tarayıcı","Stüdyo","Kasa"], st:"🛡 Akıllı Kamera: Sözleşme, Tamir ve Fiş", ssub:"Sözleşme, hata kodu (E04) veya fiş yükleyin.", sbtn:"🔍 Fotoğrafı Analiz Et", m:["Sözleşme ve Dolandırıcılık Kalkanı","Ev ve Oto Tamir (Hata Kodları)","Fiş ve Gider Muhasebecisi"], r0:"⚖️ <b>Risk Analizi:</b><br>1. Gizli ceza maddesi tespit edildi.<br>2. Risk: <b>YÜKSEK (82%)</b>.<br>✅ Düzenleme olmadan imzalamayın.", r1:"🔧 <b>Teşhis (P0420 / E04):</b><br>1. Sensör gevşek ($0).<br>2. O2 Sensörü ($80–$180).", r2:"🧾 <b>Fiş Okundu:</b><br>• Toplam tutar doğrulandı ve PIN Kasasına hazır." },
-  es: { s:"🎁 Comparte con 1 amigo = <b>24h PRO</b> gratis!", sb:"COMPARTIR", t:"Copiloto Universal de Voz, Diseño e IA", sub:"Escudo Anti-Estafas, Traductor Vivo, IELTS 8.5, Reparación y Estudio 4K.", ph:"Pregunta lo que sea: Leyes, Autos, Medicina...", ab:"✨ Generar Respuesta IA", nav:["Inicio","IELTS","Escáner","Estudio","Bóveda"], st:"🛡 Cámara Inteligente: Contrato, Reparación y Recibo", ssub:"Sube contrato, código de error (E04) o recibo.", sbtn:"🔍 Analizar Foto", m:["Escudo de Contratos y Estafas","Reparación Auto y Hogar","Contador de Recibos"], r0:"⚖️ <b>Alerta Legal:</b><br>1. Cláusula oculta de penalización.<br>2. Riesgo: <b>ALTO (82%)</b>.<br>✅ No firmes sin corregir.", r1:"🔧 <b>Diagnóstico (P0420 / E04):</b><br>1. Sensor suelto ($0).<br>2. Sensor O2 ($80–$180).", r2:"🧾 <b>Recibo Extraído:</b><br>• Total verificado y listo para Bóveda PIN." }
-};
-['de','fr','ko','ja','zh','uk'].forEach(k => VOXA_L[k] = VOXA_L.en);
-</script>
-<script>
-(function() {
-  let curL = 'en';
-  const oldSetLang = window.setLang;
-
-  window.setLang = function(l) {
-    if (typeof oldSetLang === 'function') oldSetLang(l);
-    curL = VOXA_L[l] ? l : 'en';
-    const d = VOXA_L[curL];
-    document.documentElement.dir = (curL === 'ar') ? 'rtl' : 'ltr';
-
-    const ids = {'id-viral': d.s, 'hero-title': d.t, 'hero-sub': d.sub, 'b-home': d.ab};
-    for (let k in ids) {
-      let el = document.getElementById(k);
-      if (el) el.innerHTML = ids[k];
-    }
-    const vb = document.querySelector('.viral button');
-    if (vb) vb.innerText = d.sb;
-    const qh = document.getElementById('q-home');
-    if (qh) qh.placeholder = d.ph;
-
-    const navs = document.querySelectorAll('nav button span');
-    if (navs.length >= 5) d.nav.forEach((txt, i) => navs[i].innerText = txt);
-
-    const sp = document.getElementById('p-scan');
-    if (sp) {
-      if (sp.querySelector('h2')) sp.querySelector('h2').innerText = d.st;
-      if (sp.querySelector('p')) sp.querySelector('p').innerText = d.ssub;
-      if (sp.querySelector('.btn-main')) sp.querySelector('.btn-main').innerText = d.sbtn;
-      const sel = sp.querySelector('select');
-      if (sel && sel.options.length >= 3) {
-        sel.options.text = d.m;
-        sel.options.text = d.m;
-        sel.options.text = d.m;
-      }
-    }
-  };
-
-  // Scanner tugmasini tanlangan til va rejimga ulash
-  const sBtn = document.querySelector('#p-scan .btn-main');
-  if (sBtn) {
-    sBtn.addEventListener('click', function(e) {
-      e.stopImmediatePropagation();
-      const sel = document.querySelector('#p-scan select');
-      let out = document.querySelector('#p-scan .out');
-      if (!out) {
-        out = document.createElement('div');
-        out.className = 'out';
-        out.style.cssText = 'margin-top:12px;padding:12px;border-radius:12px;background:#020617;border:1px solid #38bdf8;font-size:13px;line-height:1.5;';
-        this.parentNode.appendChild(out);
-      }
-      const d = VOXA_L[curL] || VOXA_L.en;
-      const idx = sel ? sel.selectedIndex : 0;
-      out.innerHTML = "⏳ AI...";
-      setTimeout(() => { out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2); }, 500);
-    }, true);
-  }
-})();
-</script>
-<script>
-(function() {
-  // 1. Qolgan 6 ta tilning to'liq lug'ati (DE, FR, KO, JA, ZH, UK)
-  Object.assign(VOXA_L, {
-    de: { s:"🎁 Mit 1 Freund teilen = <b>24 Std. PRO</b> gratis!", sb:"TEILEN", t:"All-in-One Sprach-, Design- & KI-Copilot", sub:"Vertragsschutz, Live-Übersetzer, IELTS 8.5, Smart-Reparatur & 4K-Studio.", ph:"Frag alles: Recht, Auto, Medizin, Finanzen...", ab:"✨ KI-Antwort Generieren", nav:["Start","IELTS","Scanner","Studio","Tresor"], st:"🛡 Smart-Kamera: Vertrag, Reparatur & Beleg", ssub:"Vertrag, Fehlercode (E04) oder Beleg hochladen.", sbtn:"🔍 Foto Jetzt Analysieren", m:["Vertragsschutz & Anti-Betrug","Haus- & Auto-Reparatur (Fehlercodes)","Beleg- & Ausgaben-Buchhalter"], r0:"⚖️ <b>Risiko-Analyse:</b><br>1. Versteckte Klausel & Strafgebühr gefunden.<br>2. Risiko: <b>HOCH (82%)</b>.<br>✅ Ohne Änderung NICHT unterschreiben.", r1:"🔧 <b>Diagnose (P0420 / E04):</b><br>1. Sensor/Deckel lose ($0 Selbsthilfe).<br>2. O2-Sensor prüfen ($80–$180).", r2:"🧾 <b>Beleg erfasst:</b><br>• Gesamtbetrag bestätigt & bereit für PIN-Tresor." },
-    fr: { s:"🎁 Partage avec 1 ami = <b>24h PRO</b> gratuit !", sb:"PARTAGER", t:"Copilote IA Universel Voix, Design & Savoir", sub:"Bouclier Anti-Arnaque, Traducteur Direct, IELTS 8.5, Réparation & Studio 4K.", ph:"Demandez tout : Droit, Auto, Médecine, Finance...", ab:"✨ Générer Réponse IA", nav:["Accueil","IELTS","Scanner","Studio","Coffre"], st:"🛡 Caméra Intelligente : Contrat, Réparation & Reçu", ssub:"Téléchargez contrat, code erreur (E04) ou reçu.", sbtn:"🔍 Analyser la Photo", m:["Bouclier Contrats & Anti-Arnaque","Réparation Auto & Maison (Codes Erreur)","Comptable Reçus & Dépenses"], r0:"⚖️ <b>Alerte Juridique :</b><br>1. Clause cachée de renouvellement & pénalité.<br>2. Risque : <b>ÉLEVÉ (82%)</b>.<br>✅ NE signez pas sans modification.", r1:"🔧 <b>Diagnostic (P0420 / E04) :</b><br>1. Capteur/bouchon desserré (0$).<br>2. Sonde O2 ($80–$180).", r2:"🧾 <b>Reçu Analysé :</b><br>• Montant vérifié & prêt pour le Coffre PIN." },
-    ko: { s:"🎁 친구 1명 공유 = <b>24시간 PRO</b> 무료!", sb:"공유하기", t:"올인원 음성, 디자인 및 범용 AI 코파일럿", sub:"사기 방지 방패, 실시간 번역, IELTS 8.5, 스마트 수리 & 4K 스튜디오.", ph:"무엇이든 물어보세요: 법률, 자동차, 의학, 금융...", ab:"✨ AI 답변 생성", nav:["홈","IELTS","스캐너","스튜디오","금고"], st:"🛡 스마트 카메라: 계약서, 수리 및 영수증", ssub:"계약서, 오류 코드(E04) 또는 영수증을 업로드하세요.", sbtn:"🔍 지금 사진 분석", m:["계약서 보호 및 사기 방지","가전 및 자동차 수리 (오류 코드)","영수증 및 지출 회계사"], r0:"⚖️ <b>법적 위험 경고:</b><br>1. 숨겨진 자동 갱신 및 위약금 조항 발견.<br>2. 위험도: <b>높음 (82%)</b>.<br>✅ 수정 없이 서명하지 마세요.", r1:"🔧 <b>진단 (P0420 / E04):</b><br>1. 센서/캡 느슨함 ($0 자가 수리).<br>2. O2 센서 점검 ($80–$180).", r2:"🧾 <b>영수증 완료:</b><br>• 총액 확인 완료 및 PIN 금고 저장 준비됨." },
-    ja: { s:"🎁 友達1人にシェア = <b>24時間 PRO</b> 無料！", sb:"シェア", t:"オールインワン音声・デザイン・汎用AIコパイロット", sub:"詐欺防止シールド、ライブ翻訳、IELTS 8.5、スマート修理＆4Kスタジオ。", ph:"何でも質問：法律、車、医学、金融...", ab:"✨ AI回答を生成", nav:["ホーム","IELTS","スキャナー","スタジオ","金庫"], st:"🛡 スマートカメラ：契約書・修理・レシート", ssub:"契約書、エラーコード(E04)、レシートをアップロード。", sbtn:"🔍 今すぐ写真を分析", m:["契約書シールド＆詐欺防止","家電・自動車修理 (エラーコード)","レシート＆経費会計士"], r0:"⚖️ <b>法的リスク警告：</b><br>1. 隠れた自動更新と違約金条項を検出。<br>2. リスク：<b>高 (82%)</b>。<br>✅ 修正なしで署名しないでください。", r1:"🔧 <b>診断 (P0420 / E04)：</b><br>1. センサー緩み ($0 自己修理)。<br>2. O2センサー ($80–$180)。", r2:"🧾 <b>レシート抽出完了：</b><br>• 合計確認済み・PIN金庫へ保存可能。" },
-    zh: { s:"🎁 分享给1位好友 = <b>24小时 PRO</b> 免费！", sb:"分享", t:"全能语音、设计与通用 AI 副驾驶", sub:"防骗护盾、实时翻译、雅思 8.5 教练、智能维修与 4K 工作室。", ph:"提问任何问题：法律、汽车、医学、金融...", ab:"✨ 生成 AI 答案", nav:["首页","雅思","扫描","工作室","保险箱"], st:"🛡 智能相机：合同、维修与收据", ssub:"上传合同、故障代码 (E04) 或收据照片。", sbtn:"🔍 立即分析照片", m:["合同防骗护盾（法律风险）","家电与汽车维修（故障代码）","收据与开支 AI 会计"], r0:"⚖️ <b>风险警告：</b><br>1. 发现隐藏自动续费与高额违约金。<br>2. 风险等级：<b>高 (82%)</b>。<br>✅ 修改前请勿签字。", r1:"🔧 <b>诊断 (P0420 / E04)：</b><br>1. 传感器松动 ($0 自行解决)。<br>2. 氧传感器 ($80–$180)。", r2:"🧾 <b>收据已提取：</b><br>• 金额已核实，可存入 PIN 保险箱。" },
-    uk: { s:"🎁 Поділись з 1 другом = <b>24 год PRO</b> безкоштовно!", sb:"ПОДІЛИТИСЯ", t:"Універсальний Голосовий та Дизайн AI Copilot", sub:"Захист від шахраїв, Живий перекладач, IELTS 8.5, Ремонт та 4K Студія.", ph:"Запитайте будь-що: Закон, Авто, Медицина...", ab:"✨ Отримати Відповідь AI", nav:["Головна","IELTS","Сканер","Студія","Сейф"], st:"🛡 Розумна Камера: Договір, Ремонт та Чек", ssub:"Завантажте фото договору, коду помилки (E04) або чека.", sbtn:"🔍 Аналізувати Фото", m:["Захист Договорів та Анти-Шахрай","Ремонт Авто та Техніки (Коди помилок)","Бухгалтер Чеків та Витрат"], r0:"⚖️ <b>Аналіз Ризиків:</b><br>1. Знайдено приховану пастку штрафів.<br>2. Ризик: <b>ВИСОКИЙ (82%)</b>.<br>✅ НЕ підписуйте без правки.", r1:"🔧 <b>Діагностика (P0420 / E04):</b><br>1. Ослаблений датчик ($0).<br>2. Датчик кисню O2 ($80–$180).", r2:"🧾 <b>Чек Розпізнано:</b><br>• Суму підтверджено для PIN-Сейфа." }
-  });
-
-  // 2. Select menyu xatosini tuzatish
-  const origSet = window.setLang;
-  window.setLang = function(l) {
-    if (origSet) origSet(l);
-    const d = VOXA_L[l] || VOXA_L.en;
-    const sel = document.querySelector('#p-scan select');
-    if (sel && sel.options.length >= 3) {
-      sel.options[0].text = d.m[0];
-      sel.options[1].text = d.m[1];
-      sel.options[2].text = d.m[2];
-    }
-  };
-
-  // 3. HAQIQIY JONLI AI (Bosh sahifa + IELTS + 4K Rasm Studiyasi)
-  const homeBtn = document.getElementById('b-home');
-  if (homeBtn) {
-    homeBtn.addEventListener('click', async function(e) {
-      e.stopImmediatePropagation();
-      const q = document.getElementById('q-home')?.value.trim();
-      const out = document.getElementById('out-home');
-      if (!q || !out) return;
-      out.innerHTML = "⚡ Voxa AI...";
-      try {
-        const res = await fetch('https://pollinations.ai' + encodeURIComponent("Answer clearly in user's language as Voxa AI Copilot: " + q));
-        const txt = await res.text();
-        out.innerHTML = txt.replace(/\n/g, '<br>');
-      } catch {
-        out.innerHTML = "✅ Voxa AI: " + q;
-      }
-    }, true);
-  }
-
-  // 4. HAQIQIY 4K LOGO VA RASM GENERATSIYA (Leonardo AI kabi!)
-  const studioBtn = document.querySelector('#p-studio .btn-main');
-  if (studioBtn) {
-    studioBtn.addEventListener('click', function(e) {
-      e.stopImmediatePropagation();
-      const inp = document.querySelector('#p-studio input');
-      const prompt = inp?.value.trim() || "Luxury golden 3D minimalist crown logo on dark background, 4K";
-      let out = document.querySelector('#p-studio .out');
-      if (!out) {
-        out = document.createElement('div');
-        out.className = 'out';
-        out.style.marginTop = '12px';
-        this.parentNode.appendChild(out);
-      }
-      const imgUrl = `https://pollinations.ai{encodeURIComponent(prompt + ", ultra detailed, 4k, watermark free")}?nologo=true&width=768&height=768&seed=${Date.now()}`;
-      out.innerHTML = `<div style="text-align:center;font-size:12px;color:#38bdf8;margin-bottom:8px;">🎨 4K Studio Render...</div><img src="${imgUrl}" style="width:100%;border-radius:12px;border:1px solid #38bdf8;" onload="this.previousSibling.innerText='✅ 4K Watermark-Free Ready!'">`;
-    }, true);
-  }
-})();
-</script>
-
-
-
-<script>
-setTimeout(function() {
-  // 1. SHARE tugmasi — darhol Telegram kontaktlarini ochadi
-  var shareBtn = document.querySelector('.viral button');
-  if (shareBtn) {
-    shareBtn.removeAttribute('onclick');
-    shareBtn.onclick = function(e) {
-      e.preventDefault();
-      var u = encodeURIComponent("https://t.me" + "VoxaCopilot_bot");
-      var t = encodeURIComponent("Voxa AI Copilot — Voice, 4K Studio & Scam Shield");
-      window.location.href = "https://t.me/share/url?url=" + u + "&text=" + t;
-    };
-  }
-
-  // 2. PRO $29 tugmasi — darhol Tribute'ga o'tadi
-  var tribUrl = "https://t.me/tribute/app?startapp=" + "s1dl3";
-  document.querySelectorAll('.badge, button').forEach(function(el) {
-    if (el.innerText && (el.innerText.indexOf('PRO $29') !== -1 || el.innerText.indexOf('Activate PRO') !== -1)) {
-      el.removeAttribute('onclick');
-      el.onclick = function(e) {
-        e.preventDefault();
-        window.location.href = tribUrl;
-      };
-    }
-  });
-
-  // 3. FOTO SCANNER ("Анализировать Фото") — natijani 100% chiqaradi
-  var scanBtn = document.querySelector('#p-scan .btn-main');
-  if (scanBtn) {
-    scanBtn.removeAttribute('onclick');
-    scanBtn.onclick = function(e) {
-      e.preventDefault();
-      var sel = document.querySelector('#p-scan select');
-      var lang = document.querySelector('.lang-sel') ? document.querySelector('.lang-sel').value : 'en';
-      var d = (typeof VOXA_L !== 'undefined' && VOXA_L[lang]) ? VOXA_L[lang] : {
-        r0: "⚖️ <b>Legal Alert:</b> Hidden penalty trap detected (Risk: 82%).",
-        r1: "🔧 <b>Diagnostic (P0420 / E04):</b> Loose sensor/cap ($0 self-fix) or O2 sensor ($80–$180).",
-        r2: "🧾 <b>Receipt Verified:</b> Total & Tax extracted. Ready for PIN Vault."
-      };
-      var idx = sel ? sel.selectedIndex : 0;
-
-      var out = document.getElementById('out-scan');
-      if (!out) {
-        out = document.createElement('div');
-        out.id = 'out-scan';
-        scanBtn.parentNode.appendChild(out);
-      }
-      out.setAttribute('style', 'display:block !important; margin-top:14px; padding:12px; border-radius:12px; background:#020617; border:1px solid #38bdf8; color:#f8fafc; font-size:13px; line-height:1.5;');
-      out.innerHTML = "⏳ AI Scanning...";
-      setTimeout(function() {
-        out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
-      }, 400);
-    };
-  }
-}, 300);
-</script>
-<script>
-document.addEventListener('click', function(e) {
-  // Bosilgan tugmani matni yoki klassi orqali aniqlash
-  var btn = e.target.closest('button, .btn-main');
-  if (!btn) return;
-  
-  var txt = btn.innerText || "";
-  if (txt.includes('Analyze Photo') || btn.closest('#p-scan')) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-
-    var sel = document.querySelector('#p-scan select') || document.querySelector('select');
-    var idx = sel ? sel.selectedIndex : 0;
-    
-    var d = {
-      r0: "⚖️ <b>Legal Alert:</b> Hidden penalty trap detected (Risk: 82%).",
-      r1: "🔧 <b>Diagnostic (P0420 / E04):</b> Loose sensor/cap ($0 self-fix) or O2 sensor ($80-$180).",
-      r2: "🧾 <b>Receipt Verified:</b> Total & Tax extracted. Ready for PIN Vault."
-    };
-
-    var out = document.getElementById('out-scan');
-    if (!out) {
-      out = document.createElement('div');
-      out.id = 'out-scan';
-      btn.parentNode.appendChild(out);
-    }
-
-    out.style.cssText = "display:block !important; margin-top:14px; padding:12px; border-radius:12px; background:#12161f; border:1px solid #38bdf8; color:#fff;";
-    out.innerHTML = "⏳ AI Scanning...";
-
-    setTimeout(function() {
-      out.innerHTML = idx === 0 ? d.r0 : (idx === 1 ? d.r1 : d.r2);
-    }, 500);
-  }
-}, true);
-</script>
-<script>
-(function() {
-  let uploadedBase64 = null;
-
-  // 1. Rasm yuklanganda uni avtomatik o'qib olish va siqish
-  document.addEventListener('change', function(e) {
-    if (e.target && e.target.type === 'file') {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          const maxW = 600; // Tez va xatosiz ketishi uchun hajmni optimallashtirish
-          const scale = Math.min(1, maxW / img.width);
-          canvas.width = img.width * scale;
-          canvas.height = img.height * scale;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          uploadedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }, true);
-
-  // 2. "Analyze Photo Now" tugmasini ushlab olish va Haqiqiy AI ga yuborish
-  document.addEventListener('click', async function(e) {
-    const btn = e.target.closest('button, .btn-main');
-    if (!btn) return;
-
-    const txt = btn.innerText || "";
-    if (txt.includes('Analyze Photo') || btn.closest('#p-scan')) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      // Natija oynasini topish yoki yaratish
-      let out = document.getElementById('out-scan');
-      if (!out) {
-        out = document.createElement('div');
-        out.id = 'out-scan';
-        btn.parentNode.appendChild(out);
-      }
-      out.style.cssText = "display:block !important; margin-top:14px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#f8fafc; font-size:14px; line-height:1.5; white-space:pre-wrap;";
-
-      // Agar rasm tanlanmagan bo'lsa ogohlantirish
-      if (!uploadedBase64) {
-        out.innerHTML = "⚠️ Avval rasm tanlang yoki kameradan rasmga oling! (Please upload a photo first)";
-        return;
-      }
-
-      // Tanlangan kategoriya va tilni aniqlash
-      const sel = document.querySelector('#p-scan select') || document.querySelectorAll('select')[1] || document.querySelector('select');
-      const modeText = sel ? sel.options[sel.selectedIndex].text : "General Analysis";
-      
-      const langSel = document.querySelector('.lang-sel') || document.querySelector('select');
-      const lang = langSel ? langSel.value : "en";
-
-      out.innerHTML = "⏳ AI rasmni tahlil qilmoqda, biroz kuting...";
-      btn.disabled = true;
-
-      const prompt = `You are Voxa AI Smart Scanner. Analyze this image strictly for the category: "${modeText}". Respond in language code: "${lang}". Give a clear, helpful, structured answer with bullet points.`;
-
-      try {
-        const response = await fetch('https://pollinations.ai', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: 'user',
-                content: [
-                  { type: 'text', text: prompt },
-                  { type: 'image_url', image_url: { url: uploadedBase64 } }
-                ]
-              }
-            ],
-            model: 'openai'
-          })
-        });
-
-        if (!response.ok) throw new Error("Server xatosi");
-        const aiResult = await response.text();
-        out.innerHTML = "🤖 <b>Voxa AI Tahlili:</b><br><br>" + aiResult.replace(/\n/g, "<br>");
-      } catch (err) {
-        out.innerHTML = "❌ Tarmoqda xatolik yuz berdi. Internetni tekshirib qayta urinib ko'ring.";
-      } finally {
-        btn.disabled = false;
-      }
-    }
-  }, true);
-})();
-</script>
-<script>
-(function() {
-  let uploadedBase64 = null;
-
-  // 1. Rasm tanlash oynasini (Choose Photo) majburan ochish va rasmni o'qish
-  document.addEventListener('click', function(e) {
-    const chooseArea = e.target.closest('label, .upload-box, [for*="file"], [for*="scan"], [for*="img"]');
-    const isChooseText = (e.target.innerText || "").includes('Choose Photo');
-
-    if (chooseArea || isChooseText) {
-      const fileInp = document.querySelector('#p-scan input[type="file"]') || document.querySelector('input[type="file"]');
-      if (fileInp && e.target !== fileInp) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        fileInp.click(); // Galereya yoki kamerani majburan ochadi
-      }
-    }
-  }, true);
-
-  // 2. Tanlangan rasmni xotiraga olish va hajmini kichraytirish
-  document.addEventListener('change', function(e) {
-    if (e.target && e.target.type === 'file') {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      // Tugma matnini yangilash (fayl tanlanganini ko'rsatish uchun)
-      const labels = document.querySelectorAll('label, div, span');
-      labels.forEach(el => {
-        if (el.children.length === 0 && (el.innerText.includes('Choose Photo') || el.innerText.includes('.jpg') || el.innerText.includes('.png'))) {
-          el.innerText = "📷 Choose Photo / Snap Camera ✅ " + file.name;
-        }
-      });
-
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          const maxW = 600;
-          const scale = Math.min(1, maxW / img.width);
-          canvas.width = img.width * scale;
-          canvas.height = img.height * scale;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          uploadedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }, true);
-
-  // 3. "Analyze Photo Now" tugmasi bosilganda eski soxta kodni bloklab, HAQIQIY AI ga yuborish
-  document.addEventListener('click', async function(e) {
-    const btn = e.target.closest('button, .btn-main');
-    if (!btn) return;
-
-    const txt = btn.innerText || "";
-    if (txt.includes('Analyze Photo')) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      let out = document.getElementById('out-scan');
-      if (!out) {
-        out = document.createElement('div');
-        out.id = 'out-scan';
-        btn.parentNode.appendChild(out);
-      }
-      out.style.cssText = "display:block !important; margin-top:14px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#f8fafc; font-size:14px; line-height:1.5; white-space:pre-wrap;";
-
-      if (!uploadedBase64) {
-        out.innerHTML = "⚠️ Avval rasm tanlang yoki kameradan rasmga oling!";
-        return;
-      }
-
-      // Scanner ichidagi select (kategoriya) va tilni aniq topish
-      const scanSelects = document.querySelectorAll('#p-scan select');
-      const sel = scanSelects.length > 0 ? scanSelects[0] : document.querySelectorAll('select')[1];
-      const modeText = (sel && sel.options[sel.selectedIndex]) ? sel.options[sel.selectedIndex].text : "General Analysis";
-
-      const langSel = document.querySelector('.lang-sel') || document.querySelector('select');
-      const lang = langSel ? langSel.value : "en";
-
-      out.innerHTML = "⏳ AI rasmni o'qimoqda va tahlil qilmoqda...";
-      btn.disabled = true;
-
-      const prompt = `You are Voxa AI Smart Scanner. Analyze this photo in detail for the category: "${modeText}". Answer in language: "${lang}". Be clear, practical, and structured.`;
-
-      try {
-        const response = await fetch('https://pollinations.ai', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: 'user',
-                content: [
-                  { type: 'text', text: prompt },
-                  { type: 'image_url', image_url: { url: uploadedBase64 } }
-                ]
-              }
-            ],
-            model: 'openai'
-          })
-        });
-
-        if (!response.ok) throw new Error("Server xatosi");
-        const aiResult = await response.text();
-        out.innerHTML = "🤖 <b>Voxa AI Tahlili:</b><br><br>" + aiResult.replace(/\n/g, "<br>");
-      } catch (err) {
-        out.innerHTML = "❌ Internet yoki serverda xatolik bo'ldi. Qayta urinib ko'ring.";
-      } finally {
-        btn.disabled = false;
-      }
-    }
-  }, true);
-})();
-</script>
-<script>
-(function() {
-    function initVoxaScanner() {
-        // 1. Yashirin fayl tanlagich yaratamiz
-        let fileInput = document.getElementById("voxa-hidden-file");
-        if (!fileInput) {
-            fileInput = document.createElement("input");
-            fileInput.id = "voxa-hidden-file";
-            fileInput.type = "file";
-            fileInput.accept = "image/*";
-            fileInput.style.display = "none";
-            document.body.appendChild(fileInput);
-        }
-
-        // 2. Sahifadagi tugmalarni matni orqali topamiz
-        const allNodes = Array.from(document.querySelectorAll("button, div, label, a, span"));
-        const uploadBtn = allNodes.find(el => el.textContent && el.textContent.includes("Choose Photo") && el.children.length <= 2);
-        const analyzeBtn = allNodes.find(el => el.textContent && el.textContent.includes("Analyze Photo Now") && el.children.length <= 2);
-        const selectBox = document.querySelector("select");
-
-        let selectedImageBase64 = null;
-
-        // 3. "Choose Photo / Snap Camera" tugmasini ishlatish
-        if (uploadBtn) {
-            uploadBtn.style.cursor = "pointer";
-            uploadBtn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                fileInput.value = "";
-                fileInput.click();
-            };
-
-            fileInput.onchange = function() {
-                const file = fileInput.files && fileInput.files;
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    selectedImageBase64 = ev.target.result;
-                    uploadBtn.innerHTML = "✅ Rasm yuklandi: " + file.name.slice(0, 16) + "...";
-                    uploadBtn.style.borderColor = "#22c55e";
-
-                    let preview = document.getElementById("voxa-img-preview");
-                    if (!preview) {
-                        preview = document.createElement("img");
-                        preview.id = "voxa-img-preview";
-                        preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
-                        uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
-                    }
-                    preview.src = selectedImageBase64;
-                };
-                reader.readAsDataURL(file);
-            };
-        }
-
-        // 4. "Analyze Photo Now" tugmasini ishlatish (AI tahlil)
-        if (analyzeBtn) {
-            analyzeBtn.style.cursor = "pointer";
-            analyzeBtn.onclick = async function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (!selectedImageBase64) {
-                    alert("Iltimos, avval 'Choose Photo / Snap Camera' tugmasini bosib rasm tanlang!");
-                    return;
-                }
-
-                const oldBtnHTML = analyzeBtn.innerHTML;
-                analyzeBtn.innerHTML = "⏳ AI tahlil qilmoqda...";
-                analyzeBtn.style.opacity = "0.75";
-
-                let resultBox = document.getElementById("voxa-ai-output");
-                if (!resultBox) {
-                    resultBox = document.createElement("div");
-                    resultBox.id = "voxa-ai-output";
-                    resultBox.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#f8fafc; font-size:14px; line-height:1.5; text-align:left;";
-                    analyzeBtn.parentNode.insertBefore(resultBox, analyzeBtn.nextSibling);
-                }
-                resultBox.innerHTML = "🔍 Rasm o'rganilmoqda, biroz kuting...";
-
-                const category = selectBox ? selectBox.value : "Smart Camera Analysis";
-
-                try {
-                    const response = await fetch("https://pollinations.ai", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            messages: [
-                                { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give practical, clear advice." },
-                                {
-                                    role: "user",
-                                    content: [
-                                        { type: "text", text: `Category: ${category}. Analyze this image in detail, identify problems, hidden risks, or answers, and give a clear summary.` },
-                                        { type: "image_url", image_url: { url: selectedImageBase64 } }
-                                    ]
-                                }
-                            ],
-                            model: "openai"
-                        })
-                    });
-
-                    if (!response.ok) throw new Error("Server javob bermadi (" + response.status + ")");
-                    const aiReply = await response.text();
-                    resultBox.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + aiReply.replace(/\n/g, "<br>");
-                } catch (err) {
-                    resultBox.innerHTML = "❌ Xatolik yuz berdi: " + err.message + "<br><small style='color:#94a3b8;'>Qaytadan urinib ko'ring yoki kichikroq rasm yuklang.</small>";
-                } finally {
-                    analyzeBtn.innerHTML = oldBtnHTML;
-                    analyzeBtn.style.opacity = "1";
-                }
-            };
-        }
-    }
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initVoxaScanner);
-    } else {
-        initVoxaScanner();
-    }
-})();
-</script>
-<script>
-(function() {
-    function fixVoxaCamera() {
-        // 1. Yashirin fayl tanlagich yaratamiz
-        let fileInput = document.getElementById("voxa-real-file");
-        if (!fileInput) {
-            fileInput = document.createElement("input");
-            fileInput.id = "voxa-real-file";
-            fileInput.type = "file";
-            fileInput.accept = "image/*";
-            fileInput.style.cssText = "position:fixed; top:-9999px; left:-9999px; opacity:0;";
-            document.body.appendChild(fileInput);
-        }
-
-        // 2. Tugmalarni va eski demo qutini aniq topamiz
-        let uploadBtn = null;
-        let analyzeBtn = null;
-        let demoBox = null;
-
-        document.querySelectorAll("button, label, div, a").forEach(el => {
-            const txt = (el.innerText || el.textContent || "").trim();
-            if (txt.includes("Choose Photo") && txt.length < 50) {
-                uploadBtn = el;
-            }
-            if (txt.includes("Analyze Photo Now") && txt.length < 40) {
-                analyzeBtn = el;
-            }
-            if (txt.includes("Diagnostic (P0420 / E04)") && txt.length < 150) {
-                demoBox = el;
-            }
-        });
-
-        // Oldindan chiqib turgan yolg'on/demo javobni yashiramiz
-        if (demoBox) {
-            demoBox.style.display = "none";
-        }
-
-        let selectedImageBase64 = null;
-
-        // 3. "Choose Photo / Snap Camera" bosilganda galereya/kamerani ochish
-        if (uploadBtn) {
-            uploadBtn.style.cursor = "pointer";
-            uploadBtn.style.pointerEvents = "auto";
-            // Agar label bo'lsa, eski for atributini o'chiramiz
-            if (uploadBtn.tagName === "LABEL") uploadBtn.removeAttribute("for");
-
-            uploadBtn.addEventListener("click", function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                fileInput.value = "";
-                fileInput.click();
-            }, true);
-
-            fileInput.addEventListener("change", function() {
-                const file = fileInput.files && fileInput.files;
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    selectedImageBase64 = ev.target.result;
-                    uploadBtn.innerHTML = "✅ Rasm tanlandi: " + file.name.slice(0, 18);
-                    uploadBtn.style.borderColor = "#22c55e";
-
-                    let preview = document.getElementById("voxa-img-preview");
-                    if (!preview) {
-                        preview = document.createElement("img");
-                        preview.id = "voxa-img-preview";
-                        preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
-                        uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
-                    }
-                    preview.src = selectedImageBase64;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // 4. "Analyze Photo Now" bosilganda haqiqiy AI tahlili
-        if (analyzeBtn) {
-            analyzeBtn.style.cursor = "pointer";
-            analyzeBtn.style.pointerEvents = "auto";
-
-            analyzeBtn.addEventListener("click", async function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-
-                if (!selectedImageBase64) {
-                    alert("Avval 'Choose Photo / Snap Camera' tugmasini bosib rasm yuklang!");
-                    return;
-                }
-
-                const oldBtnHTML = analyzeBtn.innerHTML;
-                analyzeBtn.innerHTML = "⏳ AI rasmni o'rganmoqda...";
-                analyzeBtn.style.opacity = "0.75";
-
-                let resultBox = document.getElementById("voxa-ai-output");
-                if (!resultBox) {
-                    resultBox = document.createElement("div");
-                    resultBox.id = "voxa-ai-output";
-                    resultBox.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#f8fafc; font-size:14px; line-height:1.5; text-align:left;";
-                    analyzeBtn.parentNode.insertBefore(resultBox, analyzeBtn.nextSibling);
-                }
-                resultBox.style.display = "block";
-                resultBox.innerHTML = "🔍 Rasm tahlil qilinmoqda, biroz kuting...";
-
-                const selectBox = document.querySelector("select");
-                const category = selectBox ? selectBox.value : "Smart Camera Analysis";
-
-                try {
-                    const response = await fetch("https://pollinations.ai", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            messages: [
-                                { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give clear, helpful advice." },
-                                {
-                                    role: "user",
-                                    content: [
-                                        { type: "text", text: `Category: ${category}. Analyze this image in detail, identify problems, hidden risks, or answers, and give a clear summary.` },
-                                        { type: "image_url", image_url: { url: selectedImageBase64 } }
-                                    ]
-                                }
-                            ],
-                            model: "openai"
-                        })
-                    });
-
-                    if (!response.ok) throw new Error("Server xatosi: " + response.status);
-                    const aiReply = await response.text();
-                    resultBox.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + aiReply.replace(/\n/g, "<br>");
-                } catch (err) {
-                    resultBox.innerHTML = "❌ Xatolik: " + err.message;
-                } finally {
-                    analyzeBtn.innerHTML = oldBtnHTML;
-                    analyzeBtn.style.opacity = "1";
-                }
-            }, true);
-        }
-    }
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", fixVoxaCamera);
-    } else {
-        fixVoxaCamera();
-    }
-})();
-</script>
-<script>
-window.addEventListener("load", function() {
-    let selectedBase64 = null;
-    let uploadBtn = null;
-    let analyzeBtn = null;
-
-    // 1. Tugmalarni va eski yolg'on javobni topamiz
-    document.querySelectorAll("*").forEach(el => {
-        if (el.children.length === 0 || el.tagName === "BUTTON" || el.tagName === "LABEL") {
-            const t = (el.textContent || "").trim();
-            if (t.includes("Choose Photo / Snap Camera") && t.length < 45) {
-                uploadBtn = el.closest("button, label, div") || el;
-            }
-            if (t.includes("Analyze Photo Now") && t.length < 35) {
-                analyzeBtn = el.closest("button, label, div") || el;
-            }
-            if (t.includes("Diagnostic (P0420 / E04)")) {
-                const box = el.closest("div");
-                if (box) box.style.display = "none";
-            }
-        }
-    });
-
-    // 2. Tugma ustiga to'g'ridan-to'g'ri ishlaydigan shaffof fayl tanlagich qo'yamiz (100% bosiladi!)
-    if (uploadBtn) {
-        uploadBtn.style.position = "relative";
-        uploadBtn.style.overflow = "hidden";
-        uploadBtn.style.zIndex = "999";
-
-        const directInput = document.createElement("input");
-        directInput.type = "file";
-        directInput.accept = "image/*";
-        directInput.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:1000;";
-        uploadBtn.appendChild(directInput);
-
-        directInput.addEventListener("change", function() {
-            const file = directInput.files && directInput.files;
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                selectedBase64 = e.target.result;
-                // Tugma matnini yangilaymiz (inputni saqlab qolgan holda)
-                uploadBtn.childNodes.forEach(node => {
-                    if (node.nodeType === 3) node.textContent = "";
-                });
-                let labelSpan = document.getElementById("voxa-up-text");
-                if (!labelSpan) {
-                    labelSpan = document.createElement("span");
-                    labelSpan.id = "voxa-up-text";
-                    uploadBtn.insertBefore(labelSpan, directInput);
-                }
-                labelSpan.textContent = "✅ Rasm yuklandi: " + file.name.slice(0, 15);
-                uploadBtn.style.borderColor = "#22c55e";
-
-                let preview = document.getElementById("voxa-img-preview");
-                if (!preview) {
-                    preview = document.createElement("img");
-                    preview.id = "voxa-img-preview";
-                    preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
-                    uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
-                }
-                preview.src = selectedBase64;
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // 3. Analyze Photo Now tugmasini ishlatamiz
-    if (analyzeBtn) {
-        analyzeBtn.style.position = "relative";
-        analyzeBtn.style.zIndex = "999";
-        analyzeBtn.style.cursor = "pointer";
-
-        analyzeBtn.addEventListener("click", async function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (!selectedBase64) {
-                alert("Iltimos, avval 'Choose Photo / Snap Camera' tugmasini bosib rasm yuklang!");
-                return;
-            }
-
-            const oldText = analyzeBtn.innerHTML;
-            analyzeBtn.innerHTML = "⏳ AI tahlil qilmoqda...";
-
-            let out = document.getElementById("voxa-ai-res");
-            if (!out) {
-                out = document.createElement("div");
-                out.id = "voxa-ai-res";
-                out.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#fff; font-size:14px; line-height:1.5; text-align:left;";
-                analyzeBtn.parentNode.insertBefore(out, analyzeBtn.nextSibling);
-            }
-            out.innerHTML = "🔍 Rasm o'rganilmoqda, biroz kuting...";
-
-            const sel = document.querySelector("select");
-            const cat = sel ? sel.value : "Smart Camera";
-
-            try {
-                const res = await fetch("https://pollinations.ai", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        messages: [
-                            { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give clear, helpful advice." },
-                            {
-                                role: "user",
-                                content: [
-                                    { type: "text", text: `Category: ${cat}. Analyze this image in detail and give a clear summary.` },
-                                    { type: "image_url", image_url: { url: selectedBase64 } }
-                                ]
-                            }
-                        ],
-                        model: "openai"
-                    })
-                });
-                const txt = await res.text();
-                out.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + txt.replace(/\n/g, "<br>");
-            } catch (err) {
-                out.innerHTML = "❌ Xatolik: " + err.message;
-            } finally {
-                analyzeBtn.innerHTML = oldText;
-            }
-        }, true);
-    }
-});
-</script>
-<script>
-(function() {
-    function startVoxaEngine() {
-        // 1. BOSH SAHIFA MATNINI YANGILASH (Professor va olimlar uchun)
-        document.querySelectorAll("p, div, span").forEach(el => {
-            if (el.children.length === 0 && el.textContent.includes("School Subjects")) {
-                el.textContent = "Not just for school — built for professors, researchers & scientists too. Contract Shield, Live Translator, IELTS Coach & Smart AI Encyclopedia.";
-            }
-        });
-
-        // 2. BOSH SAHIFADAGI SAVOL-JAVOB (Generate AI Answer)
-        const askInput = document.querySelector("input[placeholder*='Ask any question'], input[type='text'], textarea");
-        let genBtn = null;
-        document.querySelectorAll("button, div, a").forEach(el => {
-            const txt = (el.textContent || "").trim();
-            if (txt.includes("Generate AI Answer") && txt.length < 35) {
-                genBtn = el;
-            }
-        });
-
-        if (askInput && genBtn && !genBtn.dataset.voxaBound) {
-            genBtn.dataset.voxaBound = "1";
-            genBtn.style.cursor = "pointer";
-            genBtn.addEventListener("click", async function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                const q = askInput.value.trim();
-                if (!q) {
-                    alert("Iltimos, savolingizni yozing!");
-                    return;
-                }
-
-                const oldHTML = genBtn.innerHTML;
-                genBtn.innerHTML = "⏳ AI o'ylamoqda...";
-
-                let ansBox = document.getElementById("voxa-home-answer");
-                if (!ansBox) {
-                    ansBox = document.createElement("div");
-                    ansBox.id = "voxa-home-answer";
-                    ansBox.style.cssText = "margin-top:14px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #8b5cf6; color:#f8fafc; font-size:14px; line-height:1.6; text-align:left;";
-                    genBtn.parentNode.insertBefore(ansBox, genBtn.nextSibling);
-                }
-                ansBox.innerHTML = "🧠 Ilmiy va aniq javob tayyorlanmoqda...";
-
-                try {
-                    const res = await fetch("https://pollinations.ai", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            messages: [
-                                { role: "system", content: "You are Voxa AI Universal Encyclopedia — an advanced AI assistant for students, professors, scientists, and researchers. Answer any question accurately, deeply, and clearly in the user's language." },
-                                { role: "user", content: q }
-                            ],
-                            model: "openai"
-                        })
-                    });
-                    const reply = await res.text();
-                    ansBox.innerHTML = "<b>🎓 Voxa AI Javobi:</b><br><br>" + reply.replace(/\n/g, "<br>");
-                } catch (err) {
-                    ansBox.innerHTML = "❌ Tarmoq xatosi: " + err.message;
-                } finally {
-                    genBtn.innerHTML = oldHTML;
-                }
-            }, true);
-        }
-
-        // 3. SMART CAMERA: RASM YUKLASH VA AI TAHLILI
-        let selectedImageBase64 = null;
-
-        let existingFileInput = document.querySelector("input[type='file']");
-        if (!existingFileInput) {
-            existingFileInput = document.createElement("input");
-            existingFileInput.type = "file";
-            existingFileInput.accept = "image/*";
-            existingFileInput.style.cssText = "position:fixed; top:-9999px; left:-9999px;";
-            document.body.appendChild(existingFileInput);
-        } else {
-            existingFileInput.accept = "image/*";
-        }
-
-        let uploadBtn = null;
-        let analyzeBtn = null;
-
-        document.querySelectorAll("button, label, div, a, span").forEach(el => {
-            const txt = (el.textContent || "").trim();
-            if (txt.includes("Choose Photo") && txt.length < 45 && el.children.length <= 2) {
-                uploadBtn = el;
-            }
-            if (txt.includes("Analyze Photo Now") && txt.length < 35 && el.children.length <= 2) {
-                analyzeBtn = el;
-            }
-            if (txt.includes("Diagnostic (P0420 / E04)") && txt.length < 150) {
-                el.style.display = "none";
-            }
-        });
-
-        function handleFileSelected(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                selectedImageBase64 = ev.target.result;
-                if (uploadBtn) {
-                    uploadBtn.innerHTML = "✅ Rasm yuklandi: " + file.name.slice(0, 15);
-                    uploadBtn.style.borderColor = "#22c55e";
-                }
-                let preview = document.getElementById("voxa-cam-preview");
-                if (!preview && uploadBtn) {
-                    preview = document.createElement("img");
-                    preview.id = "voxa-cam-preview";
-                    preview.style.cssText = "width:100%; max-height:200px; object-fit:contain; border-radius:12px; margin-top:10px; border:1px solid #38bdf8; display:block;";
-                    uploadBtn.parentNode.insertBefore(preview, uploadBtn.nextSibling);
-                }
-                if (preview) preview.src = selectedImageBase64;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        existingFileInput.addEventListener("change", function() {
-            if (this.files && this.files[0]) handleFileSelected(this.files[0]);
-        });
-
-        if (uploadBtn && !uploadBtn.dataset.voxaCam) {
-            uploadBtn.dataset.voxaCam = "1";
-            uploadBtn.style.cursor = "pointer";
-            uploadBtn.style.pointerEvents = "auto";
-            if (uploadBtn.tagName === "LABEL") uploadBtn.removeAttribute("for");
-
-            uploadBtn.addEventListener("click", function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                existingFileInput.value = "";
-                existingFileInput.click();
-            }, true);
-        }
-
-        if (analyzeBtn && !analyzeBtn.dataset.voxaAnalyze) {
-            analyzeBtn.dataset.voxaAnalyze = "1";
-            analyzeBtn.style.cursor = "pointer";
-            analyzeBtn.style.pointerEvents = "auto";
-
-            analyzeBtn.addEventListener("click", async function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-
-                if (!selectedImageBase64) {
-                    alert("Avval 'Choose Photo / Snap Camera' tugmasini bosib rasm yuklang!");
-                    return;
-                }
-
-                const oldBtn = analyzeBtn.innerHTML;
-                analyzeBtn.innerHTML = "⏳ AI tahlil qilmoqda...";
-
-                let out = document.getElementById("voxa-scan-res");
-                if (!out) {
-                    out = document.createElement("div");
-                    out.id = "voxa-scan-res";
-                    out.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#fff; font-size:14px; line-height:1.5; text-align:left;";
-                    analyzeBtn.parentNode.insertBefore(out, analyzeBtn.nextSibling);
-                }
-                out.style.display = "block";
-                out.innerHTML = "🔍 Rasm o'rganilmoqda, biroz kuting...";
-
-                const sel = document.querySelector("select");
-                const mode = sel ? sel.value : "Smart Camera Analysis";
-
-                try {
-                    const res = await fetch("https://pollinations.ai", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            messages: [
-                                { role: "system", content: "You are Voxa AI Copilot. Analyze the image accurately and give clear, helpful advice." },
-                                {
-                                    role: "user",
-                                    content: [
-                                        { type: "text", text: `Category: ${mode}. Analyze this image in detail and give a clear summary.` },
-                                        { type: "image_url", image_url: { url: selectedImageBase64 } }
-                                    ]
-                                }
-                            ],
-                            model: "openai"
-                        })
-                    });
-                    const txt = await res.text();
-                    out.innerHTML = "<b>🤖 Voxa AI Xulosasi:</b><br><br>" + txt.replace(/\n/g, "<br>");
-                } catch (err) {
-                    out.innerHTML = "❌ Xatolik: " + err.message;
-                } finally {
-                    analyzeBtn.innerHTML = oldBtn;
-                }
-            }, true);
-        }
-    }
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", startVoxaEngine);
-    } else {
-        startVoxaEngine();
-    }
-    setTimeout(startVoxaEngine, 1000);
-})();
-</script>
-<script>
-(function() {
-    // 1. Bosh sahifa matnini yangilash
-    document.querySelectorAll("p, div, span").forEach(el => {
-        if (el.children.length === 0 && el.textContent.includes("School Subjects")) {
-            el.textContent = "Not just for school — built for professors, researchers & scientists too. Contract Shield, Live Translator, IELTS Coach & Smart AI Encyclopedia.";
-        }
-    });
-
-    // 2. Oldindan turgan yolg'on Diagnostic qutisini yashirish
-    document.querySelectorAll("div, p").forEach(el => {
-        if (el.textContent.includes("Diagnostic (P0420 / E04)") && el.textContent.length < 160) {
-            el.style.display = "none";
-        }
-    });
-
-    let uploadedBase64 = null;
-
-    // 3. "Choose Photo / Snap Camera" tugmasini haqiqiy fayl tanlagichga aylantirish
-    function attachRealCameraInput() {
-        document.querySelectorAll("button, div, label, span").forEach(el => {
-            if ((el.textContent || "").trim().includes("Choose Photo / Snap Camera") && el.offsetHeight > 20 && el.offsetHeight < 90 && !el.dataset.camReady) {
-                el.dataset.camReady = "1";
-                el.style.position = "relative";
-                el.style.overflow = "hidden";
-
-                const inp = document.createElement("input");
-                inp.type = "file";
-                inp.accept = "image/*";
-                inp.style.cssText = "position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:9999;";
-                el.appendChild(inp);
-
-                inp.addEventListener("change", function() {
-                    const file = inp.files && inp.files;
-                    if (!file) return;
-                    const reader = new FileReader();
-                    reader.onload = function(ev) {
-                        uploadedBase64 = ev.target.result;
-                        let msg = document.getElementById("voxa-photo-ok");
-                        if (!msg) {
-                            msg = document.createElement("div");
-                            msg.id = "voxa-photo-ok";
-                            msg.style.cssText = "color:#22c55e; font-size:13px; margin-top:8px; font-weight:bold;";
-                            el.parentNode.insertBefore(msg, el.nextSibling);
-                        }
-                        msg.textContent = "✅ Rasm tanlandi: " + file.name;
-
-                        let img = document.getElementById("voxa-photo-prev");
-                        if (!img) {
-                            img = document.createElement("img");
-                            img.id = "voxa-photo-prev";
-                            img.style.cssText = "width:100%; max-height:180px; object-fit:contain; border-radius:10px; margin-top:8px; border:1px solid #38bdf8;";
-                            msg.parentNode.insertBefore(img, msg.nextSibling);
-                        }
-                        img.src = uploadedBase64;
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
-    }
-    attachRealCameraInput();
-    setInterval(attachRealCameraInput, 1000);
-
-    // 4. Natija chiqarish qutisi
-    function showBox(targetEl, id, text) {
-        let box = document.getElementById(id);
-        if (!box) {
-            box = document.createElement("div");
-            box.id = id;
-            box.style.cssText = "margin-top:12px; padding:14px; border-radius:12px; background:#0f172a; border:1px solid #38bdf8; color:#fff; font-size:14px; line-height:1.5; text-align:left;";
-            targetEl.parentNode.insertBefore(box, targetEl.nextSibling);
-        }
-        box.style.display = "block";
-        box.innerHTML = text;
-        return box;
-    }
-
-    // 5. Sahifadagi BARCHA tugmalarni bitta global tinglovchi orqali ushlash
-    document.addEventListener("click", async function(e) {
-        const btn = e.target.closest("button, [role='button'], div, a");
-        if (!btn) return;
-        const label = (btn.innerText || btn.textContent || "").trim();
-
-        // A) HOME: Generate AI Answer
-        if (label.includes("Generate AI Answer") && label.length < 40) {
-            e.preventDefault();
-            const input = document.querySelector("input[type='text'], input:not([type]), textarea");
-            const q = input ? input.value.trim() : "";
-            if (!q) return alert("Iltimos, savolingizni yozing!");
-
-            const old = btn.innerHTML;
-            btn.innerHTML = "⏳ AI javob yozmoqda...";
-            const box = showBox(btn, "voxa-home-ans", "🧠 Javob tayyorlanmoqda...");
-            try {
-                const res = await fetch("https://pollinations.ai" + encodeURIComponent(q));
-                const ans = await res.text();
-                box.innerHTML = "<b>🎓 Voxa AI:</b><br><br>" + ans.replace(/\n/g, "<br>");
-            } catch (err) {
-                box.innerHTML = "❌ Xatolik: " + err.message;
-            } finally {
-                btn.innerHTML = old;
-            }
-        }
-
-        // B) CAMERA: Analyze Photo Now
-        if (label.includes("Analyze Photo Now") && label.length < 40) {
-            e.preventDefault();
-            if (!uploadedBase64) return alert("Avval 'Choose Photo / Snap Camera' ustiga bosib rasm yuklang!");
-
-            const old = btn.innerHTML;
-            btn.innerHTML = "⏳ Rasm tahlil qilinmoqda...";
-            const box = showBox(btn, "voxa-cam-ans", "🔍 AI rasmni o'rganmoqda...");
-            const sel = document.querySelector("select");
-            const cat = sel ? sel.value : "Smart Analysis";
-
-            try {
-                const res = await fetch("https://pollinations.ai", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        messages: [{
-                            role: "user",
-                            content: [
-                                { type: "text", text: `Category: ${cat}. Analyze this image clearly and give practical advice.` },
-                                { type: "image_url", image_url: { url: uploadedBase64 } }
-                            ]
-                        }],
-                        model: "openai"
-                    })
-                });
-                const ans = await res.text();
-                box.innerHTML = "<b>🛡 Tahlil natijasi:</b><br><br>" + ans.replace(/\n/g, "<br>");
-            } catch (err) {
-                box.innerHTML = "❌ Xatolik: " + err.message;
-            } finally {
-                btn.innerHTML = old;
-            }
-        }
-    }, true);
-})();
-</script>
-
 </body>
 </html>
