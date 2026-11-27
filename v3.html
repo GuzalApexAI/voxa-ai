@@ -1100,6 +1100,129 @@ window.generateArt = async function(){
 </script>
 </body>
 </html>
+<script>
+(function(){
+  // 1. 8 xil shriftni (Qalin, Ingichka, Qiyshiq, Qo'lyozma...) menyuga qo'shish
+  var fSel = document.getElementById('logoFont');
+  if(fSel && fSel.options.length < 8){
+    fSel.innerHTML =
+      '<option value="900 78px \'Raleway\',sans-serif">🅰️ Ultra Bold</option>' +
+      '<option value="200 78px \'Raleway\',sans-serif">🪶 Thin Elegant</option>' +
+      '<option value="italic 700 78px \'Playfair Display\',serif">✍️ Italic Luxury</option>' +
+      '<option value="400 84px \'Pacifico\',cursive">🎀 Calligraphy Script</option>' +
+      '<option value="400 84px \'Lobster\',cursive">💫 Bold Cursive</option>' +
+      '<option value="400 86px \'Anton\',sans-serif">🔥 Tall Poster</option>' +
+      '<option value="700 74px \'Cinzel\',serif">👑 Royal Roman</option>' +
+      '<option value="700 72px \'Orbitron\',sans-serif">⚡ Cyber Tech</option>';
+  }
+
+  var pX = 0.50, pY = 0.85, fSz = 76, lastImg = null;
+  var WAIT_TR = {
+    EN:'⏳ Translating & Rendering 4K Art...', UZ:'⏳ Tarjima qilinmoqda va 4K rasm chizilmoqda...',
+    RU:'⏳ Перевод и создание 4K изображения...', AR:'⏳ جاري الترجمة وتصميم صورة 4K...',
+    TR:'⏳ Çevriliyor ve 4K Görsel Oluşturuluyor...', ES:'⏳ Traduciendo y creando arte 4K...',
+    DE:'⏳ Übersetzen & 4K-Bild erstellen...', FR:'⏳ Traduction et création 4K...',
+    KO:'⏳ 번역 및 4K 이미지 생성 중...', JA:'⏳ 翻訳して4K画像を生成中...',
+    ZH:'⏳ 正在翻译并生成4K图像...', UK:'⏳ Переклад та створення 4K зображення...'
+  };
+  var DL_TR = {
+    EN:'⬇️ Download 4K (0% Watermark)', UZ:'⬇️ 4K Yuklab Olish (Logotipsiz)',
+    RU:'⬇️ Скачать 4K (Без Водяных Знаков)', AR:'⬇️ تحميل 4K (بدون علامة مائية)',
+    TR:'⬇️ 4K İndir (Filigransız)', ES:'⬇️ Descargar 4K', DE:'⬇️ 4K Herunterladen',
+    FR:'⬇️ Télécharger 4K', KO:'⬇️ 4K 다운로드', JA:'⬇️ 4Kダウンロード',
+    ZH:'⬇️ 下载 4K', UK:'⬇️ Завантажити 4K'
+  };
+
+  function drawFinalCanvas(){
+    if(!lastImg) return;
+    var el = document.getElementById('artOutput');
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fRaw = (document.getElementById('logoFont') || {value:'900 78px sans-serif'}).value;
+    var fnt = fRaw.replace(/\d+px/, fSz + 'px');
+    var dot = document.querySelector('#colorDots span[style*="rgb(255, 255, 255)"]');
+    var col = dot ? dot.getAttribute('data-c') : 'gold';
+
+    var w = lastImg.naturalWidth || 1024;
+    var h = Math.floor((lastImg.naturalHeight || 1024) * 0.85);
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(lastImg, 0, 0, w, h, 0, 0, w, h);
+
+    if(txt){
+      ctx.font = fnt; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = col==='#000000' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
+      ctx.shadowBlur = 16; ctx.shadowOffsetY = 5;
+      var g = ctx.createLinearGradient(w*0.2, 0, w*0.8, 0);
+      if(col==='gold'){ g.addColorStop(0,'#fef08a'); g.addColorStop(0.5,'#f59e0b'); g.addColorStop(1,'#fde047'); ctx.fillStyle=g; }
+      else if(col==='silver'){ g.addColorStop(0,'#ffffff'); g.addColorStop(0.5,'#cbd5e1'); g.addColorStop(1,'#64748b'); ctx.fillStyle=g; }
+      else if(col==='rosegold'){ g.addColorStop(0,'#ffe4e6'); g.addColorStop(0.5,'#fb7185'); g.addColorStop(1,'#fda4af'); ctx.fillStyle=g; }
+      else { ctx.fillStyle = col; }
+      ctx.fillText(txt, w*pX, h*pY);
+    }
+
+    var url = c.toDataURL('image/png');
+    el.innerHTML = '<img id="prev4k" src="'+url+'" style="width:100%;border-radius:12px;display:block;margin-bottom:10px;cursor:crosshair">' +
+      '<a id="dl4kBtn" href="'+url+'" download="VoxaAI_4K.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">'+(DL_TR[l]||DL_TR.EN)+'</a>';
+
+    var pv = document.getElementById('prev4k');
+    if(pv) pv.onclick = function(e){
+      var r = pv.getBoundingClientRect();
+      pX = Math.max(0.1, Math.min(0.9, (e.clientX-r.left)/r.width));
+      pY = Math.max(0.1, Math.min(0.94, (e.clientY-r.top)/r.height));
+      drawFinalCanvas();
+    };
+  }
+
+  document.getElementById('mvL').onclick = function(){ pX=Math.max(0.1,pX-0.05); drawFinalCanvas(); };
+  document.getElementById('mvR').onclick = function(){ pX=Math.min(0.9,pX+0.05); drawFinalCanvas(); };
+  document.getElementById('mvU').onclick = function(){ pY=Math.max(0.08,pY-0.05); drawFinalCanvas(); };
+  document.getElementById('mvD').onclick = function(){ pY=Math.min(0.94,pY+0.05); drawFinalCanvas(); };
+  document.getElementById('szM').onclick = function(){ fSz=Math.max(26,fSz-10); drawFinalCanvas(); };
+  document.getElementById('szP').onclick = function(){ fSz=Math.min(165,fSz+10); drawFinalCanvas(); };
+  if(fSel) fSel.onchange = drawFinalCanvas;
+  if(document.getElementById('logoText')) document.getElementById('logoText').oninput = drawFinalCanvas;
+  document.querySelectorAll('#colorDots span').forEach(function(d){
+    d.onclick = function(){
+      document.querySelectorAll('#colorDots span').forEach(function(x){ x.style.borderColor='#475569'; });
+      d.style.borderColor='#ffffff';
+      drawFinalCanvas();
+    };
+  });
+
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var tp = (document.getElementById('designType') || {value:'logo'}).value;
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = WAIT_TR[l] || WAIT_TR.EN;
+
+    var enPrompt = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) enPrompt = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    var sty = tp==='card' ? ', luxury minimalist business card design, gold foil accents, studio lighting, 8k' :
+              tp==='invite' ? ', royal wedding invitation card background, floral gold frame, ultra detailed, 8k' :
+              tp==='greet' ? ', festive luxury greeting postcard art, warm bokeh sparkles, 8k' :
+              tp==='banner' ? ', wide cinematic social media banner art, sleek modern lighting, 8k' :
+              ', centered luxury 3D emblem logo on dark background, no text, studio lighting, 8k';
+
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(enPrompt + sty) + '?width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*999999);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){ lastImg = img; drawFinalCanvas(); };
+    img.src = u;
+  };
+})();
+</script>
 
 </body>
 </html>
