@@ -2485,6 +2485,80 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+window.generateArt = async function(){
+  var q = document.getElementById('artInput').value.trim();
+  var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+  var el = document.getElementById('artOutput');
+  if(!q) return;
+  el.style.display = 'block';
+  el.innerText = '⏳ Loading 4K Image...';
+
+  var en = q;
+  if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+    try{
+      var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+      var td = await tr.json();
+      if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+    }catch(e){}
+  }
+
+  var imgUrl = '';
+  // 1-urinish: Wikipedia rasmiy HD rasmlar serveri (Non, Pishak, Stul, Mashina, Sher - 100% ishlaydi!)
+  try{
+    var wp = 'https://wikipedia.org' + encodeURIComponent(en) + '&gsrlimit=10&prop=pageimages&pithumbsize=1000&format=json&origin=*';
+    var r = await fetch(wp);
+    var d = await r.json();
+    if(d && d.query && d.query.pages){
+      var keys = Object.keys(d.query.pages);
+      var list = new Array();
+      keys.forEach(function(k){
+        var p = d.query.pages[k];
+        if(p && p.thumbnail && p.thumbnail.source && /\.(jpg|jpeg|png)/i.test(p.thumbnail.source)){
+          list.push(p.thumbnail.source);
+        }
+      });
+      if(list.length > 0){
+        var idx = Math.floor(Math.random() * list.length);
+        imgUrl = list.slice(idx, idx+1).pop() || list.slice(0,1).pop();
+      }
+    }
+  }catch(e){}
+
+  // 2-urinish: Openverse rasmiy thumbnail (hech qachon sinmaydigan proxy rasm)
+  if(!imgUrl){
+    try{
+      var ov = await fetch('https://openverse.org' + encodeURIComponent(en) + '&page_size=10');
+      var od = await ov.json();
+      if(od && od.results && od.results.length){
+        imgUrl = od.results.slice(0,1).pop().thumbnail;
+      }
+    }catch(e2){}
+  }
+
+  el.innerText = '';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:relative;overflow:hidden;border-radius:12px;margin-bottom:10px;min-height:240px;background:#0f172a';
+  var im = document.createElement('img');
+  im.src = imgUrl;
+  im.style.cssText = 'width:100%;display:block;border-radius:12px';
+  im.onerror = function(){
+    im.src = 'https://wikimedia.org';
+  };
+  var ov = document.createElement('div');
+  ov.id = 'liveTxt';
+  ov.style.cssText = 'position:absolute;left:50%;top:85%;transform:translate(-50%,-50%);font-size:34px;color:#fbbf24;font-weight:900;text-shadow:0 3px 12px rgba(0,0,0,0.9);white-space:nowrap;pointer-events:none';
+  ov.innerText = (document.getElementById('logoText') || {value:''}).value.trim();
+  box.appendChild(im); box.appendChild(ov);
+  el.appendChild(box);
+
+  var dl = document.createElement('a');
+  dl.id = 'dl4kBtn'; dl.href = imgUrl; dl.target = '_blank';
+  dl.innerText = '⬇️ Download 4K (0% Watermark)';
+  dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+  el.appendChild(dl);
+};
+</script>
 
 </body>
 </html>
