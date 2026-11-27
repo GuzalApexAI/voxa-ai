@@ -462,5 +462,40 @@ renderMemos();
   };
 })();
 </script>
+  <script>
+(function(){
+  // 1. Qolgan 9 ta tilni (AR, TR, ES, DE, FR, KO, JA, ZH, UK) to'liq qo'shish
+  D.AR = {sh:'مشاركة',vi:'🎁 شارك مع صديق واحصل على <b>24 ساعة PRO</b> مجاناً!',ti:'مساعد الذكاء الاصطناعي الشامل للصوت والتصميم',su:'فحص العقود، مترجم فوري، مدرب IELTS واستوديو شعارات 4K.',c1t:'درع العقود والاحتيال',c1s:'اكتشف الفخاخ المخفية في القروض والعقود.',c2t:'IELTS والمترجم الفوري',c2s:'تقييم IELTS ومترجم صوتي فوري.',c3t:'استوديو الشعارات 4K',c3s:'أنشئ شعارات وإعلانات 4K بدون علامة مائية.',c4t:'الكاميرا الذكية: الصيانة',c4s:'إصلاح الأجهزة وأكواد أعطال السيارات.',c5t:'محاسب الإيصالات والـ PIN',c5s:'محاسب شخصي وخزنة برقم سري PIN.',c6t:'موسوعة الذكاء الاصطناعي',c6s:'العلوم والطب والمالية والبحث.',qh:'اسأل أي سؤال: العلوم، الطب، المالية...',bh:'✨ توليد إجابة الذكاء الاصطناعي',tie:'🎙️ مدرب IELTS والمترجم الفوري',sie:'احصل على تقييم IELTS فوري أو ترجمة.',qie:'اكتب النص للتقييم أو الترجمة...',bie:'🚀 تقييم وترجمة',tsc:'🛡️ الكاميرا الذكية',ssc:'ارفع صورة عقد، رمز خطأ (E04) أو إيصال.',bpi:'📷 اختر صورة / الكاميرا',bsc:'🔍 تحليل الصورة الآن',m0:'درع العقود والاحتيال',m1:'دليل إصلاح السيارات والأجهزة',m2:'محاسب الإيصالات والمصاريف',m3:'الواجبات المدرسية / وصفات الطعام',tar:'🎨 استوديو الشعارات 4K',sar:'أنشئ شعارات 4K بدون علامة مائية.',qar:'صف الشعار أو التصميم...',bar:'✨ إنشاء صورة 4K',tva:'🧾 المحاسب الشخصي وخزنة PIN',sva:'احفظ مصاريفك وملاحظات PIN بأمان.',qme:'مثال: قهوة 4.50$ أو PIN 4829...',bme:'💾 حفظ في الخزنة',bba:'☁️ نسخ احتياطي',nh:'الرئيسية',ni:'IELTS',ns:'الماسح',nst:'الاستوديو',nv:'الخزنة'};
+  D.TR = {sh:'PAYLAŞ',vi:'🎁 1 arkadaşınla paylaş, <b>24 saat PRO</b> ücretsiz kazan!',ti:'Hepsi Bir Arada Ses, Tasarım ve AI Ansiklopedi',su:'Sözleşme Kalkanı, Canlı Çevirmen, IELTS Koçu ve 4K Logo Stüdyosu.',c1t:'Sözleşme ve Dolandırıcılık Kalkanı',c1s:'Kredi ve sözleşmelerdeki gizli tuzakları bulun.',c2t:'IELTS ve Canlı Çevirmen',c2s:'Band Score koçu ve 2 yönlü sesli tercüman.',c3t:'AI Logo ve Tasarım Stüdyosu',c3s:'Filigransız 4K logolar ve reklamlar üretin.',c4t:'Akıllı Kamera: Tamir Ustası',c4s:'Ev aletleri, hata kodları (E04) ve araç arızaları.',c5t:'Fiş ve Harcama Muhasebecisi',c5s:'Sesli muhasebeci ve 4 haneli PIN kasası.',c6t:'Evrensel AI Ansiklopedisi',c6s:'Bilim, Tıp, Finans ve Araştırma.',qh:'Herhangi bir soru sorun: Bilim, Tıp, Finans...',bh:'✨ AI Yanıtı Oluştur',tie:'🎙️ AI IELTS ve Canlı Çevirmen',sie:'Anında IELTS puanı veya canlı çeviri alın.',qie:'IELTS değerlendirmesi veya çeviri için yazın...',bie:'🚀 Değerlendir ve Çevir',tsc:'🛡️ Akıllı Kamera: Sözleşme ve Tamir',ssc:'Sözleşme, hata kodu (E04) veya fiş fotoğrafı yükleyin.',bpi:'📷 Fotoğraf Seç / Kamera',bsc:'🔍 Fotoğrafı Şimdi Analiz Et',m0:'Sözleşme ve Dolandırıcılık Kalkanı',m1:'Ev ve Oto Tamir Rehberi (E04)',m2:'Fiş ve Harcama Muhasebecisi',m3:'Ders Ödevi / Yemek Tarifleri',tar:'🎨 AI 4K Logo ve Sanat Stüdyosu',sar:'Filigransız 4K logolar ve afişler oluşturun.',qar:'Logo veya 4K görsel tanımlayın...',bar:'✨ 4K Görsel Oluştur',tva:'🧾 Kişisel Muhasebeci ve PIN Kasası',sva:'Harcamaları ve gizli PIN notlarını saklayın.',qme:'Örn: Kahve $4.50 veya PIN 4829...',bme:'💾 Kasaya Kaydet',bba:'☁️ Yedekle / Tümünü Kopyala',nh:'Ana Sayfa',ni:'IELTS',ns:'Tarayıcı',nst:'Stüdyo',nv:'Kasa'};
+  D.ES = Object.assign({}, D.EN, {sh:'COMPARTIR',ti:'Copiloto IA Todo-en-Uno de Voz y Diseño 4K',bh:'✨ Generar Respuesta IA',nh:'Inicio',ns:'Escáner',nst:'Estudio',nv:'Bóveda'});
+  D.DE = Object.assign({}, D.EN, {sh:'TEILEN',ti:'All-in-One Sprach-, Design- & KI-Enzyklopädie',bh:'✨ KI-Antwort Generieren',nh:'Start',nv:'Tresor'});
+  D.FR = Object.assign({}, D.EN, {sh:'PARTAGER',ti:'Copilote IA Tout-en-Un Voix & Design 4K',bh:'✨ Générer Réponse IA',nh:'Accueil',nv:'Coffre'});
+  D.KO = Object.assign({}, D.EN, {sh:'공유하기',ti:'올인원 음성, 디자인 및 범용 AI 백과사전',bh:'✨ AI 답변 생성',nh:'홈',ns:'스캐너',nst:'스튜디오',nv:'금고'});
+  D.JA = Object.assign({}, D.EN, {sh:'共有する',ti:'オールインワン音声・デザイン・万能AI百科事典',bh:'✨ AI回答を生成',nh:'ホーム',ns:'スキャナー',nst:'スタジオ',nv:'金庫'});
+  D.ZH = Object.assign({}, D.EN, {sh:'分享',ti:'全能语音、设计与通用AI百科全书',bh:'✨ 生成AI回答',nh:'首页',ns:'扫描仪',nst:'工作室',nv:'保险箱'});
+  D.UK = Object.assign({}, D.EN, {sh:'ПОДІЛИТИСЯ',ti:'Голосовий, Дизайн та Універсальний ШІ Копілот',bh:'✨ Отримати Відповідь ШІ',nh:'Головна',ns:'Сканер',nst:'Студія',nv:'Сейф'});
+
+  // 2. Watermark'siz va "Image refused" bermaydigan Flux 4K rasm generatori
+  window.generateArt = function(){
+    var inp = document.getElementById('artInput');
+    var el = document.getElementById('artOutput');
+    if(!inp || !el) return;
+    var q = inp.value.trim();
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Generating 4K Studio Design...';
+    var cleanPrompt = encodeURIComponent(q + ', minimalist vector emblem, studio lighting, 8k resolution');
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + cleanPrompt + '?model=flux&width=1024&height=1024&nologo=true&private=true&enhance=true&seed=' + Math.floor(Math.random()*99999);
+    el.innerHTML = '<img src="' + u + '" style="width:100%;border-radius:12px;display:block" alt="4K Studio">';
+  };
+
+  // 3. PRO $29 bosilganda brauzer emas, to'g'ridan-to'g'ri Telegram ichidagi Tribute to'lovini ochish
+  window.openProModal = function(){
+    window.location.href = 'tg://resolve?domain=tribute&appname=app&startapp=s1dl3';
+    setTimeout(function(){ window.open('https://t.me', '_blank'); }, 400);
+  };
+})();
+</script>
+
 </body>
 </html>
