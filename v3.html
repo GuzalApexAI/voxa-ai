@@ -2631,6 +2631,70 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+window.generateArt = async function(){
+  var q = document.getElementById('artInput').value.trim();
+  var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+  var el = document.getElementById('artOutput');
+  if(!q) return;
+  el.style.display = 'block';
+  el.innerText = '🎨 AI Studio rendering (5–8 sec)...';
+
+  var en = q;
+  if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+    try{
+      var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+      var td = await tr.json();
+      if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+    }catch(e){}
+  }
+
+  try{
+    var res = await fetch('https://stablehorde.net', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':'0000000000'},
+      body: JSON.stringify({
+        prompt: en + ', masterpiece, ultra detailed, 8k, studio lighting',
+        params: {width: 512, height: 512, steps: 15, sampler_name: 'k_euler_a'},
+        nsfw: false,
+        censor_nsfw: true
+      })
+    });
+    var data = await res.json();
+    if(data && data.id){
+      for(var i=0; i<25; i++){
+        await new Promise(function(r){ setTimeout(r, 1500); });
+        var chk = await fetch('https://stablehorde.net' + data.id);
+        var st = await chk.json();
+        if(st && st.wait_time) el.innerText = '🎨 AI Studio rendering (~' + st.wait_time + ' sec)...';
+        if(st && st.done && st.generations && st.generations.length){
+          var imgUrl = st.generations.slice(0,1).pop().img;
+          el.innerText = '';
+          var box = document.createElement('div');
+          box.style.cssText = 'position:relative;overflow:hidden;border-radius:12px;margin-bottom:10px';
+          var im = document.createElement('img');
+          im.src = imgUrl;
+          im.style.cssText = 'width:100%;display:block;border-radius:12px';
+          var ov = document.createElement('div');
+          ov.id = 'liveTxt';
+          ov.style.cssText = 'position:absolute;left:50%;top:85%;transform:translate(-50%,-50%);font-size:34px;color:#fbbf24;font-weight:900;text-shadow:0 3px 12px rgba(0,0,0,0.9);white-space:nowrap;pointer-events:none';
+          ov.innerText = (document.getElementById('logoText') || {value:''}).value.trim();
+          box.appendChild(im); box.appendChild(ov);
+          el.appendChild(box);
+
+          var dl = document.createElement('a');
+          dl.id = 'dl4kBtn'; dl.href = imgUrl; dl.download = 'VoxaAI_4K.webp';
+          dl.innerText = '⬇️ Download 4K (0% Watermark)';
+          dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+          el.appendChild(dl);
+          return;
+        }
+      }
+    }
+  }catch(e){}
+  el.innerText = '⚠️ Server busy, tap Generate again.';
+};
+</script>
 
 </body>
 </html>
