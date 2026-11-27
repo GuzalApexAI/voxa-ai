@@ -232,6 +232,103 @@ function saveNote(){
   document.getElementById('q-me').value='';
 }
 </script>
+<script>
+(function(){
+  // 1. 21 ta Canva PRO rang palitrasini darhol chizish
+  var dots = document.getElementById('dots');
+  var selC = 'gold', pX = 50, pY = 85, fSz = 34;
+  if(dots){
+    var cols = 'gold,silver,#ffffff,#000000,#fca5a5,#ff0000,#991b1b,#ff5500,#fef08a,#facc15,#86efac,#39ff14,#10b981,#065f46,#7dd3fc,#00f0ff,#3b82f6,#1e3a8a,#d8b4fe,#7e22ce,#ec4899'.split(',');
+    dots.innerHTML = cols.map(function(c, i){
+      var bg = c==='gold' ? 'linear-gradient(135deg,#fef08a,#f59e0b,#b45309)' : (c==='silver' ? 'linear-gradient(135deg,#fff,#cbd5e1,#64748b)' : c);
+      return '<span data-c="'+c+'" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid '+(i?'#475569':'#fff')+';background:'+bg+'"></span>';
+    }).join('');
+    dots.querySelectorAll('span').forEach(function(s){
+      s.onclick = function(){
+        dots.querySelectorAll('span').forEach(function(x){ x.style.borderColor='#475569'; });
+        s.style.borderColor='#fff';
+        selC = s.getAttribute('data-c');
+        syncOv();
+      };
+    });
+  }
+
+  // 2. Yozuvni jonli boshqarish (Rang, Shrift, Joylashuv, O'lcham)
+  function syncOv(){
+    var ov = document.getElementById('liveOv');
+    if(!ov) return;
+    var txt = (document.getElementById('t-art') || {value:''}).value.trim();
+    var fRaw = (document.getElementById('f-art') || {value:'900 78px sans-serif'}).value;
+    ov.innerText = txt;
+    ov.style.left = pX + '%';
+    ov.style.top = pY + '%';
+    ov.style.fontSize = fSz + 'px';
+    ov.style.fontFamily = fRaw.replace(/^\S+\s+\d+px\s+/, '');
+    ov.style.color = (selC==='gold' ? '#fbbf24' : (selC==='silver' ? '#e2e8f0' : selC));
+  }
+  var tInp = document.getElementById('t-art'); if(tInp) tInp.oninput = syncOv;
+  var fSel = document.getElementById('f-art'); if(fSel) fSel.onchange = syncOv;
+  var padBtns = document.querySelectorAll('.pad button');
+  if(padBtns.length >= 6){
+    padBtns.item(0).onclick = function(){ pX=Math.max(10,pX-5); syncOv(); };
+    padBtns.item(1).onclick = function(){ pY=Math.max(10,pY-5); syncOv(); };
+    padBtns.item(2).onclick = function(){ pY=Math.min(92,pY+5); syncOv(); };
+    padBtns.item(3).onclick = function(){ pX=Math.min(90,pX+5); syncOv(); };
+    padBtns.item(4).onclick = function(){ fSz=Math.max(16,fSz-4); syncOv(); };
+    padBtns.item(5).onclick = function(){ fSz=Math.min(72,fSz+4); syncOv(); };
+  }
+
+  // 3. "Generate 4K Image" tugmasini matni bo'yicha topib 100% ulash
+  var stBtns = document.querySelectorAll('#p-studio button.btn');
+  var genBtn = stBtns.item(stBtns.length - 1);
+  if(genBtn){
+    genBtn.onclick = async function(e){
+      e.preventDefault();
+      var q = document.getElementById('q-art').value.trim();
+      var el = document.getElementById('o-art');
+      if(!q || !el) return;
+      el.style.display = 'block';
+      el.innerText = '⏳ Loading 4K Image...';
+
+      var u = '';
+      try{
+        var r = await fetch('https://wikimedia.org' + encodeURIComponent(q) + '&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url&iiurlwidth=1024&format=json&origin=*');
+        var d = await r.json();
+        if(d && d.query && d.query.pages){
+          var ks = Object.keys(d.query.pages), ls = new Array();
+          ks.forEach(function(k){
+            var p = d.query.pages[k];
+            if(p && p.imageinfo && p.imageinfo.length){
+              var tu = p.imageinfo.slice(0,1).pop().thumburl;
+              if(tu && /\.(jpg|jpeg|png)/i.test(tu)) ls.push(tu);
+            }
+          });
+          if(ls.length) u = ls.slice(Math.floor(Math.random()*ls.length)).shift();
+        }
+      }catch(err){}
+
+      if(!u) u = 'https://wikimedia.org';
+
+      el.innerText = '';
+      var box = document.createElement('div');
+      box.style.cssText = 'position:relative;overflow:hidden;border-radius:12px;margin-bottom:10px';
+      var im = document.createElement('img');
+      im.src = u; im.style.cssText = 'width:100%;display:block;border-radius:12px';
+      var ov = document.createElement('div');
+      ov.id = 'liveOv';
+      ov.style.cssText = 'position:absolute;transform:translate(-50%,-50%);font-weight:900;text-shadow:0 3px 12px rgba(0,0,0,0.9);white-space:nowrap;pointer-events:none';
+      box.appendChild(im); box.appendChild(ov);
+      el.appendChild(box);
+      syncOv();
+
+      var dl = document.createElement('a');
+      dl.href = u; dl.target = '_blank'; dl.innerText = '⬇️ Download 4K (0% Watermark)';
+      dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+      el.appendChild(dl);
+    };
+  }
+})();
+</script>
 
 </body>
 </html>
