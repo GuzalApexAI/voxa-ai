@@ -955,6 +955,151 @@ renderMemos();
   };
 })();
 </script>
+<script>
+(function(){
+  var FULL_12 = {
+    EN:{
+      p0:'🌍 Universal AI Copilot (All Fields)',p1:'✈️ Chief Transport & Aerospace/Auto Engineer',p2:'🎓 University Professor & Scientist',p3:'📊 Chief Accountant & Tax Auditor (CPA)',p4:'⚖️ Senior Contract & International Lawyer',p5:'📱 Instagram, Viral Ads & Brand Strategist',
+      t0:'🎨 4K Brand Logo & Emblem',t1:'💼 Luxury Business Card',t2:'💌 Wedding / Event Invitation',t3:'🎁 Holiday & Birthday Postcard',t4:'📱 Social Media / YouTube Banner',
+      f0:'🅰️ Ultra Bold (Modern Heavy)',f1:'🪶 Thin Elegant (Delicate Light)',f2:'✍️ Italic Luxury (Classic Slant)',f3:'🎀 Calligraphy Script (Handwritten)',f4:'💫 Bold Cursive (Stylish Slant)',f5:'🔥 Tall Poster (Heavy Display)',f6:'👑 Royal Roman (Imperial Serif)',f7:'⚡ Cyber Tech (Futuristic)',
+      dl:'⬇️ Download 4K (0% Watermark)'
+    },
+    UZ:{
+      p0:'🌍 Universal AI Yordamchi (Barcha sohalar)',p1:'✈️ Avia, Kema va Avto Bosh Konstruktor',p2:'🎓 Universitet Professori va Olim',p3:'📊 Bosh Buxgalter va Soliq Auditori',p4:'⚖️ Xalqaro Shartnoma va Huquq Eksperti',p5:'📱 Instagram, Reklama va Brend Strategi',
+      t0:'🎨 4K Brend Logotip va Emblema',t1:'💼 Hashamatli Vizitka (Business Card)',t2:'💌 To‘y va Tadbir Taklifnomasi',t3:'🎁 Bayram va Tug‘ilgan Kun Tabriknomasi',t4:'📱 YouTube / Instagram Banneri',
+      f0:'🅰️ Qalin Zamonaviy (Ultra Bold)',f1:'🪶 Ingichka Nozik (Thin Elegant)',f2:'✍️ Qiyshiq Klassik (Italic Luxury)',f3:'🎀 Qo‘lyozma Husnixat (Calligraphy)',f4:'💫 Qalin Qiyshiq (Bold Cursive)',f5:'🔥 Afisha / Poster (Tall Poster)',f6:'👑 Qirollik Shrifti (Royal Roman)',f7:'⚡ Kelajak Texno (Cyber Tech)',
+      dl:'⬇️ 4K Yuklab Olish (Logotipsiz)'
+    },
+    RU:{
+      p0:'🌍 Универсальный ИИ Копилот (Все сферы)',p1:'✈️ Главный Инженер-Конструктор (Авто/Авиа)',p2:'🎓 Профессор Университета и Ученый',p3:'📊 Главный Бухгалтер и Налоговый Аудитор',p4:'⚖️ Старший Юрист по Договорам',p5:'📱 Instagram, Реклама и Бренд-Стратег',
+      t0:'🎨 4K Логотип и Эмблема Бренда',t1:'💼 Премиум Визитка (Business Card)',t2:'💌 Пригласительное на Свадьбу',t3:'🎁 Праздничная Открытка',t4:'📱 Баннер для YouTube / Соцсетей',
+      f0:'🅰️ Сверхжирный (Ultra Bold)',f1:'🪶 Тонкий Изящный (Thin Elegant)',f2:'✍️ Наклонный Классический (Italic)',f3:'🎀 Каллиграфический (Рукописный)',f4:'💫 Жирный Курсив (Bold Cursive)',f5:'🔥 Плакатный Шрифт (Tall Poster)',f6:'👑 Королевский (Royal Roman)',f7:'⚡ Кибер Техно (Cyber Tech)',
+      dl:'⬇️ Скачать 4K (Без Водяных Знаков)'
+    },
+    AR:{
+      p0:'🌍 مساعد الذكاء الاصطناعي الشامل',p1:'✈️ كبير مهندسي الطيران والسيارات والسفن',p2:'🎓 أستاذ جامعي وباحث علمي',p3:'📊 كبير المحاسبين ومدقق الضرائب',p4:'⚖️ مستشار قانوني للعقود الدولية',p5:'📱 خبير إعلانات وإنستغرام والعلامات التجارية',
+      t0:'🎨 شعار وعلامة تجارية 4K',t1:'💼 بطاقة عمل فاخرة',t2:'💌 بطاقة دعوة زفاف / مناسبة',t3:'🎁 بطاقة تهنئة للأعياد',t4:'📱 بانر يوتيوب ومواقع التواصل',
+      f0:'🅰️ عريض جداً (Ultra Bold)',f1:'🪶 رفيع وأنيق (Thin Elegant)',f2:'✍️ مائل كلاسيكي (Italic)',f3:'🎀 خط يدوي مزخرف (Calligraphy)',f4:'💫 مائل عريض (Bold Cursive)',f5:'🔥 خط ملصقات بارز (Poster)',f6:'👑 خط ملكي (Royal Roman)',f7:'⚡ خط تقني مستقبلي (Cyber)',
+      dl:'⬇️ تحميل 4K (بدون علامة مائية)'
+    },
+    TR:{
+      p0:'🌍 Evrensel AI Asistanı (Tüm Alanlar)',p1:'✈️ Baş Uçak, Gemi ve Otomotiv Mühendisi',p2:'🎓 Üniversite Profesörü ve Bilim İnsanı',p3:'📊 Baş Muhasebeci ve Vergi Denetçisi',p4:'⚖️ Kıdemli Sözleşme ve Hukuk Uzmanı',p5:'📱 Instagram, Reklam ve Marka Stratejisti',
+      t0:'🎨 4K Marka Logosu ve Amblem',t1:'💼 Lüks Kartvizit',t2:'💌 Düğün ve Etkinlik Davetiyesi',t3:'🎁 Bayram ve Doğum Günü Kartı',t4:'📱 Sosyal Medya / YouTube Afişi',
+      f0:'🅰️ Çok Kalın (Ultra Bold)',f1:'🪶 İnce Zarif (Thin Elegant)',f2:'✍️ Eğik Klasik (Italic Luxury)',f3:'🎀 El Yazısı Kaligrafi (Script)',f4:'💫 Kalın Eğik (Bold Cursive)',f5:'🔥 Uzun Poster (Tall Poster)',f6:'👑 Kraliyet Yazısı (Royal Roman)',f7:'⚡ Siber Teknoloji (Cyber Tech)',
+      dl:'⬇️ 4K İndir (Filigransız)'
+    },
+    ES:{
+      p0:'🌍 Copiloto IA Universal (Todas las Áreas)',p1:'✈️ Ingeniero Jefe Aeroespacial y Automotriz',p2:'🎓 Profesor Universitario y Científico',p3:'📊 Contador Público y Auditor Fiscal',p4:'⚖️ Abogado Senior de Contratos',p5:'📱 Estratega de Instagram, Anuncios y Marca',
+      t0:'🎨 Logotipo y Emblema 4K',t1:'💼 Tarjeta de Presentación de Lujo',t2:'💌 Invitación de Boda / Evento',t3:'🎁 Tarjeta de Felicitación',t4:'📱 Banner para YouTube / Redes',
+      f0:'🅰️ Ultra Negrita (Ultra Bold)',f1:'🪶 Fina Elegante (Thin Elegant)',f2:'✍️ Cursiva Clásica (Italic)',f3:'🎀 Caligrafía (Manuscrita)',f4:'💫 Cursiva Gruesa (Bold Cursive)',f5:'🔥 Póster Alto (Tall Poster)',f6:'👑 Romano Real (Royal Roman)',f7:'⚡ Ciber Tech (Futurista)',
+      dl:'⬇️ Descargar 4K (Sin Marca de Agua)'
+    },
+    DE:{
+      p0:'🌍 Universeller KI-Kopilot (Alle Bereiche)',p1:'✈️ Chefingenieur Luftfahrt, Schiff & Auto',p2:'🎓 Universitätsprofessor & Wissenschaftler',p3:'📊 Hauptbuchhalter & Steuerprüfer',p4:'⚖️ Leitender Vertragsanwalt',p5:'📱 Instagram-, Werbe- & Markenstratege',
+      t0:'🎨 4K Markenlogo & Emblem',t1:'💼 Luxus-Visitenkarte',t2:'💌 Hochzeits- & Event-Einladung',t3:'🎁 Gruß- & Geburtstagskarte',t4:'📱 YouTube- & Social-Media-Banner',
+      f0:'🅰️ Extra Fett (Ultra Bold)',f1:'🪶 Dünn & Elegant (Thin Light)',f2:'✍️ Kursiv Klassisch (Italic)',f3:'🎀 Kalligrafie (Handschrift)',f4:'💫 Fett Kursiv (Bold Cursive)',f5:'🔥 Plakatschrift (Tall Poster)',f6:'👑 Königlich (Royal Roman)',f7:'⚡ Cyber Tech (Futuristisch)',
+      dl:'⬇️ 4K Herunterladen (Ohne Wasserzeichen)'
+    },
+    FR:{
+      p0:'🌍 Copilote IA Universel (Tous Domaines)',p1:'✈️ Ingénieur en Chef Aéronautique & Auto',p2:'🎓 Professeur d’Université & Chercheur',p3:'📊 Expert-Comptable & Auditeur Fiscal',p4:'⚖️ Avocat Senior en Contrats',p5:'📱 Stratège Instagram, Publicité & Marque',
+      t0:'🎨 Logo et Emblème 4K',t1:'💼 Carte de Visite de Luxe',t2:'💌 Invitation Mariage / Événement',t3:'🎁 Carte de Vœux / Anniversaire',t4:'📱 Bannière YouTube / Réseaux',
+      f0:'🅰️ Ultra Gras (Ultra Bold)',f1:'🪶 Fin Élégant (Thin Light)',f2:'✍️ Italique Classique (Italic)',f3:'🎀 Calligraphie (Manuscrite)',f4:'💫 Italique Gras (Bold Cursive)',f5:'🔥 Affiche Haute (Tall Poster)',f6:'👑 Royal Romain (Royal Roman)',f7:'⚡ Cyber Tech (Futuriste)',
+      dl:'⬇️ Télécharger 4K (Sans Filigrane)'
+    },
+    KO:{
+      p0:'🌍 범용 AI 코파일럿 (전 분야)',p1:'✈️ 항공·선박·자동차 수석 설계 엔지니어',p2:'🎓 대학교수 및 수석 연구원',p3:'📊 공인회계사 및 세무 감사관',p4:'⚖️ 국제 계약 및 법률 수석 변호사',p5:'📱 인스타그램·바이럴 광고·브랜드 전략가',
+      t0:'🎨 4K 브랜드 로고 및 엠블럼',t1:'💼 럭셔리 명함 디자인',t2:'💌 청첩장 및 행사 초대장',t3:'🎁 기념일 및 생일 축하 카드',t4:'📱 유튜브 / SNS 배너',
+      f0:'🅰️ 울트라 볼드 (굵은 고딕)',f1:'🪶 씬 엘레강트 (얇은 세련체)',f2:'✍️ 이탤릭 클래식 (기울임체)',f3:'🎀 캘리그라피 (손글씨체)',f4:'💫 볼드 필기체 (굵은 기울임)',f5:'🔥 포스터 볼드 (큰 제목체)',f6:'👑 로열 로만 (명조 세리프)',f7:'⚡ 사이버 테크 (미래지향체)',
+      dl:'⬇️ 4K 다운로드 (워터마크 없음)'
+    },
+    JA:{
+      p0:'🌍 万能AIコパイロット（全分野対応）',p1:'✈️ 航空・船舶・自動車 首席設計エンジニア',p2:'🎓 大学教授・主席研究員',p3:'📊 公認会計士・税務監査官',p4:'⚖️ 国際契約・企業法務弁護士',p5:'📱 Instagram・広告・ブランド戦略家',
+      t0:'🎨 4Kブランドロゴ＆エンブレム',t1:'💼 高級ビジネス名刺',t2:'💌 結婚式・イベント招待状',t3:'🎁 お祝い・誕生日カード',t4:'📱 YouTube・SNSバナー',
+      f0:'🅰️ ウルトラ太字 (Ultra Bold)',f1:'🪶 極細エレガント (Thin Light)',f2:'✍️ 斜体クラシック (Italic)',f3:'🎀 カリグラフィ筆記体 (Script)',f4:'💫 太字筆記体 (Bold Cursive)',f5:'🔥 ポスター太字 (Tall Poster)',f6:'👑 ロイヤルセリフ (Royal Roman)',f7:'⚡ サイバー未来風 (Cyber Tech)',
+      dl:'⬇️ 4Kダウンロード（透かしなし）'
+    },
+    ZH:{
+      p0:'🌍 通用AI全能助手（全行业覆盖）',p1:'✈️ 航空航天·船舶·汽车首席设计工程师',p2:'🎓 大学教授与首席科学家',p3:'📊 注册会计师与税务审计师',p4:'⚖️ 国际合同与商业资深律师',p5:'📱 Instagram爆款广告与品牌策略师',
+      t0:'🎨 4K 品牌标志与徽章',t1:'💼 奢华商务名片',t2:'💌 婚礼与活动请柬',t3:'🎁 节日与生日贺卡',t4:'📱 YouTube / 社交媒体横幅',
+      f0:'🅰️ 特粗现代体 (Ultra Bold)',f1:'🪶 纤细优雅体 (Thin Light)',f2:'✍️ 经典斜体 (Italic Luxury)',f3:'🎀 艺术手写体 (Calligraphy)',f4:'💫 粗体连笔 (Bold Cursive)',f5:'🔥 海报大字 (Tall Poster)',f6:'👑 皇家衬线体 (Royal Roman)',f7:'⚡ 未来科技感 (Cyber Tech)',
+      dl:'⬇️ 下载 4K（无水印）'
+    },
+    UK:{
+      p0:'🌍 Універсальний ШІ Копілот (Усі сфери)',p1:'✈️ Головний Інженер-Конструктор (Авто/Авіа)',p2:'🎓 Професор Університету та Вчений',p3:'📊 Головний Бухгалтер та Податковий Аудитор',p4:'⚖️ Старший Юрист з Договорів',p5:'📱 Instagram, Реклама та Бренд-Стратег',
+      t0:'🎨 4K Логотип та Емблема Бренду',t1:'💼 Преміум Візитівка',t2:'💌 Запрошення на Весілля',t3:'🎁 Святкова Листівка',t4:'📱 Банер для YouTube / Соцмереж',
+      f0:'🅰️ Наджирний (Ultra Bold)',f1:'🪶 Тонкий Витончений (Thin Light)',f2:'✍️ Похилий Класичний (Italic)',f3:'🎀 Каліграфічний (Рукописний)',f4:'💫 Жирний Курсив (Bold Cursive)',f5:'🔥 Плакатний Шрифт (Tall Poster)',f6:'👑 Королівський (Royal Roman)',f7:'⚡ Кібер Техно (Cyber Tech)',
+      dl:'⬇️ Завантажити 4K (Без Водяних Знаків)'
+    }
+  };
+
+  setInterval(function(){
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var s = FULL_12[l] || FULL_12.EN;
+    var ps = document.getElementById('profSelect');
+    if(ps && ps.options.length >= 6){
+      ps.options.item(0).text=s.p0; ps.options.item(1).text=s.p1; ps.options.item(2).text=s.p2;
+      ps.options.item(3).text=s.p3; ps.options.item(4).text=s.p4; ps.options.item(5).text=s.p5;
+    }
+    var ts = document.getElementById('designType');
+    if(ts && ts.options.length >= 5){
+      ts.options.item(0).text=s.t0; ts.options.item(1).text=s.t1; ts.options.item(2).text=s.t2;
+      ts.options.item(3).text=s.t3; ts.options.item(4).text=s.t4;
+    }
+    var fs = document.getElementById('logoFont');
+    if(fs && fs.options.length >= 8){
+      fs.options.item(0).text=s.f0; fs.options.item(1).text=s.f1; fs.options.item(2).text=s.f2; fs.options.item(3).text=s.f3;
+      fs.options.item(4).text=s.f4; fs.options.item(5).text=s.f5; fs.options.item(6).text=s.f6; fs.options.item(7).text=s.f7;
+    }
+    var btn = document.getElementById('dl4kBtn') || document.querySelector('#artOutput a');
+    if(btn) btn.innerText = s.dl;
+  }, 400);
+})();
+</script>
+<link href="https://googleapis.com" rel="stylesheet">
+<script>
+window.generateArt = async function(){
+  var q = document.getElementById('artInput').value.trim();
+  var tp = (document.getElementById('designType') || {value:'logo'}).value;
+  var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+  var el = document.getElementById('artOutput');
+  if(!q) return;
+  el.style.display = 'block';
+  el.innerHTML = '⏳ Translating & Rendering 4K Art...';
+
+  var enPrompt = q;
+  if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+    try{
+      var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+      var td = await tr.json();
+      if(td && td.responseData && td.responseData.translatedText){
+        enPrompt = td.responseData.translatedText;
+      }
+    }catch(e){}
+  }
+
+  var sty = tp==='card' ? ', luxury minimalist business card design, gold foil accents, studio lighting, 8k' :
+            tp==='invite' ? ', royal wedding invitation card background, floral gold frame, ultra detailed, 8k' :
+            tp==='greet' ? ', festive luxury greeting postcard art, warm bokeh sparkles, 8k' :
+            tp==='banner' ? ', wide cinematic social media banner art, sleek modern lighting, 8k' :
+            ', centered luxury 3D emblem logo on dark background, no text, studio lighting, 8k';
+
+  var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(enPrompt + sty) + '?model=flux&width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*999999);
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    if(img.naturalWidth < 400){ window.generateArt(); return; }
+    var fs = document.getElementById('logoFont');
+    if(fs){
+      var tmp = window.curImg;
+      window.curImg = img;
+      fs.dispatchEvent(new Event('change'));
+    }
+  };
+  img.src = u;
+};
+</script>
+</body>
+</html>
 
 </body>
 </html>
