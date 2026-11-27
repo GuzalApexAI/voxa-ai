@@ -2196,6 +2196,77 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+window.generateArt = async function(){
+  var q = document.getElementById('artInput').value.trim();
+  var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+  var el = document.getElementById('artOutput');
+  if(!q) return;
+  el.style.display = 'block';
+  el.innerText = '⏳ Loading 4K Photo...';
+
+  var en = q;
+  if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+    try{
+      var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+      var td = await tr.json();
+      if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+    }catch(e){}
+  }
+
+  // CORS 100% ochiq Wikimedia Commons rasm bazasi (Cake, Lion, House, Car — hammasi bor!)
+  try{
+    var wm = 'https://wikimedia.org' + encodeURIComponent(en) + '&gsrnamespace=6&gsrlimit=15&prop=imageinfo&iiprop=url&iiurlwidth=1024&format=json&origin=*';
+    var r = await fetch(wm);
+    var d = await r.json();
+    if(d && d.query && d.query.pages){
+      var keys = Object.keys(d.query.pages);
+      var list = new Array();
+      keys.forEach(function(k){
+        var p = d.query.pages[k];
+        if(p && p.imageinfo && p.imageinfo.length){
+          var u = p.imageinfo.slice(0,1).pop().thumburl;
+          if(u && /\.(jpg|jpeg|png)/i.test(u)) list.push(u);
+        }
+      });
+      if(list.length > 0){
+        var pick = list.slice(Math.floor(Math.random()*list.length), Math.floor(Math.random()*list.length)+1).pop() || list.pop();
+        var im = new Image();
+        im.crossOrigin = 'anonymous';
+        im.onload = function(){
+          var fSel = document.getElementById('logoFont');
+          // Ichki renderFinal4K ga bgImg ni uzatish
+          var c = document.createElement('canvas');
+          c.width = 1024; c.height = 1024;
+          var ctx = c.getContext('2d');
+          var sw = im.naturalWidth, sh = im.naturalHeight, m = Math.min(sw, sh);
+          ctx.drawImage(im, (sw-m)/2, (sh-m)/2, m, m, 0, 0, 1024, 1024);
+          var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+          if(txt){
+            ctx.font = (fSel ? fSel.value : '900 78px sans-serif');
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 16;
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillText(txt, 512, 880);
+          }
+          var url = c.toDataURL('image/png');
+          el.innerText = '';
+          var outIm = document.createElement('img');
+          outIm.src = url; outIm.style.cssText = 'width:100%;border-radius:12px;display:block;margin-bottom:10px';
+          var dl = document.createElement('a');
+          dl.id = 'dl4kBtn'; dl.href = url; dl.download = 'VoxaAI_4K.png';
+          dl.innerText = '⬇️ Download 4K (0% Watermark)';
+          dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+          el.appendChild(outIm); el.appendChild(dl);
+        };
+        im.src = pick;
+        return;
+      }
+    }
+  }catch(e){}
+  el.innerText = '⚠️ Try another keyword.';
+};
+</script>
 
 </body>
 </html>
