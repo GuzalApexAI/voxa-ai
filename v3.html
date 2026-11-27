@@ -496,6 +496,48 @@ renderMemos();
   };
 })();
 </script>
+<script>
+(function(){
+  // 1. Watermark'siz (Canvas crop) + Download 4K tugmali Studio
+  window.generateArt = function(){
+    var inp = document.getElementById('artInput');
+    var el = document.getElementById('artOutput');
+    if(!inp || !el) return;
+    var q = inp.value.trim();
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Generating 4K Watermark-Free Art...';
+    var cleanPrompt = encodeURIComponent(q + ', minimalist vector emblem, studio lighting, 8k resolution');
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + cleanPrompt + '?model=flux&width=1024&height=1080&nologo=true&seed=' + Math.floor(Math.random()*99999);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){
+      var c = document.createElement('canvas');
+      c.width = 1024; c.height = 1000;
+      c.getContext('2d').drawImage(img, 0, 0, 1024, 1000, 0, 0, 1024, 1000);
+      var cleanUrl = c.toDataURL('image/png');
+      el.innerHTML = '<img src="' + cleanUrl + '" style="width:100%;border-radius:12px;display:block;margin-bottom:10px" alt="4K Studio">' +
+        '<a href="' + cleanUrl + '" download="VoxaAI_4K_Design.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">⬇️ Download 4K (No Watermark)</a>';
+    };
+    img.onerror = function(){
+      el.innerHTML = '<div style="overflow:hidden;border-radius:12px"><img src="' + u + '" style="width:100%;margin-bottom:-7%;display:block" alt="4K"></div>';
+    };
+    img.src = u;
+  };
+
+  // 2. Qolgan tillar (ES, DE, FR, KO, JA, ZH, UK) kartalarini ham to'liq tarjima qilish
+  var extra = {
+    ES:{c1t:'Escudo de Contratos y Estafas',c1s:'Detecta trampas ocultas en préstamos y contratos.',c2t:'IELTS y Traductor en Vivo',c2s:'Coach Band Score e intérprete de voz.',c3t:'Estudio de Logos y Diseño 4K',c3s:'Crea logotipos 4K sin marca de agua.',c4t:'Cámara Inteligente: Reparación',c4s:'Arregla electrodomésticos y autos.',c5t:'IA de Recibos y Gastos',c5s:'Contador personal y bóveda con PIN.',c6t:'Enciclopedia Universal IA',c6s:'Ciencias, Medicina, Finanzas e Investigación.',qh:'Haz cualquier pregunta: Ciencia, Medicina, Finanzas...'},
+    DE:{c1t:'Vertrags- & Betrugsschutz',c1s:'Versteckte Fallen in Verträgen erkennen.',c2t:'IELTS & Live-Übersetzer',c2s:'Band-Score-Coach & Sprachübersetzer.',c3t:'KI-Logo- & Designstudio',c3s:'4K-Logos ohne Wasserzeichen erstellen.',c4t:'Smarte Kamera: Reparatur',c4s:'Haushaltsgeräte & Autoprobleme lösen.',c5t:'Beleg- & Ausgaben-KI',c5s:'Persönlicher Buchhalter & PIN-Tresor.',c6t:'Universelle KI-Enzyklopädie',c6s:'Wissenschaft, Medizin, Finanzen & Forschung.',qh:'Stelle jede Frage: Wissenschaft, Medizin, Finanzen...'},
+    FR:{c1t:'Bouclier Contrats & Arnaques',c1s:'Détectez les pièges dans les contrats et SMS.',c2t:'IELTS & Traducteur Direct',c2s:'Coach Band Score et interprète vocal.',c3t:'Studio Logo & Design 4K',c3s:'Créez des logos 4K sans filigrane.',c4t:'Caméra Intelligente : Réparation',c4s:'Réparez appareils et pannes auto.',c5t:'IA Reçus & Dépenses',c5s:'Comptable personnel et coffre PIN.',c6t:'Encyclopédie Universelle IA',c6s:'Sciences, Médecine, Finance et Recherche.',qh:'Posez toute question : Science, Médecine, Finance...'},
+    KO:{c1t:'계약서 및 사기 방지 방패',c1s:'대출 및 계약서의 숨겨진 함정을 탐지합니다.',c2t:'IELTS 및 실시간 통역기',c2s:'Band Score 코치 및 양방향 음성 통역.',c3t:'AI 로고 및 디자인 스튜디오',c3s:'워터마크 없는 4K 로고를 제작하세요.',c4t:'스마트 카메라: 수리 가이드',c4s:'가전제품 오류 코드 및 자동차 수리.',c5t:'영수증 및 지출 AI 회계사',c5s:'개인 회계사 및 4자리 PIN 금고.',c6t:'범용 AI 백과사전',c6s:'과학, 의학, 금융 및 학술 연구 지원.',qh:'무엇이든 질문하세요: 과학, 의학, 금융...'},
+    JA:{c1t:'契約書・詐欺対策シールド',c1s:'ローンや契約書に潜む罠を検出。',c2t:'IELTS・ライブ音声翻訳',c2s:'スコア指導＆リアルタイム音声通訳。',c3t:'AIロゴ・デザインスタジオ',c3s:'透かしなしの4Kロゴを作成。',c4t:'スマートカメラ：修理ガイド',c4s:'家電エラーや車のトラブルを解決。',c5t:'レシート・経費AI会計士',c5s:'個人会計士＋4桁PIN保護金庫。',c6t:'万能AI百科事典',c6s:'科学・医学・金融・研究をサポート。',qh:'何でも質問してください：科学、医学、金融...'},
+    ZH:{c1t:'合同与防诈骗卫士',c1s:'识别贷款和合同中的隐藏陷阱。',c2t:'雅思教练与实时翻译',c2s:'雅思评分指导与双向语音翻译。',c3t:'AI标志与设计工作室',c3s:'生成无水印4K标志与艺术作品。',c4t:'智能相机：家电与汽车维修',c4s:'解决家电故障代码与汽车问题。',c5t:'票据与支出AI会计师',c5s:'个人记账本 + 4位PIN码保险箱。',c6t:'通用AI百科全书',c6s:'涵盖科学、医学、金融与学术研究。',qh:'提出任何问题：科学、医学、金融...'},
+    UK:{c1t:'Захист від Договорів та Шахраїв',c1s:'Пошук прихованих пасток у кредитах і договорах.',c2t:'IELTS та Живий Перекладач',c2s:'Оцінка Band Score та голосовий перекладач.',c3t:'ШІ Лого та Дизайн Студія',c3s:'Створюйте 4K логотипи без водяних знаків.',c4t:'Розумна Камера: Ремонт Авто/Дому',c4s:'Розшифровка кодів помилок та ремонт авто.',c5t:'Бухгалтер Чеків та Витрат',c5s:'Облік витрат та захищений PIN-сейф.',c6t:'Універсальна ШІ Енциклопедія',c6s:'Наука, Медицина, Фінанси та Дослідження.',qh:'Задайте будь-яке питання: Наука, Медицина, Фінанси...'}
+  };
+  Object.keys(extra).forEach(function(k){ if(D[k]) Object.assign(D[k], extra[k]); });
+})();
+</script>
 
 </body>
 </html>
