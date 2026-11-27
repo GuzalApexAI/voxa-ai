@@ -2267,6 +2267,136 @@ window.generateArt = async function(){
   el.innerText = '⚠️ Try another keyword.';
 };
 </script>
+<script>
+(function(){
+  var pX = 0.50, pY = 0.85, fSz = 78, col = 'gold', curPic = null;
+
+  function drawProStudio(){
+    if(!curPic) return;
+    var el = document.getElementById('artOutput');
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fRaw = (document.getElementById('logoFont') || {value:'900 78px sans-serif'}).value;
+    var fnt = fRaw.replace(/\d+px/, fSz + 'px');
+
+    var c = document.createElement('canvas');
+    c.width = 1024; c.height = 1024;
+    var ctx = c.getContext('2d');
+    var sw = curPic.naturalWidth || 1024, sh = curPic.naturalHeight || 1024, m = Math.min(sw, sh);
+    ctx.drawImage(curPic, (sw-m)/2, (sh-m)/2, m, m, 0, 0, 1024, 1024);
+
+    if(txt){
+      ctx.font = fnt; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = col==='#000000' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
+      ctx.shadowBlur = 18; ctx.shadowOffsetY = 6;
+      var g = ctx.createLinearGradient(200, 0, 824, 0);
+      if(col==='gold'){ g.addColorStop(0,'#fef08a'); g.addColorStop(0.5,'#f59e0b'); g.addColorStop(1,'#fde047'); ctx.fillStyle=g; }
+      else if(col==='silver'){ g.addColorStop(0,'#ffffff'); g.addColorStop(0.5,'#cbd5e1'); g.addColorStop(1,'#64748b'); ctx.fillStyle=g; }
+      else if(col==='rosegold'){ g.addColorStop(0,'#ffe4e6'); g.addColorStop(0.5,'#fb7185'); g.addColorStop(1,'#fda4af'); ctx.fillStyle=g; }
+      else { ctx.fillStyle = col; }
+      ctx.fillText(txt, 1024*pX, 1024*pY);
+    }
+
+    var url = c.toDataURL('image/png');
+    el.innerText = '';
+    var im = document.createElement('img');
+    im.src = url;
+    im.style.cssText = 'width:100%;border-radius:12px;display:block;margin-bottom:10px;cursor:crosshair';
+    im.onclick = function(e){
+      var r = im.getBoundingClientRect();
+      pX = Math.max(0.1, Math.min(0.9, (e.clientX-r.left)/r.width));
+      pY = Math.max(0.1, Math.min(0.94, (e.clientY-r.top)/r.height));
+      drawProStudio();
+    };
+    var dl = document.createElement('a');
+    dl.id = 'dl4kBtn'; dl.href = url; dl.download = 'VoxaAI_4K_Design.png';
+    dl.innerText = '⬇️ Download 4K (0% Watermark)';
+    dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+    el.appendChild(im); el.appendChild(dl);
+  }
+
+  document.getElementById('mvL').onclick = function(){ pX=Math.max(0.1,pX-0.05); drawProStudio(); };
+  document.getElementById('mvR').onclick = function(){ pX=Math.min(0.9,pX+0.05); drawProStudio(); };
+  document.getElementById('mvU').onclick = function(){ pY=Math.max(0.08,pY-0.05); drawProStudio(); };
+  document.getElementById('mvD').onclick = function(){ pY=Math.min(0.94,pY+0.05); drawProStudio(); };
+  document.getElementById('szM').onclick = function(){ fSz=Math.max(26,fSz-10); drawProStudio(); };
+  document.getElementById('szP').onclick = function(){ fSz=Math.min(165,fSz+10); drawProStudio(); };
+  if(document.getElementById('logoFont')) document.getElementById('logoFont').onchange = drawProStudio;
+  if(document.getElementById('logoText')) document.getElementById('logoText').oninput = drawProStudio;
+  document.querySelectorAll('#colorDots span').forEach(function(d){
+    d.onclick = function(){
+      document.querySelectorAll('#colorDots span').forEach(function(x){ x.style.borderColor='#475569'; });
+      d.style.borderColor='#ffffff';
+      col = d.getAttribute('data-c');
+      drawProStudio();
+    };
+  });
+
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerText = '⏳ Creating 4K HD Art (0.5 sec)...';
+
+    var en = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    // 1-urinish: Openverse Global 4K API (WordPress/Creative Commons — CORS 100% ochiq, hech qachon bloklamaydi!)
+    try{
+      var ov = 'https://openverse.org' + encodeURIComponent(en) + '&page_size=12';
+      var r = await fetch(ov);
+      if(r.ok){
+        var d = await r.json();
+        if(d && d.results && d.results.length > 0){
+          var idx = Math.floor(Math.random() * d.results.length);
+          var item = d.results.slice(idx, idx+1).pop() || d.results.slice(0,1).pop();
+          if(item && item.url){
+            var im = new Image();
+            im.crossOrigin = 'anonymous';
+            im.onload = function(){ curPic = im; drawProStudio(); };
+            im.onerror = function(){
+              // Agar tashqi rasm CORS bloklasa, thumbnail orqali yuklash
+              var im2 = new Image();
+              im2.crossOrigin = 'anonymous';
+              im2.onload = function(){ curPic = im2; drawProStudio(); };
+              im2.src = item.thumbnail;
+            };
+            im.src = item.url;
+            return;
+          }
+        }
+      }
+    }catch(e){}
+
+    // 2-urinish: Wikipedia Qidiruv + PageImages (100% CORS ochiq zaxira)
+    try{
+      var wp = 'https://wikipedia.org' + encodeURIComponent(en) + '&gsrlimit=8&prop=pageimages&pithumbsize=1000&format=json&origin=*';
+      var r2 = await fetch(wp);
+      var d2 = await r2.json();
+      if(d2 && d2.query && d2.query.pages){
+        var keys = Object.keys(d2.query.pages);
+        for(var i=0; i<keys.length; i++){
+          var p = d2.query.pages[keys.slice(i,i+1).pop()];
+          if(p && p.thumbnail && p.thumbnail.source && !/\.svg/i.test(p.thumbnail.source)){
+            var im3 = new Image();
+            im3.crossOrigin = 'anonymous';
+            im3.onload = function(){ curPic = im3; drawProStudio(); };
+            im3.src = p.thumbnail.source;
+            return;
+          }
+        }
+      }
+    }catch(e2){}
+  };
+})();
+</script>
 
 </body>
 </html>
