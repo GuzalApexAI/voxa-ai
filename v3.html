@@ -1244,6 +1244,82 @@ window.generateArt = async function(){
   }
 })();
 </script>
+<script>
+(function(){
+  var T12 = {
+    EN:['Ultra Bold','Thin Elegant','Italic Luxury','Calligraphy Script','Bold Cursive','Tall Poster','Royal Roman','Cyber Tech','⬇️ Download 4K (0% Watermark)'],
+    UZ:['Qalin Zamonaviy','Ingichka Nozik','Qiyshiq Klassik','Qo‘lyozma Husnixat','Qalin Qiyshiq','Afisha / Poster','Qirollik Shrifti','Kelajak Texno','⬇️ 4K Yuklab Olish (Logotipsiz)'],
+    RU:['Сверхжирный','Тонкий Изящный','Наклонный Классический','Каллиграфический','Жирный Курсив','Плакатный Шрифт','Королевский','Кибер Техно','⬇️ Скачать 4K (Без Водяных Знаков)'],
+    AR:['عريض جداً','رفيع وأنيق','مائل كلاسيكي','خط يدوي مزخرف','مائل عريض','خط ملصقات','خط ملكي','خط تقني','⬇️ تحميل 4K (بدون علامة مائية)'],
+    TR:['Çok Kalın','İnce Zarif','Eğik Klasik','El Yazısı','Kalın Eğik','Poster Yazısı','Kraliyet Yazısı','Siber Teknoloji','⬇️ 4K İndir (Filigransız)'],
+    ES:['Ultra Negrita','Fina Elegante','Cursiva Clásica','Caligrafía','Cursiva Gruesa','Póster Alto','Romano Real','Ciber Tech','⬇️ Descargar 4K'],
+    DE:['Extra Fett','Dünn & Elegant','Kursiv Klassisch','Kalligrafie','Fett Kursiv','Plakatschrift','Königlich','Cyber Tech','⬇️ 4K Herunterladen'],
+    FR:['Ultra Gras','Fin Élégant','Italique Classique','Calligraphie','Italique Gras','Affiche Haute','Royal Romain','Cyber Tech','⬇️ Télécharger 4K'],
+    KO:['울트라 볼드','씬 엘레강트','이탤릭 클래식','캘리그라피','볼드 필기체','포스터 볼드','로열 로만','사이버 테크','⬇️ 4K 다운로드'],
+    JA:['ウルトラ太字','極細エレガント','斜体クラシック','カリグラフィ','太字筆記体','ポスター太字','ロイヤルセリフ','サイバー風','⬇️ 4Kダウンロード'],
+    ZH:['特粗现代体','纤细优雅体','经典斜体','艺术手写体','粗体连笔','海报大字','皇家衬线体','未来科技感','⬇️ 下载 4K'],
+    UK:['Наджирний','Тонкий Витончений','Похилий Класичний','Каліграфічний','Жирний Курсив','Плакатний','Королівський','Кібер Техно','⬇️ Завантажити 4K']
+  };
+  var IC = ['🅰️ ','🪶 ','✍️ ','🎀 ','💫 ','🔥 ','👑 ','⚡ '];
+
+  function syncClean12(l){
+    var arr = T12[l] || T12.EN;
+    var fs = document.getElementById('logoFont');
+    if(fs && fs.options.length >= 8){
+      for(var i=0; i<8; i++) fs.options.item(i).text = IC.slice(i,i+1).pop() + arr.slice(i,i+1).pop();
+    }
+    var dl = document.getElementById('dl4kBtn') || document.querySelector('#artOutput a');
+    if(dl) dl.innerText = arr.slice(8,9).pop();
+  }
+
+  var lSel = document.getElementById('langSelect');
+  if(lSel){
+    var oldCh = lSel.onchange;
+    lSel.onchange = function(){
+      if(oldCh) oldCh.call(lSel);
+      syncClean12(lSel.value);
+    };
+    syncClean12(lSel.value || 'EN');
+  }
+
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var tp = (document.getElementById('designType') || {value:'logo'}).value;
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Generating 4K Studio Art...';
+
+    var enPrompt = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) enPrompt = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    var sty = tp==='card' ? ', luxury business card design, 8k' :
+              tp==='invite' ? ', elegant wedding invitation card, 8k' :
+              tp==='greet' ? ', festive greeting card art, 8k' :
+              tp==='banner' ? ', cinematic wide banner art, 8k' : ', ultra detailed 8k studio photography';
+
+    var seed = Math.floor(Math.random() * 999999);
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(enPrompt + sty) + '?model=turbo&width=1024&height=1024&nologo=true&seed=' + seed;
+
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){
+      var fs = document.getElementById('logoFont');
+      window.curImg = img;
+      if(fs) fs.dispatchEvent(new Event('change'));
+      setTimeout(function(){ syncClean12(l); }, 100);
+    };
+    img.src = u;
+  };
+})();
+</script>
 
 </body>
 </html>
