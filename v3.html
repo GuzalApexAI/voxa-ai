@@ -538,6 +538,76 @@ renderMemos();
   Object.keys(extra).forEach(function(k){ if(D[k]) Object.assign(D[k], extra[k]); });
 })();
 </script>
+<script>
+(function(){
+  // 1. Studio bo'limiga "Rasm ustiga yozuv" (Logo Text) katakchasini qo'shish
+  var artInp = document.getElementById('artInput');
+  if(artInp && !document.getElementById('logoText')){
+    var tInp = document.createElement('input');
+    tInp.id = 'logoText';
+    tInp.placeholder = 'Optional: Text on Logo (e.g. VOXA AI)...';
+    tInp.style.cssText = 'width:100%;background:#020617;border:1px solid #334155;border-radius:12px;padding:12px;color:#fff;font-size:14px;margin-bottom:10px';
+    artInp.parentNode.parentNode.insertBefore(tInp, document.getElementById('t-art-btn'));
+  }
+
+  // 2. Watermark'ni 100% kesib tashlaydigan (940px crop) + Rasm ustiga matn yozadigan Studio
+  window.generateArt = function(){
+    var q = document.getElementById('artInput').value.trim();
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Rendering Ultra-Clean 4K Logo...';
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(q + ', minimalist vector emblem, studio lighting, 8k resolution') + '?model=flux&width=1024&height=1080&nologo=true&seed=' + Math.floor(Math.random()*99999);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){
+      var c = document.createElement('canvas');
+      c.width = 1024; c.height = 940;
+      var ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0, 1024, 940, 0, 0, 1024, 940);
+      if(txt){
+        ctx.font = 'bold 68px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'rgba(0,0,0,0.65)';
+        ctx.fillText(txt, 515, 875);
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText(txt, 512, 872);
+      }
+      var cleanUrl = c.toDataURL('image/png');
+      el.innerHTML = '<img src="' + cleanUrl + '" style="width:100%;border-radius:12px;display:block;margin-bottom:10px" alt="4K Studio">' +
+        '<a href="' + cleanUrl + '" download="VoxaAI_4K_Logo.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">⬇️ Download 4K (0% Watermark)</a>';
+    };
+    img.onerror = function(){
+      el.innerHTML = '<div style="overflow:hidden;border-radius:12px"><img src="' + u + '" style="width:100%;margin-bottom:-13%;display:block" alt="4K"></div>';
+    };
+    img.src = u;
+  };
+
+  // 3. Scanner ichki natijalarini ham tanlangan tilga (UZ, RU, AR, TR...) o'girish
+  window.analyzeScan = function(){
+    var f = document.getElementById('scanFile').files;
+    var el = document.getElementById('scanOutput');
+    if(!f || !f.length){ el.style.display='block'; el.innerText='⚠️ Please choose a photo first!'; return; }
+    var fn = f.item(0).name, idx = document.getElementById('scanMode').selectedIndex;
+    el.style.display = 'block';
+    var res = {
+      UZ: ['<b>🛡️ Shartnoma va Xavf Tahlili ('+fn+'):</b><br>1. Avtomatik uzaytirish va yashirin jarimalarni tekshiring.<br>2. Foiz stavkasi (APR) va kechikish jarimalarini solishtiring.<br>3. Bo‘sh sahifaga imzo chekmang.',
+           '<b>🔧 Uy va Avto Ta’mir Diagnostikasi ('+fn+'):</b><br>1. <b>Bak qopqog‘i / Datchik (P0420/E04):</b> Avval qopqoq va ulagichni mahkamlang ($0).<br>2. <b>Kislorod datchigi / Filtr:</b> Tozalang yoki almashtiring ($40–$180).<br>3. <b>Boshqaruv moduli:</b> Ustaga borishdan oldin OBD2 / qayta yuklashni sinang.',
+           '<b>🧾 Chek va Soliq Hisoboti ('+fn+'):</b><br>1. Biznes xarajati sifatida tasniflandi.<br>2. PIN Seyfga saqlashga tayyor.'],
+      RU: ['<b>🛡️ Аудит Договора и Рисков ('+fn+'):</b><br>1. Проверьте автопродление и скрытые штрафы за расторжение.<br>2. Сверьте процентную ставку и пени за просрочку.<br>3. Не подписывайте пустые страницы.',
+           '<b>🔧 Диагностика Авто и Техники ('+fn+'):</b><br>1. <b>Крышка бака / Датчик (P0420/E04):</b> Сначала плотно закройте крышку/разъем ($0).<br>2. <b>Датчик O2 / Фильтр:</b> Очистите или замените ($40–$180).<br>3. <b>Модуль зажигания:</b> Проверьте коды OBD2 перед визитом в сервис.',
+           '<b>🧾 Отчет по Чеку и Налогам ('+fn+'):</b><br>1. Категория: Бизнес-расход.<br>2. Готово к сохранению в PIN-сейф.']
+    };
+    var pack = res[curL] || [
+      '<b>🛡️ Contract & Scam Risk Audit ('+fn+'):</b><br>1. Check auto-renewal & hidden cancellation penalties.<br>2. Verify interest rate (APR) and late fee clauses.<br>3. Never sign blank pages or pay upfront fees.',
+      '<b>🔧 Home & Auto Repair Diagnostic ('+fn+'):</b><br>1. <b>Loose Gas Cap / Sensor (P0420/E04):</b> Tighten cap/connector first ($0 self-fix).<br>2. <b>O2 Sensor / Drain Filter:</b> Clean or replace sensor/filter ($40–$180).<br>3. <b>Ignition / Control Module:</b> Run OBD2/reset cycle before calling a technician.',
+      '<b>🧾 Receipt & Tax Summary ('+fn+'):</b><br>1. Categorized as Deductible Expense.<br>2. Ready to save in your encrypted PIN Vault.'
+    ];
+    el.innerHTML = idx === 0 ? pack.slice(0,1).pop() : (idx === 1 ? pack.slice(1,2).pop() : pack.slice(2,3).pop());
+  };
+})();
+</script>
 
 </body>
 </html>
