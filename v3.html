@@ -1223,6 +1223,27 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+(function(){
+  // 1. Barcha miltillovchi (setInterval) taymerlarni 100% to'xtatish
+  var maxId = setTimeout(function(){}, 0);
+  for(var i = 1; i <= maxId; i++){ clearInterval(i); }
+
+  // 2. Shriftlar menyusini tinch, miltillamaydigan qilib mustahkamlash
+  var fSel = document.getElementById('logoFont');
+  if(fSel){
+    fSel.innerHTML =
+      '<option value="900 78px \'Raleway\',sans-serif">🅰️ Ultra Bold (Qalin)</option>' +
+      '<option value="200 78px \'Raleway\',sans-serif">🪶 Thin Elegant (Ingichka)</option>' +
+      '<option value="italic 700 78px \'Playfair Display\',serif">✍️ Italic Luxury (Qiyshiq)</option>' +
+      '<option value="400 84px \'Pacifico\',cursive">🎀 Calligraphy (Qo‘lyozma)</option>' +
+      '<option value="400 84px \'Lobster\',cursive">💫 Bold Cursive (Qalin Qiyshiq)</option>' +
+      '<option value="400 86px \'Anton\',sans-serif">🔥 Tall Poster (Afisha)</option>' +
+      '<option value="700 74px \'Cinzel\',serif">👑 Royal Roman (Qirollik)</option>' +
+      '<option value="700 72px \'Orbitron\',sans-serif">⚡ Cyber Tech (Texno)</option>';
+  }
+})();
+</script>
 
 </body>
 </html>
