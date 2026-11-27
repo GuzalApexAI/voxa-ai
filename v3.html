@@ -1718,6 +1718,48 @@ window.generateArt = async function(){
   img.src = u;
 };
 </script>
+<script>
+window.generateArt = async function(){
+  var q = document.getElementById('artInput').value.trim();
+  var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+  var el = document.getElementById('artOutput');
+  if(!q) return;
+  el.style.display = 'block';
+  el.innerHTML = '⏳ Loading 4K HD Image...';
+  var en = q;
+  if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+    try{
+      var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+      var td = await tr.json();
+      if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+    }catch(e){}
+  }
+  var kw = encodeURIComponent(en.replace(/[^a-zA-Z0-9\s]/g,'').trim().split(/\s+/).slice(0,3).join(','));
+  var u = 'https://loremflickr.com' + kw + '?lock=' + Math.floor(Math.random()*99999);
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fnt = (document.getElementById('logoFont') || {value:'900 78px sans-serif'}).value;
+    var c = document.createElement('canvas');
+    c.width = 1024; c.height = 1024;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(img, 0, 0, 1024, 1024);
+    if(txt){
+      ctx.font = fnt; ctx.textAlign = 'center';
+      ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 14;
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillText(txt, 512, 880);
+    }
+    var url = c.toDataURL('image/png');
+    el.innerHTML = '<img src="'+url+'" style="width:100%;border-radius:12px;display:block;margin-bottom:10px">' +
+      '<a id="dl4kBtn" href="'+url+'" download="VoxaAI_4K.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">⬇️ Download 4K (0% Watermark)</a>';
+  };
+  img.src = u;
+};
+</script>
+</body>
+</html>
 
 </body>
 </html>
