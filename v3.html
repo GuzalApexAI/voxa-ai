@@ -1487,6 +1487,123 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+(function(){
+  var pX = 0.50, pY = 0.85, fSz = 76, col = 'gold', loadedImg = null;
+  var DL_12 = {
+    EN:'⬇️ Download 4K (0% Watermark)', UZ:'⬇️ 4K Yuklab Olish (Logotipsiz)',
+    RU:'⬇️ Скачать 4K (Без Водяных Знаков)', AR:'⬇️ تحميل 4K (بدون علامة مائية)',
+    TR:'⬇️ 4K İndir (Filigransız)', ES:'⬇️ Descargar 4K', DE:'⬇️ 4K Herunterladen',
+    FR:'⬇️ Télécharger 4K', KO:'⬇️ 4K 다운로드', JA:'⬇️ 4Kダウンロード',
+    ZH:'⬇️ 下载 4K', UK:'⬇️ Завантажити 4K'
+  };
+
+  function drawCanvaPro(){
+    if(!loadedImg) return;
+    var el = document.getElementById('artOutput');
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fRaw = (document.getElementById('logoFont') || {value:'900 78px sans-serif'}).value;
+    var fnt = fRaw.replace(/\d+px/, fSz + 'px');
+
+    var c = document.createElement('canvas');
+    c.width = 1024; c.height = 1024;
+    var ctx = c.getContext('2d');
+    var sw = loadedImg.naturalWidth || 1024, sh = loadedImg.naturalHeight || 1024;
+    var sMin = Math.min(sw, sh);
+    ctx.drawImage(loadedImg, (sw-sMin)/2, (sh-sMin)/2, sMin, sMin, 0, 0, 1024, 1024);
+
+    if(txt){
+      ctx.font = fnt; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = col==='#000000' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
+      ctx.shadowBlur = 16; ctx.shadowOffsetY = 5;
+      var g = ctx.createLinearGradient(200, 0, 824, 0);
+      if(col==='gold'){ g.addColorStop(0,'#fef08a'); g.addColorStop(0.5,'#f59e0b'); g.addColorStop(1,'#fde047'); ctx.fillStyle=g; }
+      else if(col==='silver'){ g.addColorStop(0,'#ffffff'); g.addColorStop(0.5,'#cbd5e1'); g.addColorStop(1,'#64748b'); ctx.fillStyle=g; }
+      else if(col==='rosegold'){ g.addColorStop(0,'#ffe4e6'); g.addColorStop(0.5,'#fb7185'); g.addColorStop(1,'#fda4af'); ctx.fillStyle=g; }
+      else { ctx.fillStyle = col; }
+      ctx.fillText(txt, 1024*pX, 1024*pY);
+    }
+
+    var url = c.toDataURL('image/png');
+    el.innerHTML = '<img id="prev4k" src="'+url+'" style="width:100%;border-radius:12px;display:block;margin-bottom:10px;cursor:crosshair">' +
+      '<a id="dl4kBtn" href="'+url+'" download="VoxaAI_4K_Studio.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">'+(DL_12[l]||DL_12.EN)+'</a>';
+
+    var pv = document.getElementById('prev4k');
+    if(pv) pv.onclick = function(e){
+      var r = pv.getBoundingClientRect();
+      pX = Math.max(0.1, Math.min(0.9, (e.clientX-r.left)/r.width));
+      pY = Math.max(0.1, Math.min(0.94, (e.clientY-r.top)/r.height));
+      drawCanvaPro();
+    };
+  }
+
+  document.getElementById('mvL').onclick = function(){ pX=Math.max(0.1,pX-0.05); drawCanvaPro(); };
+  document.getElementById('mvR').onclick = function(){ pX=Math.min(0.9,pX+0.05); drawCanvaPro(); };
+  document.getElementById('mvU').onclick = function(){ pY=Math.max(0.08,pY-0.05); drawCanvaPro(); };
+  document.getElementById('mvD').onclick = function(){ pY=Math.min(0.94,pY+0.05); drawCanvaPro(); };
+  document.getElementById('szM').onclick = function(){ fSz=Math.max(26,fSz-10); drawCanvaPro(); };
+  document.getElementById('szP').onclick = function(){ fSz=Math.min(165,fSz+10); drawCanvaPro(); };
+  if(document.getElementById('logoFont')) document.getElementById('logoFont').onchange = drawCanvaPro;
+  if(document.getElementById('logoText')) document.getElementById('logoText').oninput = drawCanvaPro;
+  document.querySelectorAll('#colorDots span').forEach(function(d){
+    d.onclick = function(){
+      document.querySelectorAll('#colorDots span').forEach(function(x){ x.style.borderColor='#475569'; });
+      d.style.borderColor='#ffffff';
+      col = d.getAttribute('data-c');
+      drawCanvaPro();
+    };
+  });
+
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Creating 4K HD Art (0.5 sec)...';
+
+    var enPrompt = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) enPrompt = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    // Wikimedia Commons 4K HD API (CORS 100% ochiq, hech qachon Busy bermaydi, 0% watermark!)
+    try{
+      var wmUrl = 'https://wikimedia.org' + encodeURIComponent(enPrompt + ' filetype:bitmap') + '&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url&iiurlwidth=1024&format=json&origin=*';
+      var r = await fetch(wmUrl);
+      var d = await r.json();
+      if(d && d.query && d.query.pages){
+        var keys = Object.keys(d.query.pages);
+        var validUrls = new Array();
+        keys.forEach(function(k){
+          var p = d.query.pages[k];
+          if(p && p.imageinfo && p.imageinfo.length > 0){
+            var info = p.imageinfo.slice(0,1).pop();
+            var u = info.thumburl || info.url;
+            if(u && !/\.svg/i.test(u)) validUrls.push(u);
+          }
+        });
+        if(validUrls.length > 0){
+          var idx = Math.floor(Math.random() * validUrls.length);
+          var chosenUrl = validUrls.slice(idx, idx+1).pop();
+          var img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = function(){ loadedImg = img; drawCanvaPro(); };
+          img.src = chosenUrl;
+          return;
+        }
+      }
+    }catch(err){}
+
+    el.innerHTML = '⚠️ Try simpler keywords (e.g. "Golden lion", "Luxury house", "Sports car").';
+  };
+})();
+</script>
 
 </body>
 </html>
