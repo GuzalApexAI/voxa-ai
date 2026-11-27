@@ -140,5 +140,24 @@ function delM(i){var a=JSON.parse(localStorage.getItem('vm')||'null')||new Array
 function bkM(){var a=JSON.parse(localStorage.getItem('vm')||'null')||new Array();navigator.clipboard.writeText('Voxa Vault:\n'+(a.join('\n')||'Empty'));alert('☁️ Copied!');}
 renM();
 </script>
+  <script>
+window.go = function(p){
+  document.querySelectorAll('.page').forEach(function(e){ e.style.display = 'none'; });
+  document.querySelectorAll('.nav button').forEach(function(e){ e.classList.remove('active'); });
+  var pg = document.getElementById('p-' + p);
+  if(pg) pg.style.display = 'block';
+  var nb = document.getElementById('n' + (p==='studio' ? 'st' : p.slice(0,1)));
+  if(nb) nb.classList.add('active');
+};
+window.openSc = function(m){
+  window.go('scan');
+  var sel = document.getElementById('m-sc');
+  if(sel) sel.selectedIndex = m;
+};
+window.goPro = function(){
+  window.open('https://t.me', '_blank');
+};
+</script>
+
 </body>
 </html>
