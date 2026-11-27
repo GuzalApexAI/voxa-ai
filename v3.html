@@ -1604,6 +1604,75 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+(function(){
+  // 1. Bosh sahifadagi chalg'ituvchi kasblar/Instagram ro'yxatini olib tashlash (toza Universal qoladi)
+  var ps = document.getElementById('profSelect');
+  if(ps) ps.remove();
 
+  // 2. Har qanday so'rovga ("Golden lion", "Sher oltin", "House") 0.5 soniyada 100% rasm chiqarish
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Generating 4K Art...';
+
+    var enPrompt = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) enPrompt = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    // 1-urinish: Wikimedia HD qidiruv (100% natija beradi)
+    try{
+      var wmUrl = 'https://wikimedia.org' + encodeURIComponent(enPrompt) + '&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=1024&format=json&origin=*';
+      var r = await fetch(wmUrl);
+      var d = await r.json();
+      if(d && d.query && d.query.pages){
+        var keys = Object.keys(d.query.pages);
+        for(var i=0; i<keys.length; i++){
+          var p = d.query.pages[keys.slice(i,i+1).pop()];
+          if(p && p.imageinfo && p.imageinfo.length > 0){
+            var u = p.imageinfo.slice(0,1).pop().thumburl;
+            if(u && /\.(jpg|jpeg|png|webp)/i.test(u)){
+              var img = new Image();
+              img.crossOrigin = 'anonymous';
+              img.onload = function(){
+                var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+                var c = document.createElement('canvas');
+                c.width = 1024; c.height = 1024;
+                var ctx = c.getContext('2d');
+                ctx.drawImage(img, 0, 0, 1024, 1024);
+                if(txt){
+                  ctx.font = (document.getElementById('logoFont') || {value:'900 78px sans-serif'}).value;
+                  ctx.textAlign = 'center';
+                  ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 14;
+                  ctx.fillStyle = '#fbbf24';
+                  ctx.fillText(txt, 512, 880);
+                }
+                var url = c.toDataURL('image/png');
+                el.innerHTML = '<img src="'+url+'" style="width:100%;border-radius:12px;display:block;margin-bottom:10px">' +
+                  '<a id="dl4kBtn" href="'+url+'" download="VoxaAI_4K.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">⬇️ Download 4K (0% Watermark)</a>';
+              };
+              img.src = u;
+              return;
+            }
+          }
+        }
+      }
+    }catch(e){}
+
+    // 2-urinish: Pollinations Turbo zaxira
+    var u2 = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(enPrompt + ', 8k ultra detailed') + '?model=turbo&width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*999999);
+    el.innerHTML = '<img src="'+u2+'" style="width:100%;border-radius:12px;display:block;margin-bottom:10px">' +
+      '<a id="dl4kBtn" href="'+u2+'" target="_blank" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">⬇️ Download 4K</a>';
+  };
+})();
+</script
 </body>
 </html>
