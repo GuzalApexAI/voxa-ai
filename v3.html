@@ -1997,6 +1997,86 @@ window.generateArt = async function(){
   };
 })();
 </script>
+<script>
+(function(){
+  // 1. Pastdagi '+' belgisini butunlay o'chirish
+  Array.from(document.body.childNodes).forEach(function(n){
+    if(n.nodeType === 3 && n.textContent.trim().length < 15) n.textContent = '';
+  });
+
+  // 2. CORS-siz to'g'ridan-to'g'ri 100% ishlaydigan 4K Rasm + Ustida Jonli Matn (Canva PRO)
+  var pX = 50, pY = 85, fSz = 34, col = '#fbbf24';
+  function updateOverlay(){
+    var ov = document.getElementById('liveOverlayText');
+    if(!ov) return;
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fRaw = (document.getElementById('logoFont') || {value:'900 78px sans-serif'}).value;
+    var fontFam = fRaw.replace(/^\S+\s+\d+px\s+/, '');
+    ov.innerText = txt;
+    ov.style.left = pX + '%';
+    ov.style.top = pY + '%';
+    ov.style.fontSize = fSz + 'px';
+    ov.style.fontFamily = fontFam;
+    ov.style.color = (col==='gold' ? '#fbbf24' : (col==='silver' ? '#e2e8f0' : (col==='rosegold' ? '#fb7185' : col)));
+  }
+
+  document.getElementById('mvL').onclick = function(){ pX=Math.max(10,pX-5); updateOverlay(); };
+  document.getElementById('mvR').onclick = function(){ pX=Math.min(90,pX+5); updateOverlay(); };
+  document.getElementById('mvU').onclick = function(){ pY=Math.max(10,pY-5); updateOverlay(); };
+  document.getElementById('mvD').onclick = function(){ pY=Math.min(92,pY+5); updateOverlay(); };
+  document.getElementById('szM').onclick = function(){ fSz=Math.max(16,fSz-4); updateOverlay(); };
+  document.getElementById('szP').onclick = function(){ fSz=Math.min(72,fSz+4); updateOverlay(); };
+  if(document.getElementById('logoFont')) document.getElementById('logoFont').onchange = updateOverlay;
+  if(document.getElementById('logoText')) document.getElementById('logoText').oninput = updateOverlay;
+  document.querySelectorAll('#colorDots span').forEach(function(d){
+    d.onclick = function(){
+      document.querySelectorAll('#colorDots span').forEach(function(x){ x.style.borderColor='#475569'; });
+      d.style.borderColor='#ffffff';
+      col = d.getAttribute('data-c');
+      updateOverlay();
+    };
+  });
+
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerText = '⏳ Generating 4K Art...';
+
+    var en = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(en + ', ultra detailed 8k photography, studio lighting') + '?width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*999999);
+    el.innerText = '';
+    var box = document.createElement('div');
+    box.style.cssText = 'position:relative;overflow:hidden;border-radius:12px;margin-bottom:10px';
+    var im = document.createElement('img');
+    im.src = u;
+    im.style.cssText = 'width:100%;display:block;margin-bottom:-13%';
+    var ov = document.createElement('div');
+    ov.id = 'liveOverlayText';
+    ov.style.cssText = 'position:absolute;transform:translate(-50%,-50%);font-weight:900;text-shadow:0 3px 12px rgba(0,0,0,0.9);white-space:nowrap;pointer-events:none';
+    box.appendChild(im);
+    box.appendChild(ov);
+    el.appendChild(box);
+    updateOverlay();
+
+    var dl = document.createElement('a');
+    dl.id = 'dl4kBtn'; dl.href = u; dl.target = '_blank';
+    dl.innerText = '⬇️ Download 4K (0% Watermark)';
+    dl.style.cssText = 'display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none';
+    el.appendChild(dl);
+  };
+})();
+</script>
 
 </body>
 </html>
