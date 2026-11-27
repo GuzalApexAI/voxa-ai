@@ -800,6 +800,161 @@ renderMemos();
   };
 })();
 </script>
+<script>
+(function(){
+  // 1. Bosh sahifaga "Kasb / Mutaxassis" tanlash menyusini qo'shish
+  var hInp = document.getElementById('homeInput');
+  if(hInp && !document.getElementById('profSelect')){
+    var pSel = document.createElement('select');
+    pSel.id = 'profSelect';
+    pSel.style.cssText = 'width:100%;background:#020617;color:#38bdf8;border:1px solid #334155;border-radius:12px;padding:11px;font-size:13px;font-weight:700;margin-bottom:10px';
+    pSel.innerHTML =
+      '<option value="univ">🌍 Universal AI Copilot (All Fields)</option>' +
+      '<option value="eng">✈️ Chief Transport & Aerospace/Auto Engineer</option>' +
+      '<option value="prof">🎓 University Professor & Scientist</option>' +
+      '<option value="cpa">📊 Chief Accountant & Tax Auditor (CPA)</option>' +
+      '<option value="law">⚖️ Senior Contract & International Lawyer</option>' +
+      '<option value="ads">📱 Instagram, Viral Ads & Brand Strategist</option>';
+    hInp.parentNode.parentNode.insertBefore(pSel, hInp.parentNode);
+  }
+
+  // 2. 22 xil Och, To'q va Zarli/Yaltiroq ranglar palitrasi
+  var dotsBox = document.getElementById('colorDots');
+  var selCol = 'gold';
+  if(dotsBox){
+    var pal = new Array(
+      {c:'gold', bg:'linear-gradient(135deg,#fef08a,#f59e0b,#b45309)'},
+      {c:'silver', bg:'linear-gradient(135deg,#ffffff,#cbd5e1,#64748b)'},
+      {c:'rosegold', bg:'linear-gradient(135deg,#ffe4e6,#fb7185,#be123c)'},
+      {c:'#ffffff', bg:'#ffffff'},
+      {c:'#000000', bg:'#000000'},
+      {c:'#fca5a5', bg:'#fca5a5'},
+      {c:'#ff0000', bg:'#ff0000'},
+      {c:'#991b1b', bg:'#991b1b'},
+      {c:'#ff5500', bg:'#ff5500'},
+      {c:'#fef08a', bg:'#fef08a'},
+      {c:'#facc15', bg:'#facc15'},
+      {c:'#86efac', bg:'#86efac'},
+      {c:'#39ff14', bg:'#39ff14'},
+      {c:'#10b981', bg:'#10b981'},
+      {c:'#065f46', bg:'#065f46'},
+      {c:'#7dd3fc', bg:'#7dd3fc'},
+      {c:'#00f0ff', bg:'#00f0ff'},
+      {c:'#3b82f6', bg:'#3b82f6'},
+      {c:'#1e3a8a', bg:'#1e3a8a'},
+      {c:'#d8b4fe', bg:'#d8b4fe'},
+      {c:'#7e22ce', bg:'#7e22ce'},
+      {c:'#ec4899', bg:'#ec4899'}
+    );
+    dotsBox.innerHTML = pal.map(function(it, i){
+      var bd = i===0 ? '#ffffff' : '#475569';
+      return '<span data-c="'+it.c+'" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;cursor:pointer;border:2px solid '+bd+';background:'+it.bg+'"></span>';
+    }).join('');
+    dotsBox.querySelectorAll('span').forEach(function(d){
+      d.onclick = function(){
+        dotsBox.querySelectorAll('span').forEach(function(x){ x.style.borderColor='#475569'; });
+        d.style.borderColor='#ffffff';
+        selCol = d.getAttribute('data-c');
+        var fs = document.getElementById('logoFont');
+        if(fs) fs.dispatchEvent(new Event('change'));
+      };
+    });
+  }
+
+  // 3. 100% Watermark'siz (86% crop) + Zarli gradientli Canvas chizgich
+  var pX = 0.50, pY = 0.86, fSz = 76, curImg = null;
+  function paintCleanCanvas(){
+    if(!curImg) return;
+    var el = document.getElementById('artOutput');
+    var txt = (document.getElementById('logoText') || {value:''}).value.trim();
+    var fRaw = (document.getElementById('logoFont') || {value:'900 76px Arial Black,sans-serif'}).value;
+    var fnt = fRaw.replace(/\d+px/, fSz + 'px');
+    var w = curImg.naturalWidth || 1024;
+    var h = Math.floor((curImg.naturalHeight || 1024) * 0.85);
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(curImg, 0, 0, w, h, 0, 0, w, h);
+    if(txt){
+      ctx.font = fnt; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = selCol==='#000000' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
+      ctx.shadowBlur = 16; ctx.shadowOffsetY = 5;
+      var g = ctx.createLinearGradient(w*0.2, 0, w*0.8, 0);
+      if(selCol==='gold'){ g.addColorStop(0,'#fef08a'); g.addColorStop(0.5,'#f59e0b'); g.addColorStop(1,'#fde047'); ctx.fillStyle=g; }
+      else if(selCol==='silver'){ g.addColorStop(0,'#ffffff'); g.addColorStop(0.5,'#cbd5e1'); g.addColorStop(1,'#64748b'); ctx.fillStyle=g; }
+      else if(selCol==='rosegold'){ g.addColorStop(0,'#ffe4e6'); g.addColorStop(0.5,'#fb7185'); g.addColorStop(1,'#fda4af'); ctx.fillStyle=g; }
+      else { ctx.fillStyle = selCol; }
+      ctx.fillText(txt, w*pX, h*pY);
+    }
+    var url = c.toDataURL('image/png');
+    var dlT = (document.getElementById('dl4kBtn') || {innerText:'⬇️ Download 4K'}).innerText;
+    el.innerHTML = '<img id="prev4k" src="'+url+'" style="width:100%;border-radius:12px;display:block;margin-bottom:10px;cursor:crosshair">' +
+      '<a id="dl4kBtn" href="'+url+'" download="VoxaAI_4K_Studio.png" style="display:block;background:linear-gradient(90deg,#10b981,#059669);color:#fff;padding:12px;border-radius:12px;font-weight:800;text-decoration:none">'+dlT+'</a>';
+    var pv = document.getElementById('prev4k');
+    if(pv) pv.onclick = function(e){
+      var r = pv.getBoundingClientRect();
+      pX = Math.max(0.1, Math.min(0.9, (e.clientX-r.left)/r.width));
+      pY = Math.max(0.1, Math.min(0.94, (e.clientY-r.top)/r.height));
+      paintCleanCanvas();
+    };
+  }
+  if(document.getElementById('mvL')){
+    document.getElementById('mvL').onclick = function(){ pX=Math.max(0.1,pX-0.05); paintCleanCanvas(); };
+    document.getElementById('mvR').onclick = function(){ pX=Math.min(0.9,pX+0.05); paintCleanCanvas(); };
+    document.getElementById('mvU').onclick = function(){ pY=Math.max(0.08,pY-0.05); paintCleanCanvas(); };
+    document.getElementById('mvD').onclick = function(){ pY=Math.min(0.94,pY+0.05); paintCleanCanvas(); };
+    document.getElementById('szM').onclick = function(){ fSz=Math.max(26,fSz-10); paintCleanCanvas(); };
+    document.getElementById('szP').onclick = function(){ fSz=Math.min(165,fSz+10); paintCleanCanvas(); };
+  }
+  if(document.getElementById('logoFont')) document.getElementById('logoFont').onchange = paintCleanCanvas;
+  if(document.getElementById('logoText')) document.getElementById('logoText').oninput = paintCleanCanvas;
+
+  window.generateArt = function(){
+    var q = document.getElementById('artInput').value.trim();
+    var tp = (document.getElementById('designType') || {value:'logo'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerHTML = '⏳ Generating 4K Ultra-HD Design...';
+    var sty = tp==='card' ? ', luxury minimalist business card design, gold foil accents, studio lighting, 8k' :
+              tp==='invite' ? ', royal wedding invitation card background, floral gold frame, ultra detailed, 8k' :
+              tp==='greet' ? ', festive luxury greeting postcard art, warm bokeh sparkles, 8k' :
+              tp==='banner' ? ', wide cinematic social media banner art, sleek modern lighting, 8k' :
+              ', clean centered luxury emblem on dark background, no text, studio lighting, 8k';
+    var u = 'https://image.' + 'pollinations.ai/prompt/' + encodeURIComponent(q + sty) + '?width=1024&height=1024&nologo=true&seed=' + Math.floor(Math.random()*99999);
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){ curImg = img; paintCleanCanvas(); };
+    img.src = u;
+  };
+
+  // 4. Bosh sahifadagi Kasbga mos AI javob beruvchi dvigatel
+  window.askHomeAI = async function(){
+    var q = document.getElementById('homeInput').value.trim();
+    var out = document.getElementById('homeOutput');
+    var role = (document.getElementById('profSelect') || {value:'univ'}).value;
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    if(!q) return;
+    out.style.display = 'block';
+    out.innerText = '⏳ Analyzing...';
+    var rolePrompt = role==='eng' ? 'Chief Mechanical, Automotive, Marine & Aerospace Design Engineer' :
+                     role==='prof' ? 'Harvard University Professor & Senior Research Scientist' :
+                     role==='cpa' ? 'Certified Public Accountant (CPA) & Chief Financial Officer' :
+                     role==='law' ? 'Senior International Contract & Corporate Lawyer' :
+                     role==='ads' ? 'Top Instagram Viral Growth & Advertising Creative Director' :
+                     'Universal AI Encyclopedia & Expert Copilot';
+    var fullQ = 'Act as ' + rolePrompt + '. Answer thoroughly and practically in language (' + l + '): ' + q;
+    try{
+      var r = await fetch('https://text.' + 'pollinations.ai/' + encodeURIComponent(fullQ) + '?model=openai&seed=' + Date.now());
+      if(r.ok){
+        var t = await r.text();
+        if(t && t.length > 8 && t.indexOf('<!DOCTYPE') === -1){ out.innerHTML = t.replace(/\n/g, '<br>'); return; }
+      }
+    }catch(e){}
+    smartFetch(q, 'homeOutput', 'home');
+  };
+})();
+</script>
 
 </body>
 </html>
