@@ -1810,6 +1810,61 @@ window.generateArt = async function(){
   img.src = u;
 };
 </script>
+<script>
+(function(){
+  // 1. Ekranda ochiq qolgan matnni avtomatik yashirish
+  Array.from(document.body.childNodes).forEach(function(n){
+    if(n.nodeType === 3 && n.textContent.indexOf('getElementById') !== -1) n.textContent = '';
+  });
+  var rogue = document.getElementById('dl4kBtn');
+  if(rogue && rogue.parentNode === document.body) rogue.remove();
+
+  // 2. Leonardo AI kabi haqiqiy Stable Diffusion (AI Horde bepul ochiq API)
+  window.generateArt = async function(){
+    var q = document.getElementById('artInput').value.trim();
+    var l = (document.getElementById('langSelect') || {value:'EN'}).value;
+    var el = document.getElementById('artOutput');
+    if(!q) return;
+    el.style.display = 'block';
+    el.innerText = '🎨 Leonardo-Grade AI rendering (5–10 sec)...';
+
+    var en = q;
+    if(/[^a-zA-Z0-9\s,.-]/.test(q) || l !== 'EN'){
+      try{
+        var tr = await fetch('https://translated.net' + encodeURIComponent(q) + '&langpair=' + l.toLowerCase() + '|en');
+        var td = await tr.json();
+        if(td && td.responseData && td.responseData.translatedText) en = td.responseData.translatedText;
+      }catch(e){}
+    }
+
+    try{
+      var res = await fetch('https://stablehorde.net', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','apikey':'0000000000'},
+        body: JSON.stringify({prompt: en + ', masterpiece, 8k, studio lighting', params:{width:512,height:512,steps:20}})
+      });
+      var data = await res.json();
+      if(data && data.id){
+        for(var i=0; i<15; i++){
+          await new Promise(function(r){ setTimeout(r, 2000); });
+          var chk = await fetch('https://stablehorde.net' + data.id);
+          var st = await chk.json();
+          if(st && st.done && st.generations && st.generations.length){
+            var imgUrl = st.generations.slice(0,1).pop().img;
+            el.innerText = '';
+            var im = document.createElement('img');
+            im.src = imgUrl;
+            im.style.cssText = 'width:100%;border-radius:12px;display:block;margin-bottom:10px';
+            el.appendChild(im);
+            return;
+          }
+        }
+      }
+    }catch(err){}
+    el.innerText = '⚠️ Server busy, tap Generate again.';
+  };
+})();
+</script>
 
 </body>
 </html>
